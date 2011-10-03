@@ -1,0 +1,26 @@
+#!/bin/bash
+
+prev=`pwd`
+
+cd @LIBAAS_BINARY_DIR@
+
+lcov --directory @LIBAAS_BINARY_DIR@ --zerocounters
+find @LIBAAS_BINARY_DIR@ -name *.gcda -print0 | xargs -0 rm -f
+
+make test_$1
+
+mkdir -p @LIBAAS_BINARY_DIR@/test/coverage_$1
+rm -rf @LIBAAS_BINARY_DIR@/test/coverage_$1/*
+
+cd @LIBAAS_BINARY_DIR@/test
+echo "### RUNNING TEST ###"
+./test_$1
+echo "### ...     DONE ###"
+lcov --directory @LIBAAS_BINARY_DIR@/test/CMakeFiles \
+     --directory @LIBAAS_BINARY_DIR@/src/CMakeFiles/pipe.dir \
+     -capture --output-file @LIBAAS_BINARY_DIR@/test/coverage_$1/$1.info
+lcov --extract @LIBAAS_BINARY_DIR@/test/coverage_$1/$1.info '*libaas/src*' '*libaas/include/libaas*' -o @LIBAAS_BINARY_DIR@/test/coverage_$1/$1x.info
+cd @LIBAAS_BINARY_DIR@/test/coverage_$1
+genhtml $1x.info
+
+cd $prev
