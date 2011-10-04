@@ -1,0 +1,14 @@
+SET(SRCS 
+    ElementTable.cpp
+)
+
+ADD_LIBRARY(aas ${SRCS})
+TARGET_LINK_LIBRARIES(aas)
+
+INSTALL(TARGETS aas
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+    ARCHIVE DESTINATION lib
+    COMPONENT libraries
+)
+

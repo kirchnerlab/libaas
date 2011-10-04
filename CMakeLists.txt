@@ -16,6 +16,16 @@ get_git_head_revision(GIT_REFSPEC MSTK_VERSION)
 # build libraries
 #############################################################################
 
+# require boost
+SET(Boost_USE_STATIC_LIBS OFF)
+SET(Boost_USE_MULTITHREAD OFF)
+FIND_PACKAGE(Boost COMPONENTS system REQUIRED)
+IF (NOT ( Boost_MAJOR_VERSION EQUAL 1 AND Boost_MINOR_VERSION GREATER 39))
+    MESSAGE(SEND_ERROR "Require Boost >= 1.40.0")
+ENDIF (NOT(Boost_MAJOR_VERSION EQUAL 1 AND Boost_MINOR_VERSION GREATER 39))
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
+
 # require out-of-source build
 MACRO_REQUIRE_OUT_OF_SRC_BUILD("LIBAAS requires out-of-source builds.")
 
