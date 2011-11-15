@@ -9,8 +9,7 @@
 
 #include <string>
 
-namespace libaas
-{
+namespace libaas {
 typedef int Int;
 typedef float Float;
 typedef double Double;

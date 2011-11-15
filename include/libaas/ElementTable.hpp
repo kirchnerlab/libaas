@@ -28,8 +28,7 @@ class Element;
  *
  * The \c ElementTable also acts as a factory for \c Element objects.
  */
-class ElementTable
-{
+class ElementTable {
 public:
     /** Constructor.
      */
@@ -52,14 +51,14 @@ public:
      * @param symbol
      * @return
      */
-   // const Element getBySymbol(const String symbol) const;
+    // const Element getBySymbol(const String symbol) const;
 
     /**
      *
      * @param atomicNumber
      * @return
      */
-  //  const Element getByAtomicNumber(const Size atomicNumber) const;
+    //  const Element getByAtomicNumber(const Size atomicNumber) const;
 
     /** Request the number of elements present in the table of elements.
      * @return The size of the table of elements.
