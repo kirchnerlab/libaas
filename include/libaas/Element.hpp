@@ -5,14 +5,10 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_ELEMENT_HPP__
-#define __X_INCLUDE_X_ELEMENT_HPP__
+#ifndef __X_INCLUDE_X_ELEMENTIMPL_HPP__
+#define __X_INCLUDE_X_ELEMENTIMPL_HPP__
 
 #include <libaas/Isotope.hpp>
-
-#include <boost/flyweight.hpp>
-#include <boost/flyweight/key_value.hpp>
-#include <boost/flyweight/no_tracking.hpp>
 
 #include <string>
 #include <vector>
@@ -25,55 +21,58 @@ struct element_id_extractor;
 
 /** Element
  *
- *  store isotopes as set?
  */
-class Element {
+class ElementImpl {
 
 public:
 
-//    struct Isotope {
-//        double mass;
-//        double frequency;
-//
-//        bool operator==(const Isotope& s) const;
-//    };
-
-    typedef size_t ElementKeyType;
-    typedef boost::flyweight<boost::flyweights::key_value<
-            libaas::Element::ElementKeyType, libaas::Element,
-            libaas::element_id_extractor>, boost::flyweights::no_tracking>
-            ElementRef;
+    typedef size_t ElementImplKeyType;
+    //    typedef boost::flyweight<boost::flyweights::key_value<
+    //            libaas::Element::ElementKeyType, libaas::Element,
+    //            libaas::element_id_extractor>, boost::flyweights::no_tracking>
+    //            ElementRef;
 
     /** Constructor
      *
      */
-    Element(ElementKeyType id);
+    ElementImpl(ElementImplKeyType id);
+    ElementImpl(const ElementImplKeyType& id, const std::string& symbol,
+            const size_t& atomicNumber);
 
-    const ElementKeyType& getId() const;
+    const ElementImplKeyType& getId() const;
     const std::string& getSymbol() const;
     const size_t& getAtomicNumber() const;
     const std::vector<Isotope>& getIsotopes() const;
 
-    bool operator==(const Element& s) const;
+    void addIsotope(const libaas::Isotope& i);
+    void addIsotope(const double& mass, const double& frequency);
+    void setIsotopes(const std::vector<libaas::Isotope>& isotopes);
+
+    bool operator==(const ElementImpl& s) const;
     //Element& operator=(const Element& rhs);
+
+    static ElementImplKeyType getNumberOfStandardElements();
+    static ElementImplKeyType getNextId();
 
 private:
 
-    ElementKeyType id_;
+    ElementImplKeyType id_;
     std::string symbol_;
     size_t atomicNumber_;
     std::vector<libaas::Isotope> isotopes_;
 
-}; // class Element
+    static ElementImplKeyType freeId;
+
+}; // class ElementImpl
 
 struct element_id_extractor {
-    const Element::ElementKeyType& operator()(const Element& e) const
+    const ElementImpl::ElementImplKeyType& operator()(const ElementImpl& e) const
     {
         return e.getId();
     }
 };
 
-std::ostream& operator<<(std::ostream&, const Element&);
+std::ostream& operator<<(std::ostream&, const ElementImpl&);
 //istream& operator>>(std::istream&, Element&);
 
 } // namespace libaas

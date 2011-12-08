@@ -32,7 +32,7 @@ public:
 
 private:
 
-    std::map<Element::ElementRef, double> counts_;
+    //std::map<Element::ElementRef, double> counts_;
 
 }; // class Stoichiometry
 

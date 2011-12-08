@@ -5,7 +5,6 @@ SET(SRCS
     Modification.cpp
     AminoAcid.cpp
     Residue.cpp
-    ElementTable.cpp
     AminoAcidSequence.cpp
 )
 

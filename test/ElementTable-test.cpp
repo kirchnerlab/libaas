@@ -5,13 +5,9 @@
  *
  */
 
-#include <libaas/ElementTable.hpp>
-
 #include "vigra/unittest.hxx"
 
 #include <iostream>
-
-using namespace libaas;
 
 /** Short description.
  * Long description.
