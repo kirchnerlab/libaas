@@ -52,6 +52,7 @@ INCLUDE_DIRECTORIES(
 )
 
 #### Sources
+SET(SRCS_ELEMENT Element-test.cpp)
 SET(SRCS_ELEMENTTABLE ElementTable-test.cpp)
 #### Libs
 SET(TEST_LIBS aas)
@@ -59,6 +60,7 @@ IF (ENABLE_COVERAGE)
     SET(TEST_LIBS ${TEST_LIBS} gcov)
 ENDIF(ENABLE_COVERAGE)
 #### Tests
+ADD_LIBAAS_TEST("Element" test_element ${SRCS_ELEMENT})
 ADD_LIBAAS_TEST("ElementTable" test_elementtable ${SRCS_ELEMENTTABLE})
 LIST(LENGTH memtest_names numtests)
 IF(numtests GREATER 0)

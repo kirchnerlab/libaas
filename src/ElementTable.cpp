@@ -1,12 +1,11 @@
 /*
  * ElementTable.cpp
  *
- *  Copyright (C) 2011 Marc Kirchner
+ * Copyright (c) 2011 Mathias Wilhelm
  *
  */
+
 #include <libaas/ElementTable.hpp>
-#include <boost/make_shared.hpp>
-#include <vector>
 
 // anonymous namespace to hide the C-style, hard-coded constants
 namespace {
@@ -129,276 +128,40 @@ const double frequencies[] = { 0.9, 0.1, 0.99985, 0.00015, 0.00000138,
 
 namespace libaas {
 
-/** A single entry in the table of elements.
- * These are the "real" entries in the table of elements; the \c Element class
- * merely references these.
+/** Constructor
+ *
  */
-class ElementTableEntry {
-public:
-    ElementTableEntry()
-    {
-    }
-
-    Size getId() const
-    {
-        return id_;
-    }
-
-    void setId(const Size id)
-    {
-        id_ = id;
-    }
-
-    String getSymbol() const
-    {
-        return symbol_;
-    }
-
-    void setSymbol(const String& symbol)
-    {
-        symbol_ = symbol;
-    }
-
-    Size getAtomicNumber() const
-    {
-        return atomicNumber_;
-    }
-
-    void setAtomicNumber(const Size& atomicNumber)
-    {
-        atomicNumber_ = atomicNumber;
-    }
-
-    const std::vector<Element::Isotope>& getIsotopes() const
-    {
-        return isotopes_;
-    }
-
-    void setIsotopes(const std::vector<Element::Isotope>& isotopes)
-    {
-        isotopes_ = isotopes;
-    }
-
-    void addIsotope(const Double mass, const Double frequency)
-    {
-        Element::Isotope i;
-        i.mass = mass;
-        i.frequency = frequency;
-        isotopes_.push_back(i);
-    }
-
-private:
-    Size id_;
-    String symbol_;
-    Size atomicNumber_;
-    std::vector<Element::Isotope> isotopes_;
-};
-
-/**
- * @TODO: document.
- */
-class Element::ElementImpl {
-public:
-    ElementImpl(ElementTableEntry& ref) :
-        ref_(ref)
-    {
-    }
-
-    ElementImpl(const ElementImpl& rhs) :
-        ref_(rhs.ref_)
-    {
-    }
-
-    Size getId() const
-    {
-        return ref_.getId();
-    }
-
-    String getSymbol() const
-    {
-        return ref_.getSymbol();
-    }
-
-    void setSymbol(const String& symbol)
-    {
-        ref_.setSymbol(symbol);
-    }
-
-    Size getAtomicNumber() const
-    {
-        return ref_.getAtomicNumber();
-    }
-
-    void setAtomicNumber(const Size& atomicNumber)
-    {
-        ref_.setAtomicNumber(atomicNumber);
-    }
-
-    const std::vector<Element::Isotope>& getIsotopes() const
-    {
-        return ref_.getIsotopes();
-    }
-
-    void setIsotopes(const std::vector<Element::Isotope>& isotopes)
-    {
-        ref_.setIsotopes(isotopes);
-    }
-
-    void addIsotope(const Double mass, const Double frequency)
-    {
-        ref_.addIsotope(mass, frequency);
-    }
-
-private:
-    ElementTableEntry& ref_;
-};
-
-/**
- * @TODO: document.
- */
-class ElementTable::ElementTableImpl {
-public:
-    ElementTableImpl()
-    {
-        // initialize from static data
-        Size k = 0;
-        for (Size i = 0; i < nEntries; ++i) {
-            ElementTableEntry& ete = createEntry();
-            ete.setSymbol(symbols[i]);
-            ete.setAtomicNumber(i);
-            for (Size j = 0; j < nIsotopes[i]; ++j, ++k) {
-                ete.addIsotope(masses[k], frequencies[k]);
-            }
-        }
-    }
-
-    Element create()
-    {
-        Element::ElementImpl ei(createEntry());
-        return Element(ei);
-    }
-
-    Element get(const Size id)
-    {
-        // the id is simply the index in the vector
-        return Element(Element::ElementImpl(elements_.at(id)));
-    }
-
-    Size size() const
-    {
-        return elements_.size();
-    }
-
-private:
-    ElementTableEntry& createEntry()
-    {
-        ElementTableEntry ete;
-        ete.setId(elements_.size());
-        elements_.push_back(ete);
-        return elements_.back();
-    }
-
-    std::vector<ElementTableEntry> elements_;
-};
-
-//
-// pImpl forwarders below
-//
-
-//
-// libaas::Element
-//
-
-Size Element::getId() const
-{
-    return impl_->getId();
-}
-
-String Element::getSymbol() const
-{
-    return impl_->getSymbol();
-}
-
-void Element::setSymbol(const String& symbol)
-{
-    impl_->setSymbol(symbol);
-}
-
-Size Element::getAtomicNumber() const
-{
-    return impl_->getAtomicNumber();
-}
-
-void Element::setAtomicNumber(const Size& atomicNumber)
-{
-    impl_->setAtomicNumber(atomicNumber);
-}
-
-const std::vector<Element::Isotope>& Element::getIsotopes() const
-{
-    return impl_->getIsotopes();
-}
-
-void Element::setIsotopes(const std::vector<Element::Isotope>& isotopes)
-{
-    impl_->setIsotopes(isotopes);
-}
-
-void Element::addIsotope(const Double mass, const Double frequency)
-{
-    impl_->addIsotope(mass, frequency);
-}
-
-Element::Element(const Element::ElementImpl& rhs) :
-    impl_(boost::make_shared<Element::ElementImpl>(rhs))
+ElementTable::ElementTable()
 {
 }
 
-//
-// libaas::ElementTable
-//
-
-ElementTable::ElementTable() :
-    impl_(boost::make_shared<ElementTable::ElementTableImpl>())
+size_t ElementTable::getAtomicNumber(const Element::ElementKeyType& id)
 {
+    return atomicNumbers[id];
 }
 
-Element ElementTable::create()
+std::string ElementTable::getSymbol(const Element::ElementKeyType& id)
 {
-    return impl_->create();
+    return symbols[id];
 }
 
-const Element ElementTable::get(const Size id) const
+void ElementTable::getIsotopes(const Element::ElementKeyType& id, std::vector<
+        libaas::Isotope>& isotopes)
 {
-    return impl_->get(id);
+    size_t k = 0;
+    for (size_t i = 0; i < id; ++i) {
+        k += nIsotopes[i];
+    }
+    for (size_t j = 0; j < nIsotopes[id]; ++j, ++k) {
+        isotopes.push_back(Isotope(masses[k], frequencies[k]));
+    }
 }
 
-//const Element ElementTable::getBySymbol(const String symbol) const
-//{
-//    Element::ElementImpl ei = impl_->getBySymbol(symbol);
+//std::ostream& operator<<(std::ostream& os, const ElementTable& o) {
+//    return os;
 //}
-//
-//const Element ElementTable::getByAtomicNumber(const Size atomicNumber) const
-//{
-//    Element::ElementImpl ei = impl->getByAtomicNumber(atomicNumber);
+//istream& operator>>(std::istream& is, ElementTable& i) {
+//    return is;
 //}
-
-Size ElementTable::size() const
-{
-    return impl_->size();
-}
-
-// output operators
-std::ostream& operator<<(std::ostream& os, const Element& e)
-{
-    os << e.getId() << '\t' << e.getAtomicNumber() << '\t' << e.getSymbol()
-            << '\t';
-    const std::vector<Element::Isotope>& isotopes = e.getIsotopes();
-    typedef std::vector<Element::Isotope>::const_iterator CI;
-    for (CI i = isotopes.begin(); i != isotopes.end(); ++i) {
-        os << '(' << i->mass << "," << i->frequency << ')';
-    }
-    return os;
-}
 
 } // namespace libaas

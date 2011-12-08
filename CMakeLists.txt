@@ -49,6 +49,11 @@ INCLUDE_DIRECTORIES(
     ${LIBAAS_BINARY_DIR}/include
 )
 
+#threads
+#this is needed for boost::flyweight thread safety.
+# We might be able to disable this if Threads is not found, see boost::flyweight thread safety
+find_package(Threads REQUIRED)
+
 #############################################################################
 # syncing docs
 #############################################################################
