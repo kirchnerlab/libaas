@@ -5,7 +5,7 @@
  *
  */
 
-#include <libaas/Libaas.hpp>
+#include <libaas/Element.hpp>
 
 #include "vigra/unittest.hxx"
 
@@ -52,6 +52,12 @@ struct ElementTestSuite: vigra::test_suite {
         libaas::Isotope i2 = t1.getIsotopes()[1];
         shouldEqual(i2.getMass(), 11);
         shouldEqual(i2.getFrequency(), 0.1);
+
+        libaas::ElementImpl t2 = t1;
+        shouldEqual(t1, t2);
+        t2.addIsotope(12, 0.4);
+        shouldEqual(t1 == t2, false);
+        shouldEqual(t1 != t2, true);
 
         // test free id stuff
         libaas::ElementImpl::ElementImplKeyType nEntries = 104;

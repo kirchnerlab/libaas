@@ -27,7 +27,8 @@ public:
 	const double& getFrequency() const;
 
 	bool operator==(const Isotope& s) const;
-	//Isotope& operator=(const Isotope& rhs);
+	bool operator!=(const Isotope& s) const;
+	Isotope& operator=(const Isotope& rhs);
 
 private:
     double mass_;

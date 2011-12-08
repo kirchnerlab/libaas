@@ -1,8 +1,11 @@
 SET(SRCS 
     Isotope.cpp
+    ElementImpl.cpp
     Element.cpp
     Stoichiometry.cpp
+    ModificationImpl.cpp
     Modification.cpp
+    AminoAcidImpl.cpp
     AminoAcid.cpp
     Residue.cpp
     AminoAcidSequence.cpp

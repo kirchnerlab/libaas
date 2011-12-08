@@ -9,24 +9,28 @@
 
 namespace libaas {
 
-/** Constructor
- *
- */
-AminoAcid::AminoAcid(AminoAcid::AminoAcidKeyType id) :
-    id_(id)
+// TODO it might be enough to define operator<... for AminoAcid since the
+// implicit conversion from fw<AminoAcid> -> const AminoAcid& should solve the
+// map<fw<AminoAcid>> stuff
+
+bool operator<(const libaas::AminoAcid& lhs, const libaas::AminoAcid& rhs)
 {
+    return lhs.get_key() < rhs.get_key();
 }
 
-const AminoAcid::AminoAcidKeyType& AminoAcid::getId() const
+bool operator<=(const libaas::AminoAcid& lhs, const libaas::AminoAcid& rhs)
 {
-    return id_;
+    return lhs.get_key() <= rhs.get_key();
 }
 
-//std::ostream& operator<<(std::ostream& os, const AminoAcid& o) {
-//    return os;
-//}
-//istream& operator>>(std::istream& is, AminoAcid& i) {
-//    return is;
-//}
+bool operator>(const libaas::AminoAcid& lhs, const libaas::AminoAcid& rhs)
+{
+    return lhs.get_key() > rhs.get_key();
+}
+
+bool operator>=(const libaas::AminoAcid& lhs, const libaas::AminoAcid& rhs)
+{
+    return lhs.get_key() >= rhs.get_key();
+}
 
 } // namespace libaas
