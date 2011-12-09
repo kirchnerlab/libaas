@@ -15,9 +15,12 @@
 #include <boost/flyweight/key_value.hpp>
 #include <boost/flyweight/no_tracking.hpp>
 
-//#include <iostream>
-
 namespace libaas {
+namespace aminoAcid {
+
+// TODO we might want to fix the name of the id extractor to be conform
+// with best practice (but this nomenclature is similar to the example provided
+// by boost)
 
 struct aminoacid_id_extractor {
     const AminoAcidImpl::AminoAcidImplKeyType& operator()(
@@ -28,15 +31,16 @@ struct aminoacid_id_extractor {
 };
 
 typedef boost::flyweight<boost::flyweights::key_value<
-        libaas::AminoAcidImpl::AminoAcidImplKeyType, libaas::AminoAcidImpl,
-        libaas::aminoacid_id_extractor>, boost::flyweights::no_tracking>
+        AminoAcidImpl::AminoAcidImplKeyType, AminoAcidImpl,
+        aminoacid_id_extractor>, boost::flyweights::no_tracking>
         AminoAcid;
 
-bool operator<(const libaas::AminoAcid& lhs, const libaas::AminoAcid& rhs);
-bool operator<=(const libaas::AminoAcid& lhs, const libaas::AminoAcid& rhs);
-bool operator>(const libaas::AminoAcid& lhs, const libaas::AminoAcid& rhs);
-bool operator>=(const libaas::AminoAcid& lhs, const libaas::AminoAcid& rhs);
+bool operator<(const AminoAcid& lhs, const AminoAcid& rhs);
+bool operator<=(const AminoAcid& lhs, const AminoAcid& rhs);
+bool operator>(const AminoAcid& lhs, const AminoAcid& rhs);
+bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs);
 
+} // namespace aminoAcid
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_AMINOACID_HPP__ */

@@ -63,7 +63,7 @@ Bool Stoichiometry::zero() const
     return empty();
 }
 
-Double Stoichiometry::get(const Element& element) const
+Double Stoichiometry::get(const libaas::elementTable::Element& element) const
 {
     const_iterator elem = counts_.find(element);
     if (elem == counts_.end()) {
@@ -73,7 +73,7 @@ Double Stoichiometry::get(const Element& element) const
     }
 }
 
-void Stoichiometry::set(const Element& element, const Double& count)
+void Stoichiometry::set(const libaas::elementTable::Element& element, const Double& count)
 {
     if (count == 0.0) {
         counts_.erase(element); // Not in here has the same meaning as count =0
@@ -82,7 +82,7 @@ void Stoichiometry::set(const Element& element, const Double& count)
     }
 }
 
-void Stoichiometry::add(const Element& element, const Double& count) {
+void Stoichiometry::add(const libaas::elementTable::Element& element, const Double& count) {
     Double& c = counts_[element];
     c += count;
     if (c == 0.0) {

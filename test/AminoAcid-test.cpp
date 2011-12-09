@@ -11,6 +11,8 @@
 #include <iostream>
 #include "vigra/unittest.hxx"
 
+using namespace libaas::aminoAcid;
+
 /** Short description.
  * Long description.
  */

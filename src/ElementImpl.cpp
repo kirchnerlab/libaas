@@ -11,7 +11,8 @@
 #include <stdexcept>
 
 // anonymous namespace to hide the C-style, hard-coded constants
-namespace {
+namespace libaas {
+namespace elementTable {
 
 const libaas::Size nEntries = 104;
 
@@ -127,10 +128,6 @@ const libaas::Double frequencies[] = { 0.9, 0.1, 0.99985, 0.00015, 0.00000138,
         1.0, 1.0, 0.000055, 0.00720, 0.992745, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
         1.0, 1.0, 1.0, 1.0, 1.0 };
 
-} // anonymous namespace
-
-namespace libaas {
-
 ElementImpl::ElementImplKeyType ElementImpl::freeId = nEntries + 1;
 
 ElementImpl::ElementImplKeyType ElementImpl::getNextId()
@@ -152,7 +149,7 @@ ElementImpl::ElementImpl(ElementImpl::ElementImplKeyType id) :
             k += nIsotopes[i];
         }
         for (Size j = 0; j < nIsotopes[id]; ++j, ++k) {
-            isotopes_.push_back(libaas::Isotope(masses[k], frequencies[k]));
+            isotopes_.push_back(Isotope(masses[k], frequencies[k]));
         }
     } else {
         throw std::out_of_range(
@@ -181,12 +178,12 @@ const Size& ElementImpl::getAtomicNumber() const
     return atomicNumber_;
 }
 
-const std::vector<libaas::Isotope>& ElementImpl::getIsotopes() const
+const std::vector<Isotope>& ElementImpl::getIsotopes() const
 {
     return isotopes_;
 }
 
-void ElementImpl::addIsotope(const libaas::Isotope& i)
+void ElementImpl::addIsotope(const Isotope& i)
 {
     isotopes_.push_back(i);
 }
@@ -196,7 +193,7 @@ void ElementImpl::addIsotope(const Double& mass, const Double& frequency)
     addIsotope(Isotope(mass, frequency));
 }
 
-void ElementImpl::setIsotopes(const std::vector<libaas::Isotope>& isotopes)
+void ElementImpl::setIsotopes(const std::vector<Isotope>& isotopes)
 {
     isotopes_ = isotopes;
 }
@@ -217,7 +214,7 @@ bool ElementImpl::operator!=(const ElementImpl& s) const
     return !(operator ==(s));
 }
 
-libaas::ElementImpl& ElementImpl::operator=(const ElementImpl& rhs)
+ElementImpl& ElementImpl::operator=(const ElementImpl& rhs)
 {
     if (this != &rhs) {
         id_ = rhs.id_;
@@ -243,4 +240,5 @@ std::ostream& operator<<(std::ostream& os, const ElementImpl& o)
 //    return is;
 //}
 
+} // namespace elementTable
 } // namespace libaas

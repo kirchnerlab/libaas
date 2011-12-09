@@ -17,6 +17,7 @@
 #include <iostream>
 
 namespace libaas {
+namespace elementTable {
 
 /** Element
  *
@@ -39,9 +40,9 @@ public:
     const Size& getAtomicNumber() const;
     const std::vector<Isotope>& getIsotopes() const;
 
-    void addIsotope(const libaas::Isotope& i);
+    void addIsotope(const Isotope& i);
     void addIsotope(const Double& mass, const Double& frequency);
-    void setIsotopes(const std::vector<libaas::Isotope>& isotopes);
+    void setIsotopes(const std::vector<Isotope>& isotopes);
 
     ElementImpl& operator=(const ElementImpl& rhs);
     bool operator==(const ElementImpl& s) const;
@@ -55,7 +56,7 @@ private:
     ElementImplKeyType id_;
     String symbol_;
     Size atomicNumber_;
-    std::vector<libaas::Isotope> isotopes_;
+    std::vector<Isotope> isotopes_;
 
     static ElementImplKeyType freeId;
 
@@ -64,6 +65,7 @@ private:
 std::ostream& operator<<(std::ostream&, const ElementImpl&);
 //istream& operator>>(std::istream&, Element&);
 
+} // namespace elementTable
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_ELEMENTIMPL_HPP__ */

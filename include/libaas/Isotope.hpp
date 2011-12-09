@@ -14,6 +14,7 @@
 #include <iostream>
 
 namespace libaas {
+namespace elementTable {
 
 /** Isotope
  *
@@ -42,6 +43,7 @@ private:
 std::ostream& operator<<(std::ostream&, const Isotope&);
 //istream& operator>>(std::istream&, Isotope&);
 
+} // namespace elementTable
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_ISOTOPE_HPP__ */

@@ -11,6 +11,8 @@
 #include <iostream>
 #include "vigra/unittest.hxx"
 
+using namespace libaas::elementTable;
+
 /** Short description.
  * Long description.
  */
@@ -30,9 +32,9 @@ struct IsotopeTestSuite: vigra::test_suite {
     {
         double mass = 101.1;
         double frequency = 0.99;
-        libaas::Isotope i1(mass, frequency);
-        libaas::Isotope i2 = i1;
-        libaas::Isotope i3(mass + 1, frequency);
+        Isotope i1(mass, frequency);
+        Isotope i2 = i1;
+        Isotope i3(mass + 1, frequency);
 
         shouldEqual(i1.getMass(), mass);
         shouldEqual(i1.getFrequency(), frequency);

@@ -16,6 +16,11 @@
 #include <boost/flyweight/no_tracking.hpp>
 
 namespace libaas {
+namespace elementTable {
+
+// TODO we might want to fix the name of the id extractor to be conform
+// with best practice (but this nomenclature is similar to the example provided
+// by boost)
 
 struct element_id_extractor {
     const ElementImpl::ElementImplKeyType& operator()(const ElementImpl& e) const
@@ -25,14 +30,15 @@ struct element_id_extractor {
 };
 
 typedef boost::flyweight<boost::flyweights::key_value<
-        libaas::ElementImpl::ElementImplKeyType, libaas::ElementImpl,
-        libaas::element_id_extractor>, boost::flyweights::no_tracking> Element;
+        ElementImpl::ElementImplKeyType, ElementImpl, element_id_extractor>,
+        boost::flyweights::no_tracking> Element;
 
 bool operator<(const Element& lhs, const Element& rhs);
 bool operator<=(const Element& lhs, const Element& rhs);
 bool operator>(const Element& lhs, const Element& rhs);
 bool operator>=(const Element& lhs, const Element& rhs);
 
+} // namespace elementTable
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_ELEMENT_HPP__ */

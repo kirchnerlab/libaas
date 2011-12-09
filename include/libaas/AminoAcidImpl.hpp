@@ -15,6 +15,7 @@
 #include <iostream>
 
 namespace libaas {
+namespace aminoAcid {
 
 /** AminoAcid
  *
@@ -57,6 +58,7 @@ private:
 std::ostream& operator<<(std::ostream&, const AminoAcidImpl&);
 //istream& operator>>(std::istream&, AminoAcid&);
 
+} // namespace aminoAcid
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_AMINOACIDIMPL_HPP__ */

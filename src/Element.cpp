@@ -9,6 +9,7 @@
 #include <libaas/Element.hpp>
 
 namespace libaas {
+namespace elementTable {
 
 // TODO it might be enough to define operator<... for Element since the
 // implicit conversion from fw<Element> -> const Element& should solve the
@@ -34,4 +35,5 @@ bool operator>=(const Element& lhs, const Element& rhs)
     return lhs.get_key() >= rhs.get_key();
 }
 
+} // namespace elementTable
 } // namespace libaas

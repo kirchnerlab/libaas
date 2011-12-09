@@ -9,6 +9,7 @@
 #include <libaas/Isotope.hpp>
 
 namespace libaas {
+namespace elementTable {
 
 /** Constructor
  *
@@ -37,7 +38,7 @@ bool Isotope::operator!=(const Isotope& s) const
     return !(operator ==(s));
 }
 
-libaas::Isotope& Isotope::operator=(const Isotope& rhs)
+Isotope& Isotope::operator=(const Isotope& rhs)
 {
     if (this != &rhs) {
         mass_ = rhs.mass_;
@@ -56,4 +57,5 @@ std::ostream& operator<<(std::ostream& os, const Isotope& o)
 //    return is;
 //}
 
+} // namespace elementTable
 } // namespace libaas

@@ -32,7 +32,7 @@ public:
 
 private:
 
-    libaas::AminoAcid aminoacid_;
+    libaas::aminoAcid::AminoAcid aminoacid_;
     libaas::Modification modification_;
 
 }; // class Residue

@@ -11,7 +11,8 @@
 
 #include <stdexcept>
 
-namespace {
+namespace libaas {
+namespace aminoAcid {
 
 const libaas::Size nEntries_aminoAcids = 24;
 
@@ -41,19 +42,15 @@ const libaas::Double stoi_table[][5] = { { 5, 3, 1, 1, 0 }, /*0=A*/
 { 1, 0, 0, 1, 0 } /*23, Protein C-terminal*/
 };
 
-const libaas::ElementImpl::ElementImplKeyType stoi_elements[] = { 1, 6, 7, 8,
+const libaas::elementTable::ElementImpl::ElementImplKeyType stoi_elements[] = { 1, 6, 7, 8,
         16 };
 
 const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
         'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y',
-        libaas::AminoAcidImpl::PEPTIDE_N_TERM,
-        libaas::AminoAcidImpl::PEPTIDE_C_TERM,
-        libaas::AminoAcidImpl::PROTEIN_N_TERM,
-        libaas::AminoAcidImpl::PROTEIN_C_TERM };
-
-}
-
-namespace libaas {
+        AminoAcidImpl::PEPTIDE_N_TERM,
+        AminoAcidImpl::PEPTIDE_C_TERM,
+        AminoAcidImpl::PROTEIN_N_TERM,
+        AminoAcidImpl::PROTEIN_C_TERM };
 
 const Char AminoAcidImpl::PEPTIDE_N_TERM = '0';
 const Char AminoAcidImpl::PROTEIN_N_TERM = '1';
@@ -80,7 +77,7 @@ AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id) :
     Size k = findIdOfAminoAcidKey(id);
     symbol_ = stoi_chars[k];
     for (Size i = 0; i < 5; ++i) {
-        stoichiometry_.set(libaas::Element(stoi_elements[i]), stoi_table[k][i]);
+        stoichiometry_.set(libaas::elementTable::Element(stoi_elements[i]), stoi_table[k][i]);
     }
 }
 
@@ -140,4 +137,5 @@ std::ostream& operator<<(std::ostream& os, const AminoAcidImpl& o)
 //    return is;
 //}
 
+} // namespace aminoAcid
 } // namespace libaas
