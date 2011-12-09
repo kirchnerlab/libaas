@@ -14,33 +14,33 @@
 namespace libaas {
 namespace elementTable {
 
-const libaas::Size nEntries = 104;
+const libaas::Size nEntries = 103;
 
-const libaas::Char* symbols[] = { "X", "H", "He", "Li", "Be", "B", "C", "N",
-        "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K",
-        "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga",
-        "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc",
-        "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs",
-        "Ba", "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho",
-        "Er", "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au",
-        "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa",
-        "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr" };
+const libaas::Char* symbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O",
+        "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca",
+        "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge",
+        "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru",
+        "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba",
+        "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er",
+        "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg",
+        "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U",
+        "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr" };
 
-const libaas::Size nIsotopes[] = { 2, 2, 2, 2, 1, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3,
-        1, 4, 2, 3, 3, 6, 1, 5, 2, 4, 1, 4, 1, 5, 2, 5, 2, 5, 1, 6, 2, 6, 2, 4,
-        1, 5, 1, 7, 1, 7, 1, 6, 2, 8, 2, 10, 2, 8, 1, 9, 1, 7, 2, 4, 1, 7, 1,
-        7, 2, 7, 1, 7, 1, 6, 1, 7, 2, 6, 2, 5, 2, 7, 2, 6, 1, 7, 2, 4, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+const libaas::Size nIsotopes[] = { 2, 2, 2, 1, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1,
+        4, 2, 3, 3, 6, 1, 5, 2, 4, 1, 4, 1, 5, 2, 5, 2, 5, 1, 6, 2, 6, 2, 4, 1,
+        5, 1, 7, 1, 7, 1, 6, 2, 8, 2, 10, 2, 8, 1, 9, 1, 7, 2, 4, 1, 7, 1, 7,
+        2, 7, 1, 7, 1, 6, 1, 7, 2, 6, 2, 5, 2, 7, 2, 6, 1, 7, 2, 4, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-const libaas::Size atomicNumbers[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-        12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-        30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
-        48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65,
-        66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
-        84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100,
-        101, 102, 103 };
+const libaas::Size atomicNumbers[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+        13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+        31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
+        49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66,
+        67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84,
+        85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101,
+        102, 103 };
 
-const libaas::Double masses[] = { 1, 2, 1.0078246, 2.0141021, 3.01603, 4.00260,
+const libaas::Double masses[] = { 1.0078246, 2.0141021, 3.01603, 4.00260,
         6.015121, 7.016003, 9.012182, 10.012937, 11.009305, 12.0000000,
         13.0033554, 14.0030732, 15.0001088, 15.9949141, 16.9991322, 17.9991616,
         18.9984032, 19.992435, 20.993843, 21.991383, 22.989767, 23.985042,
@@ -92,7 +92,7 @@ const libaas::Double masses[] = { 1, 2, 1.0078246, 2.0141021, 3.01603, 4.00260,
         238.050784, 237.048, 244.0, 243.0, 247.0, 247.0, 251.0, 252.0, 257.0,
         258.0, 259.0, 260.0 };
 
-const libaas::Double frequencies[] = { 0.9, 0.1, 0.99985, 0.00015, 0.00000138,
+const libaas::Double frequencies[] = { 0.99985, 0.00015, 0.00000138,
         0.99999862, 0.075, 0.925, 1.0, 0.199, 0.801, 0.988930, 0.011070,
         0.996337, 0.003663, 0.997590, 0.000374, 0.002036, 1.0, 0.9048, 0.0027,
         0.0925, 1.0, 0.7899, 0.1000, 0.1101, 1.0, 0.9223, 0.0467, 0.0310, 1.0,
@@ -138,17 +138,18 @@ ElementImpl::ElementImplKeyType ElementImpl::getNextId()
 /** Constructor
  *
  */
-ElementImpl::ElementImpl(ElementImpl::ElementImplKeyType id) :
-    id_(id), symbol_(), atomicNumber_(0), isotopes_()
+ElementImpl::ElementImpl(const ElementImpl::ElementImplKeyType& id) :
+    id_(id-1), symbol_(symbols[id]), atomicNumber_(atomicNumbers[id]), isotopes_()
 {
-    if (id >= 0 && id < nEntries) {
-        symbol_ = symbols[id];
-        atomicNumber_ = atomicNumbers[id];
+    ElementImpl::ElementImplKeyType idc = id - 1;
+    if (idc >= 0 && idc < nEntries) {
+//        symbol_ = symbols[id];
+//        atomicNumber_ = atomicNumbers[id];
         Size k = 0;
-        for (Size i = 0; i < id; ++i) {
+        for (Size i = 0; i < idc; ++i) {
             k += nIsotopes[i];
         }
-        for (Size j = 0; j < nIsotopes[id]; ++j, ++k) {
+        for (Size j = 0; j < nIsotopes[idc]; ++j, ++k) {
             isotopes_.push_back(Isotope(masses[k], frequencies[k]));
         }
     } else {

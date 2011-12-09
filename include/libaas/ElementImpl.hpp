@@ -31,7 +31,7 @@ public:
     /** Constructor
      *
      */
-    ElementImpl(ElementImplKeyType id);
+    ElementImpl(const ElementImplKeyType& id);
     ElementImpl(const ElementImplKeyType& id, const String& symbol,
             const Size& atomicNumber);
     ElementImpl(const ElementImplKeyType& id, const String& symbol,

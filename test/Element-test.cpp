@@ -64,14 +64,14 @@ struct ElementTestSuite: vigra::test_suite {
         shouldEqual(t1 != t2, true);
 
         // test free id stuff
-        ElementImpl::ElementImplKeyType nEntries = 104;
+        ElementImpl::ElementImplKeyType nEntries = 103;
         ElementImpl::ElementImplKeyType numberOfStandardElements =
                 ElementImpl::getNumberOfStandardElements();
         shouldEqual(numberOfStandardElements, nEntries);
         ElementImpl::ElementImplKeyType freeId = ElementImpl::getNextId();
-        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) 105);
+        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) 104);
         freeId = ElementImpl::getNextId();
-        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) 106);
+        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) 105);
 
         // test a standard element
         ElementImpl::ElementImplKeyType k1 = 16;
