@@ -2,6 +2,9 @@
  * Stoichiometry.hpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2009, 2010, 2011 Marc Kirchner
+ * Copyright (c) 2010 Nathan Hueksen
+ * Copyright (c) 2008 Thorben Kroeger
  *
  */
 
@@ -9,6 +12,7 @@
 #define __X_INCLUDE_X_STOICHIOMETRY_HPP__
 
 #include <libaas/Element.hpp>
+#include <libaas/Types.hpp>
 
 #include <map>
 #include <vector>
@@ -23,17 +27,17 @@ class Stoichiometry {
 
 public:
 
-    typedef std::map<libaas::Element, double>::const_iterator const_iterator;
-    typedef std::map<libaas::Element, double>::iterator iterator;
-    typedef std::map<libaas::Element, double>::value_type value_type;
+    typedef std::map<libaas::Element, Double>::const_iterator const_iterator;
+    typedef std::map<libaas::Element, Double>::iterator iterator;
+    typedef std::map<libaas::Element, Double>::value_type value_type;
 
     /** Constructor
      *
      */
     Stoichiometry();
 
-    void setAnnotationId(const int& id);
-    int getAnnotationId(void) const;
+    void setAnnotationId(const Int& id);
+    Int getAnnotationId(void) const;
 
     virtual void clear();
 
@@ -42,15 +46,15 @@ public:
     const_iterator end() const;
     iterator end();
 
-    size_t size() const;
-    bool empty() const;
-    bool zero() const;
+    Size size() const;
+    Bool empty() const;
+    Bool zero() const;
 
-    double get(const libaas::Element& elementId) const;
-    void set(const libaas::Element& elementId, const double& count);
-    void add(const libaas::Element& elementId, const double& count);
+    Double get(const libaas::Element& elementId) const;
+    void set(const libaas::Element& elementId, const Double& count);
+    void add(const libaas::Element& elementId, const Double& count);
 
-    bool nonNegative() const;
+    Bool nonNegative() const;
 
     Stoichiometry operator+(const Stoichiometry& s);
     Stoichiometry operator-(const Stoichiometry& s);
@@ -62,8 +66,8 @@ public:
 
 private:
 
-    int annotationId_;
-    std::map<libaas::Element, double> counts_;
+    Int annotationId_;
+    std::map<libaas::Element, Double> counts_;
 
 }; // class Stoichiometry
 
@@ -73,12 +77,12 @@ std::ostream& operator<<(std::ostream& o, const std::vector<
 
 //istream& operator>>(std::istream&, Stoichiometry&);
 
-inline void Stoichiometry::setAnnotationId(const int& id)
+inline void Stoichiometry::setAnnotationId(const Int& id)
 {
     annotationId_ = id;
 }
 
-inline int Stoichiometry::getAnnotationId(void) const
+inline Int Stoichiometry::getAnnotationId(void) const
 {
     return annotationId_;
 }

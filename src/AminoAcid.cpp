@@ -2,6 +2,7 @@
  * AminoAcid.cpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2011 Marc Kirchner
  *
  */
 

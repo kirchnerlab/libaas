@@ -2,6 +2,7 @@
  * ElementImpl.cpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2011 Marc Kirchner
  *
  */
 
@@ -12,33 +13,33 @@
 // anonymous namespace to hide the C-style, hard-coded constants
 namespace {
 
-const size_t nEntries = 104;
+const libaas::Size nEntries = 104;
 
-const char* symbols[] = { "X", "H", "He", "Li", "Be", "B", "C", "N", "O", "F",
-        "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc",
-        "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As",
-        "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh",
-        "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba", "La",
-        "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm",
-        "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl",
-        "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U", "Np",
-        "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr" };
+const libaas::Char* symbols[] = { "X", "H", "He", "Li", "Be", "B", "C", "N",
+        "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K",
+        "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga",
+        "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc",
+        "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs",
+        "Ba", "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho",
+        "Er", "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au",
+        "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa",
+        "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr" };
 
-const size_t nIsotopes[] = { 2, 2, 2, 2, 1, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1, 4,
-        2, 3, 3, 6, 1, 5, 2, 4, 1, 4, 1, 5, 2, 5, 2, 5, 1, 6, 2, 6, 2, 4, 1, 5,
-        1, 7, 1, 7, 1, 6, 2, 8, 2, 10, 2, 8, 1, 9, 1, 7, 2, 4, 1, 7, 1, 7, 2,
-        7, 1, 7, 1, 6, 1, 7, 2, 6, 2, 5, 2, 7, 2, 6, 1, 7, 2, 4, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+const libaas::Size nIsotopes[] = { 2, 2, 2, 2, 1, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3,
+        1, 4, 2, 3, 3, 6, 1, 5, 2, 4, 1, 4, 1, 5, 2, 5, 2, 5, 1, 6, 2, 6, 2, 4,
+        1, 5, 1, 7, 1, 7, 1, 6, 2, 8, 2, 10, 2, 8, 1, 9, 1, 7, 2, 4, 1, 7, 1,
+        7, 2, 7, 1, 7, 1, 6, 1, 7, 2, 6, 2, 5, 2, 7, 2, 6, 1, 7, 2, 4, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-const size_t atomicNumbers[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
-        14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-        32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-        50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67,
-        68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85,
-        86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102,
-        103 };
+const libaas::Size atomicNumbers[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+        12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+        30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+        48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65,
+        66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
+        84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100,
+        101, 102, 103 };
 
-const double masses[] = { 1, 2, 1.0078246, 2.0141021, 3.01603, 4.00260,
+const libaas::Double masses[] = { 1, 2, 1.0078246, 2.0141021, 3.01603, 4.00260,
         6.015121, 7.016003, 9.012182, 10.012937, 11.009305, 12.0000000,
         13.0033554, 14.0030732, 15.0001088, 15.9949141, 16.9991322, 17.9991616,
         18.9984032, 19.992435, 20.993843, 21.991383, 22.989767, 23.985042,
@@ -90,7 +91,7 @@ const double masses[] = { 1, 2, 1.0078246, 2.0141021, 3.01603, 4.00260,
         238.050784, 237.048, 244.0, 243.0, 247.0, 247.0, 251.0, 252.0, 257.0,
         258.0, 259.0, 260.0 };
 
-const double frequencies[] = { 0.9, 0.1, 0.99985, 0.00015, 0.00000138,
+const libaas::Double frequencies[] = { 0.9, 0.1, 0.99985, 0.00015, 0.00000138,
         0.99999862, 0.075, 0.925, 1.0, 0.199, 0.801, 0.988930, 0.011070,
         0.996337, 0.003663, 0.997590, 0.000374, 0.002036, 1.0, 0.9048, 0.0027,
         0.0925, 1.0, 0.7899, 0.1000, 0.1101, 1.0, 0.9223, 0.0467, 0.0310, 1.0,
@@ -146,11 +147,11 @@ ElementImpl::ElementImpl(ElementImpl::ElementImplKeyType id) :
     if (id >= 0 && id < nEntries) {
         symbol_ = symbols[id];
         atomicNumber_ = atomicNumbers[id];
-        size_t k = 0;
-        for (size_t i = 0; i < id; ++i) {
+        Size k = 0;
+        for (Size i = 0; i < id; ++i) {
             k += nIsotopes[i];
         }
-        for (size_t j = 0; j < nIsotopes[id]; ++j, ++k) {
+        for (Size j = 0; j < nIsotopes[id]; ++j, ++k) {
             isotopes_.push_back(libaas::Isotope(masses[k], frequencies[k]));
         }
     } else {
@@ -159,8 +160,8 @@ ElementImpl::ElementImpl(ElementImpl::ElementImplKeyType id) :
     }
 }
 
-ElementImpl::ElementImpl(const ElementImplKeyType& id,
-        const std::string& symbol, const size_t& atomicNumber) :
+ElementImpl::ElementImpl(const ElementImplKeyType& id, const String& symbol,
+        const Size& atomicNumber) :
     id_(id), symbol_(symbol), atomicNumber_(atomicNumber)
 {
 }
@@ -170,12 +171,12 @@ const ElementImpl::ElementImplKeyType& ElementImpl::getId() const
     return id_;
 }
 
-const std::string& ElementImpl::getSymbol() const
+const String& ElementImpl::getSymbol() const
 {
     return symbol_;
 }
 
-const size_t& ElementImpl::getAtomicNumber() const
+const Size& ElementImpl::getAtomicNumber() const
 {
     return atomicNumber_;
 }
@@ -190,7 +191,7 @@ void ElementImpl::addIsotope(const libaas::Isotope& i)
     isotopes_.push_back(i);
 }
 
-void ElementImpl::addIsotope(const double& mass, const double& frequency)
+void ElementImpl::addIsotope(const Double& mass, const Double& frequency)
 {
     addIsotope(Isotope(mass, frequency));
 }

@@ -2,6 +2,7 @@
  * AminoAcidImpl.cpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2011 Marc Kirchner
  *
  */
 
@@ -12,9 +13,9 @@
 
 namespace {
 
-const size_t nEntries_aminoAcids = 24;
+const libaas::Size nEntries_aminoAcids = 24;
 
-const double stoi_table[][5] = { { 5, 3, 1, 1, 0 }, /*0=A*/
+const libaas::Double stoi_table[][5] = { { 5, 3, 1, 1, 0 }, /*0=A*/
 { 5, 3, 1, 1, 1 }, /*1=C*/
 { 5, 4, 1, 3, 0 }, /*2=D*/
 { 7, 5, 1, 3, 0 }, /*3=E*/
@@ -43,7 +44,7 @@ const double stoi_table[][5] = { { 5, 3, 1, 1, 0 }, /*0=A*/
 const libaas::ElementImpl::ElementImplKeyType stoi_elements[] = { 1, 6, 7, 8,
         16 };
 
-const char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
+const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
         'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y',
         libaas::AminoAcidImpl::PEPTIDE_N_TERM,
         libaas::AminoAcidImpl::PEPTIDE_C_TERM,
@@ -54,14 +55,14 @@ const char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
 
 namespace libaas {
 
-const char AminoAcidImpl::PEPTIDE_N_TERM = '0';
-const char AminoAcidImpl::PROTEIN_N_TERM = '1';
-const char AminoAcidImpl::PEPTIDE_C_TERM = '2';
-const char AminoAcidImpl::PROTEIN_C_TERM = '3';
+const Char AminoAcidImpl::PEPTIDE_N_TERM = '0';
+const Char AminoAcidImpl::PROTEIN_N_TERM = '1';
+const Char AminoAcidImpl::PEPTIDE_C_TERM = '2';
+const Char AminoAcidImpl::PROTEIN_C_TERM = '3';
 
-size_t findIdOfAminoAcidKey(const AminoAcidImpl::AminoAcidImplKeyType& id)
+Size findIdOfAminoAcidKey(const AminoAcidImpl::AminoAcidImplKeyType& id)
 {
-    for (size_t i = 0; i < nEntries_aminoAcids; ++i) {
+    for (Size i = 0; i < nEntries_aminoAcids; ++i) {
         if (stoi_chars[i] == id) {
             return i;
         }
@@ -76,9 +77,9 @@ size_t findIdOfAminoAcidKey(const AminoAcidImpl::AminoAcidImplKeyType& id)
 AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id) :
     id_(id)
 {
-    size_t k = findIdOfAminoAcidKey(id);
+    Size k = findIdOfAminoAcidKey(id);
     symbol_ = stoi_chars[k];
-    for (size_t i = 0; i < 5; ++i) {
+    for (Size i = 0; i < 5; ++i) {
         stoichiometry_.set(libaas::Element(stoi_elements[i]), stoi_table[k][i]);
     }
 }
@@ -88,7 +89,7 @@ const AminoAcidImpl::AminoAcidImplKeyType& AminoAcidImpl::getId() const
     return id_;
 }
 
-const char& AminoAcidImpl::getSymbol() const
+Char AminoAcidImpl::getSymbol() const
 {
     return symbol_;
 }
@@ -98,12 +99,12 @@ const libaas::Stoichiometry& AminoAcidImpl::getStoichiometry() const
     return stoichiometry_;
 }
 
-bool AminoAcidImpl::isNTerm() const
+Bool AminoAcidImpl::isNTerm() const
 {
     return symbol_ == PROTEIN_N_TERM || symbol_ == PEPTIDE_N_TERM;
 }
 
-bool AminoAcidImpl::isCTerm() const
+Bool AminoAcidImpl::isCTerm() const
 {
     return symbol_ == PROTEIN_C_TERM || symbol_ == PEPTIDE_C_TERM;
 }

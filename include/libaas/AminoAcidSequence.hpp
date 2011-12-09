@@ -2,6 +2,7 @@
  * AminoAcidSequence.hpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2011 Marc Kirchner
  *
  */
 
@@ -10,6 +11,7 @@
 
 #include <libaas/Residue.hpp>
 #include <libaas/Collection.hpp>
+#include <libaas/Types.hpp>
 
 //#include <iostream>
 
@@ -18,16 +20,16 @@ namespace libaas {
 /** AminoAcidSequence
  *
  */
-class AminoAcidSequence : public libaas::Collection<libaas::Residue> {
+class AminoAcidSequence: public libaas::Collection<libaas::Residue> {
 
 public:
     /** Constructor
      *
      */
-	AminoAcidSequence();
+    AminoAcidSequence();
 
-	//bool operator==(const AminoAcidSequence& s) const;
-	//AminoAcidSequence& operator=(const AminoAcidSequence& rhs);
+    //bool operator==(const AminoAcidSequence& s) const;
+    //AminoAcidSequence& operator=(const AminoAcidSequence& rhs);
 
 private:
 

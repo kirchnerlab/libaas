@@ -2,6 +2,7 @@
  * Isotope.cpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2011 Marc Kirchner
  *
  */
 
@@ -12,16 +13,16 @@ namespace libaas {
 /** Constructor
  *
  */
-Isotope::Isotope(const double& mass, const double& frequency) :
+Isotope::Isotope(const Double& mass, const Double& frequency) :
     mass_(mass), frequency_(frequency)
 {
 }
 
-const double& Isotope::getMass() const
+const Double& Isotope::getMass() const
 {
     return mass_;
 }
-const double& Isotope::getFrequency() const
+const Double& Isotope::getFrequency() const
 {
     return frequency_;
 }

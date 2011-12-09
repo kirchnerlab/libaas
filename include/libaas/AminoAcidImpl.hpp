@@ -2,6 +2,7 @@
  * AminoAcidImpl.hpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2011 Marc Kirchner
  *
  */
 
@@ -9,6 +10,7 @@
 #define __X_INCLUDE_X_AMINOACIDIMPL_HPP__
 
 #include <libaas/Stoichiometry.hpp>
+#include <libaas/Types.hpp>
 
 #include <iostream>
 
@@ -21,7 +23,7 @@ class AminoAcidImpl {
 
 public:
 
-    typedef char AminoAcidImplKeyType;
+    typedef Char AminoAcidImplKeyType;
 
     /** Constructor
      *
@@ -29,25 +31,25 @@ public:
     AminoAcidImpl(const AminoAcidImplKeyType& id);
 
     const AminoAcidImplKeyType& getId() const;
-    const char& getSymbol() const;
+    Char getSymbol() const;
     const libaas::Stoichiometry& getStoichiometry() const;
 
-    bool isNTerm() const;
-    bool isCTerm() const;
+    Bool isNTerm() const;
+    Bool isCTerm() const;
 
     AminoAcidImpl& operator=(const AminoAcidImpl& a);
     bool operator==(const AminoAcidImpl& b) const;
     bool operator!=(const AminoAcidImpl& b) const;
 
-    static const char PEPTIDE_N_TERM;
-    static const char PROTEIN_N_TERM;
-    static const char PEPTIDE_C_TERM;
-    static const char PROTEIN_C_TERM;
+    static const Char PEPTIDE_N_TERM;
+    static const Char PROTEIN_N_TERM;
+    static const Char PEPTIDE_C_TERM;
+    static const Char PROTEIN_C_TERM;
 
 private:
 
     AminoAcidImplKeyType id_;
-    char symbol_;
+    Char symbol_;
     libaas::Stoichiometry stoichiometry_;
 
 }; // class AminoAcidImpl

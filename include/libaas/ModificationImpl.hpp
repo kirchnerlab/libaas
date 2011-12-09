@@ -2,6 +2,7 @@
  * ModificationImpl.hpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2011 Marc Kirchner
  *
  */
 
@@ -10,13 +11,11 @@
 
 #include <libaas/Stoichiometry.hpp>
 #include <libaas/Specificity.hpp>
+#include <libaas/Types.hpp>
 
 //#include <iostream>
 
 namespace libaas {
-
-// forward definition
-struct modification_id_extractor;
 
 /** Modification
  *
@@ -25,7 +24,7 @@ class ModificationImpl {
 
 public:
 
-    typedef int ModificationImplKeyType;
+    typedef Int ModificationImplKeyType;
 
     ModificationImpl(ModificationImplKeyType id);
 
@@ -39,12 +38,12 @@ private:
     ModificationImplKeyType id_;
     Stoichiometry stoichiometry_;
 
-    std::string name_;
+    String name_;
     std::vector<std::string> altNames_;
-    std::string description_;
-    std::string comment_;
-    bool approved_;
-    int recordId_;
+    String description_;
+    String comment_;
+    Bool approved_;
+    Int recordId_;
     std::vector<Specificity> specificities_;
 
 }; // class ModificationImpl

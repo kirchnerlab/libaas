@@ -2,6 +2,9 @@
  * Stoichiometry.cpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2010 Nathan Hueksen
+ * Copyright (c) 2009,2010 Marc Kirchner
+ * Copyright (c) 2008 Thorben Kroeger
  *
  */
 
@@ -43,24 +46,24 @@ Stoichiometry::iterator Stoichiometry::end()
     return counts_.end();
 }
 
-bool Stoichiometry::empty() const
+Bool Stoichiometry::empty() const
 {
     return counts_.empty();
 }
 
-size_t Stoichiometry::size() const
+Size Stoichiometry::size() const
 {
     return counts_.size();
 }
 
-bool Stoichiometry::zero() const
+Bool Stoichiometry::zero() const
 {
     // Since it is assured that no elements with count = 0 exist
     // this is the same as empty
     return empty();
 }
 
-double Stoichiometry::get(const Element& element) const
+Double Stoichiometry::get(const Element& element) const
 {
     const_iterator elem = counts_.find(element);
     if (elem == counts_.end()) {
@@ -70,7 +73,7 @@ double Stoichiometry::get(const Element& element) const
     }
 }
 
-void Stoichiometry::set(const Element& element, const double& count)
+void Stoichiometry::set(const Element& element, const Double& count)
 {
     if (count == 0.0) {
         counts_.erase(element); // Not in here has the same meaning as count =0
@@ -79,15 +82,15 @@ void Stoichiometry::set(const Element& element, const double& count)
     }
 }
 
-void Stoichiometry::add(const Element& element, const double& count) {
-    double& c = counts_[element];
+void Stoichiometry::add(const Element& element, const Double& count) {
+    Double& c = counts_[element];
     c += count;
     if (c == 0.0) {
         counts_.erase(element); // Not present has the same meaning as count = 0
     }
 }
 
-bool Stoichiometry::nonNegative() const
+Bool Stoichiometry::nonNegative() const
 {
     const_iterator iter;
     for (iter = counts_.begin(); iter != counts_.end(); ++iter) {

@@ -2,6 +2,7 @@
  * Collection.hpp
  *
  * Copyright (c) 2009 Marc Kirchner
+ * Copyright (c) 2011 Marc Kirchner
  *
  */
 
