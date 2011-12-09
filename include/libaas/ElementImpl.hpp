@@ -34,6 +34,8 @@ public:
     ElementImpl(ElementImplKeyType id);
     ElementImpl(const ElementImplKeyType& id, const String& symbol,
             const Size& atomicNumber);
+    ElementImpl(const ElementImplKeyType& id, const String& symbol,
+            const Size& atomicNumber, const std::vector<Isotope>& isotopes);
 
     const ElementImplKeyType& getId() const;
     const String& getSymbol() const;
@@ -63,7 +65,11 @@ private:
 }; // class ElementImpl
 
 std::ostream& operator<<(std::ostream&, const ElementImpl&);
-//istream& operator>>(std::istream&, Element&);
+
+inline const ElementImpl::ElementImplKeyType& ElementImpl::getId() const
+{
+    return id_;
+}
 
 } // namespace elementTable
 } // namespace libaas

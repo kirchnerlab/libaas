@@ -32,13 +32,17 @@ struct aminoacid_id_extractor {
 
 typedef boost::flyweight<boost::flyweights::key_value<
         AminoAcidImpl::AminoAcidImplKeyType, AminoAcidImpl,
-        aminoacid_id_extractor>, boost::flyweights::no_tracking>
-        AminoAcid;
+        aminoacid_id_extractor>, boost::flyweights::no_tracking> AminoAcid;
 
 bool operator<(const AminoAcid& lhs, const AminoAcid& rhs);
 bool operator<=(const AminoAcid& lhs, const AminoAcid& rhs);
 bool operator>(const AminoAcid& lhs, const AminoAcid& rhs);
 bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs);
+
+class AminoAcidTable {
+    static Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
+            const Char symbol, const libaas::Stoichiometry& stoichiometry);
+};
 
 } // namespace aminoAcid
 } // namespace libaas

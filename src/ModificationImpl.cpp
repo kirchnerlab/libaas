@@ -18,11 +18,6 @@ ModificationImpl::ModificationImpl(ModificationImplKeyType id) :
 {
 }
 
-const ModificationImpl::ModificationImplKeyType& ModificationImpl::getId() const
-{
-    return id_;
-}
-
 //std::ostream& operator<<(std::ostream& os, const ModificationImpl& o) {
 //    return os;
 //}

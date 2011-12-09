@@ -15,6 +15,16 @@ namespace elementTable {
 // implicit conversion from fw<Element> -> const Element& should solve the
 // map<fw<Element>> stuff
 
+Bool ElementTable::addElement(const ElementImpl::ElementImplKeyType& id,
+        const String& symbol, const Size& atomicNumber,
+        const std::vector<Isotope>& isotopes)
+{
+    ElementImpl element(id, symbol, atomicNumber);
+    element.setIsotopes(isotopes);
+    Element element_ref(element);
+    return element_ref == element;
+}
+
 bool operator<(const Element& lhs, const Element& rhs)
 {
     return lhs.get_key() < rhs.get_key();

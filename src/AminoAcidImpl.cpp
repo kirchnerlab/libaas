@@ -42,15 +42,13 @@ const libaas::Double stoi_table[][5] = { { 5, 3, 1, 1, 0 }, /*0=A*/
 { 1, 0, 0, 1, 0 } /*23, Protein C-terminal*/
 };
 
-const libaas::elementTable::ElementImpl::ElementImplKeyType stoi_elements[] = { 1, 6, 7, 8,
-        16 };
+const libaas::elementTable::ElementImpl::ElementImplKeyType stoi_elements[] = {
+        1, 6, 7, 8, 16 };
 
-const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
-        'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y',
-        AminoAcidImpl::PEPTIDE_N_TERM,
-        AminoAcidImpl::PEPTIDE_C_TERM,
-        AminoAcidImpl::PROTEIN_N_TERM,
-        AminoAcidImpl::PROTEIN_C_TERM };
+const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+        'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y',
+        AminoAcidImpl::PEPTIDE_N_TERM, AminoAcidImpl::PEPTIDE_C_TERM,
+        AminoAcidImpl::PROTEIN_N_TERM, AminoAcidImpl::PROTEIN_C_TERM };
 
 const Char AminoAcidImpl::PEPTIDE_N_TERM = '0';
 const Char AminoAcidImpl::PROTEIN_N_TERM = '1';
@@ -77,13 +75,15 @@ AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id) :
     Size k = findIdOfAminoAcidKey(id);
     symbol_ = stoi_chars[k];
     for (Size i = 0; i < 5; ++i) {
-        stoichiometry_.set(libaas::elementTable::Element(stoi_elements[i]), stoi_table[k][i]);
+        stoichiometry_.set(libaas::elementTable::Element(stoi_elements[i]),
+                stoi_table[k][i]);
     }
 }
 
-const AminoAcidImpl::AminoAcidImplKeyType& AminoAcidImpl::getId() const
+AminoAcidImpl::AminoAcidImpl(const AminoAcidImplKeyType& id, const char symbol,
+        const libaas::Stoichiometry& stoichiometry) :
+    id_(id), symbol_(symbol), stoichiometry_(stoichiometry)
 {
-    return id_;
 }
 
 Char AminoAcidImpl::getSymbol() const

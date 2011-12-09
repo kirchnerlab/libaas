@@ -38,6 +38,13 @@ bool operator<=(const Element& lhs, const Element& rhs);
 bool operator>(const Element& lhs, const Element& rhs);
 bool operator>=(const Element& lhs, const Element& rhs);
 
+class ElementTable {
+public:
+    static Bool addElement(const ElementImpl::ElementImplKeyType& id,
+            const String& symbol, const Size& atomicNumber,
+            const std::vector<Isotope>& isotopes);
+};
+
 } // namespace elementTable
 } // namespace libaas
 

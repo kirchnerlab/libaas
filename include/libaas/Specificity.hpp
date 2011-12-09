@@ -33,7 +33,6 @@ private:
 }; // class Specificity
 
 //std::ostream& operator<<(std::ostream&, const Specificity&);
-//istream& operator>>(std::istream&, Specificity&);
 
 } // namespace libaas
 

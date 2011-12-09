@@ -139,7 +139,7 @@ ElementImpl::ElementImplKeyType ElementImpl::getNextId()
  *
  */
 ElementImpl::ElementImpl(ElementImpl::ElementImplKeyType id) :
-    id_(id)
+    id_(id), symbol_(), atomicNumber_(0), isotopes_()
 {
     if (id >= 0 && id < nEntries) {
         symbol_ = symbols[id];
@@ -159,13 +159,15 @@ ElementImpl::ElementImpl(ElementImpl::ElementImplKeyType id) :
 
 ElementImpl::ElementImpl(const ElementImplKeyType& id, const String& symbol,
         const Size& atomicNumber) :
-    id_(id), symbol_(symbol), atomicNumber_(atomicNumber)
+    id_(id), symbol_(symbol), atomicNumber_(atomicNumber), isotopes_()
 {
 }
 
-const ElementImpl::ElementImplKeyType& ElementImpl::getId() const
+ElementImpl::ElementImpl(const ElementImplKeyType& id, const String& symbol,
+        const Size& atomicNumber, const std::vector<Isotope>& isotopes) :
+    id_(id), symbol_(symbol), atomicNumber_(atomicNumber), isotopes_(isotopes)
 {
-    return id_;
+
 }
 
 const String& ElementImpl::getSymbol() const

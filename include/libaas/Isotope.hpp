@@ -41,7 +41,6 @@ private:
 }; // class Isotope
 
 std::ostream& operator<<(std::ostream&, const Isotope&);
-//istream& operator>>(std::istream&, Isotope&);
 
 } // namespace elementTable
 } // namespace libaas

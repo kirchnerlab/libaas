@@ -27,6 +27,7 @@ struct AminoAcidTestSuite: vigra::test_suite {
     {
         add(testCase(&AminoAcidTestSuite::testAminoAcid));
         add(testCase(&AminoAcidTestSuite::testAminoAcidRef));
+        add(testCase(&AminoAcidTestSuite::testAddAminoAcid));
         add(testCase(&AminoAcidTestSuite::testAddAminoAcidRef));
         add(testCase(&AminoAcidTestSuite::testOverrideUninitializedAminoAcid));
         add(testCase(&AminoAcidTestSuite::testOverrideInitializedAminoAcid));
@@ -38,6 +39,11 @@ struct AminoAcidTestSuite: vigra::test_suite {
     }
 
     void testAminoAcidRef()
+    {
+        failTest("No unit tests for class Modification!");
+    }
+
+    void testAddAminoAcid()
     {
         failTest("No unit tests for class Modification!");
     }

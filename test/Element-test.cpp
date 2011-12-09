@@ -29,6 +29,7 @@ struct ElementTestSuite: vigra::test_suite {
     {
         add(testCase(&ElementTestSuite::testElement));
         add(testCase(&ElementTestSuite::testElementRef));
+        add(testCase(&ElementTestSuite::testAddElement));
         add(testCase(&ElementTestSuite::testAddElementRef));
         add(testCase(&ElementTestSuite::testOverrideUninitializedElement));
         add(testCase(&ElementTestSuite::testOverrideInitializedElement));
@@ -124,6 +125,36 @@ struct ElementTestSuite: vigra::test_suite {
         // object
         shouldEqual(&er_2.get(), &er_t2.get());
         shouldEqual(&er_3.get(), &er_t3.get());
+    }
+
+    // testing static function to add an element
+    void testAddElement() {
+        // setting up test data
+        ElementImpl::ElementImplKeyType k1 = 1;
+        libaas::String symbol = "HH";
+        libaas::String symbol2 = "HHH";
+        libaas::Size atomicNumber = 1;
+        std::vector<Isotope> is;
+        libaas::Double mass = 12.23;
+        libaas::Double frequency = 24.45;
+        Isotope isotope(mass, frequency);
+        is.push_back(isotope);
+
+        // adding not existing element
+        shouldEqual(ElementTable::addElement(k1, symbol, atomicNumber, is), true);
+        Element e_r(k1);
+        ElementImpl e(k1, symbol, atomicNumber);
+        e.setIsotopes(is);
+        // added element should be equal to the one intended
+        shouldEqual(e_r,e);
+
+        // a second try to add an element with the same id should fail
+        shouldEqual(ElementTable::addElement(k1, symbol2, atomicNumber, is), false);
+        // and the element added in the frist place should stay the same
+        shouldEqual(Element(k1), e);
+        ElementImpl e2(k1, symbol2, atomicNumber);
+        e.setIsotopes(is);
+        shouldEqual(Element(k1) == e2, false);
     }
 
     // test whether we can add a reference to the flyweight table of elements

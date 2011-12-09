@@ -49,7 +49,11 @@ private:
 }; // class ModificationImpl
 
 //std::ostream& operator<<(std::ostream&, const ModificationImpl&);
-//istream& operator>>(std::istream&, ModificationImpl&);
+
+inline const ModificationImpl::ModificationImplKeyType& ModificationImpl::getId() const
+{
+    return id_;
+}
 
 } // namespace libaas
 

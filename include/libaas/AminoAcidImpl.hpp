@@ -31,6 +31,8 @@ public:
      */
     AminoAcidImpl(const AminoAcidImplKeyType& id);
 
+    AminoAcidImpl(const AminoAcidImplKeyType& id, const char symbol, const libaas::Stoichiometry& stoichiometry);
+
     const AminoAcidImplKeyType& getId() const;
     Char getSymbol() const;
     const libaas::Stoichiometry& getStoichiometry() const;
@@ -56,7 +58,11 @@ private:
 }; // class AminoAcidImpl
 
 std::ostream& operator<<(std::ostream&, const AminoAcidImpl&);
-//istream& operator>>(std::istream&, AminoAcid&);
+
+inline const AminoAcidImpl::AminoAcidImplKeyType& AminoAcidImpl::getId() const
+{
+    return id_;
+}
 
 } // namespace aminoAcid
 } // namespace libaas

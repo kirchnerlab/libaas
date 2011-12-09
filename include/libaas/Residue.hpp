@@ -38,7 +38,6 @@ private:
 }; // class Residue
 
 //std::ostream& operator<<(std::ostream&, const Residue&);
-//istream& operator>>(std::istream&, Residue&);
 
 } // namespace libaas
 

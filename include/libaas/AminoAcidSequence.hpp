@@ -36,7 +36,6 @@ private:
 }; // class AminoAcidSequence
 
 //std::ostream& operator<<(std::ostream&, const AminoAcidSequence&);
-//istream& operator>>(std::istream&, AminoAcidSequence&);
 
 } // namespace libaas
 
