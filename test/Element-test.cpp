@@ -13,7 +13,7 @@
 #include <iostream>
 #include <vector>
 
-using namespace libaas::elementTable;
+using namespace libaas::elements;
 
 /** Short description.
  * Long description.
@@ -141,7 +141,7 @@ struct ElementTestSuite: vigra::test_suite {
         is.push_back(isotope);
 
         // adding not existing element
-        shouldEqual(ElementTable::addElement(k1, symbol, atomicNumber, is), true);
+        shouldEqual(addElement(k1, symbol, atomicNumber, is), true);
         Element e_r(k1);
         ElementImpl e(k1, symbol, atomicNumber);
         e.setIsotopes(is);
@@ -149,7 +149,7 @@ struct ElementTestSuite: vigra::test_suite {
         shouldEqual(e_r,e);
 
         // a second try to add an element with the same id should fail
-        shouldEqual(ElementTable::addElement(k1, symbol2, atomicNumber, is), false);
+        shouldEqual(addElement(k1, symbol2, atomicNumber, is), false);
         // and the element added in the frist place should stay the same
         shouldEqual(Element(k1), e);
         ElementImpl e2(k1, symbol2, atomicNumber);
@@ -172,7 +172,8 @@ struct ElementTestSuite: vigra::test_suite {
 
         // create an arbitrary element
         ElementImpl::ElementImplKeyType k1 = 2000;
-        ElementImpl t(k1, "Fu", 2000);
+        libaas::String name = "Ge";
+        ElementImpl t(k1, name, 2000);
         t.addIsotope(100, 0.99);
         t.addIsotope(101, 0.01);
         // add element to the flyweight table

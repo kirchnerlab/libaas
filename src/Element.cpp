@@ -9,13 +9,13 @@
 #include <libaas/Element.hpp>
 
 namespace libaas {
-namespace elementTable {
+namespace elements {
 
 // TODO it might be enough to define operator<... for Element since the
 // implicit conversion from fw<Element> -> const Element& should solve the
 // map<fw<Element>> stuff
 
-Bool ElementTable::addElement(const ElementImpl::ElementImplKeyType& id,
+Bool addElement(const ElementImpl::ElementImplKeyType& id,
         const String& symbol, const Size& atomicNumber,
         const std::vector<Isotope>& isotopes)
 {
@@ -45,5 +45,5 @@ bool operator>=(const Element& lhs, const Element& rhs)
     return lhs.get_key() >= rhs.get_key();
 }
 
-} // namespace elementTable
+} // namespace elements
 } // namespace libaas

@@ -17,7 +17,7 @@
 #include <iostream>
 
 namespace libaas {
-namespace elementTable {
+namespace elements {
 
 /** Element
  *
@@ -71,7 +71,7 @@ inline const ElementImpl::ElementImplKeyType& ElementImpl::getId() const
     return id_;
 }
 
-} // namespace elementTable
+} // namespace elements
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_ELEMENTIMPL_HPP__ */

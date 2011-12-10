@@ -6,14 +6,18 @@
  *
  */
 
-#include <iostream>
+#include <libaas/Modification.hpp>
+
 #include "vigra/unittest.hxx"
+
+#include <iostream>
+
+using namespace libaas::modifications;
 
 /** Short description.
  * Long description.
  */
-struct ModificationTestSuite : vigra::test_suite
-{
+struct ModificationTestSuite: vigra::test_suite {
     /** Constructor.
      * The ModificationTestSuite constructor adds all Modification tests to
      * the test suite. If you write an additional test, add the test

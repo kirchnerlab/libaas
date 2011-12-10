@@ -15,7 +15,7 @@
 #include <iostream>
 
 namespace libaas {
-namespace aminoAcid {
+namespace aminoAcids {
 
 /** AminoAcid
  *
@@ -31,7 +31,8 @@ public:
      */
     AminoAcidImpl(const AminoAcidImplKeyType& id);
 
-    AminoAcidImpl(const AminoAcidImplKeyType& id, const char symbol, const libaas::Stoichiometry& stoichiometry);
+    AminoAcidImpl(const AminoAcidImplKeyType& id, const char symbol,
+            const libaas::Stoichiometry& stoichiometry);
 
     const AminoAcidImplKeyType& getId() const;
     Char getSymbol() const;
@@ -64,7 +65,7 @@ inline const AminoAcidImpl::AminoAcidImplKeyType& AminoAcidImpl::getId() const
     return id_;
 }
 
-} // namespace aminoAcid
+} // namespace aminoAcids
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_AMINOACIDIMPL_HPP__ */

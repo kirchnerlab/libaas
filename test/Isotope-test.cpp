@@ -8,10 +8,11 @@
 
 #include <libaas/Isotope.hpp>
 
-#include <iostream>
 #include "vigra/unittest.hxx"
 
-using namespace libaas::elementTable;
+#include <iostream>
+
+using namespace libaas::elements;
 
 /** Short description.
  * Long description.

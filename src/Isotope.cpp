@@ -9,7 +9,7 @@
 #include <libaas/Isotope.hpp>
 
 namespace libaas {
-namespace elementTable {
+namespace elements {
 
 /** Constructor
  *
@@ -57,5 +57,5 @@ std::ostream& operator<<(std::ostream& os, const Isotope& o)
 //    return is;
 //}
 
-} // namespace elementTable
+} // namespace elements
 } // namespace libaas

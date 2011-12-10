@@ -13,6 +13,7 @@
 //#include <iostream>
 
 namespace libaas {
+namespace modifications {
 
 /** Specificity
  *
@@ -34,6 +35,7 @@ private:
 
 //std::ostream& operator<<(std::ostream&, const Specificity&);
 
+} // namespace modifications
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_SPECIFICITY_HPP__ */

@@ -16,6 +16,7 @@
 //#include <iostream>
 
 namespace libaas {
+namespace modifications {
 
 /** Modification
  *
@@ -55,6 +56,7 @@ inline const ModificationImpl::ModificationImplKeyType& ModificationImpl::getId(
     return id_;
 }
 
+} // namespace modifications
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_MODIFICATIONIMPL_HPP__ */

@@ -9,6 +9,7 @@
 #include <libaas/ModificationImpl.hpp>
 
 namespace libaas {
+namespace modifications {
 
 /** Constructor
  *
@@ -25,4 +26,5 @@ ModificationImpl::ModificationImpl(ModificationImplKeyType id) :
 //    return is;
 //}
 
+} // namspace modifications
 } // namespace libaas

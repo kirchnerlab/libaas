@@ -8,10 +8,11 @@
 
 #include <libaas/AminoAcid.hpp>
 
-#include <iostream>
 #include "vigra/unittest.hxx"
 
-using namespace libaas::aminoAcid;
+#include <iostream>
+
+using namespace libaas::aminoAcids;
 
 /** Short description.
  * Long description.

@@ -12,7 +12,7 @@
 #include <stdexcept>
 
 namespace libaas {
-namespace aminoAcid {
+namespace aminoAcids {
 
 const libaas::Size nEntries_aminoAcids = 24;
 
@@ -42,7 +42,7 @@ const libaas::Double stoi_table[][5] = { { 5, 3, 1, 1, 0 }, /*0=A*/
 { 1, 0, 0, 1, 0 } /*23, Protein C-terminal*/
 };
 
-const libaas::elementTable::ElementImpl::ElementImplKeyType stoi_elements[] = {
+const libaas::elements::ElementImpl::ElementImplKeyType stoi_elements[] = {
         1, 6, 7, 8, 16 };
 
 const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
@@ -75,7 +75,7 @@ AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id) :
     Size k = findIdOfAminoAcidKey(id);
     symbol_ = stoi_chars[k];
     for (Size i = 0; i < 5; ++i) {
-        stoichiometry_.set(libaas::elementTable::Element(stoi_elements[i]),
+        stoichiometry_.set(libaas::elements::Element(stoi_elements[i]),
                 stoi_table[k][i]);
     }
 }
@@ -137,5 +137,5 @@ std::ostream& operator<<(std::ostream& os, const AminoAcidImpl& o)
 //    return is;
 //}
 
-} // namespace aminoAcid
+} // namespace aminoAcids
 } // namespace libaas

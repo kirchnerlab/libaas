@@ -16,7 +16,7 @@
 #include <boost/flyweight/no_tracking.hpp>
 
 namespace libaas {
-namespace aminoAcid {
+namespace aminoAcids {
 
 // TODO we might want to fix the name of the id extractor to be conform
 // with best practice (but this nomenclature is similar to the example provided
@@ -39,12 +39,10 @@ bool operator<=(const AminoAcid& lhs, const AminoAcid& rhs);
 bool operator>(const AminoAcid& lhs, const AminoAcid& rhs);
 bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs);
 
-class AminoAcidTable {
-    static Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
-            const Char symbol, const libaas::Stoichiometry& stoichiometry);
-};
+Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
+        const Char symbol, const libaas::Stoichiometry& stoichiometry);
 
-} // namespace aminoAcid
+} // namespace aminoAcids
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_AMINOACID_HPP__ */

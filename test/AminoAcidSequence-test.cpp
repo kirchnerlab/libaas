@@ -6,8 +6,11 @@
  *
  */
 
-#include <iostream>
+#include <libaas/AminoAcidSequence.hpp>
+
 #include "vigra/unittest.hxx"
+
+#include <iostream>
 
 /** Short description.
  * Long description.

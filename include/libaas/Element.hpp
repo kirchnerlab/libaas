@@ -16,7 +16,7 @@
 #include <boost/flyweight/no_tracking.hpp>
 
 namespace libaas {
-namespace elementTable {
+namespace elements {
 
 // TODO we might want to fix the name of the id extractor to be conform
 // with best practice (but this nomenclature is similar to the example provided
@@ -38,14 +38,11 @@ bool operator<=(const Element& lhs, const Element& rhs);
 bool operator>(const Element& lhs, const Element& rhs);
 bool operator>=(const Element& lhs, const Element& rhs);
 
-class ElementTable {
-public:
-    static Bool addElement(const ElementImpl::ElementImplKeyType& id,
-            const String& symbol, const Size& atomicNumber,
-            const std::vector<Isotope>& isotopes);
-};
+Bool addElement(const ElementImpl::ElementImplKeyType& id,
+        const String& symbol, const Size& atomicNumber, const std::vector<
+                Isotope>& isotopes);
 
-} // namespace elementTable
+} // namespace elements
 } // namespace libaas
 
 #endif /* __X_INCLUDE_X_ELEMENT_HPP__ */

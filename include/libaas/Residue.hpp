@@ -32,8 +32,8 @@ public:
 
 private:
 
-    libaas::aminoAcid::AminoAcid aminoacid_;
-    libaas::Modification modification_;
+    libaas::aminoAcids::AminoAcid aminoacid_;
+    libaas::modifications::Modification modification_;
 
 }; // class Residue
 

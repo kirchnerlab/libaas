@@ -6,8 +6,11 @@
  *
  */
 
-#include <iostream>
+#include <libaas/Stoichiometry.hpp>
+
 #include "vigra/unittest.hxx"
+
+#include <iostream>
 
 /** Short description.
  * Long description.

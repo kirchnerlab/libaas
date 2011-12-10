@@ -10,6 +10,7 @@
 #include <libaas/Specificity.hpp>
 
 namespace libaas {
+namespace modifications {
 
 /** Constructor
  *
@@ -25,4 +26,5 @@ Specificity::Specificity() {
 //    return is;
 //}
 
+} // namespace modifications
 } // namespace libaas

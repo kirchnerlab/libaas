@@ -27,9 +27,9 @@ class Stoichiometry {
 
 public:
 
-    typedef std::map<libaas::elementTable::Element, Double>::const_iterator const_iterator;
-    typedef std::map<libaas::elementTable::Element, Double>::iterator iterator;
-    typedef std::map<libaas::elementTable::Element, Double>::value_type value_type;
+    typedef std::map<libaas::elements::Element, Double>::const_iterator const_iterator;
+    typedef std::map<libaas::elements::Element, Double>::iterator iterator;
+    typedef std::map<libaas::elements::Element, Double>::value_type value_type;
 
     /** Constructor
      *
@@ -50,9 +50,9 @@ public:
     Bool empty() const;
     Bool zero() const;
 
-    Double get(const libaas::elementTable::Element& elementId) const;
-    void set(const libaas::elementTable::Element& elementId, const Double& count);
-    void add(const libaas::elementTable::Element& elementId, const Double& count);
+    Double get(const libaas::elements::Element& elementId) const;
+    void set(const libaas::elements::Element& elementId, const Double& count);
+    void add(const libaas::elements::Element& elementId, const Double& count);
 
     Bool nonNegative() const;
 
@@ -67,7 +67,7 @@ public:
 private:
 
     Int annotationId_;
-    std::map<libaas::elementTable::Element, Double> counts_;
+    std::map<libaas::elements::Element, Double> counts_;
 
 }; // class Stoichiometry
 

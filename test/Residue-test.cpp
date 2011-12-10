@@ -6,14 +6,16 @@
  *
  */
 
-#include <iostream>
+#include <libaas/Residue.hpp>
+
 #include "vigra/unittest.hxx"
+
+#include <iostream>
 
 /** Short description.
  * Long description.
  */
-struct ResidueTestSuite : vigra::test_suite
-{
+struct ResidueTestSuite: vigra::test_suite {
     /** Constructor.
      * The ResidueTestSuite constructor adds all Residue tests to
      * the test suite. If you write an additional test, add the test

@@ -9,6 +9,7 @@
 #include <libaas/Modification.hpp>
 
 namespace libaas {
+namespace modifications {
 
 bool operator<(const Modification& lhs, const Modification& rhs)
 {
@@ -30,4 +31,5 @@ bool operator>=(const Modification& lhs, const Modification& rhs)
     return lhs.get_key() >= rhs.get_key();
 }
 
+} // namespace modifications
 } // namespace libaas

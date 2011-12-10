@@ -12,7 +12,7 @@
 
 // anonymous namespace to hide the C-style, hard-coded constants
 namespace libaas {
-namespace elementTable {
+namespace elements {
 
 const libaas::Size nEntries = 103;
 
@@ -139,12 +139,14 @@ ElementImpl::ElementImplKeyType ElementImpl::getNextId()
  *
  */
 ElementImpl::ElementImpl(const ElementImpl::ElementImplKeyType& id) :
-    id_(id-1), symbol_(symbols[id]), atomicNumber_(atomicNumbers[id]), isotopes_()
+    id_(id), isotopes_()
 {
     ElementImpl::ElementImplKeyType idc = id - 1;
     if (idc >= 0 && idc < nEntries) {
-//        symbol_ = symbols[id];
-//        atomicNumber_ = atomicNumbers[id];
+        symbol_ = symbols[idc];
+        atomicNumber_ = atomicNumbers[idc];
+        //        symbol_ = symbols[id];
+        //        atomicNumber_ = atomicNumbers[id];
         Size k = 0;
         for (Size i = 0; i < idc; ++i) {
             k += nIsotopes[i];
@@ -243,5 +245,5 @@ std::ostream& operator<<(std::ostream& os, const ElementImpl& o)
 //    return is;
 //}
 
-} // namespace elementTable
+} // namespace elements
 } // namespace libaas
