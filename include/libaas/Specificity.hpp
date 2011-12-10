@@ -11,6 +11,7 @@
 #define __X_INCLUDE_X_SPECIFICITY_HPP__
 
 #include <libaas/AminoAcid.hpp>
+#include <libaas/Types.hpp>
 
 #include <vector>
 #include <iostream>
@@ -56,6 +57,21 @@ public:
      */
     Specificity();
 
+    void setSite(const libaas::aminoAcids::AminoAcid& aminoAcid);
+    const libaas::aminoAcids::AminoAcid& getSite() const;
+
+    void setClassification(const Classification& classification);
+    const Classification& getClassification() const;
+
+    void setPosition(const Position& position);
+    const Position& getPosition() const;
+
+    void setNeutralLoss(const Stoichiometry& stoichiometry);
+    const Stoichiometry& getNeutralLoss() const;
+
+    void setComment(const String& comment);
+    const String& getComment() const;
+
     bool operator==(const Specificity& s) const;
     //Specificity& operator=(const Specificity& rhs);
 
@@ -69,7 +85,7 @@ private:
     //Stoichiometry deltaStoichiometry_;
     Stoichiometry neutralLoss_;
     //Int specGroup_;
-    std::string comment_;
+    String comment_;
     //std::map<std::string, UnsignedInt> elementTableMap_;
 
 }; // class Specificity
