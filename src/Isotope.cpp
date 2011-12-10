@@ -53,6 +53,15 @@ std::ostream& operator<<(std::ostream& os, const Isotope& o)
     return os;
 }
 
+std::ostream& operator<<(std::ostream& os, const std::vector<Isotope>& o)
+{
+    typedef std::vector<Isotope>::const_iterator IT;
+    for (IT it = o.begin(); it != o.end(); ++it) {
+        os << "(" << *it << ")";
+    }
+    return os;
+}
+
 //istream& operator>>(std::istream& is, Isotope& i) {
 //    return is;
 //}

@@ -11,6 +11,7 @@
 
 #include <libaas/Types.hpp>
 
+#include <vector>
 #include <iostream>
 
 namespace libaas {
@@ -41,6 +42,7 @@ private:
 }; // class Isotope
 
 std::ostream& operator<<(std::ostream&, const Isotope&);
+std::ostream& operator<<(std::ostream&, const std::vector<Isotope>&);
 
 } // namespace elements
 } // namespace libaas

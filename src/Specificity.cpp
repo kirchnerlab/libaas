@@ -6,7 +6,6 @@
  *
  */
 
-
 #include <libaas/Specificity.hpp>
 
 namespace libaas {
@@ -15,16 +14,27 @@ namespace modifications {
 /** Constructor
  *
  */
-Specificity::Specificity() {
+Specificity::Specificity()
+{
 
 }
 
-//std::ostream& operator<<(std::ostream& os, const Specificity& o) {
-//    return os;
-//}
-//istream& operator>>(std::istream& is, Specificity& i) {
-//    return is;
-//}
+bool Specificity::operator==(const Specificity& s) const
+{
+    return site_ == s.site_ && classification_ == s.classification_
+            && position_ == s.position_ && neutralLoss_ == s.neutralLoss_
+            && comment_ == s.comment_;
+}
+
+std::ostream& operator<<(std::ostream& os, const Specificity& s) {
+    // TODO
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const std::vector<Specificity>& s) {
+    // TODO
+    return os;
+}
 
 } // namespace modifications
 } // namespace libaas

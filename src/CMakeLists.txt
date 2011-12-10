@@ -1,14 +1,15 @@
 SET(SRCS 
-    Isotope.cpp
-    ElementImpl.cpp
-    Element.cpp
-    Stoichiometry.cpp
-    ModificationImpl.cpp
-    Modification.cpp
-    AminoAcidImpl.cpp
-    AminoAcid.cpp
-    Residue.cpp
-    AminoAcidSequence.cpp
+	AminoAcid.cpp
+	AminoAcidImpl.cpp
+	AminoAcidSequence.cpp
+	Element.cpp
+	ElementImpl.cpp
+	Isotope.cpp
+	Modification.cpp
+	ModificationImpl.cpp
+	Residue.cpp
+	Specificity.cpp
+	Stoichiometry.cpp
 )
 
 ADD_LIBRARY(aas ${SRCS})

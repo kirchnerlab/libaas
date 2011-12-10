@@ -233,11 +233,7 @@ ElementImpl& ElementImpl::operator=(const ElementImpl& rhs)
 std::ostream& operator<<(std::ostream& os, const ElementImpl& o)
 {
     os << o.getId() << ":" << o.getSymbol() << "(" << o.getAtomicNumber()
-            << ") - ";
-    typedef std::vector<Isotope>::const_iterator IT;
-    for (IT it = o.getIsotopes().begin(); it != o.getIsotopes().end(); ++it) {
-        os << "(" << *it << ")";
-    }
+            << ") - " << o.getIsotopes();
     return os;
 }
 
