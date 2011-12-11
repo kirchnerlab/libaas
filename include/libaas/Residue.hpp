@@ -22,13 +22,14 @@ namespace libaas {
 class Residue {
 
 public:
-    /** Constructor
-     *
-     */
     Residue();
 
-    //bool operator==(const Residue& s) const;
-    //Residue& operator=(const Residue& rhs);
+    void setAminoacid(const libaas::aminoAcids::AminoAcid& aminoacid_);
+    const libaas::aminoAcids::AminoAcid& getAminoacid() const;
+
+    void setModification(
+            const libaas::modifications::Modification& modification_);
+    const libaas::modifications::Modification& getModification() const;
 
 private:
 
