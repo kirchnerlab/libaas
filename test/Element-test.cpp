@@ -69,9 +69,9 @@ struct ElementTestSuite: vigra::test_suite {
                 ElementImpl::getNumberOfStandardElements();
         shouldEqual(numberOfStandardElements, nEntries);
         ElementImpl::ElementImplKeyType freeId = ElementImpl::getNextId();
-        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) 104);
+        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) (103+1));
         freeId = ElementImpl::getNextId();
-        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) 105);
+        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) (103+2));
 
         // test a standard element
         ElementImpl::ElementImplKeyType k1 = 16;
@@ -128,7 +128,8 @@ struct ElementTestSuite: vigra::test_suite {
     }
 
     // testing static function to add an element
-    void testAddElement() {
+    void testAddElement()
+    {
         // setting up test data
         ElementImpl::ElementImplKeyType k1 = 1;
         libaas::String symbol = "HH";
@@ -160,7 +161,7 @@ struct ElementTestSuite: vigra::test_suite {
     // test whether we can add a reference to the flyweight table of elements
     void testAddElementRef()
     {
-        // first est should result in an out_of_range exceptions since the
+        // first test should result in an out_of_range exceptions since the
         // default ElementTable does no contain an Element with ID 2000
         bool thrown = false;
         try {
@@ -193,22 +194,26 @@ struct ElementTestSuite: vigra::test_suite {
     }
 
     // testing to override uninitialized elements
-    void testOverrideUninitializedElement() {
+    void testOverrideUninitializedElement()
+    {
         // create different Element Mo(42)
         ElementImpl::ElementImplKeyType k1 = 42;
-        ElementImpl t(k1, "Dp", 2000);
+        libaas::String symbol = "Dp";
+        ElementImpl t(k1, symbol, 2000);
         // store it arbitrary element in flyweight table
         Element tr(t);
         // retrieve element id k1
         Element tr_t(k1);
 
-        // getSymbol results Dp instead of Mo (the standard element)
-        shouldEqual(tr_t.get().getSymbol(), "Dp");
+        // getSymbol returns Dp instead of Mo (the standard element)
+        shouldEqual(tr_t.get().getSymbol(), symbol);
+        shouldEqual(tr_t.get().getSymbol() != ElementImpl(k1).getSymbol(), true);
     }
 
     // testing to override initialized elements
     // This does not work! This test shows this...hopefully
-    void testOverrideInitializedElement() {
+    void testOverrideInitializedElement()
+    {
         ElementImpl::ElementImplKeyType k1 = 21;
         Element tr_1(k1);
 
