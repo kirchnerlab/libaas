@@ -13,7 +13,8 @@ namespace libaas {
 /** Constructor
  *
  */
-Residue::Residue()
+Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoacid) :
+    aminoacid_(aminoacid)
 {
 
 }
@@ -39,11 +40,10 @@ const libaas::modifications::Modification& Residue::getModification() const
     return modification_;
 }
 
-//std::ostream& operator<<(std::ostream& os, const Residue& o) {
-//    return os;
-//}
-//istream& operator>>(std::istream& is, Residue& i) {
-//    return is;
-//}
+std::ostream& operator<<(std::ostream& os, const Residue& o)
+{
+    os << o.getAminoacid() << "\t" << o.getModification();
+    return os;
+}
 
 } // namespace libaas

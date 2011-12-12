@@ -55,10 +55,10 @@ const Char AminoAcidImpl::PROTEIN_N_TERM = '1';
 const Char AminoAcidImpl::PEPTIDE_C_TERM = '2';
 const Char AminoAcidImpl::PROTEIN_C_TERM = '3';
 
-Size findIdOfAminoAcidKey(const AminoAcidImpl::AminoAcidImplKeyType& id)
+Size findIdOfAminoAcidKey(const AminoAcidImpl::AminoAcidImplKeyType& key)
 {
     for (Size i = 0; i < nEntries_aminoAcids; ++i) {
-        if (stoi_chars[i] == id) {
+        if (stoi_chars[i] == key) {
             return i;
         }
     }
@@ -69,10 +69,10 @@ Size findIdOfAminoAcidKey(const AminoAcidImpl::AminoAcidImplKeyType& id)
 /** Constructor
  *
  */
-AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id) :
-    id_(id)
+AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id)
 {
     Size k = findIdOfAminoAcidKey(id);
+    id_ = id;
     symbol_ = stoi_chars[k];
     for (Size i = 0; i < 5; ++i) {
         stoichiometry_.set(libaas::elements::Element(stoi_elements[i]),

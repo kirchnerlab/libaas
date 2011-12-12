@@ -12,7 +12,7 @@
 #include <libaas/AminoAcid.hpp>
 #include <libaas/Modification.hpp>
 
-//#include <iostream>
+#include <iostream>
 
 namespace libaas {
 
@@ -22,13 +22,13 @@ namespace libaas {
 class Residue {
 
 public:
-    Residue();
+    Residue(const libaas::aminoAcids::AminoAcid& aminoAcid);
 
-    void setAminoacid(const libaas::aminoAcids::AminoAcid& aminoacid_);
+    void setAminoacid(const libaas::aminoAcids::AminoAcid& aminoacid);
     const libaas::aminoAcids::AminoAcid& getAminoacid() const;
 
     void setModification(
-            const libaas::modifications::Modification& modification_);
+            const libaas::modifications::Modification& modification);
     const libaas::modifications::Modification& getModification() const;
 
 private:
@@ -38,7 +38,7 @@ private:
 
 }; // class Residue
 
-//std::ostream& operator<<(std::ostream&, const Residue&);
+std::ostream& operator<<(std::ostream&, const Residue&);
 
 } // namespace libaas
 

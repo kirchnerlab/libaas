@@ -12,6 +12,8 @@
 
 #include <iostream>
 
+using namespace libaas;
+
 /** Short description.
  * Long description.
  */
@@ -24,16 +26,26 @@ struct ResidueTestSuite: vigra::test_suite {
     ResidueTestSuite() :
         vigra::test_suite("Residue")
     {
-        add(testCase(&ResidueTestSuite::fail));
+        add(testCase(&ResidueTestSuite::testResidue));
     }
 
-    /** Test that is guaranteed to fail.
-     * Leave this in until the complete Residue class has tests.
-     */
-    void fail()
+    void testResidue()
     {
-        failTest("No unit tests for class Residue!");
+
+        libaas::aminoAcids::AminoAcidImpl::AminoAcidImplKeyType aa_k = 'A';
+        libaas::aminoAcids::AminoAcid aa(aa_k);
+        libaas::modifications::ModificationImpl::ModificationImplKeyType m_k =
+                1;
+        libaas::modifications::Modification m(m_k);
+
+        Residue r(aa);
+        r.setAminoacid(aa);
+        shouldEqual(r.getAminoacid(), aa);
+
+        r.setModification(m);
+        shouldEqual(r.getModification(), m);
     }
+
 };
 
 /** The main function that runs the tests for class Residue.
