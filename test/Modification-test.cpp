@@ -43,8 +43,11 @@ struct ModificationTestSuite: vigra::test_suite {
     	libaas::elements::addElement(143, "18O", 16, is);
 
     	libaas::StoichiometryConfigImpl sc("Experiment 1");
+    	// inserting element manually by symbol and id
     	sc.insert(libaas::StoichiometryConfigImpl::EntryType("13C", 142));
-    	sc.insert(libaas::StoichiometryConfigImpl::EntryType("19O", 143));
+    	// inserting element "automatically" by fw<ElementImpl>
+    	sc.insertElement(libaas::elements::Element(143));
+    	// free function to add stoichiometry config
     	libaas::addStoichiometryConfig(sc);
 
     	// creating default modification
