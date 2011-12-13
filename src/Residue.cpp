@@ -40,6 +40,10 @@ const libaas::modifications::Modification& Residue::getModification() const
     return modification_;
 }
 
+libaas::modifications::Modification& Residue::getModification() {
+	return modification_;
+}
+
 std::ostream& operator<<(std::ostream& os, const Residue& o)
 {
     os << o.getAminoacid() << "\t" << o.getModification();

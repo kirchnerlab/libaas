@@ -30,6 +30,7 @@ public:
     void setModification(
             const libaas::modifications::Modification& modification);
     const libaas::modifications::Modification& getModification() const;
+    libaas::modifications::Modification& getModification();
 
 private:
 

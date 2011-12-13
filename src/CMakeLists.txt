@@ -6,10 +6,13 @@ SET(SRCS
 	ElementImpl.cpp
 	Isotope.cpp
 	Modification.cpp
-	ModificationImpl.cpp
+	RawModification.cpp
+	RawModificationImpl.cpp
 	Residue.cpp
 	Specificity.cpp
 	Stoichiometry.cpp
+	StoichiometryConfig.cpp
+	StoichiometryConfigImpl.cpp
 )
 
 ADD_LIBRARY(aas ${SRCS})
