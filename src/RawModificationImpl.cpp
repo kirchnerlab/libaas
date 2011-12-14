@@ -62,13 +62,13 @@ const std::vector<String>& RawModificationImpl::getAltDescriptions() const {
 	return altDescriptions_;
 }
 
-//void RawModificationImpl::setStoichiometry(const Stoichiometry& stoichiometry) {
-//	stoichiometry_ = stoichiometry;
-//}
-//
-//const Stoichiometry& RawModificationImpl::getStoichiometry() const {
-//	return stoichiometry_;
-//}
+void RawModificationImpl::setStoichiometry(const Stoichiometry& stoichiometry) {
+	stoichiometry_ = stoichiometry;
+}
+
+const Stoichiometry& RawModificationImpl::getStoichiometry() const {
+	return stoichiometry_;
+}
 
 void RawModificationImpl::addSpecificity(const Specificity& specificity) {
 	specificities_.push_back(specificity);
@@ -95,7 +95,7 @@ bool RawModificationImpl::operator==(const RawModificationImpl& s) const {
 	return id_ == s.id_ && accession_ == s.accession_ && psiName_ == s.psiName_
 			&& interimName_ == s.interimName_ && description_ == s.description_
 			&& altDescriptions_ == s.altDescriptions_
-//			&& stoichiometry_ == s.stoichiometry_
+			&& stoichiometry_ == s.stoichiometry_
 			&& specificities_ == s.specificities_ && verified_ == s.verified_;
 }
 
@@ -107,7 +107,7 @@ std::ostream& operator<<(std::ostream& os, const RawModificationImpl& o) {
 			it != o.getAltDescriptions().end(); ++it) {
 		os << *it << "|";
 	}
-//	os << "\t" << o.getStoichiometry();
+	os << "\t" << o.getStoichiometry();
 	os << "\t" << o.getSpecificities() << "\t" << o.isVerified();
 	return os;
 }

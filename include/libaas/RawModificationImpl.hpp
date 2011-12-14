@@ -48,8 +48,8 @@ public:
 	void setAltDescriptions(const std::vector<String>& altDescriptions);
 	const std::vector<String>& getAltDescriptions() const;
 
-//	void setStoichiometry(const Stoichiometry& stoichiometry);
-//	const Stoichiometry& getStoichiometry() const;
+	void setStoichiometry(const Stoichiometry& stoichiometry);
+	const Stoichiometry& getStoichiometry() const;
 
 	void addSpecificity(const Specificity& specificity);
 	void setSpecificities(const std::vector<Specificity>& specificities);
@@ -70,8 +70,7 @@ private:
 	String interimName_;
 	String description_;
 	std::vector<String> altDescriptions_;
-//	Stoichiometry stoichiometry_;
-	// TODO we have to store the unprocessed stoichiometry somehow
+	Stoichiometry stoichiometry_;
 	std::vector<Specificity> specificities_;
 	Bool verified_;
 

@@ -31,6 +31,8 @@ typedef boost::flyweight<
 				RawModificationImpl, rawmodification_id_extractor>
 		, boost::flyweights::no_tracking> RawModification;
 
+// TODO addRawModification
+
 bool operator<(const RawModification& lhs, const RawModification& rhs);
 bool operator<=(const RawModification& lhs, const RawModification& rhs);
 bool operator>(const RawModification& lhs, const RawModification& rhs);
