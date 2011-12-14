@@ -10,7 +10,6 @@
 
 #include <stdexcept>
 
-// anonymous namespace to hide the C-style, hard-coded constants
 namespace libaas {
 namespace elements {
 
