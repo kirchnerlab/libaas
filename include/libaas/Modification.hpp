@@ -54,6 +54,7 @@ public:
 	void addSpecificitiy(const Specificity& specificity);
 	void setSpecificities(const std::vector<Specificity>& specificities);
 	const std::vector<Specificity> getSpecificities() const;
+	void reinitializeSpecificities();
 	void clearSpecificities();
 
 	const RawModificationImpl::RawModificationImplKeyType& getModificationId() const;

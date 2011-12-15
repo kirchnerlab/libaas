@@ -13,11 +13,9 @@
 namespace libaas {
 namespace modifications {
 
-/** Constructor
- *
- */
-Specificity::Specificity() {
-
+Specificity::Specificity(const libaas::aminoAcids::AminoAcid& site,
+		const Position position, const Classification classification) :
+		site_(site), position_(position), classification_(classification) {
 }
 
 Specificity::Specificity(const libaas::String& site,
@@ -52,29 +50,37 @@ const Specificity::Position& Specificity::getPosition() const {
 }
 
 void Specificity::addNeutralLoss(const Stoichiometry& stoichiometry) {
-	neutralLoss_.push_back(stoichiometry);
+	neutralLosses_.push_back(stoichiometry);
 }
 
-void Specificity::setNeutralLoss(
+void Specificity::setNeutralLosses(
 		const std::vector<Stoichiometry>& stoichiometries) {
-	neutralLoss_ = stoichiometries;
+	neutralLosses_ = stoichiometries;
 }
 
-const std::vector<Stoichiometry>& Specificity::getNeutralLoss() const {
-	return neutralLoss_;
+const std::vector<Stoichiometry>& Specificity::getNeutralLosses() const {
+	return neutralLosses_;
+}
+
+void Specificity::clearNeutralLosses() {
+	neutralLosses_.clear();
 }
 
 void Specificity::addPepNeutralLoss(const Stoichiometry& stoichiometry) {
-	pepNeutralLoss_.push_back(stoichiometry);
+	pepNeutralLosses_.push_back(stoichiometry);
 }
 
-void Specificity::setPepNeutralLoss(
+void Specificity::setPepNeutralLosses(
 		const std::vector<Stoichiometry>& stoichiometries) {
-	pepNeutralLoss_ = stoichiometries;
+	pepNeutralLosses_ = stoichiometries;
 }
 
-const std::vector<Stoichiometry>& Specificity::getPepNeutralLoss() const {
-	return pepNeutralLoss_;
+const std::vector<Stoichiometry>& Specificity::getPepNeutralLosses() const {
+	return pepNeutralLosses_;
+}
+
+void Specificity::clearPepNeutralLosses() {
+	pepNeutralLosses_.clear();
 }
 
 void Specificity::setComment(const String& comment) {
@@ -87,8 +93,8 @@ const String& Specificity::getComment() const {
 
 bool Specificity::operator==(const Specificity& s) const {
 	return site_ == s.site_ && classification_ == s.classification_
-			&& position_ == s.position_ && neutralLoss_ == s.neutralLoss_
-			&& comment_ == s.comment_;
+			&& position_ == s.position_ && neutralLosses_ == s.neutralLosses_
+			&& pepNeutralLosses_ == pepNeutralLosses_ && comment_ == s.comment_;
 }
 
 Specificity::Classification Specificity::parseClassificationString(
@@ -140,14 +146,14 @@ Specificity::Position Specificity::parsePositionString(
 	} else if (position == "Anywhere") {
 		return Specificity::ANYWHERE;
 	}
-	std::cout << position << std::endl;
 	throw std::out_of_range("Specificity::parsePositionString(): ");
 }
 
 std::ostream& operator<<(std::ostream& os, const Specificity& s) {
 	os << s.getSite() << "\t" << s.getClassification() << "\t"
 			<< s.getPosition() << "\t" << s.getPosition() << "\t"
-			<< s.getNeutralLoss() << "\t" << s.getComment();
+			<< s.getNeutralLosses() << "\t" << s.getPepNeutralLosses() << "\t"
+			<< s.getComment();
 	return os;
 }
 

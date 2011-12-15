@@ -55,8 +55,7 @@ public:
     /** Constructor
      *
      */
-    Specificity();
-
+    Specificity(const libaas::aminoAcids::AminoAcid& site, const Position position, const Classification classification);
     Specificity(const libaas::String& site, const libaas::String& position, const libaas::String& classification);
 
     void setSite(const libaas::aminoAcids::AminoAcid& aminoAcid);
@@ -69,12 +68,14 @@ public:
     const Position& getPosition() const;
 
     void addNeutralLoss(const Stoichiometry& stoichiometry);
-    void setNeutralLoss(const std::vector<Stoichiometry>& stoichiometry);
-    const std::vector<Stoichiometry>& getNeutralLoss() const;
+    void setNeutralLosses(const std::vector<Stoichiometry>& stoichiometry);
+    const std::vector<Stoichiometry>& getNeutralLosses() const;
+    void clearNeutralLosses();
 
     void addPepNeutralLoss(const Stoichiometry& stoichiometry);
-    void setPepNeutralLoss(const std::vector<Stoichiometry>& stoichiometry);
-    const std::vector<Stoichiometry>& getPepNeutralLoss() const;
+    void setPepNeutralLosses(const std::vector<Stoichiometry>& stoichiometry);
+    const std::vector<Stoichiometry>& getPepNeutralLosses() const;
+    void clearPepNeutralLosses();
 
     void setComment(const String& comment);
     const String& getComment() const;
@@ -89,10 +90,10 @@ private:
 
     libaas::aminoAcids::AminoAcid site_;
 
-    Classification classification_;
     Position position_;
-    std::vector<Stoichiometry> neutralLoss_;
-    std::vector<Stoichiometry> pepNeutralLoss_;
+    Classification classification_;
+    std::vector<Stoichiometry> neutralLosses_;
+    std::vector<Stoichiometry> pepNeutralLosses_;
     //Int specGroup_;
     String comment_;
 

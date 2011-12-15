@@ -20,9 +20,7 @@ namespace libaas {
 /** StoichiometryConfigImpl
  *
  */
-class StoichiometryConfigImpl: public std::map<
-		elements::ElementImpl::ElementImplSymbolType,
-		elements::ElementImpl::ElementImplKeyType> {
+class StoichiometryConfigImpl {
 
 public:
 
@@ -30,6 +28,10 @@ public:
 			elements::ElementImpl::ElementImplKeyType> DataType;
 	typedef std::pair<elements::ElementImpl::ElementImplSymbolType,
 			elements::ElementImpl::ElementImplKeyType> EntryType;
+
+	typedef DataType::const_iterator const_iterator;
+	typedef DataType::iterator iterator;
+	typedef DataType::value_type value_type;
 
 	typedef String StoichiometryConfigImplKeyType;
 
@@ -40,7 +42,15 @@ public:
 
 	const StoichiometryConfigImplKeyType& getId() const;
 
+	const_iterator begin() const;
+	iterator begin();
+	const_iterator end() const;
+	iterator end();
+
 	void insertElement(const elements::Element& element);
+	void insertElement(
+			const elements::ElementImpl::ElementImplSymbolType& symbol,
+			const elements::ElementImpl::ElementImplKeyType& key);
 
 	const elements::ElementImpl::ElementImplKeyType& getKeyForSymbol(
 			const elements::ElementImpl::ElementImplSymbolType& symbol) const;
@@ -55,6 +65,7 @@ public:
 
 private:
 
+	DataType map_;
 	StoichiometryConfigImplKeyType id_;
 
 };

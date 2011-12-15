@@ -35,7 +35,7 @@ libaas::Bool addStoichiometryConfig(
 	StoichiometryConfigImpl ec(id);
 	typedef StoichiometryConfigImpl::DataType::const_iterator IT;
 	for (IT it = map.begin(); it != map.end(); ++it) {
-		ec.insert(StoichiometryConfigImpl::EntryType(it->first, it->second));
+		ec.insertElement(it->first, it->second);
 	}
 	return addStoichiometryConfig(ec);
 }

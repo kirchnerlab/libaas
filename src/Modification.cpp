@@ -100,6 +100,10 @@ const std::vector<Specificity> Modification::getSpecificities() const {
 	return specificities_;
 }
 
+void Modification::reinitializeSpecificities() {
+	specificities_ = modification_.get().getSpecificities();
+}
+
 void Modification::clearSpecificities() {
 	specificities_.clear();
 }

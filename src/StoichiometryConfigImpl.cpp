@@ -28,7 +28,7 @@ StoichiometryConfigImpl::StoichiometryConfigImpl(
 		typedef std::map<elements::ElementImpl::ElementImplSymbolType,
 				elements::ElementImpl::ElementImplKeyType>::const_iterator IT;
 		for (IT it = map.begin(); it != map.end(); ++it) {
-			insert(EntryType(it->first, it->second));
+			map_.insert(EntryType(it->first, it->second));
 		}
 	} else {
 		// initialize with default element config entries
@@ -40,14 +40,36 @@ const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& StoichiometryConf
 	return id_;
 }
 
+StoichiometryConfigImpl::const_iterator StoichiometryConfigImpl::begin() const {
+	return map_.begin();
+}
+
+StoichiometryConfigImpl::iterator StoichiometryConfigImpl::begin() {
+	return map_.begin();
+}
+
+StoichiometryConfigImpl::const_iterator StoichiometryConfigImpl::end() const {
+	return map_.end();
+}
+
+StoichiometryConfigImpl::iterator StoichiometryConfigImpl::end() {
+	return map_.end();
+}
+
 void StoichiometryConfigImpl::insertElement(const elements::Element& element) {
-	insert(EntryType(element.get().getSymbol(), element.get().getId()));
+	map_.insert(EntryType(element.get().getSymbol(), element.get().getId()));
+}
+
+void StoichiometryConfigImpl::insertElement(
+		const elements::ElementImpl::ElementImplSymbolType& symbol,
+		const elements::ElementImpl::ElementImplKeyType& key) {
+	map_.insert(EntryType(symbol, key));
 }
 
 const elements::ElementImpl::ElementImplKeyType& StoichiometryConfigImpl::getKeyForSymbol(
 		const elements::ElementImpl::ElementImplSymbolType& symbol) const {
 	typedef const_iterator IT;
-	IT tmp = find(symbol);
+	IT tmp = map_.find(symbol);
 	if (tmp != end()) {
 		return tmp->second;
 	} else {
@@ -61,28 +83,14 @@ StoichiometryConfigImpl StoichiometryConfigImpl::clone(
 	StoichiometryConfigImpl tmp(id);
 	typedef StoichiometryConfigImpl::const_iterator IT;
 	for (IT it = begin(); it != end(); ++it) {
-		tmp.insert(EntryType(it->first, it->second));
+		tmp.map_.insert(EntryType(it->first, it->second));
 	}
 	return tmp;
 }
 
 bool StoichiometryConfigImpl::operator==(
 		const StoichiometryConfigImpl& s) const {
-	if (id_ == s.id_) {
-		typedef StoichiometryConfigImpl::const_iterator IT;
-		IT it1, it2;
-		for (it1 = begin(), it2 = s.begin(); it1 != end() && it2 != s.end();
-				++it1, ++it2) {
-			if (it1->first != it2->first || it1->second != it2->second) {
-				return false;
-			}
-		}
-		if (it1 != end() || it2 != s.end()) {
-			return false;
-		}
-		return true;
-	}
-	return false;
+	return id_ == s.id_ && map_ == s.map_;
 }
 
 std::ostream& operator<<(std::ostream& os, const StoichiometryConfigImpl& o) {
