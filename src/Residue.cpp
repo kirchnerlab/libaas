@@ -17,6 +17,44 @@ Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoacid) :
 		aminoacid_(aminoacid) {
 }
 
+void Residue::changeType(
+		const aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey) {
+	aminoacid_ = libaas::aminoAcids::AminoAcid(aminoAcidKey);
+}
+
+void Residue::changeType(const aminoAcids::AminoAcid& aminoAcid) {
+	aminoacid_ = aminoAcid;
+}
+
+bool Residue::hasModification(
+		const modifications::RawModificationImpl::RawModificationImplKeyType& modification) const {
+	return modification_.getModificationId() == modification;
+}
+
+bool Residue::hasModification(
+		const modifications::Modification& modification) const {
+	return modification_ == modification;
+}
+
+bool Residue::isModified() const {
+	// TODO implement isModified
+	return false;
+}
+
+Stoichiometry Residue::getStoichiometry() const {
+	Stoichiometry s = aminoacid_.get().getStoichiometry();
+	s += modification_.getStoichiometry();
+	return s;
+}
+
+libaas::Bool Residue::isNTerm() const {
+	return aminoacid_.get().isNTerm();
+}
+
+libaas::Bool Residue::isCTerm() const {
+	return aminoacid_.get().isCTerm();
+}
+
 void Residue::setAminoacid(const libaas::aminoAcids::AminoAcid& aminoacid) {
 	aminoacid_ = aminoacid;
 }
