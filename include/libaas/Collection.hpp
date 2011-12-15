@@ -117,7 +117,7 @@ public:
     }
     virtual void insert(iterator pos, size_type n, const T& value)
     {
-        return c_.insert(pos, n, value);
+        c_.insert(pos, n, value);
     }
     template<class In> void insert(iterator pos, In begin, In end)
     {

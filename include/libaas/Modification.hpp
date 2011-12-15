@@ -57,7 +57,7 @@ public:
 	void clearSpecificities();
 
 	const RawModificationImpl::RawModificationImplKeyType& getModificationId() const;
-	const Size& getAccession() const;
+//	const Size& getAccession() const;
 	const String& getPSIName() const;
 	const String& getInterimName() const;
 	const String& getDescription() const;

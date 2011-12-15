@@ -108,9 +108,9 @@ const RawModificationImpl::RawModificationImplKeyType& Modification::getModifica
 	return modification_.get().getId();
 }
 
-const Size& Modification::getAccession() const {
-	return modification_.get().getAccession();
-}
+//const Size& Modification::getAccession() const {
+//	return modification_.get().getAccession();
+//}
 
 const String& Modification::getPSIName() const {
 	return modification_.get().getPSIName();
@@ -158,22 +158,21 @@ void Modification::recalculateStoichiometry() {
 
 	// iterate over all elements in rawStoichiometry
 	for (IT it = rawStoichiometry.begin(); it != rawStoichiometry.end(); ++it) {
+		elements::ElementImpl::ElementImplKeyType elementId = 0;
 		const String& symbol = it->first.get().getSymbol();
-		// find config entry for element symbol
-		SCIT tmp = stoichiometryConfig_.get().find(symbol);
-		if (tmp != stoichiometryConfig_.get().end()) {
-			// use custom config entry
-			stoichiometry_.set(libaas::elements::Element(tmp->second),
+		try {
+			elementId = stoichiometryConfig_.get().getKeyForSymbol(symbol);
+			stoichiometry_.set(libaas::elements::Element(elementId),
 					it->second);
-		} else {
-			// cannot find element symbol in custom config -> find symbol in default config
-			tmp = defaultConfig.get().find(symbol);
-			if (tmp != defaultConfig.get().end()) {
-				// using default config entry
-				stoichiometry_.set(libaas::elements::Element(tmp->second),
+		} catch (std::out_of_range& e) {
+			// cannot find symbol in custom map
+			// searching symbol in default map
+			try {
+				elementId = defaultConfig.get().getKeyForSymbol(symbol);
+				stoichiometry_.set(libaas::elements::Element(elementId),
 						it->second);
-			} else {
-				// cannot find symbol in default config -> abort
+			} catch (std::out_of_range& e) {
+				// cannot find symbol in default map
 				throw std::out_of_range(
 						"Modification::recalculateStoichiometry(): Cannot find element symbol.");
 			}

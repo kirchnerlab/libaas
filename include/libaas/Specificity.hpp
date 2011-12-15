@@ -26,7 +26,6 @@ class Specificity {
 
 public:
 
-    // TODO Connect to AminoAcidImpl?
     enum Position {
         PEPTIDE_N_TERM = 0,
         PEPTIDE_C_TERM,
@@ -36,26 +35,29 @@ public:
     };
 
     enum Classification {
-        POST_TRANSLATIONAL = 0,
-        MULTIPLE,
+    	NONE = 0,
+        POST_TRANSLATIONAL,
+        CO_TRANSLATIONAL,
+        PRE_TRANSLATIONAL,
         CHEMICAL_DERIVATIVE,
         ARTEFACT,
-        ISOTOPIC_LABEL,
-        PRE_TRANSLATIONAL,
-        OTHER_GLYCOSYLATION,
         N_LINKED_GLYCOSYLATION,
-        AA_SUBSTITUTION,
-        OTHER,
-        NON_STANDARD_RESIDUE,
-        CO_TRANSLATIONAL,
         O_LINKED_GLYCOSYLATION,
-        SYNTH_PEP_PROTECT_GP
+        OTHER_GLYCOSYLATION,
+        SYNTH_PEP_PROTECT_GP,
+        ISOTOPIC_LABEL,
+        NON_STANDARD_RESIDUE,
+        MULTIPLE,
+        OTHER,
+        AA_SUBSTITUTION
     };
 
     /** Constructor
      *
      */
     Specificity();
+
+    Specificity(const libaas::String& site, const libaas::String& position, const libaas::String& classification);
 
     void setSite(const libaas::aminoAcids::AminoAcid& aminoAcid);
     const libaas::aminoAcids::AminoAcid& getSite() const;
@@ -66,8 +68,13 @@ public:
     void setPosition(const Position& position);
     const Position& getPosition() const;
 
-    void setNeutralLoss(const Stoichiometry& stoichiometry);
-    const Stoichiometry& getNeutralLoss() const;
+    void addNeutralLoss(const Stoichiometry& stoichiometry);
+    void setNeutralLoss(const std::vector<Stoichiometry>& stoichiometry);
+    const std::vector<Stoichiometry>& getNeutralLoss() const;
+
+    void addPepNeutralLoss(const Stoichiometry& stoichiometry);
+    void setPepNeutralLoss(const std::vector<Stoichiometry>& stoichiometry);
+    const std::vector<Stoichiometry>& getPepNeutralLoss() const;
 
     void setComment(const String& comment);
     const String& getComment() const;
@@ -75,18 +82,19 @@ public:
     bool operator==(const Specificity& s) const;
     //Specificity& operator=(const Specificity& rhs);
 
+    static Classification parseClassificationString(const libaas::String& classification);
+    static Position parsePositionString(const libaas::String& position);
+
 private:
 
     libaas::aminoAcids::AminoAcid site_;
 
     Classification classification_;
     Position position_;
-    // can not find this in unimod
-    //Stoichiometry deltaStoichiometry_;
-    Stoichiometry neutralLoss_;
+    std::vector<Stoichiometry> neutralLoss_;
+    std::vector<Stoichiometry> pepNeutralLoss_;
     //Int specGroup_;
     String comment_;
-    //std::map<std::string, UnsignedInt> elementTableMap_;
 
 }; // class Specificity
 

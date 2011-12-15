@@ -11,9 +11,9 @@
 namespace libaas {
 namespace elements {
 
-// TODO it might be enough to define operator<... for Element since the
-// implicit conversion from fw<Element> -> const Element& should solve the
-// map<fw<Element>> stuff
+// TODO General:
+// 1) implement operators such as <,<=,==,!=,... for each type?
+// 2) implement operator<< for vector<type> for all types?
 
 Bool addElement(const ElementImpl::ElementImplKeyType& id,
         const String& symbol, const Size& atomicNumber,

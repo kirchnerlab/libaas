@@ -18,7 +18,7 @@
 namespace libaas {
 namespace modifications {
 
-struct rawmodification_id_extractor {
+struct RawModificationIdExtractor {
 	const RawModificationImpl::RawModificationImplKeyType& operator()(
 			const RawModificationImpl& m) const {
 		return m.getId();
@@ -28,10 +28,19 @@ struct rawmodification_id_extractor {
 typedef boost::flyweight<
 		boost::flyweights::key_value<
 				RawModificationImpl::RawModificationImplKeyType,
-				RawModificationImpl, rawmodification_id_extractor>
+				RawModificationImpl, RawModificationIdExtractor>
 		, boost::flyweights::no_tracking> RawModification;
 
-// TODO addRawModification
+libaas::Bool addRawModification(
+		const RawModificationImpl::RawModificationImplKeyType& id,
+		const libaas::String& psiName, const libaas::String& interimName,
+		const libaas::String& description,
+		const std::vector<String>& altDescriptions,
+		const Stoichiometry& stoichiometry,
+		const std::vector<Specificity>& specificities,
+		const libaas::Bool& verified);
+
+libaas::Bool addRawModification(const RawModificationImpl& rawModification);
 
 bool operator<(const RawModification& lhs, const RawModification& rhs);
 bool operator<=(const RawModification& lhs, const RawModification& rhs);

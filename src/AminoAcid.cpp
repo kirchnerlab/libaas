@@ -11,10 +11,6 @@
 namespace libaas {
 namespace aminoAcids {
 
-// TODO it might be enough to define operator<... for AminoAcid since the
-// implicit conversion from fw<AminoAcid> -> const AminoAcid& should solve the
-// map<fw<AminoAcid>> stuff
-
 Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
         const Char symbol, const libaas::Stoichiometry& stoichiometry)
 {

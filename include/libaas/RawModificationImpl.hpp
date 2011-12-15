@@ -28,12 +28,15 @@ public:
 
 	typedef String RawModificationImplKeyType;
 
-	RawModificationImpl(RawModificationImplKeyType id);
+	RawModificationImpl(const RawModificationImplKeyType& id);
+	RawModificationImpl(const RawModificationImpl::RawModificationImplKeyType& id,
+			const libaas::String& psiName, const libaas::String& interimName,
+			const libaas::String& description, const libaas::Bool& versified);
 
 	const RawModificationImplKeyType& getId() const;
 
-	void setAccession(const Size& accession);
-	const Size& getAccession() const;
+//	void setAccession(const Size& accession);
+//	const Size& getAccession() const;
 
 	void setPSIName(const String& psiName);
 	const String& getPSIName() const;
@@ -65,7 +68,8 @@ private:
 
 	RawModificationImplKeyType id_;
 
-	Size accession_;
+	// TODO check member variable. They do not match unimod.xml but the field description of unimod
+//	Size accession_;
 	String psiName_;
 	String interimName_;
 	String description_;

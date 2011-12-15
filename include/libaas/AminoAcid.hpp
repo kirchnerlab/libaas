@@ -18,21 +18,17 @@
 namespace libaas {
 namespace aminoAcids {
 
-// TODO we might want to fix the name of the id extractor to be conform
-// with best practice (but this nomenclature is similar to the example provided
-// by boost)
-
-struct aminoacid_id_extractor {
-    const AminoAcidImpl::AminoAcidImplKeyType& operator()(
-            const AminoAcidImpl& a) const
-    {
-        return a.getId();
-    }
+struct AminoAcidIdExtractor {
+	const AminoAcidImpl::AminoAcidImplKeyType& operator()(
+			const AminoAcidImpl& a) const {
+		return a.getId();
+	}
 };
 
-typedef boost::flyweight<boost::flyweights::key_value<
-        AminoAcidImpl::AminoAcidImplKeyType, AminoAcidImpl,
-        aminoacid_id_extractor>, boost::flyweights::no_tracking> AminoAcid;
+typedef boost::flyweight<
+		boost::flyweights::key_value<AminoAcidImpl::AminoAcidImplKeyType,
+				AminoAcidImpl, AminoAcidIdExtractor>
+		, boost::flyweights::no_tracking> AminoAcid;
 
 bool operator<(const AminoAcid& lhs, const AminoAcid& rhs);
 bool operator<=(const AminoAcid& lhs, const AminoAcid& rhs);
@@ -40,7 +36,7 @@ bool operator>(const AminoAcid& lhs, const AminoAcid& rhs);
 bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs);
 
 Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
-        const Char symbol, const libaas::Stoichiometry& stoichiometry);
+		const Char symbol, const libaas::Stoichiometry& stoichiometry);
 
 } // namespace aminoAcids
 } // namespace libaas

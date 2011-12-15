@@ -8,6 +8,8 @@
 
 #include <libaas/StoichiometryConfigImpl.hpp>
 
+#include <stdexcept>
+
 namespace libaas {
 
 StoichiometryConfigImpl::StoichiometryConfigImplKeyType StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG =
@@ -40,6 +42,18 @@ const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& StoichiometryConf
 
 void StoichiometryConfigImpl::insertElement(const elements::Element& element) {
 	insert(EntryType(element.get().getSymbol(), element.get().getId()));
+}
+
+const elements::ElementImpl::ElementImplKeyType& StoichiometryConfigImpl::getKeyForSymbol(
+		const elements::ElementImpl::ElementImplSymbolType& symbol) const {
+	typedef const_iterator IT;
+	IT tmp = find(symbol);
+	if (tmp != end()) {
+		return tmp->second;
+	} else {
+		throw std::out_of_range(
+				"StoichiometryConfigImpl::getKeyForSymbol(): Cannot find symbol in stoichiometry config.");
+	}
 }
 
 StoichiometryConfigImpl StoichiometryConfigImpl::clone(

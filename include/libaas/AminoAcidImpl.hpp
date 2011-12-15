@@ -50,6 +50,8 @@ public:
     static const Char PEPTIDE_C_TERM;
     static const Char PROTEIN_C_TERM;
 
+    static AminoAcidImplKeyType getKeyForAminoAcidString(const libaas::String& aminoAcid);
+
 private:
 
     AminoAcidImplKeyType id_;

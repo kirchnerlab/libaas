@@ -72,8 +72,6 @@ private:
 
 }; // class Stoichiometry
 
-// TODO maybe we should add << for vector<type> for all our classes?
-
 std::ostream& operator<<(std::ostream& o, const libaas::Stoichiometry& s);
 std::ostream& operator<<(std::ostream& o, const std::vector<
         libaas::Stoichiometry>& s);

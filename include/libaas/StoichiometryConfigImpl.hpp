@@ -28,7 +28,8 @@ public:
 
 	typedef std::map<elements::ElementImpl::ElementImplSymbolType,
 			elements::ElementImpl::ElementImplKeyType> DataType;
-	typedef std::pair<String, elements::ElementImpl::ElementImplKeyType> EntryType;
+	typedef std::pair<elements::ElementImpl::ElementImplSymbolType,
+			elements::ElementImpl::ElementImplKeyType> EntryType;
 
 	typedef String StoichiometryConfigImplKeyType;
 
@@ -40,6 +41,9 @@ public:
 	const StoichiometryConfigImplKeyType& getId() const;
 
 	void insertElement(const elements::Element& element);
+
+	const elements::ElementImpl::ElementImplKeyType& getKeyForSymbol(
+			const elements::ElementImpl::ElementImplSymbolType& symbol) const;
 
 	StoichiometryConfigImpl clone(
 			const StoichiometryConfigImplKeyType& id) const;

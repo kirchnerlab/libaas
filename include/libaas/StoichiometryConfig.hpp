@@ -18,7 +18,7 @@
 
 namespace libaas {
 
-struct stoichiometryConfig_id_extractor {
+struct StoichiometryConfigIdExtractor {
 	const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& operator()(
 			const StoichiometryConfigImpl& e) const {
 		return e.getId();
@@ -28,8 +28,13 @@ struct stoichiometryConfig_id_extractor {
 typedef boost::flyweight<
 		boost::flyweights::key_value<
 				StoichiometryConfigImpl::StoichiometryConfigImplKeyType,
-				StoichiometryConfigImpl, stoichiometryConfig_id_extractor>
+				StoichiometryConfigImpl, StoichiometryConfigIdExtractor>
 		, boost::flyweights::no_tracking> StoichiometryConfig;
+
+bool operator<(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
+bool operator<=(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
+bool operator>(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
+bool operator>=(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
 
 libaas::Bool
 addStoichiometryConfig(

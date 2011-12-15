@@ -10,6 +10,24 @@
 
 namespace libaas {
 
+bool operator<(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs) {
+	return lhs.get_key() < rhs.get_key();
+}
+
+bool operator<=(const StoichiometryConfig& lhs,
+		const StoichiometryConfig& rhs) {
+	return lhs.get_key() <= rhs.get_key();
+}
+
+bool operator>(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs) {
+	return lhs.get_key() > rhs.get_key();
+}
+
+bool operator>=(const StoichiometryConfig& lhs,
+		const StoichiometryConfig& rhs) {
+	return lhs.get_key() >= rhs.get_key();
+}
+
 libaas::Bool addStoichiometryConfig(
 		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& id,
 		const StoichiometryConfigImpl::DataType& map) {

@@ -18,11 +18,7 @@
 namespace libaas {
 namespace elements {
 
-// TODO we might want to fix the name of the id extractor to be conform
-// with best practice (but this nomenclature is similar to the example provided
-// by boost)
-
-struct element_id_extractor {
+struct ElementIdExtractor {
     const ElementImpl::ElementImplKeyType& operator()(const ElementImpl& e) const
     {
         return e.getId();
@@ -30,7 +26,7 @@ struct element_id_extractor {
 };
 
 typedef boost::flyweight<boost::flyweights::key_value<
-        ElementImpl::ElementImplKeyType, ElementImpl, element_id_extractor>,
+        ElementImpl::ElementImplKeyType, ElementImpl, ElementIdExtractor>,
         boost::flyweights::no_tracking> Element;
 
 bool operator<(const Element& lhs, const Element& rhs);
