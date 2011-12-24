@@ -143,9 +143,5 @@ std::ostream& operator<<(std::ostream& os, const AminoAcidImpl& o) {
 	return os;
 }
 
-//istream& operator>>(std::istream& is, AminoAcid& i) {
-//    return is;
-//}
-
 }// namespace aminoAcids
 } // namespace libaas

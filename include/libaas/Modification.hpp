@@ -51,11 +51,11 @@ public:
 
 	const Stoichiometry& getStoichiometry() const;
 
-	void addSpecificitiy(const Specificity& specificity);
-	void setSpecificities(const std::vector<Specificity>& specificities);
+	void addCustomSpecificitiy(const Specificity& specificity);
+	void setCustomSpecificities(const std::vector<Specificity>& specificities);
 	const std::vector<Specificity> getSpecificities() const;
-	void reinitializeSpecificities();
-	void clearSpecificities();
+	const std::vector<Specificity> getCustomSpecificities() const;
+	void clearCustomSpecificities();
 
 	const RawModificationImpl::RawModificationImplKeyType& getModificationId() const;
 //	const Size& getAccession() const;
@@ -92,7 +92,7 @@ private:
 	RawModification modification_;
 	StoichiometryConfig stoichiometryConfig_;
 	libaas::Stoichiometry stoichiometry_;
-	std::vector<Specificity> specificities_;
+	std::vector<Specificity> customSpecificities_;
 
 };
 // class Modification

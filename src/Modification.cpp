@@ -87,25 +87,28 @@ const Stoichiometry& Modification::getStoichiometry() const {
 	return stoichiometry_;
 }
 
-void Modification::addSpecificitiy(const Specificity& specificity) {
-	specificities_.push_back(specificity);
+void Modification::addCustomSpecificitiy(const Specificity& specificity) {
+	customSpecificities_.push_back(specificity);
 }
 
-void Modification::setSpecificities(
+void Modification::setCustomSpecificities(
 		const std::vector<Specificity>& specificities) {
-	specificities_ = specificities;
+	customSpecificities_ = specificities;
 }
 
 const std::vector<Specificity> Modification::getSpecificities() const {
-	return specificities_;
+    if (customSpecificities_.empty()) {
+        return modification_.get().getSpecificities();
+    }
+	return customSpecificities_;
 }
 
-void Modification::reinitializeSpecificities() {
-	specificities_ = modification_.get().getSpecificities();
+const std::vector<Specificity> Modification::getCustomSpecificities() const {
+    return customSpecificities_;
 }
 
-void Modification::clearSpecificities() {
-	specificities_.clear();
+void Modification::clearCustomSpecificities() {
+	customSpecificities_.clear();
 }
 
 const RawModificationImpl::RawModificationImplKeyType& Modification::getModificationId() const {
@@ -145,7 +148,6 @@ Bool Modification::isVerified() const {
 }
 
 void Modification::reinit() {
-	specificities_ = modification_.get().getSpecificities();
 	recalculateStoichiometry();
 }
 
@@ -188,7 +190,7 @@ bool Modification::operator==(const Modification& s) const {
 	return modification_ == s.modification_
 			&& stoichiometryConfig_ == s.stoichiometryConfig_
 			&& stoichiometry_ == s.stoichiometry_
-			&& specificities_ == s.specificities_;
+			&& customSpecificities_ == s.customSpecificities_;
 }
 
 std::ostream& operator<<(std::ostream& os, const Modification& o) {
