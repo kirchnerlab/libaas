@@ -66,6 +66,7 @@ Size findIdOfAminoAcidKey(const AminoAcidImpl::AminoAcidImplKeyType& key) {
 }
 
 AminoAcidImpl::AminoAcidImplKeyType AminoAcidImpl::getKeyForAminoAcidString(const libaas::String& aminoAcid) {
+	// TODO use aminoAcid.toLower()
 	if (aminoAcid.length() == 1) {
 		try {
 			findIdOfAminoAcidKey(aminoAcid[0]);
@@ -78,9 +79,10 @@ AminoAcidImpl::AminoAcidImplKeyType AminoAcidImpl::getKeyForAminoAcidString(cons
 	} else if (aminoAcid == "C-term") {
 		return AminoAcidImpl::PROTEIN_C_TERM;
 	} else {
-		throw std::out_of_range("AminoAcidImpl::getKeyForString(): Not implemented yet.");
+	    // TODO implement getKeyForAminoAcidString correctly
+		throw std::out_of_range("AminoAcidImpl::getKeyForAminoAcidString(): Not implemented yet.");
 	}
-	throw std::out_of_range("AminoAcidImpl::getKeyForString(): Cannot amino acid.");
+	throw std::out_of_range("AminoAcidImpl::getKeyForAminoAcidString(): Cannot find amino acid.");
 }
 
 /** Constructor

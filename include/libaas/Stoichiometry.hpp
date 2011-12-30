@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_STOICHIOMETRY_HPP__
-#define __X_INCLUDE_X_STOICHIOMETRY_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRY_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRY_HPP__
 
 #include <libaas/Element.hpp>
 #include <libaas/Types.hpp>
@@ -88,4 +88,4 @@ inline Int Stoichiometry::getAnnotationId(void) const
 
 } // namespace libaas
 
-#endif /* __X_INCLUDE_X_STOICHIOMETRY_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRY_HPP__ */

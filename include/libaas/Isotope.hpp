@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_ISOTOPE_HPP__
-#define __X_INCLUDE_X_ISOTOPE_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_ISOTOPE_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_ISOTOPE_HPP__
 
 #include <libaas/Types.hpp>
 
@@ -17,18 +17,25 @@
 namespace libaas {
 namespace elements {
 
-/** Isotope
- *
+/**Representation of an isotope.
  */
 class Isotope {
 
 public:
-    /** Constructor
-     *
+    /** Default constructor.
+     * @param[in] mass Mass
+     * @param[in] frequency Frequency
      */
     Isotope(const Double& mass, const Double& frequency);
 
+    /**Returns the mass of the isotope.
+     * @returns Mass of the isotope.
+     */
     const Double& getMass() const;
+
+    /**Returns the frequency of the isotope.
+     * @returns Frequency of the isotope.
+     */
     const Double& getFrequency() const;
 
     bool operator==(const Isotope& s) const;
@@ -47,4 +54,4 @@ std::ostream& operator<<(std::ostream&, const std::vector<Isotope>&);
 } // namespace elements
 } // namespace libaas
 
-#endif /* __X_INCLUDE_X_ISOTOPE_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_ISOTOPE_HPP__ */

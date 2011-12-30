@@ -11,6 +11,7 @@
 #include <string>
 
 namespace libaas {
+
 typedef int Int;
 typedef float Float;
 typedef double Double;
@@ -19,6 +20,7 @@ typedef size_t Size;
 typedef bool Bool;
 typedef char Char;
 typedef std::string String;
-}
 
-#endif
+} // namespace libaas
+
+#endif /* __LIBAAS_INCLUDE_LIBAAS_TYPES_HPP__ */

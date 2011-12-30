@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_RESIDUE_HPP__
-#define __X_INCLUDE_X_RESIDUE_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_RESIDUE_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_RESIDUE_HPP__
 
 #include <libaas/AminoAcid.hpp>
 #include <libaas/Modification.hpp>
@@ -62,4 +62,4 @@ std::ostream& operator<<(std::ostream&, const Residue&);
 
 } // namespace libaas
 
-#endif /* __X_INCLUDE_X_RESIDUE_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_RESIDUE_HPP__ */

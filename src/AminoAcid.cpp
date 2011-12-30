@@ -11,14 +11,6 @@
 namespace libaas {
 namespace aminoAcids {
 
-Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
-        const Char symbol, const libaas::Stoichiometry& stoichiometry)
-{
-    AminoAcidImpl aminoAcid(id, symbol, stoichiometry);
-    AminoAcid aminoAcid_r(aminoAcid);
-    return aminoAcid_r == aminoAcid;
-}
-
 bool operator<(const AminoAcid& lhs, const AminoAcid& rhs)
 {
     return lhs.get_key() < rhs.get_key();
@@ -39,5 +31,20 @@ bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs)
     return lhs.get_key() >= rhs.get_key();
 }
 
+Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
+        const Char symbol, const libaas::Stoichiometry& stoichiometry)
+{
+    return addAminoAcid(AminoAcidImpl(id, symbol, stoichiometry));
+}
+
+Bool addAminoAcid(const AminoAcidImpl& aminoAcid) {
+    AminoAcid aminoAcid_r(aminoAcid);
+    // in case the key of the amino acid aminoAcid was already added or is a
+    // standard amino acid which was retrieved earlier, the reference aminoAcid_r
+    // will not contain the information as given in aminoAcid
+    return aminoAcid == aminoAcid_r;
+}
+
 } // namespace aminoAcids
 } // namespace libaas
+

@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_STOICHIOMETRYCONFIG_HPP__
-#define __X_INCLUDE_X_STOICHIOMETRYCONFIG_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIG_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIG_HPP__
 
 #include <libaas/StoichiometryConfigImpl.hpp>
 #include <libaas/Types.hpp>
@@ -46,4 +46,4 @@ libaas::Bool addStoichiometryConfig(
 
 } // namespace libaas
 
-#endif /* __X_INCLUDE_X_ELEMENTCONFIG_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIG_HPP__ */

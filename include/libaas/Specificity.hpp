@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_SPECIFICITY_HPP__
-#define __X_INCLUDE_X_SPECIFICITY_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_SPECIFICITY_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_SPECIFICITY_HPP__
 
 #include <libaas/AminoAcid.hpp>
 #include <libaas/Types.hpp>
@@ -105,4 +105,4 @@ std::ostream& operator<<(std::ostream&, const std::vector<Specificity>&);
 } // namespace modifications
 } // namespace libaas
 
-#endif /* __X_INCLUDE_X_SPECIFICITY_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_SPECIFICITY_HPP__ */

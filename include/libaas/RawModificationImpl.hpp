@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_RAWMODIFICATIONIMPL_HPP__
-#define __X_INCLUDE_X_RAWMODIFICATIONIMPL_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATIONIMPL_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATIONIMPL_HPP__
 
 #include <libaas/Stoichiometry.hpp>
 #include <libaas/Specificity.hpp>
@@ -30,26 +30,20 @@ public:
 
 	RawModificationImpl(const RawModificationImplKeyType& id);
 	RawModificationImpl(const RawModificationImpl::RawModificationImplKeyType& id,
-			const libaas::String& psiName, const libaas::String& interimName,
-			const libaas::String& description, const libaas::Bool& versified);
+			const libaas::String& name, const libaas::String& fullName,
+			const libaas::Bool& verified);
 
 	const RawModificationImplKeyType& getId() const;
 
-//	void setAccession(const Size& accession);
-//	const Size& getAccession() const;
+	void setName(const String& name);
+	const String& getName() const;
 
-	void setPSIName(const String& psiName);
-	const String& getPSIName() const;
+	void setFullName(const String& fullName);
+	const String& getFullName() const;
 
-	void setInterimName(const String& interimName);
-	const String& getInterimName() const;
-
-	void setDescription(const String& description);
-	const String& getDescription() const;
-
-	void addAltDescription(const String& altDescription);
-	void setAltDescriptions(const std::vector<String>& altDescriptions);
-	const std::vector<String>& getAltDescriptions() const;
+	void addAltName(const String& altName);
+	void setAltNames(const std::vector<String>& altName);
+	const std::vector<String>& getAltNames() const;
 
 	void setStoichiometry(const Stoichiometry& stoichiometry);
 	const Stoichiometry& getStoichiometry() const;
@@ -62,24 +56,21 @@ public:
 	Bool isVerified() const;
 
 	bool operator==(const RawModificationImpl& s) const;
-	//Modification& operator=(const Modification& rhs);
+	bool operator!=(const RawModificationImpl& s) const;
+	RawModificationImpl& operator=(const RawModificationImpl& rhs);
 
 private:
 
 	RawModificationImplKeyType id_;
 
-	// TODO check member variable. They do not match unimod.xml but the field description of unimod
-//	Size accession_;
-	String psiName_;
-	String interimName_;
-	String description_;
-	std::vector<String> altDescriptions_;
+	String name_;
+	String fullName_;
+	std::vector<String> altNames_;
 	Stoichiometry stoichiometry_;
 	std::vector<Specificity> specificities_;
 	Bool verified_;
 
 	// unimod also contains references and a note
-
 };
 // class RawModificationImpl
 
@@ -92,4 +83,4 @@ inline const RawModificationImpl::RawModificationImplKeyType& RawModificationImp
 } // namespace modifications
 } // namespace libaas
 
-#endif /* __X_INCLUDE_X_RAWMODIFICATIONIMPL_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATIONIMPL_HPP__ */

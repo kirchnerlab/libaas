@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_STOICHIOMETRYCONFIGIMPL_HPP__
-#define __X_INCLUDE_X_STOICHIOMETRYCONFIGIMPL_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIGIMPL_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIGIMPL_HPP__
 
 #include <libaas/Element.hpp>
 #include <libaas/Types.hpp>
@@ -75,4 +75,4 @@ std::ostream& operator<<(std::ostream&, const StoichiometryConfigImpl&);
 
 } // namespace libaas
 
-#endif /* __X_INCLUDE_X_STOICHIOMETRYCONFIGIMPL_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIGIMPL_HPP__ */
