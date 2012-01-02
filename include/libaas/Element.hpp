@@ -35,11 +35,6 @@ typedef boost::flyweight<boost::flyweights::key_value<
         ElementImpl::ElementImplKeyType, ElementImpl, ElementIdExtractor>,
         boost::flyweights::no_tracking> Element;
 
-bool operator<(const Element& lhs, const Element& rhs);
-bool operator<=(const Element& lhs, const Element& rhs);
-bool operator>(const Element& lhs, const Element& rhs);
-bool operator>=(const Element& lhs, const Element& rhs);
-
 /**Convenience function to add a custom element to this list of known elements.
  * This methods calls addElement(ElementImpl)
  * @param[in] id Key/Id of the element
@@ -62,6 +57,11 @@ Bool addElement(const ElementImpl::ElementImplKeyType& id,
  * @returns True if the given element is added correctly, false otherwise.
  */
 Bool addElement(const ElementImpl& element);
+
+bool operator<(const Element& lhs, const Element& rhs);
+bool operator<=(const Element& lhs, const Element& rhs);
+bool operator>(const Element& lhs, const Element& rhs);
+bool operator>=(const Element& lhs, const Element& rhs);
 
 } // namespace elements
 } // namespace libaas

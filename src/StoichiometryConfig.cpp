@@ -41,8 +41,8 @@ libaas::Bool addStoichiometryConfig(
 }
 
 libaas::Bool addStoichiometryConfig(
-		const StoichiometryConfigImpl& elementConfig) {
-	return StoichiometryConfig(elementConfig) == elementConfig;
+		const StoichiometryConfigImpl& stoichiometryConfig) {
+	return StoichiometryConfig(stoichiometryConfig) == stoichiometryConfig;
 }
 
 } // namespace libaas

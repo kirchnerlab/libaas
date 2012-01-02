@@ -39,11 +39,6 @@ typedef boost::flyweight<
 				AminoAcidImpl, AminoAcidIdExtractor>
 		, boost::flyweights::no_tracking> AminoAcid;
 
-bool operator<(const AminoAcid& lhs, const AminoAcid& rhs);
-bool operator<=(const AminoAcid& lhs, const AminoAcid& rhs);
-bool operator>(const AminoAcid& lhs, const AminoAcid& rhs);
-bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs);
-
 /**Convenience function to add a custom amino acid to this list of known amino
  * acids.
  * This methods calls addAminoAcid(AminoAcidImpl)
@@ -65,6 +60,11 @@ Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
  * @returns True if the given amino acid is added correctly, false otherwise.
  */
 Bool addAminoAcid(const AminoAcidImpl& aa);
+
+bool operator<(const AminoAcid& lhs, const AminoAcid& rhs);
+bool operator<=(const AminoAcid& lhs, const AminoAcid& rhs);
+bool operator>(const AminoAcid& lhs, const AminoAcid& rhs);
+bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs);
 
 } // namespace aminoAcids
 } // namespace libaas

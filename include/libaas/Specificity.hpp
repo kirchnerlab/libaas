@@ -19,85 +19,172 @@
 namespace libaas {
 namespace modifications {
 
-/** Specificity
- *
+/** Representation of the specificity.
  */
 class Specificity {
 
 public:
 
-    enum Position {
-        PEPTIDE_N_TERM = 0,
-        PEPTIDE_C_TERM,
-        PROTEIN_N_TERM,
-        PROTEIN_C_TERM,
-        ANYWHERE
-    };
+	/**Available positions.
+	 */
+	enum Position {
+		PEPTIDE_N_TERM = 0,
+		PEPTIDE_C_TERM,
+		PROTEIN_N_TERM,
+		PROTEIN_C_TERM,
+		ANYWHERE
+	};
 
-    enum Classification {
-    	NONE = 0,
-        POST_TRANSLATIONAL,
-        CO_TRANSLATIONAL,
-        PRE_TRANSLATIONAL,
-        CHEMICAL_DERIVATIVE,
-        ARTEFACT,
-        N_LINKED_GLYCOSYLATION,
-        O_LINKED_GLYCOSYLATION,
-        OTHER_GLYCOSYLATION,
-        SYNTH_PEP_PROTECT_GP,
-        ISOTOPIC_LABEL,
-        NON_STANDARD_RESIDUE,
-        MULTIPLE,
-        OTHER,
-        AA_SUBSTITUTION
-    };
+	/** Available classifications.
+	 */
+	enum Classification {
+		NONE = 0,
+		POST_TRANSLATIONAL,
+		CO_TRANSLATIONAL,
+		PRE_TRANSLATIONAL,
+		CHEMICAL_DERIVATIVE,
+		ARTEFACT,
+		N_LINKED_GLYCOSYLATION,
+		O_LINKED_GLYCOSYLATION,
+		OTHER_GLYCOSYLATION,
+		SYNTH_PEP_PROTECT_GP,
+		ISOTOPIC_LABEL,
+		NON_STANDARD_RESIDUE,
+		MULTIPLE,
+		OTHER,
+		AA_SUBSTITUTION
+	};
 
-    /** Constructor
-     *
-     */
-    Specificity(const libaas::aminoAcids::AminoAcid& site, const Position position, const Classification classification);
-    Specificity(const libaas::String& site, const libaas::String& position, const libaas::String& classification);
+	/**Default constructor to create a specificity.
+	 * @param[in] site Site at which an event can happen
+	 * @param[in] position Position of the specificity
+	 * @param[in] classification Classification of the specificity
+	 */
+	Specificity(const libaas::aminoAcids::AminoAcid& site,
+			const Position position, const Classification classification);
 
-    void setSite(const libaas::aminoAcids::AminoAcid& aminoAcid);
-    const libaas::aminoAcids::AminoAcid& getSite() const;
+	/**Convenience constructor.
+	 *
+	 * @param[in] site Site at which an event can happen
+	 * @param[in] position Position of the specificity
+	 * @param[in] classification Classification of the specificity
+	 * @throws Throws an exception if one of the given strings cannot be parsed
+	 * correctly.
+	 */
+	Specificity(const libaas::String& site, const libaas::String& position,
+			const libaas::String& classification);
 
-    void setClassification(const Classification& classification);
-    const Classification& getClassification() const;
+	/**Sets the site.
+	 * @param[in] aminoAcid
+	 */
+	void setSite(const libaas::aminoAcids::AminoAcid& aminoAcid);
 
-    void setPosition(const Position& position);
-    const Position& getPosition() const;
+	/**Returns the site.
+	 * @returns
+	 */
+	const libaas::aminoAcids::AminoAcid& getSite() const;
 
-    void addNeutralLoss(const Stoichiometry& stoichiometry);
-    void setNeutralLosses(const std::vector<Stoichiometry>& stoichiometry);
-    const std::vector<Stoichiometry>& getNeutralLosses() const;
-    void clearNeutralLosses();
+	/**Sets the classification of the specificity.
+	 * @param[in] classification Classification
+	 */
+	void setClassification(const Classification& classification);
 
-    void addPepNeutralLoss(const Stoichiometry& stoichiometry);
-    void setPepNeutralLosses(const std::vector<Stoichiometry>& stoichiometry);
-    const std::vector<Stoichiometry>& getPepNeutralLosses() const;
-    void clearPepNeutralLosses();
+	/**Returns the classification of the specificity
+	 * @returns The classification
+	 */
+	const Classification& getClassification() const;
 
-    void setComment(const String& comment);
-    const String& getComment() const;
+	/**Sets the position of the specificity.
+	 * @param[in] position Position
+	 */
+	void setPosition(const Position& position);
 
-    bool operator==(const Specificity& s) const;
-    //Specificity& operator=(const Specificity& rhs);
+	/**Returns the position of the specificity
+	 * @returns The position
+	 */
+	const Position& getPosition() const;
 
-    static Classification parseClassificationString(const libaas::String& classification);
-    static Position parsePositionString(const libaas::String& position);
+	/**Adds a neutral loss.
+	 * @param[in] stoichiometry Stoichiometry of the neutral loss
+	 */
+	void addNeutralLoss(const Stoichiometry& stoichiometry);
+
+	/**Sets the list of neutral losses.
+	 * @param[in] stoichiometry List of stoichiometries
+	 */
+	void setNeutralLosses(const std::vector<Stoichiometry>& stoichiometry);
+
+	/**Returns the list of neutral losses.
+	 * @returns List of neutral losses
+	 */
+	const std::vector<Stoichiometry>& getNeutralLosses() const;
+
+	/**Clears the list of neutral losses.
+	 */
+	void clearNeutralLosses();
+
+	/**Adds a peptide neutral loss
+	 * @param[in] stoichiometry Stoichiometry of the peptide neutral loss
+	 */
+	void addPepNeutralLoss(const Stoichiometry& stoichiometry);
+
+	/**Sets the list of peptide neutral losses
+	 * @param[in] stoichiometries List of stoichiometries
+	 */
+	void setPepNeutralLosses(const std::vector<Stoichiometry>& stoichiometries);
+
+	/**Returns all peptide neutral losses.
+	 * @returns List of stoichiometries
+	 */
+	const std::vector<Stoichiometry>& getPepNeutralLosses() const;
+
+	/**Clears the list of peptide neutral losses.
+	 */
+	void clearPepNeutralLosses();
+
+	/**Sets the comment.
+	 * @param[in] comment Comment
+	 */
+	void setComment(const String& comment);
+
+	/**Returns the comment.
+	 * @returns The comment
+	 */
+	const String& getComment() const;
+
+	bool operator==(const Specificity& s) const;
+	bool operator!=(const Specificity& s) const;
+	Specificity& operator=(const Specificity& rhs);
+
+	/**Converts the given string to lower case and tries to find the matching
+	 * enumeration.
+	 * @param[in] classification Classification
+	 * @returns Classification
+	 * @throws Throws an exception if the given classification string does not
+	 * match any of the classification enumeration.
+	 */
+	static Classification parseClassificationString(
+			const libaas::String& classification);
+
+	/**Converts the given string to lower case and tries to find the matching
+	 * position.
+	 * @returns Positions
+	 * @throws Throws an exception if the given position string does not match
+	 * any of the position enumerations.
+	 */
+	static Position parsePositionString(const libaas::String& position);
 
 private:
 
-    libaas::aminoAcids::AminoAcid site_;
+	libaas::aminoAcids::AminoAcid site_;
+	Position position_;
+	Classification classification_;
+	std::vector<Stoichiometry> neutralLosses_;
+	std::vector<Stoichiometry> pepNeutralLosses_;
+	String comment_;
 
-    Position position_;
-    Classification classification_;
-    std::vector<Stoichiometry> neutralLosses_;
-    std::vector<Stoichiometry> pepNeutralLosses_;
-    //Int specGroup_;
-    String comment_;
-
-}; // class Specificity
+};
+// class Specificity
 
 std::ostream& operator<<(std::ostream&, const Specificity&);
 std::ostream& operator<<(std::ostream&, const std::vector<Specificity>&);

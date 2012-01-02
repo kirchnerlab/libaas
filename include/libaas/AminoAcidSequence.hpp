@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef __X_INCLUDE_X_AMINOACIDSEQUENCE_HPP__
-#define __X_INCLUDE_X_AMINOACIDSEQUENCE_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_AMINOACIDSEQUENCE_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_AMINOACIDSEQUENCE_HPP__
 
 #include <libaas/Residue.hpp>
 #include <libaas/Collection.hpp>
@@ -39,4 +39,4 @@ private:
 
 } // namespace libaas
 
-#endif /* __X_INCLUDE_X_AMINOACIDSEQUENCE_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_AMINOACIDSEQUENCE_HPP__ */

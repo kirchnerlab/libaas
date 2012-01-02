@@ -52,7 +52,6 @@ INCLUDE_DIRECTORIES(
 )
 
 #### Sources
-SET(SRCS_MODIFICATION_SPEED-TEST.CPP Modification_speed-test.cpp-test.cpp)
 SET(SRCS_AMINOACIDSEQUENCE AminoAcidSequence-test.cpp)
 SET(SRCS_ISOTOPE Isotope-test.cpp)
 SET(SRCS_SPECIFICITY Specificity-test.cpp)
@@ -67,7 +66,6 @@ IF (ENABLE_COVERAGE)
     SET(TEST_LIBS ${TEST_LIBS} gcov)
 ENDIF(ENABLE_COVERAGE)
 #### Tests
-ADD_LIBAAS_TEST("Modification_speed-test.cpp" test_modification_speed-test.cpp ${SRCS_MODIFICATION_SPEED-TEST.CPP})
 ADD_LIBAAS_TEST("AminoAcidSequence" test_aminoacidsequence ${SRCS_AMINOACIDSEQUENCE})
 ADD_LIBAAS_TEST("Isotope" test_isotope ${SRCS_ISOTOPE})
 ADD_LIBAAS_TEST("Specificity" test_specificity ${SRCS_SPECIFICITY})

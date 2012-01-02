@@ -27,10 +27,10 @@ class Stoichiometry {
 
 public:
 
-	typedef std::map<libaas::elements::Element, Double> data_type;
-    typedef data_type::const_iterator const_iterator;
-    typedef data_type::iterator iterator;
-    typedef data_type::value_type value_type;
+	typedef std::map<libaas::elements::Element, Double> DataType;
+    typedef DataType::const_iterator const_iterator;
+    typedef DataType::iterator iterator;
+    typedef DataType::value_type value_type;
 
     /** Constructor
      *
@@ -68,7 +68,7 @@ public:
 private:
 
     Int annotationId_;
-    data_type counts_;
+    DataType counts_;
 
 }; // class Stoichiometry
 

@@ -228,7 +228,7 @@ Modification& Modification::operator=(const Modification& rhs)
 std::ostream& operator<<(std::ostream& os, const Modification& o)
 {
     os << o.getModification() << "\t" << o.getStoichiometryConfig() << "\t"
-            << o.getStoichiometry() << "\t" << o.getSpecificities();
+            << o.getStoichiometry() << "\t" << o.getCustomSpecificities();
     return os;
 }
 

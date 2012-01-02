@@ -97,8 +97,25 @@ bool Specificity::operator==(const Specificity& s) const {
 			&& pepNeutralLosses_ == pepNeutralLosses_ && comment_ == s.comment_;
 }
 
+bool Specificity::operator!=(const Specificity& s) const {
+	return !(operator ==(s));
+}
+
+Specificity& Specificity::operator=(const Specificity& rhs) {
+	if (this != &rhs) {
+		site_ = rhs.site_;
+		classification_ = rhs.classification_;
+		position_ = rhs.position_;
+		neutralLosses_ = rhs.neutralLosses_;
+		pepNeutralLosses_ = rhs.pepNeutralLosses_;
+		comment_ = rhs.comment_;
+	}
+	return *this;
+}
+
 Specificity::Classification Specificity::parseClassificationString(
 		const libaas::String& classification) {
+	// TODO to lower
 	if (classification == "-") {
 		return Specificity::NONE;
 	} else if (classification == "Post-translational") {
@@ -135,6 +152,7 @@ Specificity::Classification Specificity::parseClassificationString(
 
 Specificity::Position Specificity::parsePositionString(
 		const libaas::String& position) {
+	// TODO to lower
 	if (position == "Any N-term") {
 		return Specificity::PEPTIDE_N_TERM;
 	} else if (position == "Any C-term") {

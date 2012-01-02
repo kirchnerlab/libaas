@@ -207,6 +207,10 @@ void ElementImpl::addIsotope(const Double& mass, const Double& frequency)
     addIsotope(Isotope(mass, frequency));
 }
 
+void ElementImpl::clearIsotopes() {
+	isotopes_.clear();
+}
+
 void ElementImpl::setIsotopes(const std::vector<Isotope>& isotopes)
 {
     isotopes_ = isotopes;

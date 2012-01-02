@@ -30,9 +30,6 @@ StoichiometryConfigImpl::StoichiometryConfigImpl(
 		for (IT it = map.begin(); it != map.end(); ++it) {
 			map_.insert(EntryType(it->first, it->second));
 		}
-	} else {
-		// initialize with default element config entries
-		// (or assume missing symbols are configured with default element config)
 	}
 }
 
@@ -78,6 +75,14 @@ const elements::ElementImpl::ElementImplKeyType& StoichiometryConfigImpl::getKey
 	}
 }
 
+const StoichiometryConfigImpl::DataType& StoichiometryConfigImpl::getMapping() const {
+	return map_;
+}
+
+void StoichiometryConfigImpl::setMapping(const DataType& mapping) {
+	map_ = mapping;
+}
+
 StoichiometryConfigImpl StoichiometryConfigImpl::clone(
 		const StoichiometryConfigImplKeyType& id) const {
 	StoichiometryConfigImpl tmp(id);
@@ -91,6 +96,20 @@ StoichiometryConfigImpl StoichiometryConfigImpl::clone(
 bool StoichiometryConfigImpl::operator==(
 		const StoichiometryConfigImpl& s) const {
 	return id_ == s.id_ && map_ == s.map_;
+}
+
+bool StoichiometryConfigImpl::operator!=(
+		const StoichiometryConfigImpl& s) const {
+	return !(operator ==(s));
+}
+
+StoichiometryConfigImpl& StoichiometryConfigImpl::operator=(
+		const StoichiometryConfigImpl& rhs) {
+	if (this != &rhs) {
+		id_ = rhs.id_;
+		map_ = rhs.map_;
+	}
+	return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const StoichiometryConfigImpl& o) {

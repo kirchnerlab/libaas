@@ -14,12 +14,12 @@ namespace modifications {
 libaas::Bool addRawModification(
 		const RawModificationImpl::RawModificationImplKeyType& id,
 		const libaas::String& name, const libaas::String& fullName,
-		const std::vector<String>& altDescriptions,
+		const std::vector<String>& altNames,
 		const Stoichiometry& stoichiometry,
 		const std::vector<Specificity>& specificities,
 		const libaas::Bool& verified) {
 	RawModificationImpl rm(id, name, fullName, verified);
-	rm.setAltNames(altDescriptions);
+	rm.setAltNames(altNames);
 	rm.setStoichiometry(stoichiometry);
 	rm.setSpecificities(specificities);
 	return addRawModification(rm);

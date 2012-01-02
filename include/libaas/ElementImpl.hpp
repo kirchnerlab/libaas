@@ -94,6 +94,10 @@ public:
      */
     void addIsotope(const Double& mass, const Double& frequency);
 
+    /**Clears the list of isotopes.
+     */
+    void clearIsotopes();
+
     /**Sets the list of isotopes of the element.
      * @param[in] isotopes List of isotopes
      */
