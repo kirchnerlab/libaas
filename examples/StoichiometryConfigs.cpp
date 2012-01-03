@@ -64,18 +64,12 @@ int main() {
 
 	// ------------------------------------------------------------------------
 	std::cout << " b) by convenience functions" << std::endl;
-	if (addStoichiometryConfig(customConfig)) {
-		std::cout << "  Custom stoichiometry configuration added correctly."
-				<< std::endl;
-	} else {
+	if (!addStoichiometryConfig(customConfig)) {
 		std::cout << "  Custom stoichiometry configuration not added correctly."
 				<< std::endl;
 	}
 
-	if (addStoichiometryConfig(custom_key, customConfig.getMapping())) {
-		std::cout << "  Custom stoichiometry configuration added correctly."
-				<< std::endl;
-	} else {
+	if (!addStoichiometryConfig(custom_key, customConfig.getMapping())) {
 		std::cout << "  Custom stoichiometry configuration not added correctly."
 				<< std::endl;
 	}
@@ -97,13 +91,15 @@ int main() {
 			StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
 	defaultConfig.insertElement(Element(customElement.getId()));
 	StoichiometryConfig defaultConfigRef(defaultConfig);
-	std::cout << "  New default stoichiometry configuration: " << defaultConfig
-			<< std::endl;
-	std::cout
-			<< "  Current default stoichiometry configuration: "
-			<< StoichiometryConfig(
-					StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG)
-			<< std::endl;
+	if (addStoichiometryConfig(defaultConfig)) {
+		std::cout << "  New default stoichiometry configuration: "
+				<< defaultConfig << std::endl;
+		std::cout
+				<< "  Current default stoichiometry configuration: "
+				<< StoichiometryConfig(
+						StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG)
+				<< std::endl;
+	}
 
 	return 0;
 }

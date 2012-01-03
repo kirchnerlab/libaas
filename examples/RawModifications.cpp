@@ -19,10 +19,10 @@ using namespace libaas::aminoAcids;
 int main() {
 	// ========================================================================
 	std::cout << "Retrieve a standard modification" << std::endl;
-
+	
 	RawModification mod("Acetyl");
 	std::cout << "  Standard modification Acetyl: " << mod << std::endl;
-
+	
 	// ========================================================================
 	std::cout << "Create a custom modification" << std::endl;
 
@@ -68,9 +68,7 @@ int main() {
 	// ------------------------------------------------------------------------
 	std::cout << " b) by convenience functions" << std::endl;
 
-	if (addRawModification(customMod)) {
-		std::cout << "  Custom raw modification added correctly" << std::endl;
-	} else {
+	if (!addRawModification(customMod)) {
 		std::cout << "  Custom raw modification not added correctly"
 				<< std::endl;
 	}
@@ -79,10 +77,8 @@ int main() {
 	specVector.push_back(spec1);
 	std::vector<libaas::String> altNames;
 	altNames.push_back(altName);
-	if (addRawModification(id, name, fullName, altNames, myStoichiometry,
+	if (!addRawModification(id, name, fullName, altNames, myStoichiometry,
 			specVector, verified)) {
-		std::cout << "  Custom raw modification added correctly" << std::endl;
-	} else {
 		std::cout << "  Custom raw modification not added correctly"
 				<< std::endl;
 	}
@@ -97,8 +93,9 @@ int main() {
 	// ========================================================================
 	std::cout << "Retrieve the stoichiometry" << std::endl;
 
+	Stoichiometry stoichiometry = retrievedCustomMod.get().getStoichiometry();
 	std::cout << "  Stoichiometry: "
-			<< retrievedCustomMod.get().getStoichiometry() << std::endl;
+			<< stoichiometry << std::endl;
 
 	// ========================================================================
 	std::cout << "Override a standard modification" << std::endl;

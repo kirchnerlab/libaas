@@ -158,7 +158,7 @@ public:
 
 	/**Converts the given string to lower case and tries to find the matching
 	 * enumeration.
-	 * @param[in] classification Classification
+	 * @param[in] classification Classification string
 	 * @returns Classification
 	 * @throws Throws an exception if the given classification string does not
 	 * match any of the classification enumeration.
@@ -168,6 +168,7 @@ public:
 
 	/**Converts the given string to lower case and tries to find the matching
 	 * position.
+	 * @param[in] position Position string
 	 * @returns Positions
 	 * @throws Throws an exception if the given position string does not match
 	 * any of the position enumerations.

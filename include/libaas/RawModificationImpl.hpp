@@ -69,7 +69,7 @@ public:
 	void setFullName(const String& fullName);
 
 	/**Returns the full name (description) of the modification.
-	 * @retruns Full name
+	 * @returns Full name
 	 */
 	const String& getFullName() const;
 

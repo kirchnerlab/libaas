@@ -18,11 +18,13 @@
 namespace libaas {
 namespace aminoAcids {
 
-/**The class AminoAcidIdExtractor is used allow the instantiation of
+/**@brief ID extractor for amino acids.
+ *
+ * The class AminoAcidIdExtractor is used allow the instantiation of
  * flyweight<AminoAcidImpl>(Key) in order to simplify the access.
  */
 struct AminoAcidIdExtractor {
-    /**Returns the key of a amino acid.
+    /**Returns the key of the amino acid.
      * @param[in] a instance of an amino acid implementation
      * @returns The key of the amino acid
      */

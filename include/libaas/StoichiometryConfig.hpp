@@ -18,10 +18,16 @@
 
 namespace libaas {
 
-/**The class StoichiometryConfigIdExtractor is used allow the instantiation of
+/**@brief ID extractor for stoichiometry configurations.
+ *
+ * The class StoichiometryConfigIdExtractor is used allow the instantiation of
  * flyweight<StoichiometryConfigImpl>(Key) in order to simplify the access.
  */
 struct StoichiometryConfigIdExtractor {
+	/**Returns the key of the stoichiometry configuration.
+	 * @param[in] e instance of a stoichiometry configuration implementation
+	 * @returns The key of the stoichiometry configuration
+	 */
 	const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& operator()(
 			const StoichiometryConfigImpl& e) const {
 		return e.getId();

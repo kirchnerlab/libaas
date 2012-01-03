@@ -128,7 +128,7 @@ public:
 	/**Adds a custom specificity.
 	 * @param[in] specificity Specificity
 	 */
-	void addCustomSpecificitiy(const Specificity& specificity);
+	void addCustomSpecificity(const Specificity& specificity);
 
 	/**Sets custom specificites.
 	 * @param[in] specificities List of specificities used as custom specificites

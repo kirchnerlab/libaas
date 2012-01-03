@@ -18,10 +18,16 @@
 namespace libaas {
 namespace modifications {
 
-/**The class RawModificationIdExtractor is used allow the instantiation of
+/**@brief ID extrator for raw modifications.
+ *
+ * The class RawModificationIdExtractor is used allow the instantiation of
  * flyweight<RawModificationImpl>(Key) in order to simplify the access.
  */
 struct RawModificationIdExtractor {
+    /**Returns the key of the raw modification.
+     * @param[in] m instance of a raw modification implementation
+     * @returns The key of the raw modification
+     */
 	const RawModificationImpl::RawModificationImplKeyType& operator()(
 			const RawModificationImpl& m) const {
 		return m.getId();

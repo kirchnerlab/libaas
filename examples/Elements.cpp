@@ -17,8 +17,7 @@ int main() {
 	// ========================================================================
 	std::cout << "Retrieve a standard element" << std::endl;
 
-	ElementImpl::ElementImplKeyType c_key = 6;
-	Element C(c_key);
+	Element C(6);
 	std::cout << "  Standard element C: " << C << std::endl;
 
 	// ========================================================================
@@ -45,13 +44,12 @@ int main() {
 	// ------------------------------------------------------------------------
 	std::cout << " b) by convenience functions" << std::endl;
 
-	if (addElement(customElement)) {
-		std::cout << "  Custom element added correctly" << std::endl;
-	} else {
+	if (!addElement(customElement)) {
 		std::cout << "  Custom element not added correctly" << std::endl;
 	}
 
-	if (addElement(customElement.getId(), customElement.getSymbol(), customElement.getAtomicNumber(), customElement.getIsotopes())) {
+	if (addElement(customElement.getId(), customElement.getSymbol(),
+			customElement.getAtomicNumber(), customElement.getIsotopes())) {
 		std::cout << "  Custom element added correctly" << std::endl;
 	} else {
 		std::cout << "  Custom element not added correctly" << std::endl;
@@ -76,11 +74,12 @@ int main() {
 	ElementImpl new_N(N_key, new_N_symbol, new_N_atomicNumber);
 	new_N.addIsotope(14.0031, 0.5);
 	new_N.addIsotope(15.0001, 0.5);
-	Element new_N_ref(new_N);
-	std::cout << "  Overridden standard element N: " << Element(N_key)
-			<< std::endl;
-	std::cout << "  Non-overridden standard element N: " << ElementImpl(N_key)
-			<< std::endl;
+	if (addElement(new_N)) {
+		std::cout << "  Overridden standard element N: " << Element(N_key)
+				<< std::endl;
+		std::cout << "  Non-overridden standard element N: "
+				<< ElementImpl(N_key) << std::endl;
+	}
 
 	// ------------------------------------------------------------------------
 	std::cout << " b) using the standard element" << std::endl;
@@ -88,11 +87,12 @@ int main() {
 	ElementImpl O(8);
 	O.clearIsotopes();
 	O.addIsotope(15.9994, 1.0);
-	Element overriddenStandardElement(O);
-	std::cout << "  Overridden standard element O: "
-			<< overriddenStandardElement << std::endl;
-	std::cout << "  Non-overridden standard element O: " << ElementImpl(8)
-			<< std::endl;
+	if (addElement(O)) {
+		std::cout << "  Overridden standard element O: " << Element(8)
+				<< std::endl;
+		std::cout << "  Non-overridden standard element O: " << ElementImpl(8)
+				<< std::endl;
+	}
 	// but the default O is no longer available as flyweight
 
 	return 0;

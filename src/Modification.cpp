@@ -97,7 +97,7 @@ const Stoichiometry& Modification::getStoichiometry() const
     return stoichiometry_;
 }
 
-void Modification::addCustomSpecificitiy(const Specificity& specificity)
+void Modification::addCustomSpecificity(const Specificity& specificity)
 {
     customSpecificities_.push_back(specificity);
 }

@@ -54,7 +54,7 @@ int main() {
 	Specificity spec1(AminoAcid('K'), Specificity::ANYWHERE,
 			Specificity::CHEMICAL_DERIVATIVE);
 	spec1.setComment("Some comment");
-	acetyl.addCustomSpecificitiy(spec1);
+	acetyl.addCustomSpecificity(spec1);
 
 	std::cout << " Custom specificity modification acetyl: " << acetyl
 			<< std::endl;
@@ -65,8 +65,8 @@ int main() {
 	// ========================================================================
 	std::cout << "Retrieve the stoichiometry" << std::endl;
 
-	std::cout << "  Retrieved stoichiometry of acetyl: "
-			<< acetyl.getStoichiometry() << std::endl;
+	Stoichiometry stoichiometry = acetyl.getStoichiometry();
+	std::cout << "  Retrieved stoichiometry of acetyl: " << stoichiometry << std::endl;
 
 	// ========================================================================
 	std::cout << "Set a stoichiometry configuration" << std::endl;
