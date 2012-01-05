@@ -10,6 +10,7 @@
 #define __LIBAAS_INCLUDE_LIBAAS_MODIFICATION_HPP__
 
 #include <libaas/RawModification.hpp>
+#include <libaas/AminoAcid.hpp>
 #include <libaas/Specificity.hpp>
 #include <libaas/Stoichiometry.hpp>
 #include <libaas/StoichiometryConfig.hpp>
@@ -18,6 +19,7 @@
 #include <vector>
 
 namespace libaas {
+
 namespace modifications {
 
 /**Representation of an amino acid modification.
@@ -188,6 +190,10 @@ public:
 	 * @returns Status of the modification
 	 */
 	Bool isVerified() const;
+
+	Bool isApplicable(const aminoAcids::AminoAcid& prev,
+			const aminoAcids::AminoAcid& current,
+			const aminoAcids::AminoAcid& next) const;
 
 	bool operator==(const Modification& s) const;
 	bool operator!=(const Modification& s) const;

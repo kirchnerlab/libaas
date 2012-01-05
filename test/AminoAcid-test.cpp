@@ -206,6 +206,11 @@ struct AminoAcidTestSuite: vigra::test_suite {
 		shouldEqual(tr, tr_t);
 		// test reference pointer to ensure it is the same object
 		shouldEqual(&tr.get(), &tr_t.get());
+
+		AminoAcidImpl::AminoAcidImplKeyType kk = 'Q';
+		AminoAcid wt;
+		wt = kk;
+		shouldEqual(AminoAcid('Q'), wt);
 	}
 
 	void testOverrideUninitializedAminoAcid() {

@@ -3,6 +3,8 @@
  *
  * Copyright (c) 2011 Mathias Wilhelm
  * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2010 Nathan Huesken
+ * Copyright (c) 2010 Marc Kirchner
  *
  */
 
@@ -92,6 +94,57 @@ void Specificity::setComment(const String& comment) {
 
 const String& Specificity::getComment() const {
 	return comment_;
+}
+
+Bool Specificity::isApplicable(const libaas::aminoAcids::AminoAcid& prev,
+		const libaas::aminoAcids::AminoAcid& current,
+		const libaas::aminoAcids::AminoAcid& next) const {
+
+	// TODO this test includes whether the current position is _excactly_ the same as the expected site (including thing such as stoichiometry and so on)
+	// this has pros and cons. we have to decide which is the best alternative
+	if (site_ != current) {
+		// not the correct site
+		return false;
+	}
+
+	switch (position_) {
+	case PEPTIDE_N_TERM:
+		if (!current.get().isNTerm()
+				&& prev
+						!= libaas::aminoAcids::AminoAcid(
+								aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM)) {
+			return false;
+		}
+		break;
+	case PROTEIN_N_TERM:
+		if (!current.get().isNTerm()
+				&& prev
+						!= libaas::aminoAcids::AminoAcid(
+								aminoAcids::AminoAcidImpl::PROTEIN_N_TERM)) {
+			return false;
+		}
+		break;
+	case PEPTIDE_C_TERM:
+		if (!current.get().isCTerm()
+				&& next
+						!= libaas::aminoAcids::AminoAcid(
+								aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM)) {
+			return false;
+		}
+		break;
+	case PROTEIN_C_TERM:
+		if (!current.get().isCTerm()
+				&& next
+						!= libaas::aminoAcids::AminoAcid(
+								aminoAcids::AminoAcidImpl::PROTEIN_C_TERM)) {
+			return false;
+		}
+		break;
+	case ANYWHERE:
+		break;
+	}
+
+	return true;
 }
 
 bool Specificity::operator==(const Specificity& s) const {

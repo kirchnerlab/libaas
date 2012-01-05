@@ -152,6 +152,10 @@ public:
 	 */
 	const String& getComment() const;
 
+	Bool isApplicable(const libaas::aminoAcids::AminoAcid& prev,
+			const libaas::aminoAcids::AminoAcid& current,
+			const libaas::aminoAcids::AminoAcid& next) const;
+
 	bool operator==(const Specificity& s) const;
 	bool operator!=(const Specificity& s) const;
 	Specificity& operator=(const Specificity& rhs);

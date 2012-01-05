@@ -28,27 +28,27 @@ public:
 	void changeType(
 			const aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey);
 	void changeType(const aminoAcids::AminoAcid& aminoAcid);
-	bool hasModification(
-			const modifications::RawModificationImpl::RawModificationImplKeyType& modification) const;
-	bool hasModification(const modifications::Modification& modification) const;
-	bool isModified() const;
-
-	Stoichiometry getStoichiometry() const;
+	const libaas::aminoAcids::AminoAcid& getAminoacid() const;
 
 	libaas::Bool isNTerm() const;
 	libaas::Bool isCTerm() const;
 
-	void setAminoacid(const libaas::aminoAcids::AminoAcid& aminoacid);
-	const libaas::aminoAcids::AminoAcid& getAminoacid() const;
-
 	void setModification(
 			const libaas::modifications::Modification& modification);
 	const libaas::modifications::Modification& getModification() const;
-	libaas::modifications::Modification& getModification();
+	bool hasModification(
+			const modifications::RawModificationImpl::RawModificationImplKeyType& modification) const;
+	bool hasModification(const modifications::Modification& modification) const;
+	bool isModified() const;
+	void removeModification();
 
-	Residue& operator=(const Residue& a);
-	bool operator==(const Residue& b) const;
-	bool operator!=(const Residue& b) const;
+	Stoichiometry getStoichiometry() const;
+
+	String toString() const;
+
+	Residue& operator=(const Residue& rhs);
+	bool operator==(const Residue& r) const;
+	bool operator!=(const Residue& r) const;
 
 private:
 

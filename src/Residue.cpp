@@ -8,6 +8,8 @@
 
 #include <libaas/Residue.hpp>
 
+#include <sstream>
+
 namespace libaas {
 
 Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoacid) :
@@ -37,10 +39,22 @@ bool Residue::isModified() const {
 	return modification_.getModificationId() != "";
 }
 
+void Residue::removeModification() {
+	modification_ = modifications::Modification();
+}
 Stoichiometry Residue::getStoichiometry() const {
 	Stoichiometry s = aminoacid_.get().getStoichiometry();
 	s += modification_.getStoichiometry();
 	return s;
+}
+
+String Residue::toString() const {
+	std::ostringstream oss;
+	oss << aminoacid_.get().getSymbol();
+	if (isModified()) {
+		oss << "(" << modification_.getModificationId() << ")";
+	}
+	return oss.str();
 }
 
 libaas::Bool Residue::isNTerm() const {
@@ -49,10 +63,6 @@ libaas::Bool Residue::isNTerm() const {
 
 libaas::Bool Residue::isCTerm() const {
 	return aminoacid_.get().isCTerm();
-}
-
-void Residue::setAminoacid(const libaas::aminoAcids::AminoAcid& aminoacid) {
-	aminoacid_ = aminoacid;
 }
 
 const libaas::aminoAcids::AminoAcid& Residue::getAminoacid() const {
@@ -68,8 +78,20 @@ const libaas::modifications::Modification& Residue::getModification() const {
 	return modification_;
 }
 
-libaas::modifications::Modification& Residue::getModification() {
-	return modification_;
+Residue& Residue::operator=(const Residue& rhs) {
+	if (this != &rhs) {
+		aminoacid_ == rhs.aminoacid_;
+		modification_ == rhs.modification_;
+	}
+	return *this;
+}
+
+bool Residue::operator==(const Residue& r) const {
+	return aminoacid_ == r.aminoacid_ && modification_ == r.modification_;
+}
+
+bool Residue::operator!=(const Residue& r) const {
+	return !(operator ==(r));
 }
 
 std::ostream& operator<<(std::ostream& os, const Residue& o) {

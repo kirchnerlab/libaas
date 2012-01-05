@@ -13,6 +13,8 @@
 #include <iostream>
 
 using namespace libaas;
+using namespace libaas::aminoAcids;
+using namespace libaas::modifications;
 
 /** Short description.
  * Long description.
@@ -30,18 +32,37 @@ struct ResidueTestSuite: vigra::test_suite {
 
 	void testResidue() {
 
-		libaas::aminoAcids::AminoAcidImpl::AminoAcidImplKeyType aa_k = 'A';
-		libaas::aminoAcids::AminoAcid aa(aa_k);
-		libaas::modifications::RawModificationImpl::RawModificationImplKeyType m_k =
-				"Phos";
-		libaas::modifications::Modification m(m_k);
+		AminoAcidImpl::AminoAcidImplKeyType aa_k = 'A';
+		AminoAcid aa(aa_k);
+		RawModificationImpl::RawModificationImplKeyType m_k = "Phospho";
+		Modification m(m_k);
 
 		Residue r(aa);
-		r.setAminoacid(aa);
+
+		shouldEqual(r.isCTerm(), false);
+		shouldEqual(r.isNTerm(), false);
+		shouldEqual(r.isModified(), false);
+
+		r.changeType(aa);
+		shouldEqual(r.getAminoacid(), aa);
+
+		r.changeType(aa_k);
 		shouldEqual(r.getAminoacid(), aa);
 
 		r.setModification(m);
 		shouldEqual(r.getModification(), m);
+		shouldEqual(r.isModified(), true);
+		shouldEqual(r.hasModification(m), true);
+		shouldEqual(r.hasModification(Modification("Oxidation")), false);
+
+		r.changeType(AminoAcidImpl::PEPTIDE_C_TERM);
+		shouldEqual(r.isCTerm(), true);
+		r.changeType(AminoAcidImpl::PROTEIN_C_TERM);
+		shouldEqual(r.isCTerm(), true);
+		r.changeType(AminoAcidImpl::PEPTIDE_N_TERM);
+		shouldEqual(r.isNTerm(), true);
+		r.changeType(AminoAcidImpl::PROTEIN_N_TERM);
+		shouldEqual(r.isNTerm(), true);
 	}
 
 };

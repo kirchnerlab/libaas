@@ -12,6 +12,7 @@
 #include <libaas/Stoichiometry.hpp>
 #include <libaas/Specificity.hpp>
 #include <libaas/Types.hpp>
+#include <libaas/AminoAcid.hpp>
 
 #include <vector>
 #include <iostream>
@@ -126,6 +127,10 @@ public:
 	 * @returns True if the modification is verified, otherwise false.
 	 */
 	Bool isVerified() const;
+
+	Bool isApplicable(const aminoAcids::AminoAcid& prev,
+			const aminoAcids::AminoAcid& current,
+			const aminoAcids::AminoAcid& next) const;
 
 	bool operator==(const RawModificationImpl& s) const;
 	bool operator!=(const RawModificationImpl& s) const;

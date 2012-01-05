@@ -3744,6 +3744,19 @@ Bool RawModificationImpl::isVerified() const {
 	return verified_;
 }
 
+Bool RawModificationImpl::isApplicable(const libaas::aminoAcids::AminoAcid& prev,
+		const libaas::aminoAcids::AminoAcid& current,
+		const libaas::aminoAcids::AminoAcid& next) const {
+	typedef std::vector<Specificity>::const_iterator IT;
+	IT end = specificities_.end();
+	for (IT it = specificities_.begin(); it != end; ++it) {
+		if (it->isApplicable(prev, current, next)) {
+			return true;
+		}
+	}
+	return false;
+}
+
 bool RawModificationImpl::operator==(const RawModificationImpl& s) const {
 	return id_ == s.id_ && name_ == s.name_ && fullName_ == s.fullName_
 			&& altNames_ == s.altNames_ && stoichiometry_ == s.stoichiometry_
