@@ -15,11 +15,13 @@ namespace modifications {
 
 Specificity::Specificity(const libaas::aminoAcids::AminoAcid& site,
 		const Position position, const Classification classification) :
-		site_(site), position_(position), classification_(classification) {
+		site_(site), position_(position), classification_(classification), neutralLosses_(), pepNeutralLosses_(), comment_(
+				"") {
 }
 
 Specificity::Specificity(const libaas::String& site,
-		const libaas::String& position, const libaas::String& classification) {
+		const libaas::String& position, const libaas::String& classification) :
+		neutralLosses_(), pepNeutralLosses_(), comment_("") {
 	site_ = libaas::aminoAcids::AminoAcid(
 			libaas::aminoAcids::AminoAcidImpl::getKeyForAminoAcidString(site));
 	position_ = Specificity::parsePositionString(position);
@@ -94,7 +96,8 @@ const String& Specificity::getComment() const {
 bool Specificity::operator==(const Specificity& s) const {
 	return site_ == s.site_ && classification_ == s.classification_
 			&& position_ == s.position_ && neutralLosses_ == s.neutralLosses_
-			&& pepNeutralLosses_ == pepNeutralLosses_ && comment_ == s.comment_;
+			&& pepNeutralLosses_ == s.pepNeutralLosses_
+			&& comment_ == s.comment_;
 }
 
 bool Specificity::operator!=(const Specificity& s) const {

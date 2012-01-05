@@ -137,7 +137,7 @@ struct AminoAcidTestSuite: vigra::test_suite {
         shouldEqual(addAminoAcid(k, symbol2, ts), false);
         // and the amino acid added in the frist place should stay the same
         shouldEqual(AminoAcid(k), e);
-        AminoAcidImpl e2(1, symbol2, ts);
+        AminoAcidImpl e2(k, symbol2, ts);
         shouldEqual(AminoAcid(k) == e2, false);
     }
 
@@ -153,7 +153,7 @@ struct AminoAcidTestSuite: vigra::test_suite {
         }
         shouldEqual(thrown, true);
 
-        // create an arbitrary element
+        // create an arbitrary amino acid
         AminoAcidImpl::AminoAcidImplKeyType k1 = 'z';
         libaas::Char name = 'z';
         libaas::Stoichiometry ts;
@@ -165,10 +165,10 @@ struct AminoAcidTestSuite: vigra::test_suite {
         shouldEqual(t, tr);
         shouldEqual(t.getId(), tr.get_key());
 
-        // retrieve the element directly from the flyweight table
+        // retrieve the amino acid directly from the flyweight table
         AminoAcid tr_t(k1);
 
-        // test equality of two const refs of the same element
+        // test equality of two const refs of the same amino acids
         shouldEqual(tr, tr_t);
         // test reference pointer to ensure it is the same object
         shouldEqual(&tr.get(), &tr_t.get());

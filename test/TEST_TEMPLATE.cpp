@@ -1,8 +1,8 @@
 /*
  * FILENAME
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2012 Mathias Wilhelm
+ * Copyright (c) 2012 Marc Kirchner
  *
  */
 
