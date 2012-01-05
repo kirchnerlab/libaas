@@ -142,9 +142,6 @@ std::map<ElementImpl::ElementImplSymbolType, ElementImpl::ElementImplKeyType> El
 	return map;
 }
 
-/** Constructor
- *
- */
 ElementImpl::ElementImpl(const ElementImpl::ElementImplKeyType& id) :
 		id_(id), isotopes_() {
 	ElementImpl::ElementImplKeyType idc = id - 1;

@@ -10,6 +10,7 @@
 #include <libaas/Element.hpp>
 
 #include <stdexcept>
+#include <algorithm>
 
 namespace libaas {
 namespace aminoAcids {
@@ -50,6 +51,16 @@ const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K',
 		AminoAcidImpl::PEPTIDE_N_TERM, AminoAcidImpl::PEPTIDE_C_TERM,
 		AminoAcidImpl::PROTEIN_N_TERM, AminoAcidImpl::PROTEIN_C_TERM };
 
+const libaas::String three_letter[] = { "Ala", "Cys", "Asp", "Glu", "Phe",
+		"Gly", "His", "Ile", "Lys", "Leu", "Met", "Asn", "Pro", "Gln", "Arg",
+		"Ser", "Thr", "Val", "Trp", "Tyr", "PeN", "PeC", "PrN", "PrC" };
+
+const libaas::String fullNames[] = { "Alanine", "Cysteine", "Aspartic acid",
+		"Glutamic acid", "Phenylalanine", "Glycine", "Histidine", "Isoleucine",
+		"Lysine", "Leucine", "Methionine", "Asparagine", "Proline", "Glutamine",
+		"Arginine", "Serine", "Threonine", "Valine", "Tryptophan", "Tyrosine",
+		"Peptide N-term", "Peptide C-term", "Protein N-term", "Protein C-term" };
+
 const Char AminoAcidImpl::PEPTIDE_N_TERM = '0';
 const Char AminoAcidImpl::PEPTIDE_C_TERM = '1';
 const Char AminoAcidImpl::PROTEIN_N_TERM = '2';
@@ -65,35 +76,86 @@ Size findIdOfAminoAcidKey(const AminoAcidImpl::AminoAcidImplKeyType& key) {
 			"AminoAcidImpl::findIdOfAminoAcidKey(): Cannot find given key in standard list of amino acids.");
 }
 
-AminoAcidImpl::AminoAcidImplKeyType AminoAcidImpl::getKeyForAminoAcidString(const libaas::String& aminoAcid) {
-	// TODO use aminoAcid.toLower()
-	if (aminoAcid.length() == 1) {
-		try {
-			findIdOfAminoAcidKey(aminoAcid[0]);
-			return aminoAcid[0];
-		} catch (std::out_of_range& e) {
-			throw std::out_of_range("AminoAcidImpl::getKeyForString(): Given string does not contain a valid amino acid (one-letter code).");
+Size findIdOfAminoAcidThreeLetter(const libaas::String& tlc) {
+	for (Size i = 0; i < nEntries_aminoAcids; ++i) {
+		if (three_letter[i] == tlc) {
+			return i;
 		}
-	} else if (aminoAcid == "N-term") {
-		return AminoAcidImpl::PROTEIN_N_TERM;
-	} else if (aminoAcid == "C-term") {
-		return AminoAcidImpl::PROTEIN_C_TERM;
-	} else {
-	    // TODO implement getKeyForAminoAcidString correctly
-		throw std::out_of_range("AminoAcidImpl::getKeyForAminoAcidString(): Not implemented yet.");
 	}
-	throw std::out_of_range("AminoAcidImpl::getKeyForAminoAcidString(): Cannot find amino acid.");
+	// Cannot find three letter code. search case insensitive.
+	String rhs = tlc;
+	std::transform(rhs.begin(), rhs.end(), rhs.begin(), ::tolower);
+	for (Size i = 0; i < nEntries_aminoAcids; ++i) {
+		String lhs = three_letter[i];
+		std::transform(lhs.begin(), lhs.end(), lhs.begin(), ::tolower);
+		if (rhs == lhs) {
+			return i;
+		}
+	}
+	throw std::out_of_range(
+			"AminoAcidImpl::findIdOfAminoAcidThreeLetter(): Cannot find given three letter code in standard list of amino acids.");
 }
 
-/** Constructor
- *
- */
-AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id) {
-	// TODO In some cases, id is \0 this is a quick fix
+Size findIdOfAminoAcid(const libaas::String& name) {
+	for (Size i = 0; i < nEntries_aminoAcids; ++i) {
+		if (fullNames[i] == name) {
+			return i;
+		}
+	}
+	// Cannot find full name. search case insensitive.
+	String rhs = name;
+	std::transform(rhs.begin(), rhs.end(), rhs.begin(), ::tolower);
+	for (Size i = 0; i < nEntries_aminoAcids; ++i) {
+		String lhs = fullNames[i];
+		std::transform(lhs.begin(), lhs.end(), lhs.begin(), ::tolower);
+		if (rhs == lhs) {
+			return i;
+		}
+	}
+	throw std::out_of_range(
+			"AminoAcidImpl::findIdOfAminoAcid(): Cannot find given name in standard list of amino acids.");
+}
+
+AminoAcidImpl::AminoAcidImplKeyType AminoAcidImpl::getKeyForAminoAcidString(
+		const libaas::String& aminoAcid) {
+	String aminoAcid_tmp = aminoAcid;
+	std::transform(aminoAcid_tmp.begin(), aminoAcid_tmp.end(),
+			aminoAcid_tmp.begin(), ::tolower);
+	if (aminoAcid.length() == 1) {
+		String aminoAcid_tmp = aminoAcid;
+		std::transform(aminoAcid_tmp.begin(), aminoAcid_tmp.end(),
+				aminoAcid_tmp.begin(), ::toupper);
+		findIdOfAminoAcidKey(aminoAcid_tmp[0]);
+		return aminoAcid_tmp[0];
+	} else if (aminoAcid_tmp == "n-term") {
+		return AminoAcidImpl::PROTEIN_N_TERM;
+	} else if (aminoAcid_tmp == "c-term") {
+		return AminoAcidImpl::PROTEIN_C_TERM;
+	} else if (aminoAcid_tmp == "protein n-term") {
+		return AminoAcidImpl::PROTEIN_N_TERM;
+	} else if (aminoAcid_tmp == "protein c-term") {
+		return AminoAcidImpl::PROTEIN_C_TERM;
+	} else if (aminoAcid_tmp == "peptide n-term") {
+		return AminoAcidImpl::PEPTIDE_N_TERM;
+	} else if (aminoAcid_tmp == "pepetide c-term") {
+		return AminoAcidImpl::PEPTIDE_C_TERM;
+	} else if (aminoAcid.size() == 3) {
+		return stoi_chars[findIdOfAminoAcidThreeLetter(aminoAcid)];
+	} else {
+		return stoi_chars[findIdOfAminoAcid(aminoAcid)];
+	}
+	throw std::out_of_range(
+			"AminoAcidImpl::getKeyForAminoAcidString(): Cannot find amino acid.");
+}
+
+AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id) :
+		id_(id), symbol_(id), threeLetterCode_(""), fullName_(""), stoichiometry_() {
 	if (id != '\0') {
 		Size k = findIdOfAminoAcidKey(id);
 		id_ = id;
 		symbol_ = stoi_chars[k];
+		threeLetterCode_ = three_letter[k];
+		fullName_ = fullNames[k];
 		for (Size i = 0; i < 5; ++i) {
 			stoichiometry_.set(libaas::elements::Element(stoi_elements[i]),
 					stoi_table[k][i]);
@@ -103,15 +165,40 @@ AminoAcidImpl::AminoAcidImpl(const AminoAcidImpl::AminoAcidImplKeyType& id) {
 
 AminoAcidImpl::AminoAcidImpl(const AminoAcidImplKeyType& id, const char symbol,
 		const libaas::Stoichiometry& stoichiometry) :
-		id_(id), symbol_(symbol), stoichiometry_(stoichiometry) {
+		id_(id), symbol_(symbol), threeLetterCode_(""), fullName_(""), stoichiometry_(
+				stoichiometry) {
+}
+
+void AminoAcidImpl::setSymbol(const Char& symbol) {
+	symbol_ = symbol;
 }
 
 Char AminoAcidImpl::getSymbol() const {
 	return symbol_;
 }
 
+void AminoAcidImpl::setStoichiometry(const Stoichiometry& stoichiometry) {
+	stoichiometry_ = stoichiometry;
+}
+
 const libaas::Stoichiometry& AminoAcidImpl::getStoichiometry() const {
 	return stoichiometry_;
+}
+
+void AminoAcidImpl::setThreeLetterCode(const String& threeLetterCode) {
+	threeLetterCode_ = threeLetterCode;
+}
+
+const String& AminoAcidImpl::getThreeLetterCode() const {
+	return threeLetterCode_;
+}
+
+void AminoAcidImpl::setFullName(const String& fullName) {
+	fullName_ = fullName;
+}
+
+const String& AminoAcidImpl::getFullName() const {
+	return fullName_;
 }
 
 Bool AminoAcidImpl::isNTerm() const {
@@ -133,7 +220,8 @@ AminoAcidImpl& AminoAcidImpl::operator=(const AminoAcidImpl& a) {
 
 bool AminoAcidImpl::operator==(const AminoAcidImpl& b) const {
 	return id_ == b.id_ && symbol_ == b.symbol_
-			&& stoichiometry_ == b.stoichiometry_;
+			&& threeLetterCode_ == b.threeLetterCode_
+			&& fullName_ == b.fullName_ && stoichiometry_ == b.stoichiometry_;
 }
 
 bool AminoAcidImpl::operator!=(const AminoAcidImpl& b) const {
@@ -141,9 +229,10 @@ bool AminoAcidImpl::operator!=(const AminoAcidImpl& b) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const AminoAcidImpl& o) {
-	os << o.getId() << ":" << o.getSymbol() << " - " << o.getStoichiometry();
+	os << o.getId() << ":" << o.getFullName() << " (" << o.getThreeLetterCode()
+			<< ", " << o.getSymbol() << ") - " << o.getStoichiometry();
 	return os;
 }
 
-}// namespace aminoAcids
+} // namespace aminoAcids
 } // namespace libaas

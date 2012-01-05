@@ -11,9 +11,6 @@
 
 namespace libaas {
 
-/** Constructor
- *
- */
 AminoAcidSequence::AminoAcidSequence() {
 
 }

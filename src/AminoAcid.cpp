@@ -11,38 +11,37 @@
 namespace libaas {
 namespace aminoAcids {
 
-bool operator<(const AminoAcid& lhs, const AminoAcid& rhs)
-{
-    return lhs.get_key() < rhs.get_key();
+bool operator<(const AminoAcid& lhs, const AminoAcid& rhs) {
+	return lhs.get_key() < rhs.get_key();
 }
 
-bool operator<=(const AminoAcid& lhs, const AminoAcid& rhs)
-{
-    return lhs.get_key() <= rhs.get_key();
+bool operator<=(const AminoAcid& lhs, const AminoAcid& rhs) {
+	return lhs.get_key() <= rhs.get_key();
 }
 
-bool operator>(const AminoAcid& lhs, const AminoAcid& rhs)
-{
-    return lhs.get_key() > rhs.get_key();
+bool operator>(const AminoAcid& lhs, const AminoAcid& rhs) {
+	return lhs.get_key() > rhs.get_key();
 }
 
-bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs)
-{
-    return lhs.get_key() >= rhs.get_key();
+bool operator>=(const AminoAcid& lhs, const AminoAcid& rhs) {
+	return lhs.get_key() >= rhs.get_key();
 }
 
 Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
-        const Char symbol, const libaas::Stoichiometry& stoichiometry)
-{
-    return addAminoAcid(AminoAcidImpl(id, symbol, stoichiometry));
+		const Char symbol, const String& threeLetterCode,
+		const String& fullName, const libaas::Stoichiometry& stoichiometry) {
+	AminoAcidImpl aa(id, symbol, stoichiometry);
+	aa.setThreeLetterCode(threeLetterCode);
+	aa.setFullName(fullName);
+	return addAminoAcid(aa);
 }
 
 Bool addAminoAcid(const AminoAcidImpl& aminoAcid) {
-    AminoAcid aminoAcid_r(aminoAcid);
-    // in case the key of the amino acid aminoAcid was already added or is a
-    // standard amino acid which was retrieved earlier, the reference aminoAcid_r
-    // will not contain the information as given in aminoAcid
-    return aminoAcid == aminoAcid_r;
+	AminoAcid aminoAcid_r(aminoAcid);
+	// in case the key of the amino acid aminoAcid was already added or is a
+	// standard amino acid which was retrieved earlier, the reference aminoAcid_r
+	// will not contain the information as given in aminoAcid
+	return aminoAcid == aminoAcid_r;
 }
 
 } // namespace aminoAcids

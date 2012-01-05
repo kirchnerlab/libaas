@@ -15,9 +15,6 @@ namespace libaas {
 StoichiometryConfigImpl::StoichiometryConfigImplKeyType StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG =
 		"DEFAULT_STOICHIOMETRY_CONFIG";
 
-/** Constructor
- *
- */
 StoichiometryConfigImpl::StoichiometryConfigImpl(
 		const StoichiometryConfigImplKeyType& id) :
 		id_(id) {

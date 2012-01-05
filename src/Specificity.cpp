@@ -9,6 +9,7 @@
 #include <libaas/Specificity.hpp>
 
 #include <stdexcept>
+#include <algorithm>
 
 namespace libaas {
 namespace modifications {
@@ -118,36 +119,39 @@ Specificity& Specificity::operator=(const Specificity& rhs) {
 
 Specificity::Classification Specificity::parseClassificationString(
 		const libaas::String& classification) {
-	// TODO to lower
-	if (classification == "-") {
+	String classification_tmp = classification;
+	std::transform(classification_tmp.begin(), classification_tmp.end(),
+			classification_tmp.begin(), ::tolower);
+
+	if (classification_tmp == "-") {
 		return Specificity::NONE;
-	} else if (classification == "Post-translational") {
+	} else if (classification_tmp == "post-translational") {
 		return Specificity::POST_TRANSLATIONAL;
-	} else if (classification == "Co-translational") {
+	} else if (classification_tmp == "co-translational") {
 		return Specificity::CO_TRANSLATIONAL;
-	} else if (classification == "Pre-translational") {
+	} else if (classification_tmp == "pre-translational") {
 		return Specificity::PRE_TRANSLATIONAL;
-	} else if (classification == "Chemical derivative") {
+	} else if (classification_tmp == "chemical derivative") {
 		return Specificity::CHEMICAL_DERIVATIVE;
-	} else if (classification == "Artefact") {
+	} else if (classification_tmp == "artefact") {
 		return Specificity::ARTEFACT;
-	} else if (classification == "N-linked glycosylation") {
+	} else if (classification_tmp == "n-linked glycosylation") {
 		return Specificity::N_LINKED_GLYCOSYLATION;
-	} else if (classification == "O-linked glycosylation") {
+	} else if (classification_tmp == "o-linked glycosylation") {
 		return Specificity::O_LINKED_GLYCOSYLATION;
-	} else if (classification == "Other glycosylation") {
+	} else if (classification_tmp == "other glycosylation") {
 		return Specificity::OTHER_GLYCOSYLATION;
-	} else if (classification == "Synth. pep. protect. gp.") {
+	} else if (classification_tmp == "synth. pep. protect. gp.") {
 		return Specificity::SYNTH_PEP_PROTECT_GP;
-	} else if (classification == "Isotopic label") {
+	} else if (classification_tmp == "isotopic label") {
 		return Specificity::ISOTOPIC_LABEL;
-	} else if (classification == "Non-standard residue") {
+	} else if (classification_tmp == "non-standard residue") {
 		return Specificity::NON_STANDARD_RESIDUE;
-	} else if (classification == "Multiple") {
+	} else if (classification_tmp == "multiple") {
 		return Specificity::MULTIPLE;
-	} else if (classification == "Other") {
+	} else if (classification_tmp == "other") {
 		return Specificity::OTHER;
-	} else if (classification == "AA substitution") {
+	} else if (classification_tmp == "aa substitution") {
 		return Specificity::AA_SUBSTITUTION;
 	}
 	throw std::out_of_range("Specificity::parseClassificationString(): ");
@@ -155,16 +159,18 @@ Specificity::Classification Specificity::parseClassificationString(
 
 Specificity::Position Specificity::parsePositionString(
 		const libaas::String& position) {
-	// TODO to lower
-	if (position == "Any N-term") {
+	String position_tmp = position;
+	std::transform(position_tmp.begin(), position_tmp.end(),
+			position_tmp.begin(), ::tolower);
+	if (position_tmp == "any n-term") {
 		return Specificity::PEPTIDE_N_TERM;
-	} else if (position == "Any C-term") {
+	} else if (position_tmp == "any c-term") {
 		return Specificity::PEPTIDE_C_TERM;
-	} else if (position == "Protein N-term") {
+	} else if (position_tmp == "protein n-term") {
 		return Specificity::PROTEIN_N_TERM;
-	} else if (position == "Protein C-term") {
+	} else if (position_tmp == "protein c-term") {
 		return Specificity::PROTEIN_C_TERM;
-	} else if (position == "Anywhere") {
+	} else if (position_tmp == "anywhere") {
 		return Specificity::ANYWHERE;
 	}
 	throw std::out_of_range("Specificity::parsePositionString(): ");

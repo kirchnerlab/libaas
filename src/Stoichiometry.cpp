@@ -12,9 +12,6 @@
 
 namespace libaas {
 
-/** Constructor
- *
- */
 Stoichiometry::Stoichiometry() :
     annotationId_(0), counts_()
 {

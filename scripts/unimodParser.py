@@ -56,6 +56,7 @@ def main(argv=None):
 
 	titles = []
 	fullNames = []
+	verified = []
 
 	specificitiesLength = 0
 	indexSpecificities = []
@@ -105,6 +106,7 @@ def main(argv=None):
 	for parent in tree.getiterator(modTag):
 		titles.append(parent.attrib.get("title"))
 		fullNames.append(parent.attrib.get("full_name"))
+		verified.append(parent.attrib.get("approved"))
 		iter = parent.getiterator(specificityTag)
 		specificitiesLength += len(list(iter))
 		indexSpecificities.append(str(specificitiesLength))
@@ -154,6 +156,7 @@ def main(argv=None):
 		sys.stdout.write("const libaas::Size nModifications = " + str(len(titles)) + ";\n")
 		printStringArray("const libaas::Char* titles[] = ", titles)
 		printStringArray("const libaas::Char* fullNames[] = ", fullNames)
+		printNumberArray("const libaas::Bool verified[] = ", verified)
 
 		printNumberArray("const libaas::Size indexSpecificities[] = ", indexSpecificities)
 		printSpecArrays("const libaas::Char* specificities[][3] = ", specSites, specPositions, specClassifications)

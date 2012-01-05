@@ -10,9 +10,6 @@
 
 namespace libaas {
 
-/** Constructor
- *
- */
 Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoacid) :
 		aminoacid_(aminoacid) {
 }
@@ -37,8 +34,7 @@ bool Residue::hasModification(
 }
 
 bool Residue::isModified() const {
-	// TODO implement isModified
-	return false;
+	return modification_.getModificationId() != "";
 }
 
 Stoichiometry Residue::getStoichiometry() const {

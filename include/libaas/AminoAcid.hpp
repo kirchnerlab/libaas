@@ -24,10 +24,10 @@ namespace aminoAcids {
  * flyweight<AminoAcidImpl>(Key) in order to simplify the access.
  */
 struct AminoAcidIdExtractor {
-    /**Returns the key of the amino acid.
-     * @param[in] a instance of an amino acid implementation
-     * @returns The key of the amino acid
-     */
+	/**Returns the key of the amino acid.
+	 * @param[in] a instance of an amino acid implementation
+	 * @returns The key of the amino acid
+	 */
 	const AminoAcidImpl::AminoAcidImplKeyType& operator()(
 			const AminoAcidImpl& a) const {
 		return a.getId();
@@ -46,11 +46,14 @@ typedef boost::flyweight<
  * This methods calls addAminoAcid(AminoAcidImpl)
  * @param[in] id Key/Id of the amino acid
  * @param[in] symbol Symbol of the amino acid
+ * @param[in] threeLetterCode Three letter code of the amino acid
+ * @param[in] fullName Full name of the amino acid
  * @param[in] stoichiometry Stoichiometry of the amino acid
  * @returns True if the given amino acid is added correctly, false otherwise.
  */
 Bool addAminoAcid(const AminoAcidImpl::AminoAcidImplKeyType& id,
-		const Char symbol, const libaas::Stoichiometry& stoichiometry);
+		const Char symbol, const String& threeLetterCode,
+		const String& fullName, const libaas::Stoichiometry& stoichiometry);
 
 /**Convenience function to add a custom amino acid to the list of known amino
  * acids.

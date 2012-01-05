@@ -13,10 +13,6 @@
 namespace libaas {
 namespace modifications {
 
-/** Constructor
- *
- */
-
 Modification::Modification() :
     modification_(""), stoichiometryConfig_(StoichiometryConfig(
             StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG))

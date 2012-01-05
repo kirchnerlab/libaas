@@ -46,7 +46,7 @@ struct RawModificationTestSuite: vigra::test_suite {
 		shouldEqual(deamidated.getId(), k);
 		shouldEqual(deamidated.getName(), "Deamidated");
 		shouldEqual(deamidated.getFullName(), "Deamidation");
-		shouldEqual(deamidated.isVerified(), true);
+		shouldEqual(deamidated.isVerified(), false);
 		std::vector<String> altNames = deamidated.getAltNames();
 		size_t altNameSize = 2;
 		shouldEqual(altNames.size(), altNameSize);

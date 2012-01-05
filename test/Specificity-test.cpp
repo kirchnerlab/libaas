@@ -11,6 +11,7 @@
 #include "vigra/unittest.hxx"
 
 #include <iostream>
+#include <algorithm>
 
 using namespace libaas::modifications;
 
@@ -31,6 +32,7 @@ struct SpecificityTestSuite: vigra::test_suite {
 
 	// testing getter/setter
 	void testSpecificity() {
+
 		libaas::aminoAcids::AminoAcid aa('A');
 		Specificity::Position pos = Specificity::ANYWHERE;
 		Specificity::Classification clas = Specificity::ARTEFACT;
@@ -124,12 +126,17 @@ struct SpecificityTestSuite: vigra::test_suite {
 		shouldEqual(thrown, true);
 
 		// testing all currently known positions + correct enum value
-		const libaas::Char* positions[] = { "Any N-term", "Any C-term",
+		libaas::String positions[] = { "Any N-term", "Any C-term",
 				"Protein N-term", "Protein C-term", "Anywhere" };
 
 		thrown = false;
 		try {
 			for (libaas::Size i = 0; i < 5; ++i) {
+				shouldEqual(
+						(libaas::Size) Specificity::parsePositionString(positions[i]),
+						i);
+				std::transform(positions[i].begin(), positions[i].end(),
+						positions[i].begin(), ::toupper);
 				shouldEqual(
 						(libaas::Size) Specificity::parsePositionString(positions[i]),
 						i);
@@ -141,7 +148,7 @@ struct SpecificityTestSuite: vigra::test_suite {
 		shouldEqual(thrown, false);
 
 		// testing all currently known classifications + correct enum value
-		const libaas::Char* classifications[] = { "-", "Post-translational",
+		libaas::String classifications[] = { "-", "Post-translational",
 				"Co-translational", "Pre-translational", "Chemical derivative",
 				"Artefact", "N-linked glycosylation", "O-linked glycosylation",
 				"Other glycosylation", "Synth. pep. protect. gp.",
@@ -150,6 +157,12 @@ struct SpecificityTestSuite: vigra::test_suite {
 		thrown = false;
 		try {
 			for (libaas::Size i = 0; i < 13; ++i) {
+				shouldEqual(
+						(libaas::Size) Specificity::parseClassificationString(classifications[i]),
+						i);
+				std::transform(classifications[i].begin(),
+						classifications[i].end(), classifications[i].begin(),
+						::toupper);
 				shouldEqual(
 						(libaas::Size) Specificity::parseClassificationString(classifications[i]),
 						i);

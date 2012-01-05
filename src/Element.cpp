@@ -11,10 +11,6 @@
 namespace libaas {
 namespace elements {
 
-// TODO General:
-// 1) implement operators such as <,<=,==,!=,... for each type?
-// 2) implement operator<< for vector<type> for all types?
-
 bool operator<(const Element& lhs, const Element& rhs) {
 	return lhs.get_key() < rhs.get_key();
 }

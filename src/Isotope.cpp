@@ -11,9 +11,6 @@
 namespace libaas {
 namespace elements {
 
-/** Constructor
- *
- */
 Isotope::Isotope(const Double& mass, const Double& frequency) :
     mass_(mass), frequency_(frequency)
 {
