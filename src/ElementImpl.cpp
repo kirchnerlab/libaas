@@ -206,13 +206,13 @@ libaas::Size ElementImpl::getNumberOfStandardElements() {
 	return nEntries;
 }
 
-bool ElementImpl::operator==(const ElementImpl& s) const {
-	return s.id_ == id_ && s.symbol_ == symbol_
-			&& s.atomicNumber_ == atomicNumber_ && s.isotopes_ == isotopes_;
+bool ElementImpl::operator==(const ElementImpl& e) const {
+	return e.id_ == id_ && e.symbol_ == symbol_
+			&& e.atomicNumber_ == atomicNumber_ && e.isotopes_ == isotopes_;
 }
 
-bool ElementImpl::operator!=(const ElementImpl& s) const {
-	return !(operator ==(s));
+bool ElementImpl::operator!=(const ElementImpl& e) const {
+	return !(operator ==(e));
 }
 
 ElementImpl& ElementImpl::operator=(const ElementImpl& rhs) {

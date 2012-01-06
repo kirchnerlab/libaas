@@ -45,7 +45,6 @@ struct StoichiometryTestSuite: vigra::test_suite {
         Size expectedSize = 0;
         shouldEqual(tmp.size(), expectedSize);
         shouldEqual(tmp.empty(), true);
-        shouldEqual(tmp.zero(), true);
         shouldEqual(tmp.nonNegative(), true);
 
         // testing set/get annotation id
@@ -70,7 +69,6 @@ struct StoichiometryTestSuite: vigra::test_suite {
         expectedSize = 2;
         shouldEqual(tmp.size(), expectedSize);
         shouldEqual(tmp.empty(), false);
-        shouldEqual(tmp.zero(), false);
         shouldEqual(tmp.nonNegative(), false);
 
         // testing iterator

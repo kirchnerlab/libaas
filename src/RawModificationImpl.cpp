@@ -3757,10 +3757,10 @@ Bool RawModificationImpl::isApplicable(const libaas::aminoAcids::AminoAcid& prev
 	return false;
 }
 
-bool RawModificationImpl::operator==(const RawModificationImpl& s) const {
-	return id_ == s.id_ && name_ == s.name_ && fullName_ == s.fullName_
-			&& altNames_ == s.altNames_ && stoichiometry_ == s.stoichiometry_
-			&& specificities_ == s.specificities_ && verified_ == s.verified_;
+bool RawModificationImpl::operator==(const RawModificationImpl& m) const {
+	return id_ == m.id_ && name_ == m.name_ && fullName_ == m.fullName_
+			&& altNames_ == m.altNames_ && stoichiometry_ == m.stoichiometry_
+			&& specificities_ == m.specificities_ && verified_ == m.verified_;
 }
 
 bool RawModificationImpl::operator!=(const RawModificationImpl& m) const {

@@ -218,14 +218,14 @@ AminoAcidImpl& AminoAcidImpl::operator=(const AminoAcidImpl& a) {
 	return *this;
 }
 
-bool AminoAcidImpl::operator==(const AminoAcidImpl& b) const {
-	return id_ == b.id_ && symbol_ == b.symbol_
-			&& threeLetterCode_ == b.threeLetterCode_
-			&& fullName_ == b.fullName_ && stoichiometry_ == b.stoichiometry_;
+bool AminoAcidImpl::operator==(const AminoAcidImpl& a) const {
+	return id_ == a.id_ && symbol_ == a.symbol_
+			&& threeLetterCode_ == a.threeLetterCode_
+			&& fullName_ == a.fullName_ && stoichiometry_ == a.stoichiometry_;
 }
 
-bool AminoAcidImpl::operator!=(const AminoAcidImpl& b) const {
-	return !(operator ==(b));
+bool AminoAcidImpl::operator!=(const AminoAcidImpl& a) const {
+	return !(operator ==(a));
 }
 
 std::ostream& operator<<(std::ostream& os, const AminoAcidImpl& o) {

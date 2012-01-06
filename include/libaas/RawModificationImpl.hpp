@@ -128,23 +128,64 @@ public:
 	 */
 	Bool isVerified() const;
 
+	/**Checks whether this raw modification is applicable to the amino acid
+	 * current.
+	 * This function iterates over all specificities and calls
+	 * Specificity::isApplicable.
+	 * @param[in] prev Previous amino acid
+	 * @param[in] current Amino acid which should be modified with this
+	 * modification
+	 * @param[in] next Next amino acid
+	 * @returns true if the modification is applicable to the current amino acid,
+	 * false otherwise
+	 */
 	Bool isApplicable(const aminoAcids::AminoAcid& prev,
 			const aminoAcids::AminoAcid& current,
 			const aminoAcids::AminoAcid& next) const;
 
-	bool operator==(const RawModificationImpl& s) const;
-	bool operator!=(const RawModificationImpl& s) const;
+	/**Sets a copy of the argument as the new content for the raw modification
+	 * object.
+	 * The previous content is dropped.
+	 * @param[in] rhs Raw modification to copy
+	 * @returns *this
+	 */
 	RawModificationImpl& operator=(const RawModificationImpl& rhs);
+
+	/**Compares the raw modification against another.
+	 * @param[in] m Raw moficifation object to compare *this with
+	 * @returns true if both raw modifications are the same, false otherwise
+	 */
+	bool operator==(const RawModificationImpl& m) const;
+
+	/**Compares the raw modification against another, with opposite result of
+	 * RawModificationImpl::operator==.
+	 * @param[in] m Raw modification object to compare *this with
+	 * @returns true if the raw modifications are different, false otherwise.
+	 */
+	bool operator!=(const RawModificationImpl& m) const;
 
 private:
 
+	/** Key/Id of the raw modification.
+	 */
 	RawModificationImplKeyType id_;
-
+	/** Name of the raw modification.
+	 */
 	String name_;
+	/** Full name or description of the raw modification.
+	 */
 	String fullName_;
+	/** List of alternative names of the raw modification.
+	 */
 	std::vector<String> altNames_;
+	/** Stoichiometry of the raw modification
+	 */
 	Stoichiometry stoichiometry_;
+	/** List of specificities for the raw modification.
+	 */
 	std::vector<Specificity> specificities_;
+	/** Status of the raw modification.
+	 */
 	Bool verified_;
 
 	// unimod also contains references and a note

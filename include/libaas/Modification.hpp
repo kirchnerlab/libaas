@@ -191,17 +191,46 @@ public:
 	 */
 	Bool isVerified() const;
 
+	/**Checks whether this modification is applicable to the amino acid current.
+	 *
+	 * In case no custom specificities are set, the specificities of the raw
+	 * modification are used, otherwise only the custom specificities are taken
+	 * into account.
+	 *
+	 * @param[in] prev Previous amino acid
+	 * @param[in] current Amino acid which should be modified with this
+	 * modification
+	 * @param[in] next Next amino acid
+	 * @returns true if the modification is applicable to the current amino acid,
+	 * false otherwise
+	 */
 	Bool isApplicable(const aminoAcids::AminoAcid& prev,
 			const aminoAcids::AminoAcid& current,
 			const aminoAcids::AminoAcid& next) const;
 
-	bool operator==(const Modification& s) const;
-	bool operator!=(const Modification& s) const;
+	/**Sets a copy of the argument as the new content for the modification object.
+	 * The previous content is dropped.
+	 * @param[in] rhs Modification to copy
+	 * @returns *this
+	 */
 	Modification& operator=(const Modification& rhs);
+
+	/**Compares the modification against another.
+	 * @param[in] m Modification object to compare *this with
+	 * @returns true if both modifications are the same, false otherwise
+	 */
+	bool operator==(const Modification& m) const;
+
+	/**Compares the modification against another, with opposite result of
+	 * Modification::operator==.
+	 * @param[in] m Modification object to compare *this with
+	 * @returns true if the modifications are different, false otherwise.
+	 */
+	bool operator!=(const Modification& m) const;
 
 private:
 
-	/** Re-initializes the modification.
+	/**Re-initializes the modification.
 	 *
 	 * A call of this function will reset the custom specificities and invokes
 	 * the recalculation of the stoichiometry using the present stoichiometry
@@ -209,14 +238,23 @@ private:
 	 */
 	void reinit();
 
-	/** Recalculates the stoichiometry of the modification using the present
+	/**Recalculates the stoichiometry of the modification using the present
 	 * stoichiometry configuration.
 	 */
 	void recalculateStoichiometry();
 
+	/**Object of the raw modification.
+	 */
 	RawModification modification_;
+	/**Stoichiometry configuration used to calculate the stoichiometry.
+	 */
 	StoichiometryConfig stoichiometryConfig_;
+	/**Stoichiometry of the modification calculated with the present
+	 * stoichiometry configuration.
+	 */
 	libaas::Stoichiometry stoichiometry_;
+	/**Custom specificities of the modification.
+	 */
 	std::vector<Specificity> customSpecificities_;
 
 };

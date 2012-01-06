@@ -25,14 +25,14 @@ const Double& Isotope::getFrequency() const
     return frequency_;
 }
 
-bool Isotope::operator==(const Isotope& s) const
+bool Isotope::operator==(const Isotope& i) const
 {
-    return s.mass_ == mass_ && s.frequency_ == frequency_;
+    return i.mass_ == mass_ && i.frequency_ == frequency_;
 }
 
-bool Isotope::operator!=(const Isotope& s) const
+bool Isotope::operator!=(const Isotope& i) const
 {
-    return !(operator ==(s));
+    return !(operator ==(i));
 }
 
 Isotope& Isotope::operator=(const Isotope& rhs)

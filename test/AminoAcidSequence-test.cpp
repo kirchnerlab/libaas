@@ -48,6 +48,9 @@ struct AminoAcidSequenceTestSuite: vigra::test_suite {
 		modlist.push_back(modifications::Modification("Phospho"));
 		std::vector<AminoAcidSequence> list = aas.applyVariableModifications(modlist);
 		std::cout << list.size() << std::endl;
+
+		std::cout << aas.getStoichiometry() << std::endl;
+		std::cout << aas.getStoichiometry().toString() << std::endl;
 	}
 
 };

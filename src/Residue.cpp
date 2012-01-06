@@ -12,8 +12,24 @@
 
 namespace libaas {
 
+Residue::Residue(
+		const libaas::aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey) :
+		aminoacid_(aminoAcidKey), modification_() {
+}
+
 Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoacid) :
-		aminoacid_(aminoacid) {
+		aminoacid_(aminoacid), modification_() {
+}
+
+Residue::Residue(
+		const libaas::aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey,
+		const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey) :
+		aminoacid_(aminoAcidKey), modification_(modificationKey) {
+}
+
+Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
+		const libaas::modifications::Modification& mod) :
+		aminoacid_(aminoAcid), modification_(mod) {
 }
 
 void Residue::changeType(
@@ -25,17 +41,17 @@ void Residue::changeType(const aminoAcids::AminoAcid& aminoAcid) {
 	aminoacid_ = aminoAcid;
 }
 
-bool Residue::hasModification(
-		const modifications::RawModificationImpl::RawModificationImplKeyType& modification) const {
-	return modification_.getModificationId() == modification;
+Bool Residue::hasModification(
+		const modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey) const {
+	return modification_.getModificationId() == modificationKey;
 }
 
-bool Residue::hasModification(
+Bool Residue::hasModification(
 		const modifications::Modification& modification) const {
 	return modification_ == modification;
 }
 
-bool Residue::isModified() const {
+Bool Residue::isModified() const {
 	return modification_.getModificationId() != "";
 }
 

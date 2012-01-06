@@ -152,13 +152,38 @@ public:
 	 */
 	const String& getComment() const;
 
+	/**Checks whether this specificity matches sourunding conditions of the
+	 * amino acid.
+	 * @param[in] prev Previous amino acid
+	 * @param[in] current Amino acid which should be modified with this
+	 * modification
+	 * @param[in] next Next amino acid
+	 * @returns true if the modification is applicable to the current amino acid,
+	 * false otherwise
+	 */
 	Bool isApplicable(const libaas::aminoAcids::AminoAcid& prev,
 			const libaas::aminoAcids::AminoAcid& current,
 			const libaas::aminoAcids::AminoAcid& next) const;
 
-	bool operator==(const Specificity& s) const;
-	bool operator!=(const Specificity& s) const;
+	/**Sets a copy of the argument as the new content for the specificity object.
+	 * The previous content is dropped.
+	 * @param[in] rhs Specificity to copy
+	 * @returns *this
+	 */
 	Specificity& operator=(const Specificity& rhs);
+
+	/**Compares the specificity against another.
+	 * @param[in] s Specificity object to compare *this with
+	 * @returns true if both specificites are the same, false otherwise
+	 */
+	bool operator==(const Specificity& s) const;
+
+	/**Compares the specificity against another, with opposite result of
+	 * Specificity::operator==.
+	 * @param[in] s Specificity object to compare *this with
+	 * @returns true if the specificities are different, false otherwise.
+	 */
+	bool operator!=(const Specificity& s) const;
 
 	/**Converts the given string to lower case and tries to find the matching
 	 * enumeration.
@@ -181,11 +206,23 @@ public:
 
 private:
 
+	/** Site at which an event can happen.
+	 */
 	libaas::aminoAcids::AminoAcid site_;
+	/** Position of the site.
+	 */
 	Position position_;
+	/** Classification of the specificity.
+	 */
 	Classification classification_;
+	/** List of possible neutral losses.
+	 */
 	std::vector<Stoichiometry> neutralLosses_;
+	/** List of possible peptide neutral losses.
+	 */
 	std::vector<Stoichiometry> pepNeutralLosses_;
+	/** A comment.
+	 */
 	String comment_;
 
 };

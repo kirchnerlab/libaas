@@ -24,50 +24,58 @@
 
 namespace libaas {
 
-AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence) {
-	initAminoAcidSequence(aminoAcidSequence);
-}
-
 AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
 		const String& modificationString) {
-	initAminoAcidSequence(aminoAcidSequence);
-	applyModificationString(modificationString);
+	if (!aminoAcidSequence.empty()) {
+		// prepend peptide n-term if sequence starts without a n-term
+		if (!aminoAcids::AminoAcid(aminoAcidSequence[0]).get().isNTerm()) {
+			c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
+		}
+
+		typedef libaas::String::const_iterator IT;
+		IT end = aminoAcidSequence.end();
+		for (IT it = aminoAcidSequence.begin(); it != end; ++it) {
+			c_.push_back(*it);
+		}
+
+		// append a peptide c-term if the sequence starts without a c-term
+		if (!aminoAcids::AminoAcid(
+				aminoAcidSequence[aminoAcidSequence.size() - 1]).get().isCTerm()) {
+			c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM);
+		}
+	}
+	if (!modificationString.empty()) {
+		applyModificationString(modificationString);
+	}
 }
 
 AminoAcidSequence::AminoAcidSequence(const_iterator first,
 		const_iterator last) {
 	// When the original sequence has no N and/or C term, we add peptide C and N terms as default
 	if (!(*first).isNTerm()) {
-		c_.push_back(
-				aminoAcids::AminoAcid(
-						aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM));
+		c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
 	}
 	for (AminoAcidSequence::const_iterator acid = first; acid != last; ++acid) {
-		c_.push_back((*acid));
+		c_.push_back(*acid);
 	}
 	if (!c_[c_.size() - 1].isCTerm()) {
-		c_.push_back(
-				aminoAcids::AminoAcid(
-						aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM));
+		c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM);
 	}
 }
 
 void AminoAcidSequence::push_back(const Residue& value) {
 	//If a C-terminal is passed, the previous C-terminal is replaced by it
-
 	Residue last(
 			aminoAcids::AminoAcid(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM));
 	if (c_.size() == 0) {
 		if (!value.isNTerm()) {
-			c_.push_back(
-					aminoAcids::AminoAcid(
-							aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM));
+			c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
 		}
 		c_.push_back(value);
 	} else {
 		if (c_[c_.size() - 1].isCTerm()) {
 			//copy the C-terminal, in case there are mods
-			Residue last = c_[c_.size() - 1];
+			last = c_[c_.size() - 1];
 			c_.pop_back();
 			c_.push_back(value);
 		} else {
@@ -95,8 +103,9 @@ void AminoAcidSequence::makePeptideCTerm() {
 		return;
 	}
 	if (!c_.back().isCTerm()) {
+		// TODO shall we append a peptide c-term in this case?
 		throw std::out_of_range("Unable to change amino acid sequence N-term"
-				"to protein N-term, because there is no N-term.");
+				"to peptide C-term, because there is no C-term.");
 	}
 	c_.back().changeType(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM);
 }
@@ -107,8 +116,9 @@ void AminoAcidSequence::makePeptideNTerm() {
 		return;
 	}
 	if (!c_.front().isNTerm()) {
+		// TODO shall we prepend a peptide N-term in this case?
 		throw std::out_of_range("Unable to change amino acid sequence N-term"
-				"to protein N-term, because there is no N-term.");
+				"to peptide N-term, because there is no N-term.");
 	}
 	c_.front().changeType(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
 }
@@ -119,6 +129,7 @@ void AminoAcidSequence::makeProteinCTerm() {
 		return;
 	}
 	if (!c_.back().isCTerm()) {
+		// TODO shall we append a protein c-term in this case?
 		throw std::out_of_range("Unable to change amino acid sequence N-term"
 				"to protein N-term, because there is no N-term.");
 	}
@@ -131,6 +142,7 @@ void AminoAcidSequence::makeProteinNTerm() {
 		return;
 	}
 	if (!c_.front().isNTerm()) {
+		// TODO shall we prepend a protein n-term in this case?
 		throw std::out_of_range("Unable to change amino acid sequence N-term"
 				"to protein N-term, because there is no N-term.");
 	}
@@ -218,6 +230,15 @@ void AminoAcidSequence::applyModificationString(
 	}
 }
 
+void AminoAcidSequence::remove(
+		const modifications::RawModificationImpl::RawModificationImplKeyType& modKey) {
+	for (AminoAcidSequence::iterator it = begin(); it != end(); ++it) {
+		if (it->hasModification(modKey)) {
+			it->removeModification();
+		}
+	}
+}
+
 void AminoAcidSequence::remove(const modifications::Modification& mod) {
 	for (AminoAcidSequence::iterator it = begin(); it != end(); ++it) {
 		if (it->hasModification(mod)) {
@@ -226,37 +247,38 @@ void AminoAcidSequence::remove(const modifications::Modification& mod) {
 	}
 }
 
-void AminoAcidSequence::append(const AminoAcidSequence& s) {
-	if (this != &s) {
+void AminoAcidSequence::append(const AminoAcidSequence& sequence) {
+	if (this != &sequence) {
 		//The C-terminal is taken from the second sequence, so the
 		//possible modifications of the C-terminal of the first sequence
 		//get lost here
 		if (c_.size() == 0) {
-			c_.push_back(
-					Residue(
-							aminoAcids::AminoAcid(
-									aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM)));
+			// TODO what if we have a n-term mod at sequence, should we just use the sequence[0] instead of a new peptide n-term here?
+			c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
 		}
 		if (c_[c_.size() - 1].isCTerm()) {
 			c_.pop_back();
 		}
-		std::copy(s.begin() + 1, s.end(), std::back_inserter(c_));
+		std::copy(sequence.begin() + 1, sequence.end(), std::back_inserter(c_));
 	} else {
-		c_.pop_back();
-		std::copy(s.begin() + 1, s.end(), std::back_inserter(c_));
-		c_.push_back(
-				Residue(
-						aminoAcids::AminoAcid(
-								aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM)));
+		Residue last(
+				aminoAcids::AminoAcid(
+						aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM));
+		if (c_[c_.size() - 1].isCTerm()) {
+			last = c_.back();
+			c_.pop_back();
+		}
+		std::copy(sequence.begin() + 1, sequence.end(), std::back_inserter(c_));
+		c_.push_back(last);
 	}
 }
 
 libaas::AminoAcidSequence::iterator AminoAcidSequence::apply(
 		const modifications::Modification& mod,
-		libaas::AminoAcidSequence::iterator begin,
-		libaas::AminoAcidSequence::iterator end) const {
+		const libaas::AminoAcidSequence::iterator& begin,
+		const libaas::AminoAcidSequence::iterator& end) const {
 	libaas::AminoAcidSequence::iterator iter;
-	aminoAcids::AminoAcid prevAcid; // Remember last acid to find N-Terms. Initialize with something invalid.
+	aminoAcids::AminoAcid prevAcid('\0');
 	aminoAcids::AminoAcid nextAcid;
 	for (iter = begin; iter != end; ++iter) {
 		if ((iter + 1) == (end)) {
@@ -278,6 +300,12 @@ std::vector<AminoAcidSequence> AminoAcidSequence::applyVariableModifications(
 				modifications::RawModificationImpl::RawModificationImplKeyType>& mods,
 		unsigned int maxModificationsPerPeptide) const {
 	ModificationList mmods;
+	typedef std::vector<
+			modifications::RawModificationImpl::RawModificationImplKeyType>::const_iterator IT;
+	IT end = mods.end();
+	for (IT iter = mods.begin(); iter != end; ++iter) {
+		mmods.push_back(modifications::Modification(*iter));
+	}
 	return applyVariableModifications(mmods);
 }
 
@@ -285,6 +313,11 @@ std::vector<AminoAcidSequence> AminoAcidSequence::applyVariableModifications(
 		const std::vector<modifications::RawModification>& mods,
 		unsigned int maxModificationsPerPeptide) const {
 	ModificationList mmods;
+	typedef std::vector<modifications::RawModification>::const_iterator IT;
+	IT end = mods.end();
+	for (IT iter = mods.begin(); iter != end; ++iter) {
+		mmods.push_back(modifications::Modification(*iter));
+	}
 	return applyVariableModifications(mmods);
 }
 
@@ -332,14 +365,24 @@ std::vector<AminoAcidSequence> AminoAcidSequence::applyVariableModifications(
 void AminoAcidSequence::applyFixedModifications(
 		const std::vector<
 				modifications::RawModificationImpl::RawModificationImplKeyType>& mods) {
-	std::vector<modifications::Modification> mmods;
-
+	ModificationList mmods;
+	typedef std::vector<
+			modifications::RawModificationImpl::RawModificationImplKeyType>::const_iterator IT;
+	IT end = mods.end();
+	for (IT iter = mods.begin(); iter != end; ++iter) {
+		mmods.push_back(modifications::Modification(*iter));
+	}
 	applyFixedModifications(mmods);
 }
 
 void AminoAcidSequence::applyFixedModifications(
 		const std::vector<modifications::RawModification>& mods) {
-	std::vector<modifications::Modification> mmods;
+	ModificationList mmods;
+	typedef std::vector<modifications::RawModification>::const_iterator IT;
+	IT end = mods.end();
+	for (IT iter = mods.begin(); iter != end; ++iter) {
+		mmods.push_back(modifications::Modification(*iter));
+	}
 	applyFixedModifications(mmods);
 }
 
@@ -361,17 +404,6 @@ void AminoAcidSequence::applyFixedModifications(const ModificationList& mods) {
 }
 
 void AminoAcidSequence::applyModificationAtPosition(
-		const modifications::RawModificationImpl::RawModificationImplKeyType& mod,
-		const Size& pos) {
-	applyModificationAtPosition(modifications::Modification(mod), pos);
-}
-
-void AminoAcidSequence::applyModificationAtPosition(
-		const modifications::RawModification& mod, const Size& pos) {
-	applyModificationAtPosition(modifications::Modification(mod), pos);
-}
-
-void AminoAcidSequence::applyModificationAtPosition(
 		const modifications::Modification& mod, const Size& pos) {
 	if (pos >= size()) {
 		throw std::out_of_range(
@@ -379,21 +411,15 @@ void AminoAcidSequence::applyModificationAtPosition(
 	}
 
 	// get prev amino acid
-	aminoAcids::AminoAcid prev;
+	aminoAcids::AminoAcid prev('\0');
 	if (pos != 0) {
 		prev = operator[](pos - 1).getAminoacid();
-	} else {
-		// TODO what if this is the protein n-term?
-		prev = aminoAcids::AminoAcid(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
 	}
 
 	// get next amino acid
-	aminoAcids::AminoAcid next;
+	aminoAcids::AminoAcid next('\0');
 	if (pos != size() - 1) {
 		next = operator[](pos + 1).getAminoacid();
-	} else {
-		// TODO what if this is the protein c-term?
-		next = aminoAcids::AminoAcid(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM);
 	}
 
 	// get pos amino acid
@@ -403,14 +429,20 @@ void AminoAcidSequence::applyModificationAtPosition(
 				"AminoAcidSequence::applyModificationAtPosition(): Residue is already modified. Cannot add more than one modification to one residue.");
 	}
 	// check if mod is applicable to this position
-	// TODO maybe it is easier to get the specs from the modification and test directly
-	// currently it is forwarded to the instance which is able to decide this
 	if (!mod.isApplicable(prev, current.getAminoacid(), next)) {
 		throw std::out_of_range(
 				"AminoAcidSequence::applyModificationAtPosition(): Cannot apply mod to this position.");
 	}
 
 	operator[](pos).setModification(mod);
+}
+
+Stoichiometry AminoAcidSequence::getStoichiometry() const {
+	Stoichiometry ret;
+	for (const_iterator iter = begin(); iter != end(); ++iter) {
+		ret += iter->getStoichiometry();
+	}
+	return ret;
 }
 
 String AminoAcidSequence::toUnmodifiedSequenceString() const {
@@ -444,28 +476,6 @@ String AminoAcidSequence::getModificationString() const {
 		}
 	}
 	return modoss.str();
-}
-
-void AminoAcidSequence::initAminoAcidSequence(const String& sequence) {
-	if (!sequence.empty()) {
-		if (!aminoAcids::AminoAcid(sequence[0]).get().isNTerm()) {
-			push_back(
-					aminoAcids::AminoAcid(
-							aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM));
-		}
-
-		typedef libaas::String::const_iterator IT;
-		IT end = sequence.end();
-		for (IT it = sequence.begin(); it != end; ++it) {
-			push_back(Residue(libaas::aminoAcids::AminoAcid(*it)));
-		}
-
-		if (aminoAcids::AminoAcid(sequence[sequence.size() - 1]).get().isCTerm()) {
-			push_back(
-					aminoAcids::AminoAcid(
-							aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM));
-		}
-	}
 }
 
 std::ostream& operator<<(std::ostream& os, const AminoAcidSequence& o) {

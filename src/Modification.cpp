@@ -138,6 +138,8 @@ Bool Modification::isVerified() const {
 Bool Modification::isApplicable(const aminoAcids::AminoAcid& prev,
 		const aminoAcids::AminoAcid& current,
 		const aminoAcids::AminoAcid& next) const {
+	// TODO maybe it is easier to get the specs from the modification and test directly
+	// currently it is forwarded to the instance which is able to decide this
 	if (customSpecificities_.empty()) {
 		// custom specificities are empty, so check against raw modification
 		return modification_.get().isApplicable(next, current, prev);
@@ -194,11 +196,11 @@ void Modification::recalculateStoichiometry() {
 	}
 }
 
-bool Modification::operator==(const Modification& s) const {
-	return modification_ == s.modification_
-			&& stoichiometryConfig_ == s.stoichiometryConfig_
-			&& stoichiometry_ == s.stoichiometry_
-			&& customSpecificities_ == s.customSpecificities_;
+bool Modification::operator==(const Modification& m) const {
+	return modification_ == m.modification_
+			&& stoichiometryConfig_ == m.stoichiometryConfig_
+			&& stoichiometry_ == m.stoichiometry_
+			&& customSpecificities_ == m.customSpecificities_;
 }
 
 bool Modification::operator!=(const Modification& m) const {

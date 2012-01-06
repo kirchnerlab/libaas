@@ -38,12 +38,33 @@ public:
      */
     const Double& getFrequency() const;
 
-    bool operator==(const Isotope& s) const;
-    bool operator!=(const Isotope& s) const;
+	/**Sets a copy of the argument as the new content for the isotope object.
+	 * The previous content is dropped.
+	 * @param[in] rhs Isotope to copy
+	 * @returns *this
+	 */
     Isotope& operator=(const Isotope& rhs);
 
+	/**Compares the isotope against another.
+	 * @param[in] i Isotope object to compare *this with
+	 * @returns true if both isotopes are the same, false otherwise
+	 */
+    bool operator==(const Isotope& i) const;
+
+	/**Compares the isotope against another, with opposite result of
+	 * Isotope::operator==.
+	 * @param[in] i Isotope object to compare *this with
+	 * @returns true if the isotopes are different, false otherwise.
+	 */
+    bool operator!=(const Isotope& i) const;
+
 private:
+
+    /** Mass of the isotope.
+     */
     Double mass_;
+    /** Frequency of the isotope.
+     */
     Double frequency_;
 
 }; // class Isotope

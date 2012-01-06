@@ -106,13 +106,29 @@ public:
 
 	/**Checks whether the amino acid is C-terminal.
 	 * @returns True if the amino acid is AminoAcidImpl::PEPTIDE_C_TERM or
-	 * AminoAcidImpl::PEPTIDE_N_TERM.
+	 * AminoAcidImpl::PEPTIDE_C_TERM.
 	 */
 	Bool isCTerm() const;
 
+	/**Sets a copy of the argument as the new content for the amino acid object.
+	 * The previous content is dropped.
+	 * @param[in] a Amino acid to copy
+	 * @returns *this
+	 */
 	AminoAcidImpl& operator=(const AminoAcidImpl& a);
-	bool operator==(const AminoAcidImpl& b) const;
-	bool operator!=(const AminoAcidImpl& b) const;
+
+	/**Compares the amino acid against another.
+	 * @param[in] a Amino acid object to compare *this with
+	 * @returns true if both amino acids are the same, false otherwise
+	 */
+	bool operator==(const AminoAcidImpl& a) const;
+
+	/**Compares the amino acid against another, with opposite result of
+	 * AminoAcidImpl::operator==.
+	 * @param[in] a Amino acid object to compare *this with
+	 * @returns true if the amino acids are different, false otherwise.
+	 */
+	bool operator!=(const AminoAcidImpl& a) const;
 
 	/** Key for the artificial peptide N-term amino acid.
 	 */
@@ -140,10 +156,20 @@ public:
 
 private:
 
+	/** Key/Id of the amino acid.
+	 */
 	AminoAcidImplKeyType id_;
+	/** One letter symbol of the amino acid.
+	 */
 	Char symbol_;
+	/** Three letter code of the amino acid.
+	 */
 	libaas::String threeLetterCode_;
+	/** Full name of the amino acid.
+	 */
 	libaas::String fullName_;
+	/** Stoichiometry of the amino acid.
+	 */
 	libaas::Stoichiometry stoichiometry_;
 
 };
