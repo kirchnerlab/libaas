@@ -13,31 +13,9 @@
 namespace libaas {
 namespace modifications {
 
-Modification::Modification() :
-		modification_(""), stoichiometryConfig_(
-				StoichiometryConfig(
-						StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG)) {
-	reinit();
-}
-
-Modification::Modification(const RawModification& modification) :
-		modification_(modification), stoichiometryConfig_(
-				StoichiometryConfig(
-						StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG)) {
-	reinit();
-}
-
-Modification::Modification(
-		const RawModificationImpl::RawModificationImplKeyType& modid) :
-		modification_(RawModification(modid)), stoichiometryConfig_(
-				StoichiometryConfig(
-						StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG)) {
-	reinit();
-}
-
 Modification::Modification(const RawModification& modification,
 		const StoichiometryConfig& config) :
-		modification_(modification), stoichiometryConfig_(config) {
+		modification_(modification), stoichiometryConfig_(config), stoichiometry_(), customSpecificities_() {
 	reinit();
 }
 
@@ -45,7 +23,7 @@ Modification::Modification(
 		const RawModificationImpl::RawModificationImplKeyType& modid,
 		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
 		modification_(RawModification(modid)), stoichiometryConfig_(
-				StoichiometryConfig(configid)) {
+				StoichiometryConfig(configid)), stoichiometry_(), customSpecificities_() {
 	reinit();
 }
 
@@ -148,7 +126,8 @@ Bool Modification::isApplicable(const aminoAcids::AminoAcid& prev,
 		typedef std::vector<Specificity>::const_iterator IT;
 		IT end = customSpecificities_.end();
 		for (IT it = customSpecificities_.begin(); it != end; ++it) {
-			if (it->isApplicable(prev, current, next)) {
+			if (it->isApplicable(prev.getRawAminoAcid(),
+					current.getRawAminoAcid(), next.getRawAminoAcid())) {
 				return true;
 			}
 		}
@@ -162,38 +141,8 @@ void Modification::reinit() {
 }
 
 void Modification::recalculateStoichiometry() {
-	const Stoichiometry& rawStoichiometry =
-			modification_.get().getStoichiometry();
-	typedef Stoichiometry::const_iterator IT;
-	typedef StoichiometryConfigImpl::const_iterator SCIT;
-
-	StoichiometryConfig defaultConfig = StoichiometryConfig(
-			StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
-
-	stoichiometry_.clear();
-
-	// iterate over all elements in rawStoichiometry
-	for (IT it = rawStoichiometry.begin(); it != rawStoichiometry.end(); ++it) {
-		elements::ElementImpl::ElementImplKeyType elementId = 0;
-		const String& symbol = it->first.get().getSymbol();
-		try {
-			elementId = stoichiometryConfig_.get().getKeyForSymbol(symbol);
-			stoichiometry_.set(libaas::elements::Element(elementId),
-					it->second);
-		} catch (std::out_of_range& e) {
-			// cannot find symbol in custom map
-			// searching symbol in default map
-			try {
-				elementId = defaultConfig.get().getKeyForSymbol(symbol);
-				stoichiometry_.set(libaas::elements::Element(elementId),
-						it->second);
-			} catch (std::out_of_range& e) {
-				// cannot find symbol in default map
-				throw std::out_of_range(
-						"Modification::recalculateStoichiometry(): Cannot find element symbol.");
-			}
-		}
-	}
+	stoichiometry_ = modification_.get().getStoichiometry().applyConfiguration(
+			stoichiometryConfig_);
 }
 
 bool Modification::operator==(const Modification& m) const {

@@ -32,32 +32,6 @@ class Modification {
 
 public:
 
-	/**Empty constructor to allow the instantiation of an empty modification.
-	 * The default stoichiometry configuration will be used to calculate the
-	 * stoichiometry.
-	 */
-	Modification();
-
-	/**Constructor to create a new modification using the given raw
-	 * modification.
-	 * The default stoichiometry configuration is used to calculate the
-	 * stoichiometry.
-	 * @param[in] modification Modification
-	 * @throws Throws an exception in case one ore more elements cannot be
-	 * resolved by the stoichiometry configuration.
-	 */
-	Modification(const RawModification& modification);
-
-	/**Constructor to create a new modification using the given id of a raw
-	 * modification.
-	 * The default stoichiometry configuration is used to calculate the
-	 * stoichiometry.
-	 * @param[in] modid Id of the modification
-	 * @throws Throws an exception in case one ore more elements cannot be
-	 * resolved by the stoichiometry configuration.
-	 */
-	Modification(const RawModificationImpl::RawModificationImplKeyType& modid);
-
 	/**Constructor to create a new modification using the given raw
 	 * modification and stoichiometry configuration.
 	 * @param[in] modification Modification
@@ -65,8 +39,10 @@ public:
 	 * @throws Throws an exception in case one ore more elements cannot be
 	 * resolved by the stoichiometry configuration.
 	 */
-	Modification(const RawModification& modification,
-			const StoichiometryConfig& config);
+	Modification(
+			const RawModification& modification,
+			const StoichiometryConfig& config = StoichiometryConfig(
+					StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
 
 	/**Constructor to create a new modification using the given id of a raw
 	 * modification and id of a stoichiometry configuration.
@@ -76,8 +52,9 @@ public:
 	 * resolved by the stoichiometry configuration.
 	 */
 	Modification(
-			const RawModificationImpl::RawModificationImplKeyType& modid,
-			const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid);
+			const RawModificationImpl::RawModificationImplKeyType& modid = "",
+			const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid =
+					StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
 
 	/**Sets the raw modification.
 	 * Note: This function will reset the custom specificities.

@@ -52,6 +52,7 @@ INCLUDE_DIRECTORIES(
 )
 
 #### Sources
+SET(SRCS_RAWAMINOACID RawAminoAcid-test.cpp)
 SET(SRCS_RAWMODIFICATION RawModification-test.cpp)
 SET(SRCS_AMINOACIDSEQUENCE AminoAcidSequence-test.cpp)
 SET(SRCS_ISOTOPE Isotope-test.cpp)
@@ -67,6 +68,7 @@ IF (ENABLE_COVERAGE)
     SET(TEST_LIBS ${TEST_LIBS} gcov)
 ENDIF(ENABLE_COVERAGE)
 #### Tests
+ADD_LIBAAS_TEST("RawAminoAcid" test_rawaminoacid ${SRCS_RAWAMINOACID})
 ADD_LIBAAS_TEST("RawModification" test_rawmodification ${SRCS_RAWMODIFICATION})
 ADD_LIBAAS_TEST("AminoAcidSequence" test_aminoacidsequence ${SRCS_AMINOACIDSEQUENCE})
 ADD_LIBAAS_TEST("Isotope" test_isotope ${SRCS_ISOTOPE})

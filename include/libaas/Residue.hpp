@@ -29,7 +29,7 @@ public:
 	 * @param[in] aminoAcidKey The key/id of an amino acid
 	 */
 	Residue(
-			const libaas::aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey);
+			const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey);
 
 	/**Creates a residue without a modification.
 	 * @param[in] aminoAcid The amino acid
@@ -45,7 +45,7 @@ public:
 	 * @param[in] modificationKey The key/id of the modification
 	 */
 	Residue(
-			const libaas::aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey,
+			const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
 			const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey);
 
 	/**Creates a residue with a modification.
@@ -65,7 +65,7 @@ public:
 	 * TODO the modification stays the same. shall we remove it?
 	 */
 	void changeType(
-			const aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey);
+			const aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey);
 
 	/**Change type of the amino acid.
 	 * @param[in] aminoAcid The amino acid

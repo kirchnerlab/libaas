@@ -28,8 +28,8 @@ AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
 		const String& modificationString) {
 	if (!aminoAcidSequence.empty()) {
 		// prepend peptide n-term if sequence starts without a n-term
-		if (!aminoAcids::AminoAcid(aminoAcidSequence[0]).get().isNTerm()) {
-			c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
+		if (!aminoAcids::AminoAcid(aminoAcidSequence[0]).isNTerm()) {
+			c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
 		}
 
 		typedef libaas::String::const_iterator IT;
@@ -40,8 +40,8 @@ AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
 
 		// append a peptide c-term if the sequence starts without a c-term
 		if (!aminoAcids::AminoAcid(
-				aminoAcidSequence[aminoAcidSequence.size() - 1]).get().isCTerm()) {
-			c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM);
+				aminoAcidSequence[aminoAcidSequence.size() - 1]).isCTerm()) {
+			c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
 		}
 	}
 	if (!modificationString.empty()) {
@@ -53,23 +53,23 @@ AminoAcidSequence::AminoAcidSequence(const_iterator first,
 		const_iterator last) {
 	// When the original sequence has no N and/or C term, we add peptide C and N terms as default
 	if (!(*first).isNTerm()) {
-		c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
+		c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
 	}
 	for (AminoAcidSequence::const_iterator acid = first; acid != last; ++acid) {
 		c_.push_back(*acid);
 	}
 	if (!c_[c_.size() - 1].isCTerm()) {
-		c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM);
+		c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
 	}
 }
 
 void AminoAcidSequence::push_back(const Residue& value) {
 	//If a C-terminal is passed, the previous C-terminal is replaced by it
 	Residue last(
-			aminoAcids::AminoAcid(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM));
+			aminoAcids::AminoAcid(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM));
 	if (c_.size() == 0) {
 		if (!value.isNTerm()) {
-			c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
+			c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
 		}
 		c_.push_back(value);
 	} else {
@@ -98,8 +98,8 @@ void AminoAcidSequence::pop_back() {
 }
 
 void AminoAcidSequence::makePeptideCTerm() {
-	if (c_.back().getAminoacid().get_key()
-			== aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM) {
+	if (c_.back().getAminoacid().getRawAminoAcidKey()
+			== aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM) {
 		return;
 	}
 	if (!c_.back().isCTerm()) {
@@ -107,12 +107,12 @@ void AminoAcidSequence::makePeptideCTerm() {
 		throw std::out_of_range("Unable to change amino acid sequence N-term"
 				"to peptide C-term, because there is no C-term.");
 	}
-	c_.back().changeType(aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM);
+	c_.back().changeType(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
 }
 
 void AminoAcidSequence::makePeptideNTerm() {
-	if (c_.front().getAminoacid().get_key()
-			== aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM) {
+	if (c_.front().getAminoacid().getRawAminoAcidKey()
+			== aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM) {
 		return;
 	}
 	if (!c_.front().isNTerm()) {
@@ -120,12 +120,12 @@ void AminoAcidSequence::makePeptideNTerm() {
 		throw std::out_of_range("Unable to change amino acid sequence N-term"
 				"to peptide N-term, because there is no N-term.");
 	}
-	c_.front().changeType(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
+	c_.front().changeType(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
 }
 
 void AminoAcidSequence::makeProteinCTerm() {
-	if (c_.back().getAminoacid().get_key()
-			== aminoAcids::AminoAcidImpl::PROTEIN_C_TERM) {
+	if (c_.back().getAminoacid().getRawAminoAcidKey()
+			== aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM) {
 		return;
 	}
 	if (!c_.back().isCTerm()) {
@@ -133,12 +133,12 @@ void AminoAcidSequence::makeProteinCTerm() {
 		throw std::out_of_range("Unable to change amino acid sequence N-term"
 				"to protein N-term, because there is no N-term.");
 	}
-	c_.back().changeType(aminoAcids::AminoAcidImpl::PROTEIN_C_TERM);
+	c_.back().changeType(aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM);
 }
 
 void AminoAcidSequence::makeProteinNTerm() {
-	if (c_.front().getAminoacid().get_key()
-			== aminoAcids::AminoAcidImpl::PROTEIN_N_TERM) {
+	if (c_.front().getAminoacid().getRawAminoAcidKey()
+			== aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM) {
 		return;
 	}
 	if (!c_.front().isNTerm()) {
@@ -146,7 +146,7 @@ void AminoAcidSequence::makeProteinNTerm() {
 		throw std::out_of_range("Unable to change amino acid sequence N-term"
 				"to protein N-term, because there is no N-term.");
 	}
-	c_.front().changeType(aminoAcids::AminoAcidImpl::PROTEIN_N_TERM);
+	c_.front().changeType(aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM);
 }
 
 void AminoAcidSequence::applyModificationString(
@@ -254,7 +254,7 @@ void AminoAcidSequence::append(const AminoAcidSequence& sequence) {
 		//get lost here
 		if (c_.size() == 0) {
 			// TODO what if we have a n-term mod at sequence, should we just use the sequence[0] instead of a new peptide n-term here?
-			c_.push_back(aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM);
+			c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
 		}
 		if (c_[c_.size() - 1].isCTerm()) {
 			c_.pop_back();
@@ -263,7 +263,7 @@ void AminoAcidSequence::append(const AminoAcidSequence& sequence) {
 	} else {
 		Residue last(
 				aminoAcids::AminoAcid(
-						aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM));
+						aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM));
 		if (c_[c_.size() - 1].isCTerm()) {
 			last = c_.back();
 			c_.pop_back();
@@ -449,7 +449,7 @@ String AminoAcidSequence::toUnmodifiedSequenceString() const {
 	std::string s;
 	for (const_iterator it = begin(); it != end(); ++it) {
 		if (!it->isNTerm() && !it->isCTerm())
-			s += it->getAminoacid().get().getSymbol();
+			s += it->getAminoacid().getSymbol();
 	}
 	return s;
 }
@@ -472,7 +472,7 @@ String AminoAcidSequence::getModificationString() const {
 			}
 			modifications::Modification mod = it->getModification();
 			modoss << mod.getModificationId() << "("
-					<< it->getAminoacid().get().getSymbol() << ")@" << pos;
+					<< it->getAminoacid().getSymbol() << ")@" << pos;
 		}
 	}
 	return modoss.str();

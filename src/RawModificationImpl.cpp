@@ -3750,7 +3750,7 @@ Bool RawModificationImpl::isApplicable(const libaas::aminoAcids::AminoAcid& prev
 	typedef std::vector<Specificity>::const_iterator IT;
 	IT end = specificities_.end();
 	for (IT it = specificities_.begin(); it != end; ++it) {
-		if (it->isApplicable(prev, current, next)) {
+		if (it->isApplicable(prev.getRawAminoAcid(), current.getRawAminoAcid(), next.getRawAminoAcid())) {
 			return true;
 		}
 	}

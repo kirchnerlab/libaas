@@ -10,7 +10,7 @@
 #ifndef __LIBAAS_INCLUDE_LIBAAS_SPECIFICITY_HPP__
 #define __LIBAAS_INCLUDE_LIBAAS_SPECIFICITY_HPP__
 
-#include <libaas/AminoAcid.hpp>
+#include <libaas/RawAminoAcid.hpp>
 #include <libaas/Types.hpp>
 
 #include <vector>
@@ -60,7 +60,7 @@ public:
 	 * @param[in] position Position of the specificity
 	 * @param[in] classification Classification of the specificity
 	 */
-	Specificity(const libaas::aminoAcids::AminoAcid& site,
+	Specificity(const libaas::aminoAcids::RawAminoAcid& site,
 			const Position position, const Classification classification);
 
 	/**Convenience constructor.
@@ -77,12 +77,12 @@ public:
 	/**Sets the site.
 	 * @param[in] aminoAcid
 	 */
-	void setSite(const libaas::aminoAcids::AminoAcid& aminoAcid);
+	void setSite(const libaas::aminoAcids::RawAminoAcid& aminoAcid);
 
 	/**Returns the site.
 	 * @returns
 	 */
-	const libaas::aminoAcids::AminoAcid& getSite() const;
+	const libaas::aminoAcids::RawAminoAcid& getSite() const;
 
 	/**Sets the classification of the specificity.
 	 * @param[in] classification Classification
@@ -152,7 +152,7 @@ public:
 	 */
 	const String& getComment() const;
 
-	/**Checks whether this specificity matches sourunding conditions of the
+	/**Checks whether this specificity matches the surrounding conditions of the
 	 * amino acid.
 	 * @param[in] prev Previous amino acid
 	 * @param[in] current Amino acid which should be modified with this
@@ -161,9 +161,9 @@ public:
 	 * @returns true if the modification is applicable to the current amino acid,
 	 * false otherwise
 	 */
-	Bool isApplicable(const libaas::aminoAcids::AminoAcid& prev,
-			const libaas::aminoAcids::AminoAcid& current,
-			const libaas::aminoAcids::AminoAcid& next) const;
+	Bool isApplicable(const libaas::aminoAcids::RawAminoAcid& prev,
+			const libaas::aminoAcids::RawAminoAcid& current,
+			const libaas::aminoAcids::RawAminoAcid& next) const;
 
 	/**Sets a copy of the argument as the new content for the specificity object.
 	 * The previous content is dropped.
@@ -208,7 +208,7 @@ private:
 
 	/** Site at which an event can happen.
 	 */
-	libaas::aminoAcids::AminoAcid site_;
+	libaas::aminoAcids::RawAminoAcid site_;
 	/** Position of the site.
 	 */
 	Position position_;

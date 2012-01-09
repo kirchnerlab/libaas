@@ -16,7 +16,7 @@
 namespace libaas {
 namespace modifications {
 
-Specificity::Specificity(const libaas::aminoAcids::AminoAcid& site,
+Specificity::Specificity(const libaas::aminoAcids::RawAminoAcid& site,
 		const Position position, const Classification classification) :
 		site_(site), position_(position), classification_(classification), neutralLosses_(), pepNeutralLosses_(), comment_(
 				"") {
@@ -25,17 +25,17 @@ Specificity::Specificity(const libaas::aminoAcids::AminoAcid& site,
 Specificity::Specificity(const libaas::String& site,
 		const libaas::String& position, const libaas::String& classification) :
 		neutralLosses_(), pepNeutralLosses_(), comment_("") {
-	site_ = libaas::aminoAcids::AminoAcid(
-			libaas::aminoAcids::AminoAcidImpl::getKeyForAminoAcidString(site));
+	site_ = libaas::aminoAcids::RawAminoAcid(
+			libaas::aminoAcids::RawAminoAcidImpl::getKeyForAminoAcidString(site));
 	position_ = Specificity::parsePositionString(position);
 	classification_ = Specificity::parseClassificationString(classification);
 }
 
-void Specificity::setSite(const libaas::aminoAcids::AminoAcid& aminoAcid) {
+void Specificity::setSite(const libaas::aminoAcids::RawAminoAcid& aminoAcid) {
 	site_ = aminoAcid;
 }
 
-const libaas::aminoAcids::AminoAcid& Specificity::getSite() const {
+const libaas::aminoAcids::RawAminoAcid& Specificity::getSite() const {
 	return site_;
 }
 
@@ -96,9 +96,9 @@ const String& Specificity::getComment() const {
 	return comment_;
 }
 
-Bool Specificity::isApplicable(const libaas::aminoAcids::AminoAcid& prev,
-		const libaas::aminoAcids::AminoAcid& current,
-		const libaas::aminoAcids::AminoAcid& next) const {
+Bool Specificity::isApplicable(const libaas::aminoAcids::RawAminoAcid& prev,
+		const libaas::aminoAcids::RawAminoAcid& current,
+		const libaas::aminoAcids::RawAminoAcid& next) const {
 
 	// TODO this test includes whether the current position is _excactly_ the same as the expected site (including thing such as stoichiometry and so on)
 	// this has pros and cons. we have to decide which is the best alternative
@@ -111,32 +111,32 @@ Bool Specificity::isApplicable(const libaas::aminoAcids::AminoAcid& prev,
 	case PEPTIDE_N_TERM:
 		if (!current.get().isNTerm()
 				&& prev
-						!= libaas::aminoAcids::AminoAcid(
-								aminoAcids::AminoAcidImpl::PEPTIDE_N_TERM)) {
+						!= libaas::aminoAcids::RawAminoAcid(
+								aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM)) {
 			return false;
 		}
 		break;
 	case PROTEIN_N_TERM:
 		if (!current.get().isNTerm()
 				&& prev
-						!= libaas::aminoAcids::AminoAcid(
-								aminoAcids::AminoAcidImpl::PROTEIN_N_TERM)) {
+						!= libaas::aminoAcids::RawAminoAcid(
+								aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM)) {
 			return false;
 		}
 		break;
 	case PEPTIDE_C_TERM:
 		if (!current.get().isCTerm()
 				&& next
-						!= libaas::aminoAcids::AminoAcid(
-								aminoAcids::AminoAcidImpl::PEPTIDE_C_TERM)) {
+						!= libaas::aminoAcids::RawAminoAcid(
+								aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM)) {
 			return false;
 		}
 		break;
 	case PROTEIN_C_TERM:
 		if (!current.get().isCTerm()
 				&& next
-						!= libaas::aminoAcids::AminoAcid(
-								aminoAcids::AminoAcidImpl::PROTEIN_C_TERM)) {
+						!= libaas::aminoAcids::RawAminoAcid(
+								aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM)) {
 			return false;
 		}
 		break;

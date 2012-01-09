@@ -9,7 +9,7 @@
 #include <libaas/Modification.hpp>
 #include <libaas/Element.hpp>
 #include <libaas/StoichiometryConfig.hpp>
-#include <libaas/AminoAcid.hpp>
+#include <libaas/RawAminoAcid.hpp>
 
 #include "vigra/unittest.hxx"
 
@@ -63,13 +63,13 @@ struct ModificationTestSuite: vigra::test_suite {
 		std::vector<Specificity> specificities = deamidated.getSpecificities();
 		size_t numberOfSpecificities = 4;
 		shouldEqual(specificities.size(), numberOfSpecificities);
-		Specificity spec0(AminoAcid('Q'), Specificity::ANYWHERE,
+		Specificity spec0(RawAminoAcid('Q'), Specificity::ANYWHERE,
 				Specificity::ARTEFACT);
-		Specificity spec1(AminoAcid('R'), Specificity::ANYWHERE,
+		Specificity spec1(RawAminoAcid('R'), Specificity::ANYWHERE,
 				Specificity::POST_TRANSLATIONAL);
-		Specificity spec2(AminoAcid('N'), Specificity::ANYWHERE,
+		Specificity spec2(RawAminoAcid('N'), Specificity::ANYWHERE,
 				Specificity::ARTEFACT);
-		Specificity spec3(AminoAcid('F'), Specificity::PROTEIN_N_TERM,
+		Specificity spec3(RawAminoAcid('F'), Specificity::PROTEIN_N_TERM,
 				Specificity::POST_TRANSLATIONAL);
 		shouldEqual(specificities[0], spec0);
 		shouldEqual(specificities[1], spec1);
@@ -106,7 +106,7 @@ struct ModificationTestSuite: vigra::test_suite {
 		shouldEqual(act.getRawSpecificities(), rawact.getSpecificities());
 		shouldEqual(act.getCustomSpecificities(), expectedCustom);
 
-		Specificity spec1(AminoAcid('A'), Specificity::ANYWHERE,
+		Specificity spec1(RawAminoAcid('A'), Specificity::ANYWHERE,
 				Specificity::ARTEFACT);
 		act.addCustomSpecificity(spec1);
 		expectedCustom.push_back(spec1);

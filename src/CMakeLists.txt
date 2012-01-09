@@ -1,6 +1,7 @@
-SET(SRCS 
+SET(SRCS
 	AminoAcid.cpp
-	AminoAcidImpl.cpp
+	RawAminoAcid.cpp
+	RawAminoAcidImpl.cpp
 	AminoAcidSequence.cpp
 	Element.cpp
 	ElementImpl.cpp

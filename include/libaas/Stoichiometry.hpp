@@ -11,6 +11,7 @@
 #ifndef __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRY_HPP__
 #define __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRY_HPP__
 
+#include <libaas/StoichiometryConfig.hpp>
 #include <libaas/Element.hpp>
 #include <libaas/Types.hpp>
 
@@ -122,6 +123,8 @@ public:
 	 * data from the elements
 	 */
 	String toString();
+
+	Stoichiometry applyConfiguration(const StoichiometryConfig& config) const;
 
 	/**Adds the content of the argument to the stoichiometry and returns a new
 	 * stoichiometry.

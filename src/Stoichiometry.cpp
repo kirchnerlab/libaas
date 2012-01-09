@@ -11,6 +11,7 @@
 #include <libaas/Stoichiometry.hpp>
 
 #include <sstream>
+#include <stdexcept>
 
 namespace libaas {
 
@@ -91,6 +92,39 @@ String Stoichiometry::toString() {
 		oss << it->first.get().getSymbol() << "(" << it->second << ")";
 	}
 	return oss.str();
+}
+
+Stoichiometry Stoichiometry::applyConfiguration(const StoichiometryConfig& config) const {
+		Stoichiometry retStoichiometry;
+	typedef Stoichiometry::const_iterator IT;
+	typedef StoichiometryConfigImpl::const_iterator SCIT;
+
+	StoichiometryConfig defaultConfig = StoichiometryConfig(
+			StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+
+	// iterate over all elements in rawStoichiometry
+	for (IT it = begin(); it != end(); ++it) {
+		elements::ElementImpl::ElementImplKeyType elementId = 0;
+		const String& symbol = it->first.get().getSymbol();
+		try {
+			elementId = config.get().getKeyForSymbol(symbol);
+			retStoichiometry.set(libaas::elements::Element(elementId),
+					it->second);
+		} catch (std::out_of_range& e) {
+			// cannot find symbol in custom map
+			// searching symbol in default map
+			try {
+				elementId = defaultConfig.get().getKeyForSymbol(symbol);
+				retStoichiometry.set(libaas::elements::Element(elementId),
+						it->second);
+			} catch (std::out_of_range& e) {
+				// cannot find symbol in default map
+				throw std::out_of_range(
+						"Modification::recalculateStoichiometry(): Cannot find element symbol.");
+			}
+		}
+	}
+	return retStoichiometry;
 }
 
 Stoichiometry& Stoichiometry::operator=(const Stoichiometry& s) {

@@ -13,7 +13,7 @@
 namespace libaas {
 
 Residue::Residue(
-		const libaas::aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey) :
+		const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey) :
 		aminoacid_(aminoAcidKey), modification_() {
 }
 
@@ -22,7 +22,7 @@ Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoacid) :
 }
 
 Residue::Residue(
-		const libaas::aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey,
+		const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
 		const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey) :
 		aminoacid_(aminoAcidKey), modification_(modificationKey) {
 }
@@ -33,7 +33,7 @@ Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
 }
 
 void Residue::changeType(
-		const aminoAcids::AminoAcidImpl::AminoAcidImplKeyType& aminoAcidKey) {
+		const aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey) {
 	aminoacid_ = libaas::aminoAcids::AminoAcid(aminoAcidKey);
 }
 
@@ -59,14 +59,14 @@ void Residue::removeModification() {
 	modification_ = modifications::Modification();
 }
 Stoichiometry Residue::getStoichiometry() const {
-	Stoichiometry s = aminoacid_.get().getStoichiometry();
+	Stoichiometry s = aminoacid_.getStoichiometry();
 	s += modification_.getStoichiometry();
 	return s;
 }
 
 String Residue::toString() const {
 	std::ostringstream oss;
-	oss << aminoacid_.get().getSymbol();
+	oss << aminoacid_.getSymbol();
 	if (isModified()) {
 		oss << "(" << modification_.getModificationId() << ")";
 	}
@@ -74,11 +74,11 @@ String Residue::toString() const {
 }
 
 libaas::Bool Residue::isNTerm() const {
-	return aminoacid_.get().isNTerm();
+	return aminoacid_.isNTerm();
 }
 
 libaas::Bool Residue::isCTerm() const {
-	return aminoacid_.get().isCTerm();
+	return aminoacid_.isCTerm();
 }
 
 const libaas::aminoAcids::AminoAcid& Residue::getAminoacid() const {

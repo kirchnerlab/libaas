@@ -1,13 +1,13 @@
 /*
- * AminoAcidImpl.hpp
+ * RawAminoAcidImpl.hpp
  *
  * Copyright (c) 2011 Mathias Wilhelm
  * Copyright (c) 2011 Marc Kirchner
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_AMINOACIDIMPL_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_AMINOACIDIMPL_HPP__
+#ifndef __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACIDIMPL_HPP__
+#define __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACIDIMPL_HPP__
 
 #include <libaas/Stoichiometry.hpp>
 #include <libaas/Types.hpp>
@@ -24,17 +24,17 @@ namespace aminoAcids {
  * flyweight AminoAcid provides the necessary constructors and functions to
  * use amino acids in a memory friendly manner.
  */
-class AminoAcidImpl {
+class RawAminoAcidImpl {
 
 public:
 
 	/**Convenience typedef for the key type.
 	 */
-	typedef Char AminoAcidImplKeyType;
+	typedef Char RawAminoAcidImplKeyType;
 
 	/**Default constructor to create a standard amino acid.
 	 * In order to create a custom amino acid, use
-	 * AminoAcidImpl(id, symbol, stoichiometry).
+	 * RawAminoAcidImpl(id, symbol, stoichiometry).
 	 *
 	 * This constructor has access to static variables containing all
 	 * information necessary to create and fill the internal variables.
@@ -43,20 +43,20 @@ public:
 	 * @throws Throws an exception in case the id is not in the list of standart
 	 * amino acids.
 	 */
-	AminoAcidImpl(const AminoAcidImplKeyType& id);
+	RawAminoAcidImpl(const RawAminoAcidImplKeyType& id);
 
 	/**Cosntructor to create a custom amino acid.
 	 * @param[in] id Key/Id of the amino acid
 	 * @param[in] symbol Symbol of the amino acid
 	 * @param[in] stoichiometry Stoichiometry of the amino acid
 	 */
-	AminoAcidImpl(const AminoAcidImplKeyType& id, const char symbol,
+	RawAminoAcidImpl(const RawAminoAcidImplKeyType& id, const char symbol,
 			const libaas::Stoichiometry& stoichiometry);
 
 	/**Returns the key of the amino acid.
 	 * @returns Key of the amino acid.
 	 */
-	const AminoAcidImplKeyType& getId() const;
+	const RawAminoAcidImplKeyType& getId() const;
 
 	/**Sets the symbol of the amino acid.
 	 * @param[in] symbol Symbol of the amino acid
@@ -99,36 +99,36 @@ public:
 	const String& getFullName() const;
 
 	/**Checks whether the amino acid is N-terminal.
-	 * @returns True if the amino acid is AminoAcidImpl::PEPTIDE_N_TERM or
-	 * AminoAcidImpl::PROTEIN_N_TERM.
+	 * @returns True if the amino acid is RawAminoAcidImpl::PEPTIDE_N_TERM or
+	 * RawAminoAcidImpl::PROTEIN_N_TERM.
 	 */
 	Bool isNTerm() const;
 
 	/**Checks whether the amino acid is C-terminal.
-	 * @returns True if the amino acid is AminoAcidImpl::PEPTIDE_C_TERM or
-	 * AminoAcidImpl::PEPTIDE_C_TERM.
+	 * @returns True if the amino acid is RawAminoAcidImpl::PEPTIDE_C_TERM or
+	 * RawAminoAcidImpl::PEPTIDE_C_TERM.
 	 */
 	Bool isCTerm() const;
 
-	/**Sets a copy of the argument as the new content for the amino acid object.
+	/**Sets a copy of the argument as the new content for the raw amino acid object.
 	 * The previous content is dropped.
-	 * @param[in] a Amino acid to copy
+	 * @param[in] a Raw amino acid to copy
 	 * @returns *this
 	 */
-	AminoAcidImpl& operator=(const AminoAcidImpl& a);
+	RawAminoAcidImpl& operator=(const RawAminoAcidImpl& a);
 
-	/**Compares the amino acid against another.
-	 * @param[in] a Amino acid object to compare *this with
-	 * @returns true if both amino acids are the same, false otherwise
+	/**Compares the raw amino acid against another.
+	 * @param[in] a Raw amino acid object to compare *this with
+	 * @returns true if both raw amino acids are the same, false otherwise
 	 */
-	bool operator==(const AminoAcidImpl& a) const;
+	bool operator==(const RawAminoAcidImpl& a) const;
 
-	/**Compares the amino acid against another, with opposite result of
-	 * AminoAcidImpl::operator==.
-	 * @param[in] a Amino acid object to compare *this with
-	 * @returns true if the amino acids are different, false otherwise.
+	/**Compares the raw amino acid against another, with opposite result of
+	 * RawAminoAcidImpl::operator==.
+	 * @param[in] a Raw amino acid object to compare *this with
+	 * @returns true if the raw amino acids are different, false otherwise.
 	 */
-	bool operator!=(const AminoAcidImpl& a) const;
+	bool operator!=(const RawAminoAcidImpl& a) const;
 
 	/** Key for the artificial peptide N-term amino acid.
 	 */
@@ -151,14 +151,14 @@ public:
 	 * @throws Throws an exception if the given amino acid string is not in the
 	 * list of standard amino acids.
 	 */
-	static AminoAcidImplKeyType getKeyForAminoAcidString(
+	static RawAminoAcidImplKeyType getKeyForAminoAcidString(
 			const libaas::String& aminoAcid);
 
 private:
 
 	/** Key/Id of the amino acid.
 	 */
-	AminoAcidImplKeyType id_;
+	RawAminoAcidImplKeyType id_;
 	/** One letter symbol of the amino acid.
 	 */
 	Char symbol_;
@@ -173,15 +173,15 @@ private:
 	libaas::Stoichiometry stoichiometry_;
 
 };
-// class AminoAcidImpl
+// class RawAminoAcidImpl
 
-std::ostream& operator<<(std::ostream&, const AminoAcidImpl&);
+std::ostream& operator<<(std::ostream&, const RawAminoAcidImpl&);
 
-inline const AminoAcidImpl::AminoAcidImplKeyType& AminoAcidImpl::getId() const {
+inline const RawAminoAcidImpl::RawAminoAcidImplKeyType& RawAminoAcidImpl::getId() const {
 	return id_;
 }
 
 } // namespace aminoAcids
 } // namespace libaas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_AMINOACIDIMPL_HPP__ */
+#endif /* __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACIDIMPL_HPP__ */

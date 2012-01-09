@@ -33,7 +33,7 @@ struct SpecificityTestSuite: vigra::test_suite {
 	// testing getter/setter
 	void testSpecificity() {
 
-		libaas::aminoAcids::AminoAcid aa('A');
+		libaas::aminoAcids::RawAminoAcid aa('A');
 		Specificity::Position pos = Specificity::ANYWHERE;
 		Specificity::Classification clas = Specificity::ARTEFACT;
 		libaas::String comment = "Comment a";

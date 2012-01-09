@@ -32,7 +32,7 @@ struct ResidueTestSuite: vigra::test_suite {
 
 	void testResidue() {
 
-		AminoAcidImpl::AminoAcidImplKeyType aa_k = 'A';
+		RawAminoAcidImpl::RawAminoAcidImplKeyType aa_k = 'A';
 		AminoAcid aa(aa_k);
 		RawModificationImpl::RawModificationImplKeyType m_k = "Phospho";
 		Modification m(m_k);
@@ -55,13 +55,13 @@ struct ResidueTestSuite: vigra::test_suite {
 		shouldEqual(r.hasModification(m), true);
 		shouldEqual(r.hasModification(Modification("Oxidation")), false);
 
-		r.changeType(AminoAcidImpl::PEPTIDE_C_TERM);
+		r.changeType(RawAminoAcidImpl::PEPTIDE_C_TERM);
 		shouldEqual(r.isCTerm(), true);
-		r.changeType(AminoAcidImpl::PROTEIN_C_TERM);
+		r.changeType(RawAminoAcidImpl::PROTEIN_C_TERM);
 		shouldEqual(r.isCTerm(), true);
-		r.changeType(AminoAcidImpl::PEPTIDE_N_TERM);
+		r.changeType(RawAminoAcidImpl::PEPTIDE_N_TERM);
 		shouldEqual(r.isNTerm(), true);
-		r.changeType(AminoAcidImpl::PROTEIN_N_TERM);
+		r.changeType(RawAminoAcidImpl::PROTEIN_N_TERM);
 		shouldEqual(r.isNTerm(), true);
 	}
 
