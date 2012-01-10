@@ -1,8 +1,8 @@
 /*
  * Modification.cpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -43,14 +43,19 @@ const RawModification& Modification::getModification() const {
 }
 
 void Modification::setStoichiometryConfig(const StoichiometryConfig& config) {
-	stoichiometryConfig_ = config;
-	recalculateStoichiometry();
+	if (&config != &stoichiometryConfig_) {
+		stoichiometryConfig_ = config;
+		recalculateStoichiometry();
+	}
 }
 
 void Modification::setStoichiometryConfig(
 		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) {
-	stoichiometryConfig_ = StoichiometryConfig(configid);
-	recalculateStoichiometry();
+	StoichiometryConfig config(configid);
+	if (&config != &stoichiometryConfig_) {
+		stoichiometryConfig_ = config;
+		recalculateStoichiometry();
+	}
 }
 
 const StoichiometryConfig& Modification::getStoichiometryConfig() const {
@@ -141,7 +146,8 @@ void Modification::reinit() {
 }
 
 void Modification::recalculateStoichiometry() {
-	stoichiometry_ = modification_.get().getStoichiometry().applyConfiguration(
+	// MAYBE optimize by not using recalc (apply instead)
+	stoichiometry_ = modification_.get().getStoichiometry().recalculatesWithConfiguration(
 			stoichiometryConfig_);
 }
 

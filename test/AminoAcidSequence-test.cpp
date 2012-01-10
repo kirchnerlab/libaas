@@ -1,8 +1,8 @@
 /*
  * AminoAcidSequence-test.cpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -26,19 +26,25 @@ struct AminoAcidSequenceTestSuite: vigra::test_suite {
 	AminoAcidSequenceTestSuite() :
 			vigra::test_suite("AminoAcidSequence") {
 		add(testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequence));
+		add(testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceSequenceAltering));
+		add(testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceAminoAcidStoichiometry));
+		add(testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceApplyModifications));
+		add(testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceModificationStoichiometry));
+		add(testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceApplyVariableModifications));
 	}
 
 	void testAminoAcidSequence() {
 		String aass = "AACCCQ";
-		String mods = "Phospho(C)@3; Oxidation(C)@5";
 
 		AminoAcidSequence aas(aass);
-		aas.applyModificationString(mods);
+
+		std::cout << aas.getStoichiometry().toString() << std::endl;
+
+		String mods = "Phospho(C)@3; Oxidation(C)@5";
+		aas.applyModificationAtPosition("Phospho", 3);
+		aas.applyModificationAtPosition("Oxidation", 5);
 
 		std::cout << aas << std::endl;
-
-		// TODO test whether the mod for c and n term work correctly
-		// TODO test whether the initial c and n term declaration works correctly
 
 		std::cout << aas.toString(true) << std::endl;
 		std::cout << aas.toUnmodifiedSequenceString() << std::endl;
@@ -51,6 +57,30 @@ struct AminoAcidSequenceTestSuite: vigra::test_suite {
 
 		std::cout << aas.getStoichiometry() << std::endl;
 		std::cout << aas.getStoichiometry().toString() << std::endl;
+
+		failTest("AminoAcidSequence: not fully implemented yet");
+		// TODO test whether the initial c and n term declaration works correctly
+	}
+
+	void testAminoAcidSequenceSequenceAltering() {
+		failTest("AminoAcidSequence: not implemented yet");
+	}
+
+	void testAminoAcidSequenceAminoAcidStoichiometry() {
+		failTest("AminoAcidSequence: not implemented yet");
+	}
+
+	void testAminoAcidSequenceApplyModifications() {
+		failTest("AminoAcidSequence: not implemented yet");
+		// TODO test whether the mod for c and n term work correctly
+	}
+
+	void testAminoAcidSequenceModificationStoichiometry() {
+		failTest("AminoAcidSequence: not implemented yet");
+	}
+
+	void testAminoAcidSequenceApplyVariableModifications() {
+		failTest("AminoAcidSequence: not implemented yet");
 	}
 
 };

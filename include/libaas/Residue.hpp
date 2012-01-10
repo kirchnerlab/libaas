@@ -1,8 +1,8 @@
 /*
  * Residue.hpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -29,7 +29,7 @@ public:
 	 * @param[in] aminoAcidKey The key/id of an amino acid
 	 */
 	Residue(
-			const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey);
+			const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey = '\0');
 
 	/**Creates a residue without a modification.
 	 * @param[in] aminoAcid The amino acid
@@ -77,7 +77,12 @@ public:
 	/**Returns the amino acid
 	 * @returns The amino acid
 	 */
-	const libaas::aminoAcids::AminoAcid& getAminoacid() const;
+	const libaas::aminoAcids::AminoAcid& getAminoAcid() const;
+
+	/**Returns a modifiable reference to the amino acid of this residue.
+	 * @return A reference to the amino acid.
+	 */
+	libaas::aminoAcids::AminoAcid& getAminoAcid();
 
 	/**Checks whether the amino acid is N-terminal.
 	 * @returns True if the amino acid is AminoAcidImpl::PEPTIDE_N_TERM or
@@ -105,6 +110,11 @@ public:
 	 * @returns The modification
 	 */
 	const libaas::modifications::Modification& getModification() const;
+
+	/**Returns the modifiable modificaiton of this residue.
+	 * @returns A reference to modification
+	 */
+	libaas::modifications::Modification& getModification();
 
 	/**Checks whether the modification id is equal to the given key.
 	 *

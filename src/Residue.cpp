@@ -1,8 +1,8 @@
 /*
  * Residue.cpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -59,6 +59,7 @@ void Residue::removeModification() {
 	modification_ = modifications::Modification();
 }
 Stoichiometry Residue::getStoichiometry() const {
+	// MAYBE optimize by storing the stoichiometry
 	Stoichiometry s = aminoacid_.getStoichiometry();
 	s += modification_.getStoichiometry();
 	return s;
@@ -81,7 +82,11 @@ libaas::Bool Residue::isCTerm() const {
 	return aminoacid_.isCTerm();
 }
 
-const libaas::aminoAcids::AminoAcid& Residue::getAminoacid() const {
+const libaas::aminoAcids::AminoAcid& Residue::getAminoAcid() const {
+	return aminoacid_;
+}
+
+libaas::aminoAcids::AminoAcid& Residue::getAminoAcid() {
 	return aminoacid_;
 }
 
@@ -91,6 +96,10 @@ void Residue::setModification(
 }
 
 const libaas::modifications::Modification& Residue::getModification() const {
+	return modification_;
+}
+
+libaas::modifications::Modification& Residue::getModification() {
 	return modification_;
 }
 
@@ -111,7 +120,7 @@ bool Residue::operator!=(const Residue& r) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Residue& o) {
-	os << o.getAminoacid() << "\t" << o.getModification();
+	os << o.getAminoAcid() << "\t" << o.getModification();
 	return os;
 }
 

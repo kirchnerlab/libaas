@@ -124,7 +124,18 @@ public:
 	 */
 	String toString();
 
-	Stoichiometry applyConfiguration(const StoichiometryConfig& config) const;
+	/**Applies a stoichiometry configuration to this stoichiometry.
+	 * @param[in] config Stoichiomtery configuration
+	 */
+	void applyStoichiometryConfiguration(const StoichiometryConfig& config);
+
+	/**Recalculates the stoichiometry with the given stoichiometry configurtions
+	 * and returns a copy the result.
+	 * @param[in] config Stoichiometry config which is used to recalculate the
+	 * stoichiometry
+	 * @returns A copy of the recalculates stoichiometry
+	 */
+	Stoichiometry recalculatesWithConfiguration(const StoichiometryConfig& config) const;
 
 	/**Adds the content of the argument to the stoichiometry and returns a new
 	 * stoichiometry.

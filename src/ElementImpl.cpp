@@ -15,6 +15,7 @@ namespace elements {
 
 const libaas::Size nEntries = 103;
 
+// TODO add 13C, 15N, 18O etc (S,H,P?)
 const libaas::Char* symbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O",
 		"F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca",
 		"Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge",

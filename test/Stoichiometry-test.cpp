@@ -29,6 +29,7 @@ struct StoichiometryTestSuite: vigra::test_suite {
     {
         add(testCase(&StoichiometryTestSuite::testStoichiometry));
         add(testCase(&StoichiometryTestSuite::testStoichiometryArithmetic));
+        add(testCase(&StoichiometryTestSuite::testApplyStoichiometryConfig));
     }
 
     void testStoichiometry()
@@ -176,6 +177,11 @@ struct StoichiometryTestSuite: vigra::test_suite {
         }
 
     }
+
+    void testApplyStoichiometryConfig() {
+    	failTest("not implemented yet");
+    }
+
 
 };
 

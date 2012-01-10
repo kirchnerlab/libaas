@@ -1,8 +1,8 @@
 /*
  * AminoAcid.hpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -16,14 +16,14 @@ namespace aminoAcids {
 AminoAcid::AminoAcid(
 		const RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
 		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
-		rawAminoAcid_(aminoAcidKey), stoichiometryConfig_(configid), stoichiometry_(
-				rawAminoAcid_.get().getStoichiometry()) {
+		rawAminoAcid_(aminoAcidKey), stoichiometryConfig_(configid) {
+	recalculateStoichiometry();
 }
 
 AminoAcid::AminoAcid(const RawAminoAcid& aminoAcid,
 		const StoichiometryConfig& config) :
-		rawAminoAcid_(aminoAcid), stoichiometryConfig_(config), stoichiometry_(
-				rawAminoAcid_.get().getStoichiometry()) {
+		rawAminoAcid_(aminoAcid), stoichiometryConfig_(config) {
+	recalculateStoichiometry();
 }
 
 Char AminoAcid::getSymbol() const {
@@ -59,14 +59,19 @@ Stoichiometry AminoAcid::getStoichiometry() const {
 }
 
 void AminoAcid::setStoichiometryConfig(const StoichiometryConfig& config) {
-	stoichiometryConfig_ = config;
-	recalculateStoichiometry();
+	if (&config != &stoichiometryConfig_) {
+		stoichiometryConfig_ = config;
+		recalculateStoichiometry();
+	}
 }
 
 void AminoAcid::setStoichiometryConfig(
 		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) {
-	stoichiometryConfig_ = StoichiometryConfig(configid);
-	recalculateStoichiometry();
+	StoichiometryConfig config(configid);
+	if (&config != &stoichiometryConfig_) {
+		stoichiometryConfig_ = config;
+		recalculateStoichiometry();
+	}
 }
 
 const StoichiometryConfig& AminoAcid::getStoichiometryConfig() const {
@@ -74,7 +79,8 @@ const StoichiometryConfig& AminoAcid::getStoichiometryConfig() const {
 }
 
 void AminoAcid::recalculateStoichiometry() {
-	stoichiometry_ = rawAminoAcid_.get().getStoichiometry().applyConfiguration(
+	// MAYBE optimize by using applyStoichiometryConfig
+	stoichiometry_ = rawAminoAcid_.get().getStoichiometry().recalculatesWithConfiguration(
 			stoichiometryConfig_);
 }
 

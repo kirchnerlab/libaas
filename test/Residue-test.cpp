@@ -44,10 +44,10 @@ struct ResidueTestSuite: vigra::test_suite {
 		shouldEqual(r.isModified(), false);
 
 		r.changeType(aa);
-		shouldEqual(r.getAminoacid(), aa);
+		shouldEqual(r.getAminoAcid(), aa);
 
 		r.changeType(aa_k);
-		shouldEqual(r.getAminoacid(), aa);
+		shouldEqual(r.getAminoAcid(), aa);
 
 		r.setModification(m);
 		shouldEqual(r.getModification(), m);

@@ -94,10 +94,13 @@ String Stoichiometry::toString() {
 	return oss.str();
 }
 
-Stoichiometry Stoichiometry::applyConfiguration(const StoichiometryConfig& config) const {
-		Stoichiometry retStoichiometry;
-	typedef Stoichiometry::const_iterator IT;
-	typedef StoichiometryConfigImpl::const_iterator SCIT;
+// TODO try to change StoichiometryConfig to const StoichiometryConfigImpl& to avoid all this .get() stuff where possible.
+// this applies also for all methods which receive a fw but acutally do not need it
+// the conversion between both types should be done implicitly
+
+void Stoichiometry::applyStoichiometryConfiguration(
+		const StoichiometryConfig& config) {
+	typedef Stoichiometry::iterator IT;
 
 	StoichiometryConfig defaultConfig = StoichiometryConfig(
 			StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
@@ -108,22 +111,32 @@ Stoichiometry Stoichiometry::applyConfiguration(const StoichiometryConfig& confi
 		const String& symbol = it->first.get().getSymbol();
 		try {
 			elementId = config.get().getKeyForSymbol(symbol);
-			retStoichiometry.set(libaas::elements::Element(elementId),
-					it->second);
+			if (elementId != it->first.get_key()) {
+				set(libaas::elements::Element(elementId), it->second);
+				set(it->first, 0.0);
+			}
 		} catch (std::out_of_range& e) {
 			// cannot find symbol in custom map
 			// searching symbol in default map
 			try {
 				elementId = defaultConfig.get().getKeyForSymbol(symbol);
-				retStoichiometry.set(libaas::elements::Element(elementId),
-						it->second);
+				if (elementId != it->first.get_key()) {
+					set(libaas::elements::Element(elementId), it->second);
+					set(it->first, 0.0);
+				}
 			} catch (std::out_of_range& e) {
 				// cannot find symbol in default map
 				throw std::out_of_range(
-						"Modification::recalculateStoichiometry(): Cannot find element symbol.");
+						"Stoichiometry::applyStoichiometryConfiguration(): Cannot find element symbol.");
 			}
 		}
 	}
+}
+
+Stoichiometry Stoichiometry::recalculatesWithConfiguration(
+		const StoichiometryConfig& config) const {
+	Stoichiometry retStoichiometry = *this;
+	retStoichiometry.applyStoichiometryConfiguration(config);
 	return retStoichiometry;
 }
 
