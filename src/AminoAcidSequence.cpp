@@ -18,67 +18,40 @@
 namespace libaas {
 
 AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
-		const StoichiometryConfig& aminoAcidConfig,
-		const StoichiometryConfig& modificationConfig) :
-		aminoAcidStoichiometryConfig_(aminoAcidConfig), modificationStoichiometryConfig_(
-				modificationConfig) {
+		const StoichiometryConfig& aminoAcidConfig) {
 	if (!aminoAcidSequence.empty()) {
 		// prepend peptide n-term if sequence starts without a n-term
 		if (!aminoAcids::AminoAcid(aminoAcidSequence[0]).isNTerm()) {
 			c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
-			// setting correct amino acid config
-			c_.front().getAminoAcid().setStoichiometryConfig(
-					aminoAcidStoichiometryConfig_);
 		}
 
 		typedef libaas::String::const_iterator IT;
 		IT end = aminoAcidSequence.end();
 		Residue r;
 		for (IT it = aminoAcidSequence.begin(); it != end; ++it) {
-			// setting correct amino acid config
-			r = *it;
-			r.getAminoAcid().setStoichiometryConfig(
-					aminoAcidStoichiometryConfig_);
 			c_.push_back(*it);
+			c_.back().getAminoAcid().setStoichiometryConfig(aminoAcidConfig);
 		}
 
 		// append a peptide c-term if the sequence starts without a c-term
 		if (!aminoAcids::AminoAcid(
 				aminoAcidSequence[aminoAcidSequence.size() - 1]).isCTerm()) {
 			c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
-			// setting correct amino acid config
-			c_.back().getAminoAcid().setStoichiometryConfig(
-					aminoAcidStoichiometryConfig_);
 		}
 	}
 }
 
-AminoAcidSequence::AminoAcidSequence(const_iterator first, const_iterator last,
-		const StoichiometryConfig& aminoAcidConfig,
-		const StoichiometryConfig& modificationConfig) :
-		aminoAcidStoichiometryConfig_(aminoAcidConfig), modificationStoichiometryConfig_(
-				modificationConfig) {
+AminoAcidSequence::AminoAcidSequence(const_iterator first, const_iterator last) {
 	// When the original sequence has no N and/or C term, we add peptide C and N terms as default
 	if (!(*first).isNTerm()) {
 		c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
-		// setting correct amino acid config
-		c_.front().getAminoAcid().setStoichiometryConfig(
-				aminoAcidStoichiometryConfig_);
 	}
 	Residue r;
 	for (AminoAcidSequence::const_iterator acid = first; acid != last; ++acid) {
-		// setting correct amino acid config
-		r = *acid;
-		r.getAminoAcid().setStoichiometryConfig(aminoAcidStoichiometryConfig_);
-		r.getModification().setStoichiometryConfig(
-				modificationStoichiometryConfig_);
 		c_.push_back(r);
 	}
 	if (!c_[c_.size() - 1].isCTerm()) {
 		c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
-		// setting correct amino acid config
-		c_.back().getAminoAcid().setStoichiometryConfig(
-				aminoAcidStoichiometryConfig_);
 	}
 }
 
@@ -88,26 +61,22 @@ void AminoAcidSequence::push_back(const Residue& value) {
 	Residue last(
 			aminoAcids::AminoAcid(
 					aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM));
-	// setting correct amino acid config
-	last.getAminoAcid().setStoichiometryConfig(aminoAcidStoichiometryConfig_);
-	Residue cvalue = value;
-	cvalue.getAminoAcid().setStoichiometryConfig(aminoAcidStoichiometryConfig_);
 	if (c_.size() == 0) {
-		if (!cvalue.isNTerm()) {
+		if (!value.isNTerm()) {
 			c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
 		}
-		c_.push_back(cvalue);
+		c_.push_back(value);
 	} else {
 		if (c_[c_.size() - 1].isCTerm()) {
 			//copy the C-terminal, in case there are mods
 			last = c_[c_.size() - 1];
 			c_.pop_back();
-			c_.push_back(cvalue);
+			c_.push_back(value);
 		} else {
-			c_.push_back(cvalue);
+			c_.push_back(value);
 		}
 	}
-	if (!cvalue.isCTerm())
+	if (!value.isCTerm())
 		c_.push_back(last);
 }
 
@@ -133,9 +102,7 @@ void AminoAcidSequence::makePeptideCTerm() {
 				"to peptide C-term, because there is no C-term.");
 	}
 	c_.back().changeType(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
-	// setting correct amino acid config
-	c_.back().getAminoAcid().setStoichiometryConfig(
-			aminoAcidStoichiometryConfig_);
+	// TODO keep stoich config of c term?
 }
 
 void AminoAcidSequence::makePeptideNTerm() {
@@ -149,9 +116,7 @@ void AminoAcidSequence::makePeptideNTerm() {
 				"to peptide N-term, because there is no N-term.");
 	}
 	c_.front().changeType(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
-	// setting correct amino acid config
-	c_.front().getAminoAcid().setStoichiometryConfig(
-			aminoAcidStoichiometryConfig_);
+	// TODO keep stoich config of n term?
 }
 
 void AminoAcidSequence::makeProteinCTerm() {
@@ -165,9 +130,7 @@ void AminoAcidSequence::makeProteinCTerm() {
 				"to protein N-term, because there is no N-term.");
 	}
 	c_.back().changeType(aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM);
-	// setting correct amino acid config
-	c_.back().getAminoAcid().setStoichiometryConfig(
-			aminoAcidStoichiometryConfig_);
+	// TODO keep stoich config of c term?
 }
 
 void AminoAcidSequence::makeProteinNTerm() {
@@ -181,9 +144,7 @@ void AminoAcidSequence::makeProteinNTerm() {
 				"to protein N-term, because there is no N-term.");
 	}
 	c_.front().changeType(aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM);
-	// setting correct amino acid config
-	c_.front().getAminoAcid().setStoichiometryConfig(
-			aminoAcidStoichiometryConfig_);
+	// TODO keep stoich config of n term?
 }
 
 void AminoAcidSequence::remove(
@@ -210,34 +171,18 @@ void AminoAcidSequence::append(const AminoAcidSequence& sequence) {
 			//possible modifications of the C-terminal of the first sequence
 			//get lost here
 			if (c_.size() == 0) {
-				// TODO what if we have a n-term mod at sequence, should we just use the sequence[0] instead of a new peptide n-term here?
+				// if we have a n-term mod at sequence, should we just use the sequence[0] instead of a new peptide n-term here?
 				if (sequence[sequence.size() - 1].isNTerm()) {
 					c_.push_back(sequence[sequence.size() - 1]);
-					// setting correct amino acid config
-					c_.front().getAminoAcid().setStoichiometryConfig(
-							aminoAcidStoichiometryConfig_);
-					c_.front().getModification().setStoichiometryConfig(
-							modificationStoichiometryConfig_);
 				} else {
 					c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
-					// setting correct amino acid config
-					c_.front().getAminoAcid().setStoichiometryConfig(
-							aminoAcidStoichiometryConfig_);
 				}
 			}
 			if (c_[c_.size() - 1].isCTerm()) {
 				c_.pop_back();
 			}
-			Size csize = size();
 			std::copy(sequence.begin() + 1, sequence.end(),
 					std::back_inserter(c_));
-			// setting correct amino acid config
-			for (Size i = csize; i < size(); ++i) {
-				c_[i].getAminoAcid().setStoichiometryConfig(
-						aminoAcidStoichiometryConfig_);
-				c_[i].getModification().setStoichiometryConfig(
-						modificationStoichiometryConfig_);
-			}
 		} else {
 			Residue last(
 					aminoAcids::AminoAcid(
@@ -267,9 +212,6 @@ libaas::AminoAcidSequence::iterator AminoAcidSequence::apply(
 			nextAcid = (iter + 1)->getAminoAcid();
 		}
 		if (mod.isApplicable(prevAcid, iter->getAminoAcid(), nextAcid)) {
-			// setting correct modification stoichiometry config
-			modifications::Modification cmod = mod;
-			cmod.setStoichiometryConfig(modificationStoichiometryConfig_);
 			iter->setModification(mod);
 			return iter;
 		}
@@ -416,35 +358,21 @@ void AminoAcidSequence::applyModificationAtPosition(
 		throw std::out_of_range(
 				"AminoAcidSequence::applyModificationAtPosition(): Cannot apply mod to this position.");
 	}
-	// setting correct modification stoichiometry config
-	modifications::Modification cmod = mod;
-	cmod.setStoichiometryConfig(modificationStoichiometryConfig_);
-	operator[](pos).setModification(cmod);
+	operator[](pos).setModification(mod);
 }
 
-void AminoAcidSequence::setAminoAcidStoichiometryConfig(
+void AminoAcidSequence::applyAminoAcidStoichiometryConfig(
 		const StoichiometryConfig& aminoAcidConfig) {
-	aminoAcidStoichiometryConfig_ = aminoAcidConfig;
 	for (iterator it = begin(); it != end(); ++it) {
-		it->getAminoAcid().setStoichiometryConfig(
-				aminoAcidStoichiometryConfig_);
+		it->getAminoAcid().setStoichiometryConfig(aminoAcidConfig);
 	}
 }
 
-const StoichiometryConfig AminoAcidSequence::getAminoAcidStoichiometryConfig() {
-	return aminoAcidStoichiometryConfig_;
-}
-
-void AminoAcidSequence::setModificationStoichiometryConfig(
+void AminoAcidSequence::applyModificationStoichiometryConfig(
 		const StoichiometryConfig& modificationConfig) {
-	modificationStoichiometryConfig_ = modificationConfig;
 	for (iterator it = begin(); it != end(); ++it) {
 		it->getModification().setStoichiometryConfig(modificationConfig);
 	}
-}
-
-const StoichiometryConfig AminoAcidSequence::getModificationStoichiometryConfig() {
-	return modificationStoichiometryConfig_;
 }
 
 Stoichiometry AminoAcidSequence::getStoichiometry() const {

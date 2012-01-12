@@ -26,7 +26,8 @@ Specificity::Specificity(const libaas::String& site,
 		const libaas::String& position, const libaas::String& classification) :
 		neutralLosses_(), pepNeutralLosses_(), comment_("") {
 	site_ = libaas::aminoAcids::RawAminoAcid(
-			libaas::aminoAcids::RawAminoAcidImpl::getKeyForAminoAcidString(site));
+			libaas::aminoAcids::RawAminoAcidImpl::getKeyForAminoAcidString(
+					site));
 	position_ = Specificity::parsePositionString(position);
 	classification_ = Specificity::parseClassificationString(classification);
 }
@@ -100,43 +101,41 @@ Bool Specificity::isApplicable(const libaas::aminoAcids::RawAminoAcid& prev,
 		const libaas::aminoAcids::RawAminoAcid& current,
 		const libaas::aminoAcids::RawAminoAcid& next) const {
 
-	// TODO this test includes whether the current position is _excactly_ the same as the expected site (including thing such as stoichiometry and so on)
-	// this has pros and cons. we have to decide which is the best alternative
-	if (site_ != current) {
+	if (site_.get_key() != current.get_key()) {
 		// not the correct site
 		return false;
 	}
 
+	// TODO how does this n- c-term stuff work?
+	// do we acutally allow things such as N-A-C and have an n- and c-terminal mod?
+	// both are added to N but this does not work since we only support one mod?!
+
 	switch (position_) {
 	case PEPTIDE_N_TERM:
 		if (!current.get().isNTerm()
-				&& prev
-						!= libaas::aminoAcids::RawAminoAcid(
-								aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM)) {
+				&& prev.get_key()
+						!= aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM) {
 			return false;
 		}
 		break;
 	case PROTEIN_N_TERM:
 		if (!current.get().isNTerm()
-				&& prev
-						!= libaas::aminoAcids::RawAminoAcid(
-								aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM)) {
+				&& prev.get_key()
+						!= aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM) {
 			return false;
 		}
 		break;
 	case PEPTIDE_C_TERM:
 		if (!current.get().isCTerm()
-				&& next
-						!= libaas::aminoAcids::RawAminoAcid(
-								aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM)) {
+				&& next.get_key()
+						!= aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM) {
 			return false;
 		}
 		break;
 	case PROTEIN_C_TERM:
 		if (!current.get().isCTerm()
-				&& next
-						!= libaas::aminoAcids::RawAminoAcid(
-								aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM)) {
+				&& next.get_key()
+						!= aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM) {
 			return false;
 		}
 		break;

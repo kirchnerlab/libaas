@@ -38,6 +38,10 @@ namespace libaas {
  * TODO look at all functions altering the sequence, such as append etc. There might be some specific "mistakes"
  * TODO I have to check all "apply modification" functions, since the "mechanics" changed from asap to libaas
  *
+ * Questions:
+ *  A amino acid sequence should consists of only one amino acid stoichiometry config?
+ *   If so: store default and use it every time a residue is added?
+ *  A amino acid sequence has more than one mod stoichiometry config?
  */
 class AminoAcidSequence: public libaas::Collection<libaas::Residue> {
 
@@ -57,8 +61,6 @@ public:
 	 * mod1(aminoAcid1)\@pos1; mod2(aminoAcid2)\@pos2
 	 * @param[in] aminoAcidConfig The default stoichiometry configuration used
 	 * for all amino acids
-	 * @param[in] modificationConfig The default stoichiometry configuration
-	 * used for all modifications
 	 *
 	 * @throw Throws an exception if at least one modification is not
 	 * applicable at the specified position
@@ -66,8 +68,6 @@ public:
 	AminoAcidSequence(
 			const libaas::String& aminoAcidSequence,
 			const StoichiometryConfig& aminoAcidConfig = StoichiometryConfig(
-					StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG),
-			const StoichiometryConfig& modificationConfig = StoichiometryConfig(
 					StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
 
 	/**Construct an amino acid sequence from another sequence.
@@ -75,18 +75,8 @@ public:
 	 * if the given sequence does not contain one.
 	 * @param[in] first Iterator pointing to the beginning in another sequence
 	 * @param[in] last Iterator pointing to the end of another sequence
-	 * @param[in] aminoAcidConfig The default stoichiometry configuration used
-	 * for all amino acids
-	 * @param[in] modificationConfig The default stoichiometry configuration
-	 * used for all modifications
 	 */
-	AminoAcidSequence(
-			const_iterator first,
-			const_iterator last,
-			const StoichiometryConfig& aminoAcidConfig = StoichiometryConfig(
-					StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG),
-			const StoichiometryConfig& modificationConfig = StoichiometryConfig(
-					StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
+	AminoAcidSequence(const_iterator first, const_iterator last);
 
 	/**
 	 * Modified stack operations, to push in front of the C-terminal
@@ -309,29 +299,16 @@ public:
 	 * @param[in] aminoAcidConfig Default stoichiomtery configuration for
 	 * amino acids
 	 */
-	void setAminoAcidStoichiometryConfig(
+	void applyAminoAcidStoichiometryConfig(
 			const StoichiometryConfig& aminoAcidConfig);
-
-	/**Returns a reference to the default stoichiometry configuration for all
-	 * amino acids within this amino acid sequence.
-	 * @returns A reference to the default amino acid stoichiometry configuration
-	 */
-	const StoichiometryConfig getAminoAcidStoichiometryConfig();
 
 	/**Sets the default stoichiometry configuration for all modifications within
 	 * this amino acid sequence.
 	 * @param[in] modificationConfig Default stoichiometry configuration for
 	 * modifications
 	 */
-	void setModificationStoichiometryConfig(
+	void applyModificationStoichiometryConfig(
 			const StoichiometryConfig& modificationConfig);
-
-	/**Returns a reference to the default stoichiometry configuration for all
-	 * modifications within this amino acid sequence.
-	 * @returns A reference to the default modification stoichiometry
-	 * configuration
-	 */
-	const StoichiometryConfig getModificationStoichiometryConfig();
 
 	/**Returns the stoichiometry of the amino acid.
 	 *
@@ -375,15 +352,6 @@ public:
 //    AminoAcidSequence& operator=(const AminoAcidSequence& rhs);
 
 private:
-
-	/** The default stoichiometry configuration used for all amino acids
-	 * within this amino acid sequence
-	 */
-	StoichiometryConfig aminoAcidStoichiometryConfig_;
-	/** The default stoichiometry configuration used for all modifications
-	 * within this amino acid sequence
-	 */
-	StoichiometryConfig modificationStoichiometryConfig_;
 
 };
 // class AminoAcidSequence
