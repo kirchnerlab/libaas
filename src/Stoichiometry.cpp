@@ -1,7 +1,8 @@
 /*
  * Stoichiometry.cpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  * Copyright (c) 2010 Nathan Hueksen
  * Copyright (c) 2009,2010 Marc Kirchner
  * Copyright (c) 2008 Thorben Kroeger
@@ -212,9 +213,5 @@ std::ostream& operator<<(std::ostream& o,
 	}
 	return o;
 }
-
-//istream& operator>>(std::istream& is, Stoichiometry& i) {
-//    return is;
-//}
 
 }// namespace libaas

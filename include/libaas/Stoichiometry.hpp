@@ -1,8 +1,8 @@
 /*
  * Stoichiometry.hpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2009, 2010, 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2009, 2010, 2011, 2012 Marc Kirchner
  * Copyright (c) 2010 Nathan Hueksen
  * Copyright (c) 2008 Thorben Kroeger
  *
