@@ -125,7 +125,7 @@ Bool Modification::isApplicable(const aminoAcids::AminoAcid& prev,
 	// currently it is forwarded to the instance which is able to decide this
 	if (customSpecificities_.empty()) {
 		// custom specificities are empty, so check against raw modification
-		return modification_.get().isApplicable(next, current, prev);
+		return modification_.get().isApplicable(prev, current, next);
 	} else {
 		// custom specificites are not empty, so check against those
 		typedef std::vector<Specificity>::const_iterator IT;

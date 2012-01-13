@@ -29,7 +29,8 @@ public:
 	 * @param[in] aminoAcidKey The key/id of an amino acid
 	 */
 	Residue(
-			const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey = '\0');
+			const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey =
+					'\0');
 
 	/**Creates a residue without a modification.
 	 * @param[in] aminoAcid The amino acid
@@ -101,6 +102,16 @@ public:
 	 * Note: this method does not check whether the modification is applicable
 	 * to this position.
 	 *
+	 * @param[in] modificationKey The key of a modification
+	 */
+	void setModification(
+			const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey);
+
+	/**Sets the modification.
+	 *
+	 * Note: this method does not check whether the modification is applicable
+	 * to this position.
+	 *
 	 * @param[in] modification The modifiaction
 	 */
 	void setModification(
@@ -141,6 +152,29 @@ public:
 	/**Removes the modification.
 	 */
 	void removeModification();
+
+	/**Sets the stoichiometry configuration key of the amino acid.
+	 * @param[in] configKey Stoichiometry configuration key
+	 */
+	void applyAminoAcidStoichiometryConfig(
+			const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
+
+	/**Sets the stoichiometry configuration of the amino acid.
+	 * @param[in] config Stoichiometry configuration
+	 */
+	void applyAminoAcidStoichiometryConfig(const StoichiometryConfig& config);
+
+	/**Sets the stoichiometry configuration key of the modification.
+	 * @param[in] configKey Stoichiometry configuration key
+	 */
+	void applyModificationStoichiometryConfig(
+			const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
+
+	/**Sets the stoichiometry configuration of the modification.
+	 * @param[in] config Stoichiometry configuration
+	 */
+	void applyModificationStoichiometryConfig(
+			const StoichiometryConfig& config);
 
 	/**Returns the stoichiometry of the residue.
 	 * Note: This method actually calculates the stoichiometry by summing up the

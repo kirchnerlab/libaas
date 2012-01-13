@@ -102,6 +102,8 @@ void Stoichiometry::applyStoichiometryConfiguration(
 		const StoichiometryConfig& config) {
 	typedef Stoichiometry::iterator IT;
 
+	Stoichiometry ret;
+
 	StoichiometryConfig defaultConfig = StoichiometryConfig(
 			StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
 
@@ -111,26 +113,34 @@ void Stoichiometry::applyStoichiometryConfiguration(
 		const String& symbol = it->first.get().getSymbol();
 		try {
 			elementId = config.get().getKeyForSymbol(symbol);
-			if (elementId != it->first.get_key()) {
-				set(libaas::elements::Element(elementId), it->second);
-				set(it->first, 0.0);
-			}
 		} catch (std::out_of_range& e) {
 			// cannot find symbol in custom map
 			// searching symbol in default map
 			try {
 				elementId = defaultConfig.get().getKeyForSymbol(symbol);
-				if (elementId != it->first.get_key()) {
-					set(libaas::elements::Element(elementId), it->second);
-					set(it->first, 0.0);
-				}
 			} catch (std::out_of_range& e) {
 				// cannot find symbol in default map
 				throw std::out_of_range(
 						"Stoichiometry::applyStoichiometryConfiguration(): Cannot find element symbol.");
 			}
 		}
+		// MAYBE optimize by changing values directly
+		// remove ++it in for
+		//		if (elementId != it->first.get_key()) {
+		//			Double count = it->second;
+		//			elements::Element e = it->first;
+		//			++it;
+		//			counts_.erase(e);
+		//			set(libaas::elements::Element(elementId), count);
+		//		} else {
+		//			++it;
+		//		}
+		if (elementId != it->first.get_key()) {
+			ret.set(libaas::elements::Element(elementId), it->second);
+			ret.set(it->first, -it->second);
+		}
 	}
+	*this += ret;
 }
 
 Stoichiometry Stoichiometry::recalculatesWithConfiguration(

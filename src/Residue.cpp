@@ -58,6 +58,27 @@ Bool Residue::isModified() const {
 void Residue::removeModification() {
 	modification_ = modifications::Modification();
 }
+
+void Residue::applyAminoAcidStoichiometryConfig(
+		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey) {
+	aminoacid_.setStoichiometryConfig(configKey);
+}
+
+void Residue::applyAminoAcidStoichiometryConfig(
+		const StoichiometryConfig& config) {
+	aminoacid_.setStoichiometryConfig(config);
+}
+
+void Residue::applyModificationStoichiometryConfig(
+		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey) {
+	modification_.setStoichiometryConfig(configKey);
+}
+
+void Residue::applyModificationStoichiometryConfig(
+		const StoichiometryConfig& config) {
+	modification_.setStoichiometryConfig(config);
+}
+
 Stoichiometry Residue::getStoichiometry() const {
 	// MAYBE optimize by storing the stoichiometry
 	Stoichiometry s = aminoacid_.getStoichiometry();
@@ -91,6 +112,11 @@ libaas::aminoAcids::AminoAcid& Residue::getAminoAcid() {
 }
 
 void Residue::setModification(
+		const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey) {
+	modification_ = modifications::Modification(modificationKey);
+}
+
+void Residue::setModification(
 		const libaas::modifications::Modification& modification) {
 	modification_ = modification;
 }
@@ -105,8 +131,8 @@ libaas::modifications::Modification& Residue::getModification() {
 
 Residue& Residue::operator=(const Residue& rhs) {
 	if (this != &rhs) {
-		aminoacid_ == rhs.aminoacid_;
-		modification_ == rhs.modification_;
+		aminoacid_ = rhs.aminoacid_;
+		modification_ = rhs.modification_;
 	}
 	return *this;
 }

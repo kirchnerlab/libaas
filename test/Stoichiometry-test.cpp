@@ -179,7 +179,39 @@ struct StoichiometryTestSuite: vigra::test_suite {
     }
 
     void testApplyStoichiometryConfig() {
-    	failTest("not implemented yet");
+        elements::Element H(1);
+        elements::Element C(6);
+        elements::Element N(7);
+        elements::Element O(8);
+
+        std::vector<elements::Isotope> cCi, cNi;
+        elements::Element cC(elements::ElementImpl(elements::ElementImpl::getNextId(), "C", 13, cCi));
+        elements::Element cN(elements::ElementImpl(elements::ElementImpl::getNextId(), "N", 14, cNi));
+
+        Stoichiometry s;
+    	s.set(H, 10);
+    	s.set(C, 15);
+    	s.set(N, 20);
+    	s.set(O, 25);
+
+    	StoichiometryConfigImpl::StoichiometryConfigImplKeyType sck = "test";
+    	StoichiometryConfigImpl sci(sck);
+    	sci.insertElement(cC);
+    	sci.insertElement(cN);
+
+    	StoichiometryConfig sc(sci);
+
+    	Stoichiometry ns = s.recalculatesWithConfiguration(sc);
+    	s.applyStoichiometryConfiguration(sc);
+
+        Stoichiometry ex_s;
+    	ex_s.set(H, 10);
+    	ex_s.set(cC, 15);
+    	ex_s.set(cN, 20);
+    	ex_s.set(O, 25);
+
+    	shouldEqual(s, ex_s);
+    	shouldEqual(ns, ex_s);
     }
 
 

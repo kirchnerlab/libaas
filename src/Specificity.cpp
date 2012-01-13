@@ -214,6 +214,8 @@ Specificity::Position Specificity::parsePositionString(
 	String position_tmp = position;
 	std::transform(position_tmp.begin(), position_tmp.end(),
 			position_tmp.begin(), ::tolower);
+	// TODO this does not work correctly. We might have to add any n-term and any c-term as well!
+	// TODO also: any-n and any c- is not reflected correctly!
 	if (position_tmp == "any n-term") {
 		return Specificity::PEPTIDE_N_TERM;
 	} else if (position_tmp == "any c-term") {

@@ -28,6 +28,7 @@ struct ResidueTestSuite: vigra::test_suite {
 	ResidueTestSuite() :
 			vigra::test_suite("Residue") {
 		add(testCase(&ResidueTestSuite::testResidue));
+		add(testCase(&ResidueTestSuite::testResidueStoichiometry));
 	}
 
 	void testResidue() {
@@ -63,6 +64,57 @@ struct ResidueTestSuite: vigra::test_suite {
 		shouldEqual(r.isNTerm(), true);
 		r.changeType(RawAminoAcidImpl::PROTEIN_N_TERM);
 		shouldEqual(r.isNTerm(), true);
+	}
+
+	void testResidueStoichiometry() {
+		elements::Element H(1);
+		elements::Element C(6);
+		elements::Element N(7);
+		elements::Element O(8);
+		elements::Element S(16);
+
+		Residue r('M');
+
+		Stoichiometry expectedS;
+		expectedS.set(H, 9);
+		expectedS.set(C, 5);
+		expectedS.set(N, 1);
+		expectedS.set(O, 1);
+		expectedS.set(S, 1);
+
+		shouldEqual(r.getStoichiometry(), expectedS);
+		r.setModification("Oxidation");
+		expectedS.add(O, 1);
+		shouldEqual(r.getStoichiometry(), expectedS);
+
+		std::vector<elements::Isotope> cHi;
+		elements::Element cH(
+				elements::ElementImpl(elements::ElementImpl::getNextId(), "H",
+						1, cHi));
+		StoichiometryConfigImpl sci("test1");
+		sci.insertElement(cH);
+		StoichiometryConfig sc(sci);
+
+		r.applyAminoAcidStoichiometryConfig(sc);
+
+		expectedS.set(H, 0);
+		expectedS.set(cH, 9);
+
+		shouldEqual(r.getStoichiometry(), expectedS);
+
+		std::vector<elements::Isotope> cOi;
+		elements::Element cO(
+				elements::ElementImpl(elements::ElementImpl::getNextId(), "O",
+						8, cOi));
+		StoichiometryConfigImpl scim("test2");
+		scim.insertElement(cO);
+		StoichiometryConfig scm(scim);
+		r.applyModificationStoichiometryConfig("test2");
+
+		expectedS.set(O, 1);
+		expectedS.set(cO, 1);
+
+		shouldEqual(r.getStoichiometry(), expectedS);
 	}
 
 };

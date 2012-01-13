@@ -168,6 +168,7 @@ public:
 			const modifications::RawModificationImpl::RawModificationImplKeyType& modKey);
 
 	/**Removes the modification mod from all residues.
+	 * Note: Modifications are removed if the modification exactly matches the given one, including the stoichiometry. A modification with the same key but a different stoichiometry configuration will not be removed!
 	 * @param[in] mod Modification
 	 */
 	void remove(const modifications::Modification& mod);
@@ -231,7 +232,10 @@ public:
 	std::vector<AminoAcidSequence> applyVariableModifications(
 			const std::vector<modifications::RawModification>& mods,
 			unsigned int maxModificationsPerPeptide = 0) const;
+
 	/**Combinatorically applies all variable modifications.
+	 * TODO what is this function supposed to do?
+	 * TODO also: we can only apply one modificaiton per peptide
 	 * @param[in] mods List of modifications
 	 * @param[in] maxModificationsPerPeptide maximum number of modifications per peptide
 	 * @returns List of amino acid sequences

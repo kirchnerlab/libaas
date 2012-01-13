@@ -19,6 +19,7 @@ namespace libaas {
 
 AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
 		const StoichiometryConfig& aminoAcidConfig) {
+	// TODO do we really want an empty aas in case the string is empty?
 	if (!aminoAcidSequence.empty()) {
 		// prepend peptide n-term if sequence starts without a n-term
 		if (!aminoAcids::AminoAcid(aminoAcidSequence[0]).isNTerm()) {
@@ -30,7 +31,7 @@ AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
 		Residue r;
 		for (IT it = aminoAcidSequence.begin(); it != end; ++it) {
 			c_.push_back(*it);
-			c_.back().getAminoAcid().setStoichiometryConfig(aminoAcidConfig);
+			c_.back().applyAminoAcidStoichiometryConfig(aminoAcidConfig);
 		}
 
 		// append a peptide c-term if the sequence starts without a c-term
@@ -41,15 +42,16 @@ AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
 	}
 }
 
-AminoAcidSequence::AminoAcidSequence(const_iterator first, const_iterator last) {
+AminoAcidSequence::AminoAcidSequence(const_iterator first,
+		const_iterator last) {
 	// When the original sequence has no N and/or C term, we add peptide C and N terms as default
 	if (!(*first).isNTerm()) {
 		c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
 	}
-	Residue r;
-	for (AminoAcidSequence::const_iterator acid = first; acid != last; ++acid) {
-		c_.push_back(r);
-	}
+	std::copy(first, last, std::back_inserter(c_));
+//	for (AminoAcidSequence::const_iterator acid = first; acid != last; ++acid) {
+//		c_.push_back(*acid);
+//	}
 	if (!c_[c_.size() - 1].isCTerm()) {
 		c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
 	}
@@ -81,6 +83,7 @@ void AminoAcidSequence::push_back(const Residue& value) {
 }
 
 void AminoAcidSequence::pop_back() {
+	// TODO how do we deal with the sequence if it only contains c- and n-term?
 	if (c_.size() > 0 && (c_[c_.size() - 1].isCTerm())) {
 		Residue last = c_[c_.size() - 1];
 		c_.pop_back();
@@ -92,13 +95,17 @@ void AminoAcidSequence::pop_back() {
 }
 
 void AminoAcidSequence::makePeptideCTerm() {
+	if (size() == 0) {
+		throw std::out_of_range("Unable to change amino acid sequence C-term"
+				"to peptide C-term, because there is no C-term.");
+	}
 	if (c_.back().getAminoAcid().getRawAminoAcidKey()
 			== aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM) {
 		return;
 	}
 	if (!c_.back().isCTerm()) {
 		// TODO shall we append a peptide c-term in this case?
-		throw std::out_of_range("Unable to change amino acid sequence N-term"
+		throw std::out_of_range("Unable to change amino acid sequence C-term"
 				"to peptide C-term, because there is no C-term.");
 	}
 	c_.back().changeType(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
@@ -106,6 +113,10 @@ void AminoAcidSequence::makePeptideCTerm() {
 }
 
 void AminoAcidSequence::makePeptideNTerm() {
+	if (size() == 0) {
+		throw std::out_of_range("Unable to change amino acid sequence N-term"
+				"to protein N-term, because there is no N-term.");
+	}
 	if (c_.front().getAminoAcid().getRawAminoAcidKey()
 			== aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM) {
 		return;
@@ -120,20 +131,28 @@ void AminoAcidSequence::makePeptideNTerm() {
 }
 
 void AminoAcidSequence::makeProteinCTerm() {
+	if (size() == 0) {
+		throw std::out_of_range("Unable to change amino acid sequence C-term"
+				"to protein C-term, because there is no C-term.");
+	}
 	if (c_.back().getAminoAcid().getRawAminoAcidKey()
 			== aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM) {
 		return;
 	}
 	if (!c_.back().isCTerm()) {
 		// TODO shall we append a protein c-term in this case?
-		throw std::out_of_range("Unable to change amino acid sequence N-term"
-				"to protein N-term, because there is no N-term.");
+		throw std::out_of_range("Unable to change amino acid sequence C-term"
+				"to protein C-term, because there is no C-term.");
 	}
 	c_.back().changeType(aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM);
 	// TODO keep stoich config of c term?
 }
 
 void AminoAcidSequence::makeProteinNTerm() {
+	if (size() == 0) {
+		throw std::out_of_range("Unable to change amino acid sequence N-term"
+				"to protein N-term, because there is no N-term.");
+	}
 	if (c_.front().getAminoAcid().getRawAminoAcidKey()
 			== aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM) {
 		return;
@@ -172,8 +191,8 @@ void AminoAcidSequence::append(const AminoAcidSequence& sequence) {
 			//get lost here
 			if (c_.size() == 0) {
 				// if we have a n-term mod at sequence, should we just use the sequence[0] instead of a new peptide n-term here?
-				if (sequence[sequence.size() - 1].isNTerm()) {
-					c_.push_back(sequence[sequence.size() - 1]);
+				if (sequence.c_.front().isNTerm()) {
+					c_.push_back(sequence.c_.front());
 				} else {
 					c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
 				}
@@ -364,14 +383,14 @@ void AminoAcidSequence::applyModificationAtPosition(
 void AminoAcidSequence::applyAminoAcidStoichiometryConfig(
 		const StoichiometryConfig& aminoAcidConfig) {
 	for (iterator it = begin(); it != end(); ++it) {
-		it->getAminoAcid().setStoichiometryConfig(aminoAcidConfig);
+		it->applyAminoAcidStoichiometryConfig(aminoAcidConfig);
 	}
 }
 
 void AminoAcidSequence::applyModificationStoichiometryConfig(
 		const StoichiometryConfig& modificationConfig) {
 	for (iterator it = begin(); it != end(); ++it) {
-		it->getModification().setStoichiometryConfig(modificationConfig);
+		it->applyModificationStoichiometryConfig(modificationConfig);
 	}
 }
 
