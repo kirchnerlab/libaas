@@ -1,8 +1,8 @@
 /*
  * Element-test.cpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -64,14 +64,14 @@ struct ElementTestSuite: vigra::test_suite {
         shouldEqual(t1 != t2, true);
 
         // test free id stuff
-        ElementImpl::ElementImplKeyType nEntries = 103;
+        ElementImpl::ElementImplKeyType nEntries = 107;
         ElementImpl::ElementImplKeyType numberOfStandardElements =
                 ElementImpl::getNumberOfStandardElements();
         shouldEqual(numberOfStandardElements, nEntries);
         ElementImpl::ElementImplKeyType freeId = ElementImpl::getNextId();
-        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) (103+1));
+        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) (nEntries+1));
         freeId = ElementImpl::getNextId();
-        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) (103+2));
+        shouldEqual(freeId, (ElementImpl::ElementImplKeyType) (nEntries+2));
 
         // test a standard element
         ElementImpl::ElementImplKeyType k1 = 16;
@@ -94,6 +94,16 @@ struct ElementTestSuite: vigra::test_suite {
             shouldEqual(*it1, *it2);
         }
         shouldEqual(it1 == isotopes.end() && it2 == is.end(), true);
+
+        Element Ci(ElementImpl::getDefaultKeyForElementSymbol("13C"));
+        shouldEqual(Element(105u), Ci);
+        bool thrown = false;
+        try {
+        	ElementImpl::getDefaultKeyForElementSymbol("asd");
+        } catch (std::out_of_range& e) {
+        	thrown = true;
+        }
+        shouldEqual(thrown, true);
     }
 
     // test whether the flyweights work as intended

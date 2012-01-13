@@ -1,8 +1,8 @@
 /*
  * ElementImpl.cpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -13,9 +13,9 @@
 namespace libaas {
 namespace elements {
 
-const libaas::Size nEntries = 103;
+const libaas::Size nEntries = 107;
 
-// TODO add 13C, 15N, 18O etc (S,H,P?)
+// TODO are there other important heavy isotopes?
 const libaas::Char* symbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O",
 		"F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca",
 		"Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge",
@@ -24,13 +24,14 @@ const libaas::Char* symbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O",
 		"La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er",
 		"Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg",
 		"Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U",
-		"Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr" };
+		"Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "2H",
+		"13C", "15N", "18O" };
 
 const libaas::Size nIsotopes[] = { 2, 2, 2, 1, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1,
 		4, 2, 3, 3, 6, 1, 5, 2, 4, 1, 4, 1, 5, 2, 5, 2, 5, 1, 6, 2, 6, 2, 4, 1,
 		5, 1, 7, 1, 7, 1, 6, 2, 8, 2, 10, 2, 8, 1, 9, 1, 7, 2, 4, 1, 7, 1, 7, 2,
 		7, 1, 7, 1, 6, 1, 7, 2, 6, 2, 5, 2, 7, 2, 6, 1, 7, 2, 4, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+		1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
 const libaas::Size atomicNumbers[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
 		13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
@@ -38,7 +39,7 @@ const libaas::Size atomicNumbers[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
 		49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66,
 		67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84,
 		85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101,
-		102, 103 };
+		102, 103, 1, 12, 14, 16 };
 
 const libaas::Double masses[] = { 1.0078246, 2.0141021, 3.01603, 4.00260,
 		6.015121, 7.016003, 9.012182, 10.012937, 11.009305, 12.0000000,
@@ -90,7 +91,7 @@ const libaas::Double masses[] = { 1.0078246, 2.0141021, 3.01603, 4.00260,
 		206.975872, 207.976627, 208.980374, 209.0, 210.0, 222.0, 223.0, 226.025,
 		227.028, 232.038054, 231.0359, 234.040946, 235.043924, 238.050784,
 		237.048, 244.0, 243.0, 247.0, 247.0, 251.0, 252.0, 257.0, 258.0, 259.0,
-		260.0 };
+		260.0, 2.0141021, 13.0033554, 15.0001088, 17.9991616 };
 
 const libaas::Double frequencies[] = { 0.99985, 0.00015, 0.00000138, 0.99999862,
 		0.075, 0.925, 1.0, 0.199, 0.801, 0.988930, 0.011070, 0.996337, 0.003663,
@@ -125,22 +126,39 @@ const libaas::Double frequencies[] = { 0.99985, 0.00015, 0.00000138, 0.99999862,
 		0.338, 0.253, 0.072, 1.0, 0.0015, 0.100, 0.169, 0.231, 0.132, 0.298,
 		0.0685, 0.29524, 0.70476, 0.014, 0.241, 0.221, 0.524, 1.0, 1.0, 1.0,
 		1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.000055, 0.00720, 0.992745, 1.0, 1.0,
-		1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+		1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 
 ElementImpl::ElementImplKeyType ElementImpl::freeId = nEntries + 1;
+std::map<ElementImpl::ElementImplSymbolType, ElementImpl::ElementImplKeyType> ElementImpl::elementMapping;
 
 ElementImpl::ElementImplKeyType ElementImpl::getNextId() {
 	return freeId++;
 }
 
-std::map<ElementImpl::ElementImplSymbolType, ElementImpl::ElementImplKeyType> ElementImpl::getDefaultMapping() {
-	std::map<ElementImpl::ElementImplSymbolType, ElementImpl::ElementImplKeyType> map;
-	for (Size i = 0; i < nEntries; ++i) {
-		map.insert(
-				std::pair<ElementImpl::ElementImplSymbolType,
-						ElementImpl::ElementImplKeyType>(symbols[i], i + 1));
+const std::map<ElementImpl::ElementImplSymbolType,
+		ElementImpl::ElementImplKeyType>& ElementImpl::getDefaultMapping() {
+	if (elementMapping.empty()) {
+		for (Size i = 0; i < nEntries; ++i) {
+			elementMapping.insert(
+					std::pair<ElementImpl::ElementImplSymbolType,
+							ElementImpl::ElementImplKeyType>(symbols[i],
+							i + 1));
+		}
 	}
-	return map;
+	return elementMapping;
+}
+
+ElementImpl::ElementImplKeyType ElementImpl::getDefaultKeyForElementSymbol(
+		const ElementImplSymbolType& symbol) {
+	const std::map<ElementImplSymbolType, ElementImplKeyType>& map =
+			getDefaultMapping();
+	std::map<ElementImplSymbolType, ElementImplKeyType>::const_iterator it =
+			map.find(symbol);
+	if (it != map.end()) {
+		return it->second;
+	}
+	throw std::out_of_range(
+			"ElementImpl::getDefaultKeyForElementSymbol(): Cannot find given symbol in default element mapping.");
 }
 
 ElementImpl::ElementImpl(const ElementImpl::ElementImplKeyType& id) :

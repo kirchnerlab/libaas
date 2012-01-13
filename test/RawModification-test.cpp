@@ -107,6 +107,21 @@ struct RawModificationTestSuite: vigra::test_suite {
 		shouldEqual(test.getAltNames().size(), alts.size());
 		shouldEqual(test.getAltNames()[0], alts[0]);
 
+		RawModificationImpl heavy("Propionyl:13C(3)");
+		Stoichiometry esheavy;
+		esheavy.set(
+				elements::Element(
+						elements::ElementImpl::getDefaultKeyForElementSymbol(
+								"13C")), 3);
+		esheavy.set(
+				elements::Element(
+						elements::ElementImpl::getDefaultKeyForElementSymbol(
+								"O")), 1);
+		esheavy.set(
+				elements::Element(
+						elements::ElementImpl::getDefaultKeyForElementSymbol(
+								"H")), 4);
+		shouldEqual(heavy.getStoichiometry(), esheavy);
 	}
 
 	void testRawModificationRef() {

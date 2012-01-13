@@ -122,7 +122,7 @@ public:
 	 * @returns A string representing the stoichiometry, without the isotopic
 	 * data from the elements
 	 */
-	String toString();
+	String toString() const;
 
 	/**Applies a stoichiometry configuration to this stoichiometry.
 	 * @param[in] config Stoichiomtery configuration

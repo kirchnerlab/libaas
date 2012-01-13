@@ -85,7 +85,7 @@ Bool Stoichiometry::nonNegative() const {
 	return true;
 }
 
-String Stoichiometry::toString() {
+String Stoichiometry::toString() const {
 	std::ostringstream oss;
 	typedef DataType::const_iterator IT;
 	for (IT it = counts_.begin(); it != counts_.end(); ++it) {

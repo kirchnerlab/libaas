@@ -1,8 +1,8 @@
 /*
  * ElementImpl.hpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -23,6 +23,8 @@ namespace elements {
 /**Representation of an element.
  *
  * This class holds all information about an element.
+ *
+ * TODO do we need a function which checks whether all isotopes add up to 1.0?
  */
 class ElementImpl {
 
@@ -137,8 +139,19 @@ public:
 	 * This mapping is used to create the default stoichiometry configuration.
 	 * @returns Default mapping of an element symbol to the element key.
 	 */
-	static std::map<ElementImplSymbolType, ElementImplKeyType>
+	static const std::map<ElementImplSymbolType, ElementImplKeyType>&
 	getDefaultMapping();
+
+	/**Returns the key for a given element symbol. This functions only keeps
+	 * track of standard elements and will not be able to return a key for a
+	 * custom element.
+	 * @param[in] symbol Symbol of an element
+	 * @returns The element key
+	 * @throws Throws an exception in case the given sybol is not present in
+	 * the default element mapping.
+	 */
+	static ElementImplKeyType getDefaultKeyForElementSymbol(
+			const ElementImplSymbolType& symbol);
 
 private:
 
@@ -158,6 +171,10 @@ private:
 	/**Indicates a possible free Id.
 	 */
 	static ElementImplKeyType freeId;
+
+	/**Default element mapping.
+	 */
+	static std::map<ElementImplSymbolType, ElementImplKeyType> elementMapping;
 
 };
 // class ElementImpl
