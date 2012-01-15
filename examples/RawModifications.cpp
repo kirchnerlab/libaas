@@ -46,7 +46,7 @@ int main() {
 	// ========================================================================
 	std::cout << "Add a custom specificity" << std::endl;
 
-	Specificity spec1(AminoAcid('K'), Specificity::ANYWHERE,
+	Specificity spec1(RawAminoAcid('K'), Specificity::ANYWHERE,
 			Specificity::CHEMICAL_DERIVATIVE);
 	spec1.setComment("Some comment");
 	customMod.addSpecificity(spec1);

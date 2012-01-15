@@ -26,3 +26,19 @@ TARGET_LINK_LIBRARIES(Modifications aas)
 
 ADD_EXECUTABLE(RawModificationSpeedTest RawModificationSpeedTest.cpp)
 TARGET_LINK_LIBRARIES(RawModificationSpeedTest aas)
+
+ADD_EXECUTABLE(Complex1 Complex1.cpp)
+TARGET_LINK_LIBRARIES(Complex1 aas)
+
+ADD_EXECUTABLE(RawAminoAcid RawAminoAcid.cpp)
+TARGET_LINK_LIBRARIES(RawAminoAcid aas)
+
+ADD_EXECUTABLE(AminoAcid AminoAcid.cpp)
+TARGET_LINK_LIBRARIES(AminoAcid aas)
+
+ADD_EXECUTABLE(Residue Residue.cpp)
+TARGET_LINK_LIBRARIES(Residue aas)
+
+ADD_EXECUTABLE(AminoAcidSequence AminoAcidSequence.cpp)
+TARGET_LINK_LIBRARIES(AminoAcidSequence aas)
+

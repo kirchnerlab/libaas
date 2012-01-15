@@ -381,10 +381,21 @@ void AminoAcidSequence::applyModificationAtPosition(
 }
 
 void AminoAcidSequence::applyAminoAcidStoichiometryConfig(
+		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& aminoAcidConfigKey) {
+	applyAminoAcidStoichiometryConfig(StoichiometryConfig(aminoAcidConfigKey));
+}
+
+void AminoAcidSequence::applyAminoAcidStoichiometryConfig(
 		const StoichiometryConfig& aminoAcidConfig) {
 	for (iterator it = begin(); it != end(); ++it) {
 		it->applyAminoAcidStoichiometryConfig(aminoAcidConfig);
 	}
+}
+
+void AminoAcidSequence::applyModificationStoichiometryConfig(
+		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& modificationConfigKey) {
+	applyModificationStoichiometryConfig(
+			StoichiometryConfig(modificationConfigKey));
 }
 
 void AminoAcidSequence::applyModificationStoichiometryConfig(

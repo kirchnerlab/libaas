@@ -300,11 +300,27 @@ public:
 
 	/**Sets the default amino acid stoichiometry configuration.
 	 * This method will also apply the configuration to all present amino acids.
+	 * @param[in] aminoAcidConfigKey Default stoichiomtery configuration key for
+	 * amino acids
+	 */
+	void applyAminoAcidStoichiometryConfig(
+			const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& aminoAcidConfigKey);
+
+	/**Sets the default amino acid stoichiometry configuration.
+	 * This method will also apply the configuration to all present amino acids.
 	 * @param[in] aminoAcidConfig Default stoichiomtery configuration for
 	 * amino acids
 	 */
 	void applyAminoAcidStoichiometryConfig(
 			const StoichiometryConfig& aminoAcidConfig);
+
+	/**Sets the default stoichiometry configuration for all modifications within
+	 * this amino acid sequence.
+	 * @param[in] modificationConfigKey Default stoichiometry configuration key for
+	 * modifications
+	 */
+	void applyModificationStoichiometryConfig(
+			const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& modificationConfigKey);
 
 	/**Sets the default stoichiometry configuration for all modifications within
 	 * this amino acid sequence.

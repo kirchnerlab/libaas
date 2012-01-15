@@ -14,6 +14,11 @@
  - \subpage ElementsExamples "Examples for Elements"
  - \subpage StoichiometryConfigExamples "Examples for StoichiometryConfigs"
  - \subpage ModificationExamples "Examples for Modification"
+ - \subpage Complex1 "Complex use case 1"
+ - \subpage RawAminoAcidExamples "Examples for RawAminoAcid"
+ - \subpage AminoAcidExamples "Examples for AminoAcid"
+ - \subpage ResidueExamples "Examples for Residue"
+ - \subpage AminoAcidSequenceExamples "Examples for AminoAcidSequence"
 
 \section sec_authors Principal Maintainer
 \author Mathias Wilhelm
