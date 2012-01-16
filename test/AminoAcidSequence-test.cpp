@@ -102,8 +102,10 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
     void testAminoAcidSequenceSequenceAltering()
     {
         AminoAcidSequence ass("");
-        size_t expectedSize = 0;
+        size_t expectedSize = 2;
         shouldEqual(ass.size(), expectedSize);
+        ass[0].changeType('A');
+        ass[1].changeType('A');
 
         bool thrown = false;
         try {
@@ -132,6 +134,9 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         } catch (std::out_of_range& e) {
             thrown = true;
         }shouldEqual(thrown, true);
+
+        ass = AminoAcidSequence("");
+
         // testing different situation of push back and pop_back
         ass.push_back('A');
         expectedSize = 3;
@@ -171,22 +176,21 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         shouldEqual(ass[2], Residue('3'));
         shouldEqual(ass.size(), expectedSize);
 
-        // push back N term to empty aas
+        // push back C term to empty aas
         AminoAcidSequence ass2("");
-        ass2.push_back(Residue('2'));
+        ass2.push_back(Residue('3'));
         expectedSize = 2;
-        shouldEqual(ass2[0], Residue('2'));
-        shouldEqual(ass2[1], Residue('1'));
+        shouldEqual(ass2[0], Residue('0'));
+        shouldEqual(ass2[1], Residue('3'));
         shouldEqual(ass2.size(), expectedSize);
 
-        // TODO see pop_back to do
-//		ass2.pop_back();
-//		std::cout << ass2.toString(true) << std::endl;
-//		expectedSize = 1;
-//		shouldEqual(ass2[0], Residue('2'));
-//		shouldEqual(ass2.size(),expectedSize);
+        ass2.pop_back();
+        expectedSize = 2;
+        shouldEqual(ass2[0], Residue('0'));
+        shouldEqual(ass2[1], Residue('3'));
+        shouldEqual(ass2.size(), expectedSize);
 
-// push back C term to empty ass
+        // push back C term to empty ass
         AminoAcidSequence ass3("");
         ass3.push_back(Residue('3'));
         expectedSize = 2;
@@ -208,16 +212,16 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         shouldEqual(s2.toString(true), "2GTGGTG3");
 
         s2.append(s3);
-        shouldEqual(s2.toString(true), "2GTGGTG3");
+        shouldEqual(s2.toString(true), "2GTGGTG1");
 
         s3.append(s1);
         shouldEqual(s3.toString(true), "0ACAGTG3");
 
         s4.append(s4);
-        shouldEqual(s4.toString(true), "");
+        shouldEqual(s4.toString(true), "01");
 
         s4.append(s2);
-        shouldEqual(s4.toString(true), "2GTGGTG3");
+        shouldEqual(s4.toString(true), "0GTGGTG1");
     }
 
     void testAminoAcidSequenceAminoAcidStoichiometry()

@@ -40,6 +40,9 @@ AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
             aminoAcidSequence[aminoAcidSequence.size() - 1]).isCTerm()) {
             c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
         }
+    } else {
+        c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
+        c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
     }
 }
 
@@ -85,14 +88,21 @@ void AminoAcidSequence::push_back(const Residue& value)
 
 void AminoAcidSequence::pop_back()
 {
-    // TODO how do we deal with the sequence if it only contains c- and n-term?
-    if (c_.size() > 0 && (c_[c_.size() - 1].isCTerm())) {
-        Residue last = c_[c_.size() - 1];
-        c_.pop_back();
-        c_.pop_back();
-        c_.push_back(last);
-    } else {
-        c_.pop_back();
+    // TODO shall we prepend and append an N and C term in case they are missing?
+    // any more boundary conditions?
+    Size csize = c_.size();
+    if (csize > 0) {
+        if (c_[csize - 1].isCTerm()) {
+            if (csize > 1 && !c_[csize - 2].isNTerm()) {
+                Residue last = c_[csize - 1];
+                c_.pop_back();
+                c_.pop_back();
+                c_.push_back(last);
+            }
+        } else
+            if (!c_[csize - 1].isNTerm()) {
+                c_.pop_back();
+            }
     }
 }
 

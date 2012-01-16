@@ -93,9 +93,12 @@ public:
      */
     virtual void push_back(const Residue& value);
 
-    /**Removes the last element in the vector, effectively reducing the vector size by one and invalidating all iterators and references to it.
+    /**Removes the last element in the vector, effectively reducing the vector
+     * size by one and invalidating all iterators and references to it.
      *
      * This calls the removed element's destructor.
+     *
+     * Note: This method does not remove C- or N-terminals!
      *
      * but: pop_back will skip any c-term elements
      *  -> save last
