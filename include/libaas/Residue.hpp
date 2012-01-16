@@ -191,8 +191,7 @@ public:
      * @param[in] label Isotopic label
      * @returns true if isotopicLabel_ == label, false otherwise
      */
-    Bool hasLabel(
-        const modifications::Modification& label) const;
+    Bool hasLabel(const modifications::Modification& label) const;
 
     /**Checks whether the residue is modified.
      * @returns true if the residue is modified, false otherwise

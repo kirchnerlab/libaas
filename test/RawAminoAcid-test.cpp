@@ -9,6 +9,7 @@
 #include <libaas/RawAminoAcid.hpp>
 #include <libaas/Stoichiometry.hpp>
 #include <libaas/Element.hpp>
+#include <libaas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
@@ -38,6 +39,7 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
             testCase(&RawRawAminoAcidTestSuite::testOverrideUninitializedRawAminoAcid));
         add(
             testCase(&RawRawAminoAcidTestSuite::testOverrideInitializedRawAminoAcid));
+        add(testCase(&RawRawAminoAcidTestSuite::testCreateAminoAcid));
     }
 
     void testRawAminoAcid()
@@ -106,7 +108,7 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
         libaas::String toparse[] = { "A", "a", "Ala", "ALA", "Alanine",
                                      "ALAninE", "N-term", "Peptide N-Term" };
         RawAminoAcidImpl::RawAminoAcidImplKeyType expectedRawAminoAcid[] = {
-                'A', 'A', 'A', 'A', 'A', 'A', RawAminoAcidImpl::PROTEIN_N_TERM,
+                'A', 'A', 'A', 'A', 'A', 'A', RawAminoAcidImpl::PEPTIDE_N_TERM,
                 RawAminoAcidImpl::PEPTIDE_N_TERM };
         size_t n = 8;
 
@@ -118,7 +120,7 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             RawAminoAcidImpl::getKeyForAminoAcidString("unknown");
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::LogicError& e) {
             thrown = true;
         }
         shouldEqual(thrown, true);
@@ -195,7 +197,7 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             RawAminoAcid test('z');
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::LogicError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
@@ -256,6 +258,22 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
         RawAminoAcid tr_2(t);
 
         shouldEqual(tr_2.get().getSymbol() != 'T', true);
+    }
+
+    void testCreateAminoAcid()
+    {
+        const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H',
+                                            'I', 'K', 'L', 'M', 'N', 'P', 'Q',
+                                            'R', 'S', 'T', 'V', 'W', 'Y',
+                                            RawAminoAcidImpl::PEPTIDE_N_TERM,
+                                            RawAminoAcidImpl::PEPTIDE_C_TERM,
+                                            RawAminoAcidImpl::PROTEIN_N_TERM,
+                                            RawAminoAcidImpl::PROTEIN_C_TERM };
+        libaas::Size n = 24;
+        for (libaas::Size i = 0; i < n; ++i) {
+            RawAminoAcid a(stoi_chars[i]);
+            shouldEqual(a.get_key(), stoi_chars[i]);
+        }
     }
 };
 

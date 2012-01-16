@@ -7,6 +7,7 @@
  */
 
 #include <libaas/Element.hpp>
+#include <libaas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
@@ -34,6 +35,7 @@ struct ElementTestSuite : vigra::test_suite
         add(testCase(&ElementTestSuite::testAddElementRef));
         add(testCase(&ElementTestSuite::testOverrideUninitializedElement));
         add(testCase(&ElementTestSuite::testOverrideInitializedElement));
+        add(testCase(&ElementTestSuite::testCreateElement));
     }
 
     // test general functionality of Element
@@ -100,7 +102,7 @@ struct ElementTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             ElementImpl::getDefaultKeyForElementSymbol("asd");
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::LogicError& e) {
             thrown = true;
         }
         shouldEqual(thrown, true);
@@ -176,7 +178,7 @@ struct ElementTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             Element test(2000);
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::LogicError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
@@ -235,6 +237,33 @@ struct ElementTestSuite : vigra::test_suite
         Element tr_2(t);
 
         shouldEqual(tr_2.get().getSymbol() != "Dp", true);
+    }
+
+    void testCreateElement()
+    {
+        libaas::String symbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O",
+                                     "F", "Ne", "Na", "Mg", "Al", "Si", "P",
+                                     "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti",
+                                     "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu",
+                                     "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr",
+                                     "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc",
+                                     "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn",
+                                     "Sb", "Te", "I", "Xe", "Cs", "Ba", "La",
+                                     "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd",
+                                     "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu",
+                                     "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt",
+                                     "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At",
+                                     "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U",
+                                     "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es",
+                                     "Fm", "Md", "No", "Lr", "2H", "13C",
+                                     "15N", "18O" };
+        libaas::Size n = 107;
+        for (libaas::Size i = 0; i < n; ++i) {
+            ElementImpl::ElementImplKeyType k =
+                    ElementImpl::getDefaultKeyForElementSymbol(symbols[i]);
+            Element e(k);
+            shouldEqual(e.get_key(), k);
+        }
     }
 
 };

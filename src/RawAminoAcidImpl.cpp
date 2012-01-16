@@ -8,9 +8,7 @@
 
 #include <libaas/RawAminoAcidImpl.hpp>
 #include <libaas/Element.hpp>
-
-#include <stdexcept>
-#include <algorithm>
+#include <libaas/Error.hpp>
 
 namespace libaas {
 namespace aminoAcids {
@@ -82,7 +80,7 @@ Size findIdOfAminoAcidKey(const RawAminoAcidImpl::RawAminoAcidImplKeyType& key)
             return i;
         }
     }
-    throw std::out_of_range(
+    libaas_logic_error(
         "RawAminoAcidImpl::findIdOfAminoAcidKey(): Cannot find given key in standard list of amino acids.");
 }
 
@@ -103,7 +101,7 @@ Size findIdOfAminoAcidThreeLetter(const libaas::String& tlc)
             return i;
         }
     }
-    throw std::out_of_range(
+    libaas_logic_error(
         "RawAminoAcidImpl::findIdOfAminoAcidThreeLetter(): Cannot find given three letter code in standard list of amino acids.");
 }
 
@@ -124,7 +122,7 @@ Size findIdOfAminoAcid(const libaas::String& name)
             return i;
         }
     }
-    throw std::out_of_range(
+    libaas_logic_error(
         "RawAminoAcidImpl::findIdOfAminoAcid(): Cannot find given name in standard list of amino acids.");
 }
 
@@ -142,10 +140,10 @@ RawAminoAcidImpl::RawAminoAcidImplKeyType RawAminoAcidImpl::getKeyForAminoAcidSt
         return aminoAcid_tmp[0];
     } else
         if (aminoAcid_tmp == "n-term") {
-            return RawAminoAcidImpl::PROTEIN_N_TERM;
+            return RawAminoAcidImpl::PEPTIDE_N_TERM;
         } else
             if (aminoAcid_tmp == "c-term") {
-                return RawAminoAcidImpl::PROTEIN_C_TERM;
+                return RawAminoAcidImpl::PEPTIDE_C_TERM;
             } else
                 if (aminoAcid_tmp == "protein n-term") {
                     return RawAminoAcidImpl::PROTEIN_N_TERM;
@@ -166,7 +164,7 @@ RawAminoAcidImpl::RawAminoAcidImplKeyType RawAminoAcidImpl::getKeyForAminoAcidSt
                                     return stoi_chars[findIdOfAminoAcid(
                                         aminoAcid)];
                                 }
-    throw std::out_of_range(
+    libaas_logic_error(
         "RawAminoAcidImpl::getKeyForAminoAcidString(): Cannot find amino acid.");
 }
 

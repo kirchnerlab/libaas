@@ -8,8 +8,7 @@
 
 #include <libaas/RawModificationImpl.hpp>
 #include <libaas/StoichiometryConfig.hpp>
-
-#include <stdexcept>
+#include <libaas/Error.hpp>
 
 namespace libaas {
 namespace modifications {
@@ -4799,7 +4798,7 @@ RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
             }
         }
         if (modIndex == nModifications) {
-            throw std::out_of_range(
+            libaas_logic_error(
                 "RawModificationImpl::RawModificationImpl(): Cannot find raw modification.");
         }
 

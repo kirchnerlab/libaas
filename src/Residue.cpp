@@ -7,9 +7,9 @@
  */
 
 #include <libaas/Residue.hpp>
+#include <libaas/Error.hpp>
 
 #include <sstream>
-#include <stdexcept>
 
 namespace libaas {
 
@@ -170,7 +170,7 @@ void Residue::setModification(
     if (!modification.isIsotopicLabel()) {
         modification_ = modification;
     } else {
-        throw std::out_of_range(
+        libaas_logic_error(
             "Residue::setModification(): Given modification is an isotopic label. use setIsotopicLabel() instead.");
     }
 }
@@ -197,7 +197,7 @@ void Residue::setIsotopicLabel(
     if (isotopicLabel.isIsotopicLabel()) {
         isotopicLabel_ = isotopicLabel;
     } else {
-        throw std::out_of_range(
+        libaas_logic_error(
             "Residue::setIsotopicLabel(): Given isotopic label is a standard modification. Use setModification() instead.");
     }
 }

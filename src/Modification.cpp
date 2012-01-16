@@ -8,9 +8,6 @@
 
 #include <libaas/Modification.hpp>
 
-#include <stdexcept>
-#include <set>
-
 namespace libaas {
 namespace modifications {
 
@@ -135,10 +132,12 @@ const std::vector<Specificity>& Modification::getRawSpecificities() const
     return modification_.get().getSpecificities();
 }
 
-Bool Modification::isIsotopicLabel() const {
+Bool Modification::isIsotopicLabel() const
+{
     // TODO this is true for most of the isotopic labels, but not "TMT", "Succinyl" and "Propionyl"
     typedef std::vector<Specificity>::const_iterator IT;
-    for (IT it = getSpecificities().begin(); it != getSpecificities().end(); ++it) {
+    for (IT it = getSpecificities().begin(); it != getSpecificities().end();
+            ++it) {
         if (it->getClassification() == Specificity::ISOTOPIC_LABEL) {
             return true;
         }

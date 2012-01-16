@@ -7,8 +7,7 @@
  */
 
 #include <libaas/StoichiometryConfigImpl.hpp>
-
-#include <stdexcept>
+#include <libaas/Error.hpp>
 
 namespace libaas {
 
@@ -76,7 +75,7 @@ const elements::ElementImpl::ElementImplKeyType& StoichiometryConfigImpl::getKey
     if (tmp != end()) {
         return tmp->second;
     } else {
-        throw std::out_of_range(
+        libaas_logic_error(
             "StoichiometryConfigImpl::getKeyForSymbol(): Cannot find symbol in stoichiometry config.");
     }
 }

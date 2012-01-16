@@ -7,8 +7,7 @@
  */
 
 #include <libaas/ElementImpl.hpp>
-
-#include <stdexcept>
+#include <libaas/Error.hpp>
 
 namespace libaas {
 namespace elements {
@@ -16,21 +15,17 @@ namespace elements {
 const libaas::Size nEntries = 107;
 
 // TODO are there other important heavy isotopes?
-const libaas::Char* symbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O",
-                                  "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S",
-                                  "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr",
-                                  "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga",
-                                  "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr",
-                                  "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh",
-                                  "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te",
-                                  "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr",
-                                  "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy",
-                                  "Ho", "Er", "Tm", "Yb", "Lu", "Hf", "Ta",
-                                  "W", "Re", "Os", "Ir", "Pt", "Au", "Hg",
-                                  "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr",
-                                  "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu",
-                                  "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md",
-                                  "No", "Lr", "2H", "13C", "15N", "18O" };
+const libaas::String symbols[] =
+        { "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg",
+          "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr",
+          "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br",
+          "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd",
+          "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba", "La",
+          "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er",
+          "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au",
+          "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th",
+          "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md",
+          "No", "Lr", "2H", "13C", "15N", "18O" };
 
 const libaas::Size nIsotopes[] = { 2, 2, 2, 1, 2, 2, 2, 3, 1, 3, 1, 3, 1, 3, 1,
                                    4, 2, 3, 3, 6, 1, 5, 2, 4, 1, 4, 1, 5, 2, 5,
@@ -240,7 +235,7 @@ ElementImpl::ElementImplKeyType ElementImpl::getDefaultKeyForElementSymbol(
     if (it != map.end()) {
         return it->second;
     }
-    throw std::out_of_range(
+    libaas_outofrange(
         "ElementImpl::getDefaultKeyForElementSymbol(): Cannot find given symbol in default element mapping.");
 }
 
@@ -261,8 +256,7 @@ ElementImpl::ElementImpl(const ElementImpl::ElementImplKeyType& id) :
             isotopes_.push_back(Isotope(masses[k], frequencies[k]));
         }
     } else {
-        throw std::out_of_range(
-            "Element::Element(id): Element id is out of range. Cannot retrieve standard value.");
+        libaas_logic_error( "Element::Element(): Unkown element id.");
     }
 }
 

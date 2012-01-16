@@ -7,11 +7,11 @@
  */
 
 #include <libaas/AminoAcidSequence.hpp>
+#include <libaas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
-#include <set>
 
 using namespace libaas;
 
@@ -110,28 +110,28 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             ass.makePeptideCTerm();
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::RuntimeError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         thrown = false;
         try {
             ass.makePeptideNTerm();
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::RuntimeError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         thrown = false;
         try {
             ass.makeProteinCTerm();
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::RuntimeError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         thrown = false;
         try {
             ass.makeProteinNTerm();
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::RuntimeError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
@@ -294,7 +294,7 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             aas.applyModificationAtPosition(mod, 1);
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::Exception& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 

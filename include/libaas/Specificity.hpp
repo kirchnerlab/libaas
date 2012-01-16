@@ -30,11 +30,7 @@ public:
      */
     enum Position
     {
-        ANY_N_TERM = 0,
-        ANY_C_TERM,
-        PROTEIN_N_TERM,
-        PROTEIN_C_TERM,
-        ANYWHERE
+        ANY_N_TERM = 0, ANY_C_TERM, PROTEIN_N_TERM, PROTEIN_C_TERM, ANYWHERE
     };
 
     /** Available classifications.

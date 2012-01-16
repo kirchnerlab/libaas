@@ -8,8 +8,6 @@
 
 #include <libaas/AminoAcid.hpp>
 
-#include <stdexcept>
-
 namespace libaas {
 namespace aminoAcids {
 

@@ -10,9 +10,9 @@
  */
 
 #include <libaas/Stoichiometry.hpp>
+#include <libaas/Error.hpp>
 
 #include <sstream>
-#include <stdexcept>
 
 namespace libaas {
 
@@ -128,14 +128,14 @@ void Stoichiometry::applyStoichiometryConfiguration(
         const String& symbol = it->first.get().getSymbol();
         try {
             elementId = config.get().getKeyForSymbol(symbol);
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::LogicError& e) {
             // cannot find symbol in custom map
             // searching symbol in default map
             try {
                 elementId = defaultConfig.get().getKeyForSymbol(symbol);
-            } catch (std::out_of_range& e) {
+            } catch (libaas::errors::LogicError& e) {
                 // cannot find symbol in default map
-                throw std::out_of_range(
+                libaas_fail(
                     "Stoichiometry::applyStoichiometryConfiguration(): Cannot find element symbol.");
             }
         }

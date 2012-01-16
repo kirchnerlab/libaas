@@ -9,9 +9,7 @@
  */
 
 #include <libaas/Specificity.hpp>
-
-#include <stdexcept>
-#include <algorithm>
+#include <libaas/Error.hpp>
 
 namespace libaas {
 namespace modifications {
@@ -247,7 +245,8 @@ Specificity::Classification Specificity::parseClassificationString(
                                                                     == "aa substitution") {
                                                                 return Specificity::AA_SUBSTITUTION;
                                                             }
-    throw std::out_of_range("Specificity::parseClassificationString(): ");
+    libaas_logic_error(
+        "Specificity::parseClassificationString(): Given classification string does not represent a known classification.");
 }
 
 Specificity::Position Specificity::parsePositionString(
@@ -271,7 +270,8 @@ Specificity::Position Specificity::parsePositionString(
                     if (position_tmp == "anywhere") {
                         return Specificity::ANYWHERE;
                     }
-    throw std::out_of_range("Specificity::parsePositionString(): ");
+    libaas_logic_error(
+        "Specificity::parsePositionString(): Given position string does not represent a known position.");
 }
 
 std::ostream& operator<<(std::ostream& os, const Specificity& s)

@@ -147,6 +147,10 @@ public:
     /**Returns the corresponding key of the amino acid string aminoAcid. The
      * string can contain the one-letter code, three-letter code and full
      * name of the amino acid.
+     *
+     * Note: n-term will translate to PEPTIDE_N_TERM
+     *       c-term will translate to PEPTIDE_C_TERM
+     *
      * @param[in] aminoAcid String representing the amino acid.
      * @returns Corresponding key of the amino acid with the string aminoAcid
      * @throws Throws an exception if the given amino acid string is not in the

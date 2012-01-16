@@ -7,6 +7,7 @@
  */
 
 #include <libaas/Specificity.hpp>
+#include <libaas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
@@ -114,7 +115,7 @@ struct SpecificityTestSuite : vigra::test_suite
         libaas::Bool thrown = false;
         try {
             Specificity::parsePositionString("ASD");
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::LogicError& e) {
             thrown = true;
         }
 
@@ -123,7 +124,7 @@ struct SpecificityTestSuite : vigra::test_suite
         thrown = false;
         try {
             Specificity::parseClassificationString("ASD");
-        } catch (std::out_of_range& e) {
+        } catch (libaas::errors::LogicError& e) {
             thrown = true;
         }
 

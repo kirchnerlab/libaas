@@ -10,10 +10,9 @@
  */
 
 #include <libaas/AminoAcidSequence.hpp>
+#include <libaas/Error.hpp>
 
 #include <sstream>
-#include <exception>
-#include <stdexcept>
 
 namespace libaas {
 
@@ -108,18 +107,14 @@ void AminoAcidSequence::pop_back()
 
 void AminoAcidSequence::makePeptideCTerm()
 {
-    if (size() == 0) {
-        throw std::out_of_range("Unable to change amino acid sequence C-term"
-            "to peptide C-term, because there is no C-term.");
+    if (size() == 0 || !c_.back().isCTerm()) {
+        // TODO shall we append a peptide c-term in this case?
+        libaas_fail("Unable to change amino acid sequence C-term"
+        "to peptide C-term, because there is no C-term.");
     }
     if (c_.back().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM) {
         return;
-    }
-    if (!c_.back().isCTerm()) {
-        // TODO shall we append a peptide c-term in this case?
-        throw std::out_of_range("Unable to change amino acid sequence C-term"
-            "to peptide C-term, because there is no C-term.");
     }
     c_.back().changeType(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
     // TODO keep stoich config of c term?
@@ -127,18 +122,14 @@ void AminoAcidSequence::makePeptideCTerm()
 
 void AminoAcidSequence::makePeptideNTerm()
 {
-    if (size() == 0) {
-        throw std::out_of_range("Unable to change amino acid sequence N-term"
-            "to protein N-term, because there is no N-term.");
+    if (size() == 0 || !c_.front().isNTerm()) {
+        // TODO shall we prepend a peptide N-term in this case?
+        libaas_fail("Unable to change amino acid sequence N-term"
+        "to protein N-term, because there is no N-term.");
     }
     if (c_.front().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM) {
         return;
-    }
-    if (!c_.front().isNTerm()) {
-        // TODO shall we prepend a peptide N-term in this case?
-        throw std::out_of_range("Unable to change amino acid sequence N-term"
-            "to peptide N-term, because there is no N-term.");
     }
     c_.front().changeType(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
     // TODO keep stoich config of n term?
@@ -146,18 +137,14 @@ void AminoAcidSequence::makePeptideNTerm()
 
 void AminoAcidSequence::makeProteinCTerm()
 {
-    if (size() == 0) {
-        throw std::out_of_range("Unable to change amino acid sequence C-term"
-            "to protein C-term, because there is no C-term.");
+    if (size() == 0 || !c_.back().isCTerm()) {
+        // TODO shall we append a protein c-term in this case?
+        libaas_fail("Unable to change amino acid sequence C-term"
+        "to protein C-term, because there is no C-term.");
     }
     if (c_.back().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM) {
         return;
-    }
-    if (!c_.back().isCTerm()) {
-        // TODO shall we append a protein c-term in this case?
-        throw std::out_of_range("Unable to change amino acid sequence C-term"
-            "to protein C-term, because there is no C-term.");
     }
     c_.back().changeType(aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM);
     // TODO keep stoich config of c term?
@@ -165,18 +152,14 @@ void AminoAcidSequence::makeProteinCTerm()
 
 void AminoAcidSequence::makeProteinNTerm()
 {
-    if (size() == 0) {
-        throw std::out_of_range("Unable to change amino acid sequence N-term"
-            "to protein N-term, because there is no N-term.");
+    if (size() == 0 || !c_.front().isNTerm()) {
+        // TODO shall we prepend a protein n-term in this case?
+        libaas_fail("Unable to change amino acid sequence N-term"
+        "to protein N-term, because there is no N-term.");
     }
     if (c_.front().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM) {
         return;
-    }
-    if (!c_.front().isNTerm()) {
-        // TODO shall we prepend a protein n-term in this case?
-        throw std::out_of_range("Unable to change amino acid sequence N-term"
-            "to protein N-term, because there is no N-term.");
     }
     c_.front().changeType(aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM);
     // TODO keep stoich config of n term?
@@ -273,7 +256,7 @@ void AminoAcidSequence::applyFixedModifications(const ModificationList& mods)
         for (Size pos = 1; pos < end; ++pos) {
             try {
                 applyModificationAtPosition(mod, pos);
-            } catch (std::out_of_range& e) {
+            } catch (libaas::errors::Exception& e) {
                 // nothing to do here
             }
         }
@@ -284,16 +267,16 @@ void AminoAcidSequence::applyModificationAtPosition(
     const modifications::Modification& mod, const Size& pos)
 {
     // TODO we implicitly set a label or modification if the modification "thinks" it is a label. shall we use the return code of the getSpecificities instead?
-    if (pos >= size()) {
-        throw std::out_of_range(
-            "AminoAcidSequence::applyModificationAtPosition(): Trying to apply modification at position out of bound.");
-    }
+    libaas_logic_error_cond(
+        pos < c_.size() && pos > 0,
+        "AminoAcidSequence::applyModificationAtPosition(): Trying to apply modification at position out of bound.");
+
     if (mod.isIsotopicLabel() && c_[pos].isLabeled()) {
-        throw std::out_of_range(
+        libaas_fail(
             "AminoAcidSequence::applyModificationAtPosition(): Trying to apply label modification at position which is already labeled.");
     }
     if (!mod.isIsotopicLabel() && c_[pos].isModified()) {
-        throw std::out_of_range(
+        libaas_fail(
             "AminoAcidSequence::applyModificationAtPosition(): Trying to apply modification at position which is already modified.");
     }
 
@@ -311,13 +294,9 @@ void AminoAcidSequence::applyModificationAtPosition(
 
     // get pos amino acid
     Residue current = operator[](pos);
-    if (current.isModified()) {
-        throw std::out_of_range(
-            "AminoAcidSequence::applyModificationAtPosition(): Residue is already modified. Cannot add more than one modification to one residue.");
-    }
     // check if mod is applicable to this position
     if (!mod.isApplicable(prev, current.getAminoAcid(), next)) {
-        throw std::out_of_range(
+        libaas_fail(
             "AminoAcidSequence::applyModificationAtPosition(): Cannot apply mod to this position.");
     }
 
