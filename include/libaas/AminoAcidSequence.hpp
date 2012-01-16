@@ -216,38 +216,6 @@ public:
         const libaas::AminoAcidSequence::iterator& end) const;
 
     /**Convenience function forwarding to
-     * applyVariableModifications(const ModificationList& mods, unsigned int maxModificationsPerPeptide)
-     * @param[in] mods List of modification keys
-     * @param[in] maxModificationsPerPeptide maximum number of modifications per peptide
-     * @returns List of amino acid sequences
-     */
-    std::vector<AminoAcidSequence> applyVariableModifications(
-        const std::vector<
-                modifications::RawModificationImpl::RawModificationImplKeyType>& mods,
-        unsigned int maxModificationsPerPeptide = 0) const;
-
-    /**Convenience function forwarding to
-     * applyVariableModifications(const ModificationList& mods, unsigned int maxModificationsPerPeptide)
-     * @param[in] mods List of raw modifications
-     * @param[in] maxModificationsPerPeptide maximum number of modifications per peptide
-     * @returns List of amino acid sequences
-     */
-    std::vector<AminoAcidSequence> applyVariableModifications(
-        const std::vector<modifications::RawModification>& mods,
-        unsigned int maxModificationsPerPeptide = 0) const;
-
-    /**Combinatorically applies all variable modifications.
-     * TODO what is this function supposed to do?
-     * TODO also: we can only apply one modificaiton per peptide
-     * @param[in] mods List of modifications
-     * @param[in] maxModificationsPerPeptide maximum number of modifications per peptide
-     * @returns List of amino acid sequences
-     */
-    std::vector<AminoAcidSequence> applyVariableModifications(
-        const ModificationList& mods, unsigned int maxModificationsPerPeptide =
-                0) const;
-
-    /**Convenience function forwarding to
      * applyFixedModifications(const ModificationList& mods)
      * @param[in] mods List of modification keys which should be applied to this
      */

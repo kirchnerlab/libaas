@@ -35,8 +35,6 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
             testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceApplyModifications));
         add(
             testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceAminoAcidStoichiometry));
-        add(
-            testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceApplyVariableModifications));
     }
 
     void testAminoAcidSequence()
@@ -338,11 +336,6 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         shouldEqual(aas[10].hasModification(mod), true);
         // C-term
         shouldEqual(aas[11].isModified(), false);
-    }
-
-    void testAminoAcidSequenceApplyVariableModifications()
-    {
-        failTest("not implemented yet");
     }
 
 };
