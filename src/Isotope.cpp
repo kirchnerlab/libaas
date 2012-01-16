@@ -12,7 +12,7 @@ namespace libaas {
 namespace elements {
 
 Isotope::Isotope(const Double& mass, const Double& frequency) :
-    mass_(mass), frequency_(frequency)
+        mass_(mass), frequency_(frequency)
 {
 }
 
@@ -63,5 +63,5 @@ std::ostream& operator<<(std::ostream& os, const std::vector<Isotope>& o)
 //    return is;
 //}
 
-} // namespace elements
+}// namespace elements
 } // namespace libaas

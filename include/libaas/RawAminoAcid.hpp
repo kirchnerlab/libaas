@@ -23,23 +23,25 @@ namespace aminoAcids {
  * The class AminoAcidIdExtractor is used allow the instantiation of
  * flyweight<RawAminoAcidImpl>(Key) in order to simplify the access.
  */
-struct AminoAcidIdExtractor {
-	/**Returns the key of the amino acid.
-	 * @param[in] a instance of an amino acid implementation
-	 * @returns The key of the amino acid
-	 */
-	const RawAminoAcidImpl::RawAminoAcidImplKeyType& operator()(
-			const RawAminoAcidImpl& a) const {
-		return a.getId();
-	}
+struct AminoAcidIdExtractor
+{
+    /**Returns the key of the amino acid.
+     * @param[in] a instance of an amino acid implementation
+     * @returns The key of the amino acid
+     */
+    const RawAminoAcidImpl::RawAminoAcidImplKeyType& operator()(
+        const RawAminoAcidImpl& a) const
+    {
+        return a.getId();
+    }
 };
 
 /**Typedef to simplify the data type flyweight<RawAminoAcidImpl>
  */
 typedef boost::flyweight<
-		boost::flyweights::key_value<RawAminoAcidImpl::RawAminoAcidImplKeyType,
-				RawAminoAcidImpl, AminoAcidIdExtractor>
-		, boost::flyweights::no_tracking> RawAminoAcid;
+        boost::flyweights::key_value<RawAminoAcidImpl::RawAminoAcidImplKeyType,
+                RawAminoAcidImpl, AminoAcidIdExtractor>
+        , boost::flyweights::no_tracking> RawAminoAcid;
 
 /**Convenience function to add a custom raw amino acid to this list of known amino
  * acids.
@@ -52,8 +54,8 @@ typedef boost::flyweight<
  * @returns True if the given amino acid is added correctly, false otherwise.
  */
 Bool addRawAminoAcid(const RawAminoAcidImpl::RawAminoAcidImplKeyType& id,
-		const Char symbol, const String& threeLetterCode,
-		const String& fullName, const libaas::Stoichiometry& stoichiometry);
+    const Char symbol, const String& threeLetterCode, const String& fullName,
+    const libaas::Stoichiometry& stoichiometry);
 
 /**Convenience function to add a custom raw amino acid to the list of known amino
  * acids.

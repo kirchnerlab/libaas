@@ -18,14 +18,15 @@ using namespace libaas::elements;
 /** Short description.
  * Long description.
  */
-struct ElementTestSuite: vigra::test_suite {
+struct ElementTestSuite : vigra::test_suite
+{
     /** Constructor.
      * The ElementTestSuite constructor adds all Element tests to
      * the test suite. If you write an additional test, add the test
      * case here.
      */
     ElementTestSuite() :
-        vigra::test_suite("Element")
+            vigra::test_suite("Element")
     {
         add(testCase(&ElementTestSuite::testElement));
         add(testCase(&ElementTestSuite::testElementRef));
@@ -89,19 +90,18 @@ struct ElementTestSuite: vigra::test_suite {
         const std::vector<Isotope>& isotopes = e.get().getIsotopes();
         typedef std::vector<Isotope>::const_iterator IT;
         IT it1, it2;
-        for (it1 = isotopes.begin(), it2 = is.begin(); it1 != isotopes.end()
-                && it2 != is.end(); ++it1, ++it2) {
+        for (it1 = isotopes.begin(), it2 = is.begin();
+                it1 != isotopes.end() && it2 != is.end(); ++it1, ++it2) {
             shouldEqual(*it1, *it2);
-        }
-        shouldEqual(it1 == isotopes.end() && it2 == is.end(), true);
+        }shouldEqual(it1 == isotopes.end() && it2 == is.end(), true);
 
         Element Ci(ElementImpl::getDefaultKeyForElementSymbol("13C"));
         shouldEqual(Element(105u), Ci);
         bool thrown = false;
         try {
-        	ElementImpl::getDefaultKeyForElementSymbol("asd");
+            ElementImpl::getDefaultKeyForElementSymbol("asd");
         } catch (std::out_of_range& e) {
-        	thrown = true;
+            thrown = true;
         }
         shouldEqual(thrown, true);
     }
@@ -157,7 +157,7 @@ struct ElementTestSuite: vigra::test_suite {
         ElementImpl e(k1, symbol, atomicNumber);
         e.setIsotopes(is);
         // added element should be equal to the one intended
-        shouldEqual(e_r,e);
+        shouldEqual(e_r, e);
 
         // a second try to add an element with the same id should fail
         shouldEqual(addElement(k1, symbol2, atomicNumber, is), false);
@@ -178,8 +178,7 @@ struct ElementTestSuite: vigra::test_suite {
             Element test(2000);
         } catch (std::out_of_range& e) {
             thrown = true;
-        }
-        shouldEqual(thrown, true);
+        }shouldEqual(thrown, true);
 
         // create an arbitrary element
         ElementImpl::ElementImplKeyType k1 = 2000;
@@ -217,7 +216,8 @@ struct ElementTestSuite: vigra::test_suite {
 
         // getSymbol returns Dp instead of Mo (the standard element)
         shouldEqual(tr_t.get().getSymbol(), symbol);
-        shouldEqual(tr_t.get().getSymbol() != ElementImpl(k1).getSymbol(), true);
+        shouldEqual(tr_t.get().getSymbol() != ElementImpl(k1).getSymbol(),
+            true);
     }
 
     // testing to override initialized elements

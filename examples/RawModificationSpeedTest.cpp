@@ -12,14 +12,15 @@
 
 using namespace libaas::modifications;
 
-int main() {
+int main()
+{
 
-	size_t n = 1000000;
-	std::vector<RawModification> l;
+    size_t n = 1000000;
+    std::vector<RawModification> l;
 
-	for (size_t i = 0; i < n; ++i) {
-		l.push_back(RawModification("Acetyl"));
-	}
+    for (size_t i = 0; i < n; ++i) {
+        l.push_back(RawModification("Acetyl"));
+    }
 
-	return 0;
+    return 0;
 }

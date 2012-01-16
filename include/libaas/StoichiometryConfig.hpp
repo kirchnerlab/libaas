@@ -23,24 +23,26 @@ namespace libaas {
  * The class StoichiometryConfigIdExtractor is used allow the instantiation of
  * flyweight<StoichiometryConfigImpl>(Key) in order to simplify the access.
  */
-struct StoichiometryConfigIdExtractor {
-	/**Returns the key of the stoichiometry configuration.
-	 * @param[in] e instance of a stoichiometry configuration implementation
-	 * @returns The key of the stoichiometry configuration
-	 */
-	const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& operator()(
-			const StoichiometryConfigImpl& e) const {
-		return e.getId();
-	}
+struct StoichiometryConfigIdExtractor
+{
+    /**Returns the key of the stoichiometry configuration.
+     * @param[in] e instance of a stoichiometry configuration implementation
+     * @returns The key of the stoichiometry configuration
+     */
+    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& operator()(
+        const StoichiometryConfigImpl& e) const
+    {
+        return e.getId();
+    }
 };
 
 /**Typedef to simplify the data type flyweight<StoichiometryConfigImpl>
  */
 typedef boost::flyweight<
-		boost::flyweights::key_value<
-				StoichiometryConfigImpl::StoichiometryConfigImplKeyType,
-				StoichiometryConfigImpl, StoichiometryConfigIdExtractor>
-		, boost::flyweights::no_tracking> StoichiometryConfig;
+        boost::flyweights::key_value<
+                StoichiometryConfigImpl::StoichiometryConfigImplKeyType,
+                StoichiometryConfigImpl, StoichiometryConfigIdExtractor>
+        , boost::flyweights::no_tracking> StoichiometryConfig;
 
 /**Convenience function to add a custom stoichiometry configuration to the list of
  * known stoichiometry configurations.
@@ -52,8 +54,8 @@ typedef boost::flyweight<
  */
 libaas::Bool
 addStoichiometryConfig(
-		const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& id,
-		const StoichiometryConfigImpl::DataType& map);
+    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& id,
+    const StoichiometryConfigImpl::DataType& map);
 
 /**Convenience function to add a custom stoichiometry configuration to the list of
  * known stoichiometry configurations.
@@ -64,12 +66,14 @@ addStoichiometryConfig(
  * @returns True if the given amino acid is added correctly, false otherwise.
  */
 libaas::Bool addStoichiometryConfig(
-		const StoichiometryConfigImpl& stoichiometryConfig);
+    const StoichiometryConfigImpl& stoichiometryConfig);
 
 bool operator<(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
-bool operator<=(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
+bool operator<=(const StoichiometryConfig& lhs,
+    const StoichiometryConfig& rhs);
 bool operator>(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
-bool operator>=(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
+bool operator>=(const StoichiometryConfig& lhs,
+    const StoichiometryConfig& rhs);
 
 } // namespace libaas
 

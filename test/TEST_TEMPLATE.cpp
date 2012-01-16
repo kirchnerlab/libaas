@@ -20,7 +20,7 @@ struct CLASSNAMETestSuite : vigra::test_suite
      * case here.
      */
     CLASSNAMETestSuite() :
-        vigra::test_suite("CLASSNAME")
+            vigra::test_suite("CLASSNAME")
     {
         add(testCase(&CLASSNAMETestSuite::fail));
     }

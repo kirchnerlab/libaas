@@ -23,24 +23,26 @@ namespace modifications {
  * The class RawModificationIdExtractor is used allow the instantiation of
  * flyweight<RawModificationImpl>(Key) in order to simplify the access.
  */
-struct RawModificationIdExtractor {
+struct RawModificationIdExtractor
+{
     /**Returns the key of the raw modification.
      * @param[in] m instance of a raw modification implementation
      * @returns The key of the raw modification
      */
-	const RawModificationImpl::RawModificationImplKeyType& operator()(
-			const RawModificationImpl& m) const {
-		return m.getId();
-	}
+    const RawModificationImpl::RawModificationImplKeyType& operator()(
+        const RawModificationImpl& m) const
+    {
+        return m.getId();
+    }
 };
 
 /**Typedef to simplify the data type flyweight<RawModificationImpl>
  */
 typedef boost::flyweight<
-		boost::flyweights::key_value<
-				RawModificationImpl::RawModificationImplKeyType,
-				RawModificationImpl, RawModificationIdExtractor>
-		, boost::flyweights::no_tracking> RawModification;
+        boost::flyweights::key_value<
+                RawModificationImpl::RawModificationImplKeyType,
+                RawModificationImpl, RawModificationIdExtractor>
+        , boost::flyweights::no_tracking> RawModification;
 
 /**Convenience function to add a custom raw modification to the list of known
  * raw modifications.
@@ -54,11 +56,11 @@ typedef boost::flyweight<
  * @returns True if the given raw modification is added correctly, false otherwise.
  */
 libaas::Bool addRawModification(
-		const RawModificationImpl::RawModificationImplKeyType& id,
-		const libaas::String& name, const libaas::String& fullname,
-		const std::vector<String>& altNames, const Stoichiometry& stoichiometry,
-		const std::vector<Specificity>& specificities,
-		const libaas::Bool& verified);
+    const RawModificationImpl::RawModificationImplKeyType& id,
+    const libaas::String& name, const libaas::String& fullname,
+    const std::vector<String>& altNames, const Stoichiometry& stoichiometry,
+    const std::vector<Specificity>& specificities,
+    const libaas::Bool& verified);
 
 /**Convenience function to add a custom raw modification to the list of known
  * raw modifications.

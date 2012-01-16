@@ -19,7 +19,8 @@ namespace elements {
 
 /**Representation of an isotope.
  */
-class Isotope {
+class Isotope
+{
 
 public:
     /** Default constructor.
@@ -38,24 +39,24 @@ public:
      */
     const Double& getFrequency() const;
 
-	/**Sets a copy of the argument as the new content for the isotope object.
-	 * The previous content is dropped.
-	 * @param[in] rhs Isotope to copy
-	 * @returns *this
-	 */
+    /**Sets a copy of the argument as the new content for the isotope object.
+     * The previous content is dropped.
+     * @param[in] rhs Isotope to copy
+     * @returns *this
+     */
     Isotope& operator=(const Isotope& rhs);
 
-	/**Compares the isotope against another.
-	 * @param[in] i Isotope object to compare *this with
-	 * @returns true if both isotopes are the same, false otherwise
-	 */
+    /**Compares the isotope against another.
+     * @param[in] i Isotope object to compare *this with
+     * @returns true if both isotopes are the same, false otherwise
+     */
     bool operator==(const Isotope& i) const;
 
-	/**Compares the isotope against another, with opposite result of
-	 * Isotope::operator==.
-	 * @param[in] i Isotope object to compare *this with
-	 * @returns true if the isotopes are different, false otherwise.
-	 */
+    /**Compares the isotope against another, with opposite result of
+     * Isotope::operator==.
+     * @param[in] i Isotope object to compare *this with
+     * @returns true if the isotopes are different, false otherwise.
+     */
     bool operator!=(const Isotope& i) const;
 
 private:
@@ -67,7 +68,8 @@ private:
      */
     Double frequency_;
 
-}; // class Isotope
+};
+// class Isotope
 
 std::ostream& operator<<(std::ostream&, const Isotope&);
 std::ostream& operator<<(std::ostream&, const std::vector<Isotope>&);

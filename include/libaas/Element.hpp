@@ -22,23 +22,25 @@ namespace elements {
  * flyweight<ElementImpl>(Key). This simplifies the instantiation and provides
  * a speed up, since the ElementImpl is instantiated only once.
  */
-struct ElementIdExtractor {
+struct ElementIdExtractor
+{
     /**Returns the key of the element.
      * @param[in] e Instance of an element implementation
      * @returns The key of the element
      */
-	const ElementImpl::ElementImplKeyType& operator()(
-			const ElementImpl& e) const {
-		return e.getId();
-	}
+    const ElementImpl::ElementImplKeyType& operator()(
+        const ElementImpl& e) const
+    {
+        return e.getId();
+    }
 };
 
 /**Typedef to simplify the data type flyweight<ElementImpl>
  */
 typedef boost::flyweight<
-		boost::flyweights::key_value<ElementImpl::ElementImplKeyType,
-				ElementImpl, ElementIdExtractor>,
-		boost::flyweights::no_tracking> Element;
+        boost::flyweights::key_value<ElementImpl::ElementImplKeyType,
+                ElementImpl, ElementIdExtractor>,
+        boost::flyweights::no_tracking> Element;
 
 /**Convenience function to add a custom element to this list of known elements.
  * This methods calls addElement(ElementImpl)
@@ -49,8 +51,8 @@ typedef boost::flyweight<
  * @returns True if the given element is added correctly, false otherwise.
  */
 Bool addElement(const ElementImpl::ElementImplKeyType& id,
-		const libaas::String& symbol, const libaas::Size& atomicNumber,
-		const std::vector<Isotope>& isotopes);
+    const libaas::String& symbol, const libaas::Size& atomicNumber,
+    const std::vector<Isotope>& isotopes);
 
 /**Convenience function to add a custom element to the list of known elements.
  * Note: Once an element is added it is not possible to alter its properties.

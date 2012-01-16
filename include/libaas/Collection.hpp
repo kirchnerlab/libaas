@@ -24,7 +24,8 @@ namespace libaas {
  * interface, the Collection class can be used to derive from.
  */
 template<class T, class A = std::allocator<T> >
-class Collection {
+class Collection
+{
 public:
     // TODO: use #define directive to disable in non-test builds.
     friend struct ::CollectionTestSuite;
@@ -39,8 +40,7 @@ public:
     typedef typename std::vector<T, A>::iterator iterator;
     typedef typename std::vector<T, A>::const_iterator const_iterator;
     typedef typename std::vector<T, A>::reverse_iterator reverse_iterator;
-    typedef typename std::vector<T, A>::const_reverse_iterator
-            const_reverse_iterator;
+    typedef typename std::vector<T, A>::const_reverse_iterator const_reverse_iterator;
     typedef typename std::vector<T, A>::pointer pointer;
     typedef typename std::vector<T, A>::const_pointer const_pointer;
     typedef typename std::vector<T, A>::reference reference;
@@ -51,19 +51,19 @@ public:
     {
     }
     Collection(const Collection& rhs) :
-        c_(rhs.c_)
+            c_(rhs.c_)
     {
     }
     explicit Collection(const std::vector<T, A>& rhs) :
-        c_(rhs)
+            c_(rhs)
     {
     }
     explicit Collection(size_type n, const T& value = T()) :
-        c_(n, value)
+            c_(n, value)
     {
     }
     template<class In> Collection(In begin, In end) :
-        c_(begin, end)
+            c_(begin, end)
     {
     }
 
@@ -81,11 +81,11 @@ public:
 
     template<typename U, typename V>
     friend bool operator==(const Collection<U, V>& lhs,
-            const Collection<U, V>& rhs);
+    const Collection<U, V>& rhs);
 
     template<class U, class V>
     friend bool operator<(const Collection<U, V>& lhs,
-            const Collection<U, V>& rhs);
+    const Collection<U, V>& rhs);
 
     template<class U, class V>
     friend void swap(Collection<U, V>& lhs, Collection<U, V>& rhs);
@@ -222,17 +222,17 @@ protected:
 
 // helper functions
 template<class T, class A> bool operator==(const Collection<T, A>& lhs,
-        const Collection<T, A>& rhs)
+const Collection<T, A>& rhs)
 {
     return lhs.c_ == rhs.c_;
 }
 template<class T, class A> bool operator<(const Collection<T, A>& lhs,
-        const Collection<T, A>& rhs)
+const Collection<T, A>& rhs)
 {
     return lhs.c_ < rhs.c_;
 }
 template<class T, class A> void swap(Collection<T, A>& lhs,
-        Collection<T, A>& rhs)
+Collection<T, A>& rhs)
 {
     lhs.c_.swap(rhs.c_);
 }

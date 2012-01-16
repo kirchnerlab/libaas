@@ -17,14 +17,15 @@ using namespace libaas::elements;
 /** Short description.
  * Long description.
  */
-struct IsotopeTestSuite: vigra::test_suite {
+struct IsotopeTestSuite : vigra::test_suite
+{
     /** Constructor.
      * The IsotopeTestSuite constructor adds all Isotope tests to
      * the test suite. If you write an additional test, add the test
      * case here.
      */
     IsotopeTestSuite() :
-        vigra::test_suite("Isotope")
+            vigra::test_suite("Isotope")
     {
         add(testCase(&IsotopeTestSuite::testIsotope));
     }
