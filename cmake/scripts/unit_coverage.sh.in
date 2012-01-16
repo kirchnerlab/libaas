@@ -17,7 +17,7 @@ echo "### RUNNING TEST ###"
 ./test_$1
 echo "### ...     DONE ###"
 lcov --directory @LIBAAS_BINARY_DIR@/test/CMakeFiles \
-     --directory @LIBAAS_BINARY_DIR@/src/CMakeFiles/pipe.dir \
+     --directory @LIBAAS_BINARY_DIR@/src/CMakeFiles/aas.dir \
      -capture --output-file @LIBAAS_BINARY_DIR@/test/coverage_$1/$1.info
 lcov --extract @LIBAAS_BINARY_DIR@/test/coverage_$1/$1.info '*libaas/src*' '*libaas/include/libaas*' -o @LIBAAS_BINARY_DIR@/test/coverage_$1/$1x.info
 cd @LIBAAS_BINARY_DIR@/test/coverage_$1

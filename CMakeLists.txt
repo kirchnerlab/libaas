@@ -3,13 +3,13 @@ PROJECT(LIBAAS)
 # require at least cmake 2.6
 cmake_minimum_required(VERSION 2.6)
 # include macro definitions
-INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/require_out_of_src_build.cmake)
+INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/macros/require_out_of_src_build.cmake)
 SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 #############################################################################
 # versioning
 #############################################################################
-include(GetGitRevisionDescription)
+include(macros/GetGitRevisionDescription)
 get_git_head_revision(GIT_REFSPEC MSTK_VERSION)
 
 #############################################################################
@@ -77,7 +77,7 @@ IF (ENABLE_COVERAGE)
         @ONLY IMMEDIATE
     )
     CONFIGURE_FILE(${LIBAAS_SOURCE_DIR}/test/gcov.css
-        ${LIBAAS_BINARY_DIR}/test/coverage/gcov.css
+        ${LIBAAS_BINARY_DIR}/test/scripts/coverage/gcov.css
         @ONLY IMMEDIATE
     )
     ADD_CUSTOM_TARGET(

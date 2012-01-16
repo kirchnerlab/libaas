@@ -9,10 +9,10 @@ make -f @LIBAAS_BINARY_DIR@/Makefile
 mkdir -p @LIBAAS_BINARY_DIR@/test/coverage
 make -f @LIBAAS_BINARY_DIR@/Makefile test
 lcov --directory @LIBAAS_BINARY_DIR@/test/CMakeFiles \
-     --directory @LIBAAS_BINARY_DIR@/src/CMakeFiles/pipe.dir \
+     --directory @LIBAAS_BINARY_DIR@/src/CMakeFiles/aas.dir \
      --directory @LIBAAS_BINARY_DIR@/src/CMakeFiles \
-     -capture --output-file @LIBAAS_BINARY_DIR@/test/coverage/pipe.info
-lcov --extract @LIBAAS_BINARY_DIR@/test/coverage/pipe.info '*libaas/src*' '*libaas/include/libaas*' -o @LIBAAS_BINARY_DIR@/test/coverage/pipe.info.extracted
+     -capture --output-file @LIBAAS_BINARY_DIR@/test/coverage/aas.info
+lcov --extract @LIBAAS_BINARY_DIR@/test/coverage/aas.info '*libaas/src*' '*libaas/include/libaas*' -o @LIBAAS_BINARY_DIR@/test/coverage/aas.info.extracted
 pushd @LIBAAS_BINARY_DIR@/test/coverage/
-genhtml pipe.info.extracted
+genhtml aas.info.extracted
 popd 
