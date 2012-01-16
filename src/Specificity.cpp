@@ -124,12 +124,8 @@ Bool Specificity::isApplicable(const libaas::aminoAcids::RawAminoAcid& prev,
         return false;
     }
 
-    // TODO how does this n- c-term stuff work?
-    // do we acutally allow things such as N-A-C and have an n- and c-terminal mod?
-    // both are added to N but this does not work since we only support one mod?!
-
     switch (position_) {
-        case PEPTIDE_N_TERM:
+        case ANY_N_TERM:
             if (!current.get().isNTerm()
                     && prev.get_key()
                             != aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM) {
@@ -143,7 +139,7 @@ Bool Specificity::isApplicable(const libaas::aminoAcids::RawAminoAcid& prev,
                 return false;
             }
             break;
-        case PEPTIDE_C_TERM:
+        case ANY_C_TERM:
             if (!current.get().isCTerm()
                     && next.get_key()
                             != aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM) {
@@ -260,13 +256,11 @@ Specificity::Position Specificity::parsePositionString(
     String position_tmp = position;
     std::transform(position_tmp.begin(), position_tmp.end(),
         position_tmp.begin(), ::tolower);
-    // TODO this does not work correctly. We might have to add any n-term and any c-term as well!
-    // TODO also: any-n and any c- is not reflected correctly!
     if (position_tmp == "any n-term") {
-        return Specificity::PEPTIDE_N_TERM;
+        return Specificity::ANY_N_TERM;
     } else
         if (position_tmp == "any c-term") {
-            return Specificity::PEPTIDE_C_TERM;
+            return Specificity::ANY_C_TERM;
         } else
             if (position_tmp == "protein n-term") {
                 return Specificity::PROTEIN_N_TERM;

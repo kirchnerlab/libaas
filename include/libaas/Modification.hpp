@@ -118,7 +118,7 @@ public:
     /**Returns all custom specificities.
      * @returns Custom specificities.
      */
-    const std::vector<Specificity> getCustomSpecificities() const;
+    const std::vector<Specificity>& getCustomSpecificities() const;
 
     /**Clears the list of custom specificities.
      */
@@ -131,7 +131,7 @@ public:
      *
      * @returns List of specificities
      */
-    const std::vector<Specificity> getSpecificities() const;
+    const std::vector<Specificity>& getSpecificities() const;
 
     /**Returns the key/id of the modification.
      * @returns Id of the modification
@@ -163,6 +163,13 @@ public:
      * @returns Specificities of the raw modification
      */
     const std::vector<Specificity>& getRawSpecificities() const;
+
+    /**Checks whether this modification is used as an isotopic label.
+     *
+     * @returns true if one of the specificities returned by getSpecificities
+     * is a "libaas::modifications::Specificity::ISOTOPIC_LABEL", false otherwise
+     */
+    Bool isIsotopicLabel() const;
 
     /**Returns the status of the modification.
      * @returns Status of the modification

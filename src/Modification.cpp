@@ -9,6 +9,7 @@
 #include <libaas/Modification.hpp>
 
 #include <stdexcept>
+#include <set>
 
 namespace libaas {
 namespace modifications {
@@ -86,7 +87,7 @@ void Modification::setCustomSpecificities(
     customSpecificities_ = specificities;
 }
 
-const std::vector<Specificity> Modification::getSpecificities() const
+const std::vector<Specificity>& Modification::getSpecificities() const
 {
     if (customSpecificities_.empty()) {
         return modification_.get().getSpecificities();
@@ -94,7 +95,7 @@ const std::vector<Specificity> Modification::getSpecificities() const
     return customSpecificities_;
 }
 
-const std::vector<Specificity> Modification::getCustomSpecificities() const
+const std::vector<Specificity>& Modification::getCustomSpecificities() const
 {
     return customSpecificities_;
 }
@@ -132,6 +133,17 @@ const Stoichiometry& Modification::getRawStoichiometry() const
 const std::vector<Specificity>& Modification::getRawSpecificities() const
 {
     return modification_.get().getSpecificities();
+}
+
+Bool Modification::isIsotopicLabel() const {
+    // TODO this is true for most of the isotopic labels, but not "TMT", "Succinyl" and "Propionyl"
+    typedef std::vector<Specificity>::const_iterator IT;
+    for (IT it = getSpecificities().begin(); it != getSpecificities().end(); ++it) {
+        if (it->getClassification() == Specificity::ISOTOPIC_LABEL) {
+            return true;
+        }
+    }
+    return false;
 }
 
 Bool Modification::isVerified() const

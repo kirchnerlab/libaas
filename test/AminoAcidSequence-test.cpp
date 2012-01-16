@@ -281,6 +281,8 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
 
     void testAminoAcidSequenceApplyModifications()
     {
+        // test isotopic labels
+        // test real n- and c-term mods
         String aass = "AACCGQQSSG";
         AminoAcidSequence aas(aass);
 

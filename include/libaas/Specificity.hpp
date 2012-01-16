@@ -30,8 +30,8 @@ public:
      */
     enum Position
     {
-        PEPTIDE_N_TERM = 0,
-        PEPTIDE_C_TERM,
+        ANY_N_TERM = 0,
+        ANY_C_TERM,
         PROTEIN_N_TERM,
         PROTEIN_C_TERM,
         ANYWHERE

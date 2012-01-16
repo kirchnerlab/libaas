@@ -26,18 +26,6 @@ class Residue
 
 public:
 
-    /** Creates a residue without a modification
-     * @param[in] aminoAcidKey The key/id of an amino acid
-     */
-    Residue(
-        const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey =
-                '\0');
-
-    /**Creates a residue without a modification.
-     * @param[in] aminoAcid The amino acid
-     */
-    Residue(const libaas::aminoAcids::AminoAcid& aminoAcid);
-
     /** Creates a residue with a modification
      *
      * Note: the constructor does not check whether the modification is
@@ -45,10 +33,15 @@ public:
      *
      * @param[in] aminoAcidKey The key/id of an amino acid
      * @param[in] modificationKey The key/id of the modification
+     * @param[in] labelKey The key/id of the label
      */
     Residue(
-        const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
-        const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey);
+        const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey =
+                '\0',
+        const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey =
+                "",
+        const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& labelKey =
+                "");
 
     /**Creates a residue with a modification.
      *
@@ -57,9 +50,13 @@ public:
      *
      * @param[in] aminoAcid The amino acid
      * @param[in] mod The modification
+     * @param[in] label The isotopic label
      */
     Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
-        const libaas::modifications::Modification& mod);
+        const libaas::modifications::Modification& mod =
+                modifications::Modification(),
+        const libaas::modifications::Modification& label =
+                modifications::Modification());
 
     /**Change type of the amino acid.
      * @param[in] aminoAcidKey The key of the amino acid
@@ -100,8 +97,7 @@ public:
 
     /**Sets the modification.
      *
-     * Note: this method does not check whether the modification is applicable
-     * to this position.
+     * Calls setModification(Modification)
      *
      * @param[in] modificationKey The key of a modification
      */
@@ -124,9 +120,38 @@ public:
     const libaas::modifications::Modification& getModification() const;
 
     /**Returns the modifiable modificaiton of this residue.
-     * @returns A reference to modification
+     * @returns A reference to the modification
      */
     libaas::modifications::Modification& getModification();
+
+    /**Sets the isotopic label.
+     *
+     * calls setIsotopicLabel(Modification)
+     *
+     * @param[in] isotopicLabelKey The key/id of the isotopic label.
+     */
+    void setIsotopicLabel(
+        const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& isotopicLabelKey);
+
+    /**Sets the isotopic label.
+     *
+     * Note: this method does not check whether the isotopic label is applicable
+     * to this position.
+     *
+     * @param[in] isotopicLabel The isotopic label
+     */
+    void setIsotopicLabel(
+        const libaas::modifications::Modification& isotopicLabel);
+
+    /**Returns the isotopic label of this residue
+     * @returns The isotopic label
+     */
+    const libaas::modifications::Modification& getIsotopicLabel() const;
+
+    /**Returns the modifiable isotopic label of this residue.
+     * @returns A reference to the isotopic label
+     */
+    libaas::modifications::Modification& getIsotopicLabel();
 
     /**Checks whether the modification id is equal to the given key.
      *
@@ -151,9 +176,36 @@ public:
      */
     Bool isModified() const;
 
+    /**Checks whether the isotopic label id is equal to the given key.
+     *
+     * This check does not include internal properties of the isotopic label,
+     * such as custom specificities or the stoichiometry configuration
+     *
+     * @param[in] labelKey
+     * @returns true if isotopicLabel_.get_key() == labelKey, false otherwise
+     */
+    Bool hasLabel(
+        const modifications::RawModificationImpl::RawModificationImplKeyType& labelKey) const;
+
+    /**Checks whether the isotopic label is equal to the given one.
+     * @param[in] label Isotopic label
+     * @returns true if isotopicLabel_ == label, false otherwise
+     */
+    Bool hasLabel(
+        const modifications::Modification& label) const;
+
+    /**Checks whether the residue is modified.
+     * @returns true if the residue is modified, false otherwise
+     */
+    Bool isLabeled() const;
+
     /**Removes the modification.
      */
     void removeModification();
+
+    /**Removes the isotopic label.
+     */
+    void removeIsotopicLabel();
 
     /**Sets the stoichiometry configuration key of the amino acid.
      * @param[in] configKey Stoichiometry configuration key
@@ -176,6 +228,18 @@ public:
      * @param[in] config Stoichiometry configuration
      */
     void applyModificationStoichiometryConfig(
+        const StoichiometryConfig& config);
+
+    /**Sets the stoichiometry configuration key of the isotopic label.
+     * @param[in] configKey Stoichiometry configuration key
+     */
+    void applyIsotopicLabelStoichiometryConfig(
+        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
+
+    /**Sets the stoichiometry configuration of the isotopic label.
+     * @param[in] config Stoichiometry configuration
+     */
+    void applyIsotopicLabelStoichiometryConfig(
         const StoichiometryConfig& config);
 
     /**Returns the stoichiometry of the residue.
@@ -221,6 +285,9 @@ private:
     /** The modification of the amino acid.
      */
     libaas::modifications::Modification modification_;
+    /** The isotopic label of the amino acid.
+     */
+    libaas::modifications::Modification isotopicLabel_;
 
 };
 // class Residue

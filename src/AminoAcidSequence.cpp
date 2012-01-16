@@ -236,29 +236,6 @@ void AminoAcidSequence::append(const AminoAcidSequence& sequence)
     }
 }
 
-libaas::AminoAcidSequence::iterator AminoAcidSequence::apply(
-    const modifications::Modification& mod,
-    const libaas::AminoAcidSequence::iterator& begin,
-    const libaas::AminoAcidSequence::iterator& end) const
-{
-    libaas::AminoAcidSequence::iterator iter;
-    aminoAcids::AminoAcid prevAcid('\0');
-    aminoAcids::AminoAcid nextAcid;
-    for (iter = begin; iter != end; ++iter) {
-        if ((iter + 1) == (end)) {
-            nextAcid = '\0';
-        } else {
-            nextAcid = (iter + 1)->getAminoAcid();
-        }
-        if (mod.isApplicable(prevAcid, iter->getAminoAcid(), nextAcid)) {
-            iter->setModification(mod);
-            return iter;
-        }
-        prevAcid = iter->getAminoAcid();
-    }
-    return iter;
-}
-
 void AminoAcidSequence::applyFixedModifications(
     const std::vector<
             modifications::RawModificationImpl::RawModificationImplKeyType>& mods)
@@ -306,9 +283,18 @@ void AminoAcidSequence::applyFixedModifications(const ModificationList& mods)
 void AminoAcidSequence::applyModificationAtPosition(
     const modifications::Modification& mod, const Size& pos)
 {
+    // TODO we implicitly set a label or modification if the modification "thinks" it is a label. shall we use the return code of the getSpecificities instead?
     if (pos >= size()) {
         throw std::out_of_range(
-            "AminoAcidSequence::applyModificationAtPosition(): Trying to apply modification at position out of bound");
+            "AminoAcidSequence::applyModificationAtPosition(): Trying to apply modification at position out of bound.");
+    }
+    if (mod.isIsotopicLabel() && c_[pos].isLabeled()) {
+        throw std::out_of_range(
+            "AminoAcidSequence::applyModificationAtPosition(): Trying to apply label modification at position which is already labeled.");
+    }
+    if (!mod.isIsotopicLabel() && c_[pos].isModified()) {
+        throw std::out_of_range(
+            "AminoAcidSequence::applyModificationAtPosition(): Trying to apply modification at position which is already modified.");
     }
 
     // get prev amino acid
@@ -334,7 +320,13 @@ void AminoAcidSequence::applyModificationAtPosition(
         throw std::out_of_range(
             "AminoAcidSequence::applyModificationAtPosition(): Cannot apply mod to this position.");
     }
-    operator[](pos).setModification(mod);
+
+    // in case the modification is an isotopic label, we will set the isotopic label
+    if (mod.isIsotopicLabel()) {
+        operator[](pos).setIsotopicLabel(mod);
+    } else {
+        operator[](pos).setModification(mod);
+    }
 }
 
 void AminoAcidSequence::applyAminoAcidStoichiometryConfig(
@@ -363,6 +355,20 @@ void AminoAcidSequence::applyModificationStoichiometryConfig(
 {
     for (iterator it = begin(); it != end(); ++it) {
         it->applyModificationStoichiometryConfig(modificationConfig);
+    }
+}
+
+void AminoAcidSequence::applyIsotopicLabelStoichiometryConfig(
+    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& labelConfigKey)
+{
+    applyIsotopicLabelStoichiometryConfig(StoichiometryConfig(labelConfigKey));
+}
+
+void AminoAcidSequence::applyIsotopicLabelStoichiometryConfig(
+    const StoichiometryConfig& labelConfig)
+{
+    for (iterator it = begin(); it != end(); ++it) {
+        it->applyIsotopicLabelStoichiometryConfig(labelConfig);
     }
 }
 

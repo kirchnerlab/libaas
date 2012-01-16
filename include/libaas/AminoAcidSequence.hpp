@@ -199,25 +199,6 @@ public:
      */
     void append(const AminoAcidSequence& sequence);
 
-    /**Applies the modification to the first applicable position and returns an
-     * iterator to this position.
-     * @param[in] mod Modification which is applied to the first applicable
-     * position
-     * @param[in] begin Iterator pointing to the first viable position in a
-     * amino acid sequence
-     * @param[in] end Iterator pointing to the last position at which the
-     * modification should be applied
-     * @return Iterator at which die modifications was first applicable. In
-     * case no applicable position was found, it returns end.
-     *
-     * TODO this method was in AminoAcidModification but this is not possible
-     * in our case. Maybe we want this a static function? Or free function?
-     */
-    libaas::AminoAcidSequence::iterator apply(
-        const modifications::Modification& mod,
-        const libaas::AminoAcidSequence::iterator& begin,
-        const libaas::AminoAcidSequence::iterator& end) const;
-
     /**Convenience function forwarding to
      * applyFixedModifications(const ModificationList& mods)
      * @param[in] mods List of modification keys which should be applied to this
@@ -303,6 +284,22 @@ public:
      */
     void applyModificationStoichiometryConfig(
         const StoichiometryConfig& modificationConfig);
+
+    /**Sets the default stoichiometry configuration for all isotopic labels within
+     * this amino acid sequence.
+     * @param[in] labelConfigKey Default stoichiometry configuration key for
+     * isotopic labels
+     */
+    void applyIsotopicLabelStoichiometryConfig(
+        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& labelConfigKey);
+
+    /**Sets the default stoichiometry configuration for all modifications within
+     * this amino acid sequence.
+     * @param[in] labelConfig Default stoichiometry configuration for
+     * isotopic labels
+     */
+    void applyIsotopicLabelStoichiometryConfig(
+        const StoichiometryConfig& labelConfig);
 
     /**Returns the stoichiometry of the amino acid.
      *
