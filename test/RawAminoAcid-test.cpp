@@ -20,27 +20,27 @@ using namespace libaas::aminoAcids;
 /** Short description.
  * Long description.
  */
-struct RawRawAminoAcidTestSuite : vigra::test_suite
+struct RawAminoAcidTestSuite : vigra::test_suite
 {
     /** Constructor.
      * The RawRawAminoAcidTestSuite constructor adds all RawRawAminoAcid tests to
      * the test suite. If you write an additional test, add the test
      * case here.
      */
-    RawRawAminoAcidTestSuite() :
+    RawAminoAcidTestSuite() :
             vigra::test_suite("RawRawAminoAcid")
     {
-        add(testCase(&RawRawAminoAcidTestSuite::testRawAminoAcid));
-        add(testCase(&RawRawAminoAcidTestSuite::testRawAminoAcidFW));
-        add(testCase(&RawRawAminoAcidTestSuite::testStaticParser));
-        add(testCase(&RawRawAminoAcidTestSuite::testRawAminoAcidRef));
-        add(testCase(&RawRawAminoAcidTestSuite::testAddRawAminoAcid));
-        add(testCase(&RawRawAminoAcidTestSuite::testAddRawAminoAcidRef));
+        add(testCase(&RawAminoAcidTestSuite::testRawAminoAcid));
+        add(testCase(&RawAminoAcidTestSuite::testRawAminoAcidFW));
+        add(testCase(&RawAminoAcidTestSuite::testStaticParser));
+        add(testCase(&RawAminoAcidTestSuite::testRawAminoAcidRef));
+        add(testCase(&RawAminoAcidTestSuite::testAddRawAminoAcid));
+        add(testCase(&RawAminoAcidTestSuite::testAddRawAminoAcidRef));
         add(
-            testCase(&RawRawAminoAcidTestSuite::testOverrideUninitializedRawAminoAcid));
+            testCase(&RawAminoAcidTestSuite::testOverrideUninitializedRawAminoAcid));
         add(
-            testCase(&RawRawAminoAcidTestSuite::testOverrideInitializedRawAminoAcid));
-        add(testCase(&RawRawAminoAcidTestSuite::testCreateAminoAcid));
+            testCase(&RawAminoAcidTestSuite::testOverrideInitializedRawAminoAcid));
+        add(testCase(&RawAminoAcidTestSuite::testCreateAminoAcid));
     }
 
     void testRawAminoAcid()
@@ -332,7 +332,7 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
  */
 int main()
 {
-    RawRawAminoAcidTestSuite test;
+    RawAminoAcidTestSuite test;
     int success = test.run();
     std::cout << test.report() << std::endl;
     return success;
