@@ -10,39 +10,11 @@
 #define __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIG_HPP__
 
 #include <libaas/StoichiometryConfigImpl.hpp>
-#include <libaas/Types.hpp>
-
-#include <boost/flyweight.hpp>
-#include <boost/flyweight/key_value.hpp>
-#include <boost/flyweight/no_tracking.hpp>
+#include <libaas/FlyWeightReplacement.hpp>
 
 namespace libaas {
 
-/**@brief ID extractor for stoichiometry configurations.
- *
- * The class StoichiometryConfigIdExtractor is used allow the instantiation of
- * flyweight<StoichiometryConfigImpl>(Key) in order to simplify the access.
- */
-struct StoichiometryConfigIdExtractor
-{
-    /**Returns the key of the stoichiometry configuration.
-     * @param[in] e instance of a stoichiometry configuration implementation
-     * @returns The key of the stoichiometry configuration
-     */
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& operator()(
-        const StoichiometryConfigImpl& e) const
-    {
-        return e.getId();
-    }
-};
-
-/**Typedef to simplify the data type flyweight<StoichiometryConfigImpl>
- */
-typedef boost::flyweight<
-        boost::flyweights::key_value<
-                StoichiometryConfigImpl::StoichiometryConfigImplKeyType,
-                StoichiometryConfigImpl, StoichiometryConfigIdExtractor>
-        , boost::flyweights::no_tracking> StoichiometryConfig;
+typedef libaas::FlyWeightReplacement<StoichiometryConfigImpl, StoichiometryConfigImpl::StoichiometryConfigImplKeyType> StoichiometryConfig;
 
 /**Convenience function to add a custom stoichiometry configuration to the list of
  * known stoichiometry configurations.

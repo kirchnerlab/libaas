@@ -197,7 +197,7 @@ struct ElementTestSuite : vigra::test_suite
         Element tr(t);
 
         // test equality of the original element and the const ref
-        shouldEqual(t, tr);
+        shouldEqual(tr, t);
         shouldEqual(t.getId(), tr.get_key());
 
         // retrieve the element directly from the flyweight table

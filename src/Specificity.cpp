@@ -11,6 +11,8 @@
 #include <libaas/Specificity.hpp>
 #include <libaas/Error.hpp>
 
+#include <algorithm>
+
 namespace libaas {
 namespace modifications {
 

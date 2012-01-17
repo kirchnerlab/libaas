@@ -10,39 +10,12 @@
 #define __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATION_HPP__
 
 #include <libaas/RawModificationImpl.hpp>
-
-#include <boost/flyweight.hpp>
-#include <boost/flyweight/key_value.hpp>
-#include <boost/flyweight/no_tracking.hpp>
+#include <libaas/FlyWeightReplacement.hpp>
 
 namespace libaas {
 namespace modifications {
 
-/**@brief ID extrator for raw modifications.
- *
- * The class RawModificationIdExtractor is used allow the instantiation of
- * flyweight<RawModificationImpl>(Key) in order to simplify the access.
- */
-struct RawModificationIdExtractor
-{
-    /**Returns the key of the raw modification.
-     * @param[in] m instance of a raw modification implementation
-     * @returns The key of the raw modification
-     */
-    const RawModificationImpl::RawModificationImplKeyType& operator()(
-        const RawModificationImpl& m) const
-    {
-        return m.getId();
-    }
-};
-
-/**Typedef to simplify the data type flyweight<RawModificationImpl>
- */
-typedef boost::flyweight<
-        boost::flyweights::key_value<
-                RawModificationImpl::RawModificationImplKeyType,
-                RawModificationImpl, RawModificationIdExtractor>
-        , boost::flyweights::no_tracking> RawModification;
+typedef libaas::FlyWeightReplacement<RawModificationImpl, RawModificationImpl::RawModificationImplKeyType> RawModification;
 
 /**Convenience function to add a custom raw modification to the list of known
  * raw modifications.

@@ -27,7 +27,7 @@ libaas::Bool addRawModification(
 
 libaas::Bool addRawModification(const RawModificationImpl& rawModification)
 {
-    return rawModification == RawModification(rawModification);
+    return RawModification(rawModification) == rawModification;
 }
 
 bool operator<(const RawModification& lhs, const RawModification& rhs)

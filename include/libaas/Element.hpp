@@ -9,38 +9,15 @@
 #ifndef __LIBAAS_INCLUDE_LIBAAS_ELEMENT_HPP__
 #define __LIBAAS_INCLUDE_LIBAAS_ELEMENT_HPP__
 
+#include <libaas/FlyWeightReplacement.hpp>
 #include <libaas/ElementImpl.hpp>
 
-#include <boost/flyweight.hpp>
-#include <boost/flyweight/key_value.hpp>
-#include <boost/flyweight/no_tracking.hpp>
+#include <iostream>
 
 namespace libaas {
 namespace elements {
 
-/**The class ElementIdExtractor is used allow the instantiation of
- * flyweight<ElementImpl>(Key). This simplifies the instantiation and provides
- * a speed up, since the ElementImpl is instantiated only once.
- */
-struct ElementIdExtractor
-{
-    /**Returns the key of the element.
-     * @param[in] e Instance of an element implementation
-     * @returns The key of the element
-     */
-    const ElementImpl::ElementImplKeyType& operator()(
-        const ElementImpl& e) const
-    {
-        return e.getId();
-    }
-};
-
-/**Typedef to simplify the data type flyweight<ElementImpl>
- */
-typedef boost::flyweight<
-        boost::flyweights::key_value<ElementImpl::ElementImplKeyType,
-                ElementImpl, ElementIdExtractor>,
-        boost::flyweights::no_tracking> Element;
+typedef FlyWeightReplacement<ElementImpl, ElementImpl::ElementImplKeyType> Element;
 
 /**Convenience function to add a custom element to this list of known elements.
  * This methods calls addElement(ElementImpl)

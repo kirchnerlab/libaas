@@ -179,8 +179,8 @@ struct RawModificationTestSuite : vigra::test_suite
         RawModification er_3(k2);
 
         // testing equality
-        shouldEqual(e_2, er_2);
-        shouldEqual(e_3, er_3);
+        shouldEqual(er_2, e_2);
+        shouldEqual(er_3, e_3);
 
         // testing whether the id extractor works correctly
         shouldEqual(er_2.get_key(), er_2.get().getId());
@@ -223,7 +223,7 @@ struct RawModificationTestSuite : vigra::test_suite
         e.setSpecificities(specificities);
 
         RawModification e_r(k);
-        shouldEqual(e, e_r);
+        shouldEqual(e_r, e);
 
         // a second try to add a raw modification with the same id but different properties should fail
         shouldEqual(
@@ -261,7 +261,7 @@ struct RawModificationTestSuite : vigra::test_suite
         RawModification tr(t);
 
         // test equality of the original amino acid and the const ref
-        shouldEqual(t, tr);
+        shouldEqual(tr, t);
         shouldEqual(t.getId(), tr.get_key());
 
         // retrieve the raw modification directly from the flyweight table

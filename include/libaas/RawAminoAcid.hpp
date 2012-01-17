@@ -10,38 +10,13 @@
 #define __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACID_HPP__
 
 #include <libaas/RawAminoAcidImpl.hpp>
-
-#include <boost/flyweight.hpp>
-#include <boost/flyweight/key_value.hpp>
-#include <boost/flyweight/no_tracking.hpp>
+#include <libaas/FlyWeightReplacement.hpp>
 
 namespace libaas {
 namespace aminoAcids {
 
-/**@brief ID extractor for amino acids.
- *
- * The class AminoAcidIdExtractor is used allow the instantiation of
- * flyweight<RawAminoAcidImpl>(Key) in order to simplify the access.
- */
-struct AminoAcidIdExtractor
-{
-    /**Returns the key of the amino acid.
-     * @param[in] a instance of an amino acid implementation
-     * @returns The key of the amino acid
-     */
-    const RawAminoAcidImpl::RawAminoAcidImplKeyType& operator()(
-        const RawAminoAcidImpl& a) const
-    {
-        return a.getId();
-    }
-};
-
-/**Typedef to simplify the data type flyweight<RawAminoAcidImpl>
- */
-typedef boost::flyweight<
-        boost::flyweights::key_value<RawAminoAcidImpl::RawAminoAcidImplKeyType,
-                RawAminoAcidImpl, AminoAcidIdExtractor>
-        , boost::flyweights::no_tracking> RawAminoAcid;
+typedef libaas::FlyWeightReplacement<RawAminoAcidImpl,
+        RawAminoAcidImpl::RawAminoAcidImplKeyType> RawAminoAcid;
 
 /**Convenience function to add a custom raw amino acid to this list of known amino
  * acids.

@@ -47,7 +47,7 @@ Bool addRawAminoAcid(const RawAminoAcidImpl& aminoAcid)
     // in case the key of the amino acid aminoAcid was already added or is a
     // standard amino acid which was retrieved earlier, the reference aminoAcid_r
     // will not contain the information as given in aminoAcid
-    return aminoAcid == aminoAcid_r;
+    return aminoAcid_r == aminoAcid;
 }
 
 } // namespace aminoAcids

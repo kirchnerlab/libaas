@@ -207,7 +207,7 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
         e.setThreeLetterCode(three);
         e.setFullName(full);
         RawAminoAcid e_r(k);
-        shouldEqual(e, e_r);
+        shouldEqual(e_r, e);
 
         // a second try to add an element with the same id should fail
         shouldEqual(addRawAminoAcid(k, symbol2, three, full, ts), false);
@@ -237,7 +237,7 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
         RawAminoAcid tr(t);
 
         // test equality of the original amino acid and the const ref
-        shouldEqual(t, tr);
+        shouldEqual(tr, t);
         shouldEqual(t.getId(), tr.get_key());
 
         // retrieve the amino acid directly from the flyweight table

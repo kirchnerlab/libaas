@@ -107,6 +107,8 @@ IF (ENABLE_EXAMPLES)
     ADD_SUBDIRECTORY(examples)
 ENDIF (ENABLE_EXAMPLES)
 
+ADD_SUBDIRECTORY(applications)
+
 #############################################################################
 # documentation
 #############################################################################

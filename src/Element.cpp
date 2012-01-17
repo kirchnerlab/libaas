@@ -31,6 +31,11 @@ bool operator>=(const Element& lhs, const Element& rhs)
     return lhs.get_key() >= rhs.get_key();
 }
 
+//std::ostream& operator<<(std::ostream& os, const Element& e) {
+//    os << e.get();
+//    return os;
+//}
+
 Bool addElement(const ElementImpl::ElementImplKeyType& id,
     const libaas::String& symbol, const libaas::Size& atomicNumber,
     const std::vector<Isotope>& isotopes)
