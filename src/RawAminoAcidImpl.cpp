@@ -10,6 +10,8 @@
 #include <libaas/Element.hpp>
 #include <libaas/Error.hpp>
 
+#include <algorithm>
+
 namespace libaas {
 namespace aminoAcids {
 

@@ -110,7 +110,7 @@ struct StoichiometryConfigTestSuite : vigra::test_suite
 
         shouldEqual(addStoichiometryConfig(k, map), true);
 
-        shouldEqual(sci, StoichiometryConfig(k));
+        shouldEqual(StoichiometryConfig(k), sci);
 
         shouldEqual(addStoichiometryConfig(sci), true);
     }

@@ -44,7 +44,7 @@ public:
      * @throws Throws an exception in case the id is not in the list of standart
      * amino acids.
      */
-    RawAminoAcidImpl(const RawAminoAcidImplKeyType& id);
+    RawAminoAcidImpl(const RawAminoAcidImplKeyType& id = '\0');
 
     /**Cosntructor to create a custom amino acid.
      * @param[in] id Key/Id of the amino acid
