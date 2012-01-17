@@ -52,9 +52,6 @@ AminoAcidSequence::AminoAcidSequence(const_iterator first, const_iterator last)
         c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
     }
     std::copy(first, last, std::back_inserter(c_));
-//	for (AminoAcidSequence::const_iterator acid = first; acid != last; ++acid) {
-//		c_.push_back(*acid);
-//	}
     if (!c_[c_.size() - 1].isCTerm()) {
         c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
     }
@@ -66,15 +63,15 @@ void AminoAcidSequence::push_back(const Residue& value)
     //If a C-terminal is passed, the previous C-terminal is replaced by it
     Residue last(
         aminoAcids::AminoAcid(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM));
-    if (c_.size() == 0) {
+    if (size() == 0) {
         if (!value.isNTerm()) {
             c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
         }
         c_.push_back(value);
     } else {
-        if (c_[c_.size() - 1].isCTerm()) {
+        if (c_[size() - 1].isCTerm()) {
             //copy the C-terminal, in case there are mods
-            last = c_[c_.size() - 1];
+            last = c_[size() - 1];
             c_.pop_back();
             c_.push_back(value);
         } else {
@@ -101,6 +98,7 @@ void AminoAcidSequence::pop_back()
         } else
             if (!c_[csize - 1].isNTerm()) {
                 c_.pop_back();
+                c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
             }
     }
 }
@@ -197,6 +195,7 @@ void AminoAcidSequence::append(const AminoAcidSequence& sequence)
                     c_.push_back(sequence.c_.front());
                 } else {
                     c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
+                    c_.push_back(sequence[0]);
                 }
             }
             if (c_[c_.size() - 1].isCTerm()) {

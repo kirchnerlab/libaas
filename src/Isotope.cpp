@@ -1,8 +1,8 @@
 /*
  * Isotope.cpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -14,15 +14,6 @@ namespace elements {
 Isotope::Isotope(const Double& mass, const Double& frequency) :
         mass_(mass), frequency_(frequency)
 {
-}
-
-const Double& Isotope::getMass() const
-{
-    return mass_;
-}
-const Double& Isotope::getFrequency() const
-{
-    return frequency_;
 }
 
 bool Isotope::operator==(const Isotope& i) const
@@ -59,9 +50,5 @@ std::ostream& operator<<(std::ostream& os, const std::vector<Isotope>& o)
     return os;
 }
 
-//istream& operator>>(std::istream& is, Isotope& i) {
-//    return is;
-//}
-
-}// namespace elements
+} // namespace elements
 } // namespace libaas

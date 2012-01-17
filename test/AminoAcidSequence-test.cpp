@@ -30,6 +30,8 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
     {
         add(testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequence));
         add(
+            testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceCollection));
+        add(
             testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceSequenceAltering));
         add(
             testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceApplyModifications));
@@ -59,6 +61,13 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         shouldEqual(aas[3].hasModification("Phospho"), true);
         shouldEqual(aas[5].isModified(), true);
         shouldEqual(aas[5].hasModification("Oxidation"), true);
+
+        const AminoAcidSequence& aas_c = aas;
+        const Residue& r1 = aas_c[1];
+        shouldEqual(r1.isModified(), false);
+        shouldEqual(r1.hasModification("Phospho"), false);
+        shouldEqual(r1.isNTerm(), false);
+        shouldEqual(r1.isCTerm(), false);
 
         AminoAcidSequence aasc(aas.begin(), aas.end());
         shouldEqual(aasc, aas);
@@ -97,6 +106,58 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
             shouldEqual(it->getAminoAcid().getStoichiometryConfig(), dsc);
             shouldEqual(it->getModification().getStoichiometryConfig(), sc);
         }
+
+        AminoAcidSequence tmp1("ASD");
+        AminoAcidSequence tmp2(tmp1.begin() + 1, tmp1.begin() + 4);
+        shouldEqual(tmp1, tmp2);
+    }
+
+    void testAminoAcidSequenceCollection()
+    {
+        // TODO we might want to implement those functions similar to push_back in aminoacidsequence, since these does not make sure that the peptide sequence consists of an n- and c-term
+        libaas::String seq = "0ACGT1";
+        AminoAcidSequence aas(seq);
+
+        aas.assign(3, Residue('C'));
+        shouldEqual(aas.toString(true), "CCC");
+
+        aas.insert(aas.begin(), Residue('A'));
+        shouldEqual(aas.toString(true), "ACCC");
+
+        aas.insert(aas.begin() + 1, 2, Residue('D'));
+        shouldEqual(aas.toString(true), "ADDCCC");
+
+        aas.erase(aas.begin() + 1);
+        aas.erase(aas.begin() + 1);
+        shouldEqual(aas.toString(true), "ACCC");
+
+        aas.erase(aas.begin() + 1, aas.end());
+        shouldEqual(aas.toString(true), "A");
+
+        AminoAcidSequence aas1(seq);
+        libaas::Size i = seq.size() - 1;
+        for (AminoAcidSequence::reverse_iterator it = aas1.rbegin();
+                it != aas1.rend(); ++it) {
+            shouldEqual(it->getAminoAcid().getSymbol(), seq[i--]);
+        }
+
+        shouldEqual(aas1.at(1u), Residue('A'));
+        const AminoAcidSequence caas1 = aas1;
+        shouldEqual(caas1.at(1u), Residue('A'));
+
+        shouldEqual(aas1.max_size() >= aas1.size(), true);
+
+        aas1.resize(100u);
+        shouldEqual(aas1.size(), 100u);
+
+        aas1.reserve(200u);
+        shouldEqual(aas1.capacity(), 200u);
+
+        AminoAcidSequence aasc = aas, aas1c = aas1;
+
+        aas1.swap(aas);
+        shouldEqual(aas1, aasc);
+        shouldEqual(aas, aas1c);
     }
 
     void testAminoAcidSequenceSequenceAltering()
@@ -222,6 +283,27 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
 
         s4.append(s2);
         shouldEqual(s4.toString(true), "0GTGGTG1");
+
+        AminoAcidSequence tmp("");
+        // TODO is clear supposed to do this?
+        tmp.clear();
+        tmp.push_back(Residue('A'));
+        shouldEqual(tmp.toString(true), "0A1");
+        tmp[2].changeType('C');
+        tmp.push_back('D');
+        shouldEqual(tmp.toString(true), "0ACD1");
+        tmp[4].changeType('A');
+        shouldEqual(tmp.toString(true), "0ACDA");
+        tmp.pop_back();
+        shouldEqual(tmp.toString(true), "0ACD1");
+
+        tmp.clear();
+        tmp.append(s2);
+        shouldEqual(tmp.toString(true), "2GTGGTG1");
+        tmp.clear();
+        s2[0].changeType('A');
+        tmp.append(s2);
+        shouldEqual(tmp.toString(true), "0AGTGGTG1");
     }
 
     void testAminoAcidSequenceAminoAcidStoichiometry()
@@ -252,10 +334,17 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         StoichiometryConfigImpl sci("test1");
         sci.insertElement(cH);
         StoichiometryConfig sc(sci);
-        ass.applyAminoAcidStoichiometryConfig(sc);
 
         expectedS.set(H, 0);
         expectedS.set(cH, 27);
+
+        ass.applyAminoAcidStoichiometryConfig(sc);
+
+        shouldEqual(ass.getStoichiometry(), expectedS);
+
+        ass.applyAminoAcidStoichiometryConfig(
+            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        ass.applyAminoAcidStoichiometryConfig("test1");
 
         shouldEqual(ass.getStoichiometry(), expectedS);
 
@@ -271,12 +360,62 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         StoichiometryConfigImpl scim("test2");
         scim.insertElement(cO);
         StoichiometryConfig scm(scim);
-        ass.applyModificationStoichiometryConfig(scm);
 
         expectedS.set(O, 7);
         expectedS.set(cO, 1);
 
+        ass.applyModificationStoichiometryConfig(scm);
         shouldEqual(ass.getStoichiometry(), expectedS);
+
+        ass.applyModificationStoichiometryConfig(
+            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        ass.applyModificationStoichiometryConfig("test2");
+
+        shouldEqual(ass.getStoichiometry(), expectedS);
+
+        ass.applyModificationAtPosition(
+            modifications::Modification("Acetyl:2H(3)"), 4);
+        expectedS.add(H, -1);
+        expectedS.add(
+            elements::Element(
+                elements::ElementImpl::getDefaultKeyForElementSymbol("2H")),
+            3);
+        expectedS.add(C, 2);
+        expectedS.add(O, 1);
+
+        shouldEqual(ass.getStoichiometry(), expectedS);
+
+        std::vector<elements::Isotope> c2Hi;
+        elements::Element c2H(
+            elements::ElementImpl(elements::ElementImpl::getNextId(), "2H", 1,
+                c2Hi));
+        StoichiometryConfigImpl scil("test3");
+        scil.insertElement(c2H);
+        StoichiometryConfig scl(scil);
+
+        expectedS.add(
+            elements::Element(
+                elements::ElementImpl::getDefaultKeyForElementSymbol("2H")),
+            -3);
+        expectedS.add(c2H, 3);
+
+        ass.applyIsotopicLabelStoichiometryConfig(scl);
+
+        shouldEqual(ass.getStoichiometry(), expectedS);
+
+        ass.applyIsotopicLabelStoichiometryConfig(
+            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        ass.applyIsotopicLabelStoichiometryConfig("test3");
+
+        shouldEqual(ass.getStoichiometry(), expectedS);
+
+        libaas::Bool thrown = false;
+        try {
+            ass.applyModificationAtPosition("Acetyl:2H(3)", 4);
+        } catch (libaas::errors::RuntimeError& e) {
+            thrown = true;
+        }
+        shouldEqual(thrown, true);
     }
 
     void testAminoAcidSequenceApplyModifications()
@@ -286,7 +425,9 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         String aass = "AACCGQQSSG";
         AminoAcidSequence aas(aass);
 
-        modifications::Modification mod("Oxidation");
+        modifications::RawModificationImpl::RawModificationImplKeyType k =
+                "Oxidation";
+        modifications::Modification mod(k);
         aas.applyModificationAtPosition(mod, 3);
         shouldEqual(aas[3].isModified(), true);
         shouldEqual(aas[3].hasModification(mod), true);
@@ -299,24 +440,47 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         }shouldEqual(thrown, true);
 
         aas.remove(mod);
-        aas.applyModificationAtPosition("Oxidation", 3);
+        aas.applyModificationAtPosition(k, 3);
         shouldEqual(aas[3].isModified(), true);
         shouldEqual(aas[3].hasModification(mod), true);
 
         aas.remove(mod);
-        aas.applyModificationAtPosition(
-            modifications::RawModification("Oxidation"), 3);
+        aas.applyModificationAtPosition(modifications::RawModification(k), 3);
         shouldEqual(aas[3].isModified(), true);
         shouldEqual(aas[3].hasModification(mod), true);
 
         AminoAcidSequence::ModificationList ml;
-        modifications::Modification mod1("Phospho");
-        modifications::Modification mod2("Trimethyl");
+        modifications::RawModificationImpl::RawModificationImplKeyType k1 =
+                "Phospho";
+        modifications::RawModificationImpl::RawModificationImplKeyType k2 =
+                "Trimethyl";
+
+        std::vector<
+                modifications::RawModificationImpl::RawModificationImplKeyType> mlk;
+        mlk.push_back(k);
+        mlk.push_back(k1);
+        mlk.push_back(k2);
+
+        std::vector<modifications::RawModification> mlrm;
+        mlrm.push_back(modifications::RawModification(k));
+        mlrm.push_back(modifications::RawModification(k1));
+        mlrm.push_back(modifications::RawModification(k2));
+
+        modifications::Modification mod1(k1);
+        modifications::Modification mod2(k2);
         ml.push_back(mod);
         ml.push_back(mod1);
         ml.push_back(mod2);
         aas.makeProteinNTerm();
+
+        AminoAcidSequence aas1 = aas, aas2 = aas;
+
+        shouldEqual(aas1, aas);
+        shouldEqual(aas2, aas);
+
         aas.applyFixedModifications(ml);
+        aas1.applyFixedModifications(mlk);
+        aas2.applyFixedModifications(mlrm);
 
         // N-term
         shouldEqual(aas[0].isModified(), false);
@@ -342,6 +506,9 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         shouldEqual(aas[10].hasModification(mod), true);
         // C-term
         shouldEqual(aas[11].isModified(), false);
+
+        shouldEqual(aas, aas1);
+        shouldEqual(aas, aas2);
     }
 
 };

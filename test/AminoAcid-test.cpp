@@ -99,6 +99,8 @@ struct AminoAcidTestSuite : vigra::test_suite
 
         AminoAcid aa2('C', sc_key);
         shouldEqual(aa2.getStoichiometry(), expected_cs);
+
+        shouldEqual(aa2 != aa, true);
     }
 
 };

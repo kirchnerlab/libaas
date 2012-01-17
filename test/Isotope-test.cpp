@@ -35,7 +35,8 @@ struct IsotopeTestSuite : vigra::test_suite
         double mass = 101.1;
         double frequency = 0.99;
         Isotope i1(mass, frequency);
-        Isotope i2 = i1;
+        Isotope i2(12.4, 0.32);
+        i2 = i1;
         Isotope i3(mass + 1, frequency);
 
         shouldEqual(i1.getMass(), mass);

@@ -35,6 +35,7 @@ struct ModificationTestSuite : vigra::test_suite
         add(testCase(&ModificationTestSuite::testModification));
         add(testCase(&ModificationTestSuite::testSpecificityModification));
         add(testCase(&ModificationTestSuite::testStoichiometryModification));
+        add(testCase(&ModificationTestSuite::testModificationApplicable));
     }
 
     // testing getter/setter
@@ -62,6 +63,7 @@ struct ModificationTestSuite : vigra::test_suite
         expected_s.set(N, -1);
         expected_s.set(O, 1);
         shouldEqual(s, expected_s);
+        shouldEqual(deamidated.getRawStoichiometry(), expected_s);
 
         std::vector<Specificity> specificities = deamidated.getSpecificities();
         size_t numberOfSpecificities = 4;
@@ -96,6 +98,8 @@ struct ModificationTestSuite : vigra::test_suite
         shouldEqual(
             test.getStoichiometryConfig(),
             StoichiometryConfig(StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
+
+        shouldEqual(test != deamidated, true);
     }
 
     // testing specificities of a modification (not rawmodification!)
@@ -125,6 +129,14 @@ struct ModificationTestSuite : vigra::test_suite
         shouldEqual(act.getSpecificities(), rawact.getSpecificities());
         shouldEqual(act.getRawSpecificities(), rawact.getSpecificities());
         shouldEqual(act.getCustomSpecificities(), expectedCustom);
+
+        std::vector<Specificity> cSpecs;
+        cSpecs.push_back(
+            Specificity(RawAminoAcid('A'), Specificity::ANYWHERE,
+                Specificity::POST_TRANSLATIONAL));
+        act.setCustomSpecificities(cSpecs);
+        shouldEqual(act.getSpecificities(), cSpecs);
+        shouldEqual(act.getCustomSpecificities(), cSpecs);
     }
 
     // testing stoichiometry and stoichiometryconfig
@@ -181,6 +193,27 @@ struct ModificationTestSuite : vigra::test_suite
         st3.set(N, 1);
         st3.set(O, -1);
         shouldEqual(m3.getStoichiometry(), st3);
+    }
+
+    void testModificationApplicable()
+    {
+        Modification deam("Deamidated");
+        Modification phos("Phosphopantetheine");
+        RawAminoAcid prev('A');
+        RawAminoAcid current('R');
+        RawAminoAcid next('R');
+
+        shouldEqual(deam.isApplicable(prev, current, next), true);
+        shouldEqual(phos.isApplicable(prev, current, next), false);
+
+        deam.addCustomSpecificity(
+            Specificity(RawAminoAcid('A'), Specificity::ANYWHERE,
+                Specificity::ARTEFACT));
+        shouldEqual(deam.isApplicable(prev, current, next), false);
+        deam.addCustomSpecificity(
+            Specificity(RawAminoAcid('R'), Specificity::ANYWHERE,
+                Specificity::PRE_TRANSLATIONAL));
+        shouldEqual(deam.isApplicable(prev, current, next), true);
     }
 
 };

@@ -33,6 +33,7 @@ struct RawModificationTestSuite : vigra::test_suite
             vigra::test_suite("RawModification")
     {
         add(testCase(&RawModificationTestSuite::testRawModification));
+        add(testCase(&RawModificationTestSuite::testRawModificationFW));
         add(testCase(&RawModificationTestSuite::testRawModificationRef));
         add(testCase(&RawModificationTestSuite::testAddRawModification));
         add(testCase(&RawModificationTestSuite::testAddRawModificationRef));
@@ -67,7 +68,8 @@ struct RawModificationTestSuite : vigra::test_suite
         expected_s.set(O, 1);
         shouldEqual(s, expected_s);
 
-        std::vector<Specificity> specificities = deamidated.getSpecificities();
+        const std::vector<Specificity>& specificities =
+                deamidated.getSpecificities();
         size_t numberOfSpecificities = 4;
         shouldEqual(specificities.size(), numberOfSpecificities);
         Specificity spec0(RawAminoAcid('Q'), Specificity::ANYWHERE,
@@ -107,6 +109,12 @@ struct RawModificationTestSuite : vigra::test_suite
         test.setStoichiometry(st);
         shouldEqual(test.getStoichiometry(), st);
         test.setSpecificities(specs);
+        test.addSpecificity(
+            Specificity(RawAminoAcid('C'), Specificity::ANY_C_TERM,
+                Specificity::POST_TRANSLATIONAL));
+        specs.push_back(
+            Specificity(RawAminoAcid('C'), Specificity::ANY_C_TERM,
+                Specificity::POST_TRANSLATIONAL));
         shouldEqual(test.getSpecificities(), specs);
         test.setAltNames(alts);
         shouldEqual(test.getAltNames().size(), alts.size());
@@ -125,6 +133,36 @@ struct RawModificationTestSuite : vigra::test_suite
             elements::Element(
                 elements::ElementImpl::getDefaultKeyForElementSymbol("H")), 4);
         shouldEqual(heavy.getStoichiometry(), esheavy);
+
+        RawModificationImpl tmp1 = test;
+        tmp1 = deamidated;
+        shouldEqual(tmp1, deamidated);
+        shouldEqual(tmp1 == test, false);
+        shouldEqual(tmp1 != test, true);
+        shouldEqual(tmp1 != deamidated, false);
+    }
+
+    void testRawModificationFW()
+    {
+        RawModification m1("ESP");
+        RawModification m2("Oxidation");
+        RawModification m3("TMT");
+
+        shouldEqual(m1 < m1, false);
+        shouldEqual(m1 < m2, true);
+        shouldEqual(m1 < m3, true);
+
+        shouldEqual(m1 <= m1, true);
+        shouldEqual(m1 <= m2, true);
+        shouldEqual(m1 <= m3, true);
+
+        shouldEqual(m1 > m1, false);
+        shouldEqual(m1 > m2, false);
+        shouldEqual(m1 > m3, false);
+
+        shouldEqual(m1 >= m1, true);
+        shouldEqual(m1 >= m2, false);
+        shouldEqual(m1 >= m3, false);
     }
 
     void testRawModificationRef()

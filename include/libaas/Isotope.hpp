@@ -1,8 +1,8 @@
 /*
  * Isotope.hpp
  *
- * Copyright (c) 2011 Mathias Wilhelm
- * Copyright (c) 2011 Marc Kirchner
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2011,2012 Marc Kirchner
  *
  */
 
@@ -70,6 +70,16 @@ private:
 
 };
 // class Isotope
+
+inline const Double& Isotope::getMass() const
+{
+    return mass_;
+}
+
+inline const Double& Isotope::getFrequency() const
+{
+    return frequency_;
+}
 
 std::ostream& operator<<(std::ostream&, const Isotope&);
 std::ostream& operator<<(std::ostream&, const std::vector<Isotope>&);

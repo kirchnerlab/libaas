@@ -31,6 +31,7 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
             vigra::test_suite("RawRawAminoAcid")
     {
         add(testCase(&RawRawAminoAcidTestSuite::testRawAminoAcid));
+        add(testCase(&RawRawAminoAcidTestSuite::testRawAminoAcidFW));
         add(testCase(&RawRawAminoAcidTestSuite::testStaticParser));
         add(testCase(&RawRawAminoAcidTestSuite::testRawAminoAcidRef));
         add(testCase(&RawRawAminoAcidTestSuite::testAddRawAminoAcid));
@@ -101,16 +102,35 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
         shouldEqual(aa.getFullName(), "Alanine");
         shouldEqual(aa_c == aa, false);
         shouldEqual(aa_c != aa, true);
+
+        aa.setSymbol('a');
+        shouldEqual(aa.getSymbol(), 'a');
+        libaas::Stoichiometry ns;
+        aa.setStoichiometry(ns);
+        shouldEqual(aa.getStoichiometry(), ns);
+
+        RawAminoAcidImpl tmp1 = aa;
+        tmp1 = aa_c;
+        shouldEqual(aa_c, tmp1);
+        shouldEqual(aa_c != tmp1, false);
+
+        shouldEqual(aa == tmp1, false);
+        shouldEqual(aa != tmp1, true);
     }
 
     void testStaticParser()
     {
         libaas::String toparse[] = { "A", "a", "Ala", "ALA", "Alanine",
-                                     "ALAninE", "N-term", "Peptide N-Term" };
+                                     "ALAninE", "N-term", "Peptide N-Term",
+                                     "Protein n-term", "ProTEin C-TERM",
+                                     "peptide C-TERM" };
         RawAminoAcidImpl::RawAminoAcidImplKeyType expectedRawAminoAcid[] = {
                 'A', 'A', 'A', 'A', 'A', 'A', RawAminoAcidImpl::PEPTIDE_N_TERM,
-                RawAminoAcidImpl::PEPTIDE_N_TERM };
-        size_t n = 8;
+                RawAminoAcidImpl::PEPTIDE_N_TERM,
+                RawAminoAcidImpl::PROTEIN_N_TERM,
+                RawAminoAcidImpl::PROTEIN_C_TERM,
+                RawAminoAcidImpl::PEPTIDE_C_TERM };
+        size_t n = 11;
 
         for (size_t i = 0; i < n; ++i) {
             shouldEqual(RawAminoAcidImpl::getKeyForAminoAcidString(toparse[i]),
@@ -120,6 +140,13 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             RawAminoAcidImpl::getKeyForAminoAcidString("unknown");
+        } catch (libaas::errors::LogicError& e) {
+            thrown = true;
+        }shouldEqual(thrown, true);
+
+        thrown = false;
+        try {
+            RawAminoAcidImpl::getKeyForAminoAcidString("ttt");
         } catch (libaas::errors::LogicError& e) {
             thrown = true;
         }
@@ -274,6 +301,29 @@ struct RawRawAminoAcidTestSuite : vigra::test_suite
             RawAminoAcid a(stoi_chars[i]);
             shouldEqual(a.get_key(), stoi_chars[i]);
         }
+    }
+
+    void testRawAminoAcidFW()
+    {
+        RawAminoAcid a1('A');
+        RawAminoAcid a2('G');
+        RawAminoAcid a3('Q');
+
+        shouldEqual(a1 < a1, false);
+        shouldEqual(a1 < a2, true);
+        shouldEqual(a1 < a3, true);
+
+        shouldEqual(a1 <= a1, true);
+        shouldEqual(a1 <= a2, true);
+        shouldEqual(a1 <= a3, true);
+
+        shouldEqual(a1 > a1, false);
+        shouldEqual(a1 > a2, false);
+        shouldEqual(a1 > a3, false);
+
+        shouldEqual(a1 >= a1, true);
+        shouldEqual(a1 >= a2, false);
+        shouldEqual(a1 >= a3, false);
     }
 };
 

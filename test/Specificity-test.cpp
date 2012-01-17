@@ -31,6 +31,7 @@ struct SpecificityTestSuite : vigra::test_suite
     {
         add(testCase(&SpecificityTestSuite::testSpecificity));
         add(testCase(&SpecificityTestSuite::testStaticParser));
+        add(testCase(&SpecificityTestSuite::testSpecificityApplicable));
     }
 
     // testing getter/setter
@@ -48,6 +49,16 @@ struct SpecificityTestSuite : vigra::test_suite
         shouldEqual(spec.getClassification(), clas);
         shouldEqual(spec.getPosition(), pos);
         shouldEqual(spec.getComment(), comment);
+
+        libaas::aminoAcids::RawAminoAcid aan('C');
+        Specificity::Position posn = Specificity::ANY_C_TERM;
+        Specificity::Classification clasn = Specificity::POST_TRANSLATIONAL;
+        spec.setSite(aan);
+        spec.setPosition(posn);
+        spec.setClassification(clasn);
+        shouldEqual(spec.getSite(), aan);
+        shouldEqual(spec.getPosition(), posn);
+        shouldEqual(spec.getClassification(), clasn);
 
         libaas::elements::Element H(1);
         libaas::elements::Element C(6);
@@ -103,9 +114,17 @@ struct SpecificityTestSuite : vigra::test_suite
         spec.clearPepNeutralLosses();
         shouldEqual(spec.getPepNeutralLosses(), emptyLoss);
 
-        Specificity spec1("A", "Anywhere", "Artefact");
+        Specificity spec1("C", "Any c-term", "post-translational");
         spec1.setComment(comment);
         shouldEqual(spec1, spec);
+
+        Specificity spec2("G", "Any N-term", "artefact");
+        Specificity& spec3 = spec1;
+        spec3 = spec1;
+        spec2 = spec1;
+        shouldEqual(spec1, spec2);
+        shouldEqual(spec1, spec3);
+        shouldEqual(spec1 != spec2, false);
     }
 
     // testing static parser for position and classification
@@ -184,6 +203,42 @@ struct SpecificityTestSuite : vigra::test_suite
         }
 
         shouldEqual(thrown, false);
+    }
+
+    void testSpecificityApplicable()
+    {
+        libaas::aminoAcids::RawAminoAcid prev1('C');
+        libaas::aminoAcids::RawAminoAcid prev2(
+            libaas::aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
+        libaas::aminoAcids::RawAminoAcid prev3(
+            libaas::aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM);
+        libaas::aminoAcids::RawAminoAcid current('C');
+        libaas::aminoAcids::RawAminoAcid next1('C');
+        libaas::aminoAcids::RawAminoAcid next2(
+            libaas::aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
+        libaas::aminoAcids::RawAminoAcid next3(
+            libaas::aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM);
+        Specificity spec(current, Specificity::ANY_N_TERM,
+            Specificity::ARTEFACT);
+
+        shouldEqual(spec.isApplicable(prev1, current, next1), false);
+        shouldEqual(spec.isApplicable(prev2, current, next2), true);
+        shouldEqual(spec.isApplicable(prev3, current, next3), false);
+
+        spec.setPosition(Specificity::ANY_C_TERM);
+        shouldEqual(spec.isApplicable(prev1, current, next1), false);
+        shouldEqual(spec.isApplicable(prev2, current, next2), true);
+        shouldEqual(spec.isApplicable(prev3, current, next3), false);
+
+        spec.setPosition(Specificity::PROTEIN_N_TERM);
+        shouldEqual(spec.isApplicable(prev1, current, next1), false);
+        shouldEqual(spec.isApplicable(prev2, current, next2), false);
+        shouldEqual(spec.isApplicable(prev3, current, next3), true);
+
+        spec.setPosition(Specificity::PROTEIN_C_TERM);
+        shouldEqual(spec.isApplicable(prev1, current, next1), false);
+        shouldEqual(spec.isApplicable(prev2, current, next2), false);
+        shouldEqual(spec.isApplicable(prev3, current, next3), true);
     }
 
 };

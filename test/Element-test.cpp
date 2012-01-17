@@ -30,6 +30,7 @@ struct ElementTestSuite : vigra::test_suite
             vigra::test_suite("Element")
     {
         add(testCase(&ElementTestSuite::testElement));
+        add(testCase(&ElementTestSuite::testElementFW));
         add(testCase(&ElementTestSuite::testElementRef));
         add(testCase(&ElementTestSuite::testAddElement));
         add(testCase(&ElementTestSuite::testAddElementRef));
@@ -60,11 +61,15 @@ struct ElementTestSuite : vigra::test_suite
         shouldEqual(i2.getMass(), 11);
         shouldEqual(i2.getFrequency(), 0.1);
 
-        ElementImpl t2 = t1;
+        ElementImpl t2(1000u, "loo", 42);
+        t2 = t1;
         shouldEqual(t1, t2);
         t2.addIsotope(12, 0.4);
         shouldEqual(t1 == t2, false);
         shouldEqual(t1 != t2, true);
+
+        t1.clearIsotopes();
+        shouldEqual(t1.getIsotopes().size(), 0u);
 
         // test free id stuff
         ElementImpl::ElementImplKeyType nEntries = 107;
@@ -264,6 +269,29 @@ struct ElementTestSuite : vigra::test_suite
             Element e(k);
             shouldEqual(e.get_key(), k);
         }
+    }
+
+    void testElementFW()
+    {
+        Element a1(4);
+        Element a2(5);
+        Element a3(6);
+
+        shouldEqual(a1 < a1, false);
+        shouldEqual(a1 < a2, true);
+        shouldEqual(a1 < a3, true);
+
+        shouldEqual(a1 <= a1, true);
+        shouldEqual(a1 <= a2, true);
+        shouldEqual(a1 <= a3, true);
+
+        shouldEqual(a1 > a1, false);
+        shouldEqual(a1 > a2, false);
+        shouldEqual(a1 > a3, false);
+
+        shouldEqual(a1 >= a1, true);
+        shouldEqual(a1 >= a2, false);
+        shouldEqual(a1 >= a3, false);
     }
 
 };

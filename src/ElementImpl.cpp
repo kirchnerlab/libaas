@@ -342,9 +342,5 @@ std::ostream& operator<<(std::ostream& os, const ElementImpl& o)
     return os;
 }
 
-//istream& operator>>(std::istream& is, Element& i) {
-//    return is;
-//}
-
-}// namespace elements
+} // namespace elements
 } // namespace libaas

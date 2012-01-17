@@ -154,7 +154,7 @@ RawAminoAcidImpl::RawAminoAcidImplKeyType RawAminoAcidImpl::getKeyForAminoAcidSt
                         if (aminoAcid_tmp == "peptide n-term") {
                             return RawAminoAcidImpl::PEPTIDE_N_TERM;
                         } else
-                            if (aminoAcid_tmp == "pepetide c-term") {
+                            if (aminoAcid_tmp == "peptide c-term") {
                                 return RawAminoAcidImpl::PEPTIDE_C_TERM;
                             } else
                                 if (aminoAcid.size() == 3) {
@@ -247,6 +247,8 @@ RawAminoAcidImpl& RawAminoAcidImpl::operator=(const RawAminoAcidImpl& a)
     if (this != &a) {
         id_ = a.id_;
         symbol_ = a.symbol_;
+        threeLetterCode_ = a.threeLetterCode_;
+        fullName_ = a.fullName_;
         stoichiometry_ = a.stoichiometry_;
     }
     return *this;
