@@ -12,8 +12,6 @@
 #include <libaas/FlyWeightReplacement.hpp>
 #include <libaas/ElementImpl.hpp>
 
-#include <iostream>
-
 namespace libaas {
 namespace elements {
 
