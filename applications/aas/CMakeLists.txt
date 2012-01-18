@@ -7,10 +7,17 @@ LINK_DIRECTORIES(
 )
 
 SET(SRC_AAS-TEST aas.cpp)
+SET(SRC_SIMPLETEST1 simpleTest1.cpp)
 
 ADD_EXECUTABLE(aas-test ${SRC_AAS-TEST})
 TARGET_LINK_LIBRARIES(
 	aas-test
+	aas
+)
+
+ADD_EXECUTABLE(simpleTest1 ${SRC_SIMPLETEST1})
+TARGET_LINK_LIBRARIES(
+	simpleTest1
 	aas
 )
 
