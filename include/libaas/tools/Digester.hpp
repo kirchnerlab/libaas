@@ -25,12 +25,13 @@ namespace tools {
  *
  * The regular expression are expected to be build in a way that the cleavage
  * appeares after the first submatch.
- * @ingroup ASAP
  */
 class Digester
 {
 public:
 
+    /**Convenience typedef of a list of amino acid sequences.
+     */
     typedef std::vector<libaas::AminoAcidSequence> AminoAcidSequences;
 
     /** List of enzymes for which the regular expression is stored in R.
@@ -57,20 +58,22 @@ public:
      */
 
     Digester(const libaas::String& re);
+
     /** Constructor taking a list of exceptions.
      *  The the same limitations applying to the regular expression apply
      *  to the exceptions. The exceptions mark points in the
      *  peptide where no cleavage may occur by the enzym.
      *  @param[in] re Regular expression identifying the positions of cleavages.
-     *  @param[in] exceptions Regular expression identifying exceptions
-     for cleavages.
+     *  @param[in] exceptions Regular expression identifying exceptions for cleavages.
      */
     Digester(const libaas::String& re, const libaas::String& exceptions);
+
     /** Constructor building a pre-defined enzym.
      *  Build a digester after the rules of a hardcoded enzym.
      *  @param[in] enzym Element of the EnzymElement list identifying the enzym.
      */
     Digester(const EnzymEnum enzym);
+
     /**
      * Digests the peptide \a seq; \a missedCleavages
      * indicates the maximum number of cleavages that are omitted.
@@ -83,19 +86,23 @@ public:
     void operator()(const libaas::AminoAcidSequence& seq,
         AminoAcidSequences& frags,
         libaas::UnsignedInt missedCleavages = 0) const;
+
 private:
-    /**
-     * Set of regular expressions for the build in digesters.
+
+    /**Set of regular expressions for the build in digesters.
      */
     static libaas::String R_[];
+
+    /**Regular expression of the digester.
+     */
     boost::regex regular_expression_;
-    /**
-     * Regular expressions marking the exceptions to the cleavage points given
+
+    /**Regular expressions marking the exceptions to the cleavage points given
      * by \a regular_expression.
      */
     boost::regex exceptions_;
-    /**
-     * Indicates, if the exceptions should be used.
+
+    /**Indicates, if the exceptions should be used.
      */
     libaas::Bool exceptions_enabled_;
 };

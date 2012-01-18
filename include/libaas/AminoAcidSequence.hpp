@@ -52,16 +52,25 @@ public:
      */
     typedef std::vector<modifications::Modification> ModificationList;
 
-    /** Strict weak odering for amino acid sequences.
+    /**Strict weak ordering for amino acid sequences.
      *
      * An amino acid sequence is considered "smaller" than another sequence if
      * its string representation (disregarding any modifications) compares as
      * lexicographically smaller (implemented via operator< between
      * std::strings, i.e. std::less<std::string>).
+     *
+     * @typedef AminoAcidSequence Type of the left hand side of the operation
+     * @typedef AminoAcidSequence Type of the right hand side of the operation
      */
     struct LessThanSequenceUnmodified : std::binary_function<bool,
             AminoAcidSequence, AminoAcidSequence>
     {
+        /**Strict weak ordering for amino acid sequences
+         *
+         * @param[in] lhs Left hand side of the operation
+         * @param[in] rhs Right hand side of the operation
+         * @returns lhs.toUnmodifiedSequenceString() < rhs.toUnmodifiedSequenceString()
+         */
         bool operator()(const AminoAcidSequence& lhs,
             const AminoAcidSequence& rhs) const
         {
@@ -70,14 +79,23 @@ public:
         }
     };
 
-    /** Equality comparison for amino acid sequences.
+    /**Equality comparison for amino acid sequences.
      *
      * Two amino acid sequences are considered equal if their unmodified string
-     * representeations conincide.
+     * representations coincide.
+     *
+     * @typedef AminoAcidSequence Type of the left hand side of the operation
+     * @typedef AminoAcidSequence Type of the right hand side of the operation
      */
     struct EqualToSequenceUnmodified : std::binary_function<bool,
             AminoAcidSequence, AminoAcidSequence>
     {
+        /**Equality comparison for amino acid sequences.
+         *
+         * @param[in] lhs Left hand side of the operation
+         * @param[in] rhs Right hand side of the operation
+         * @returns lhs.toUnmodifiedSequenceString() == rhs.toUnmodifiedSequenceString()
+         */
         bool operator()(const AminoAcidSequence& lhs,
             const AminoAcidSequence& rhs) const
         {
