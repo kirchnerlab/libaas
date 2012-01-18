@@ -5,7 +5,7 @@ using namespace libaas::modifications;
 int main()
 {
 
-    libaas::Size n = 1000000;
+    libaas::Size n = 100000;
 
     // n mods erzeugen
     std::vector<RawModification> a(n, RawModification("Acetyl"));
