@@ -14,19 +14,28 @@ int main(int argc, const char* argv[])
 {
     libaas::String fastaFile;
     libaas::String modFile;
+    libaas::String regex = "(R|K)([^P])";
     if (argc == 3) {
         fastaFile = argv[1];
         modFile = argv[2];
-    } else {
-        std::cerr << "Usage: readDigestModify <fasta> <modifications>"
-                << std::endl;
-        return 1;
-    }
+    } else
+        if (argc == 4) {
+            fastaFile = argv[1];
+            modFile = argv[2];
+            regex = argv[3];
+        } else {
+            std::cerr
+                    << "Usage: readDigestModify <fasta> <modifications> <regex>"
+                    << std::endl;
+            std::cerr << "\t default regex is \"(R|K)([^P])\"(trypsin)"
+                    << std::endl;
+            return 1;
+        }
 
     std::cout << "Fasta file: " << fastaFile << std::endl;
     std::cout << "Modification file: " << modFile << std::endl;
 
-    tools::Digester d(tools::Digester::TRYPSIN);
+    tools::Digester d(regex);
 
     AminoAcidSequence::ModificationList ml;
     std::ifstream ifs(modFile.c_str());
@@ -48,12 +57,12 @@ int main(int argc, const char* argv[])
     tools::FastaReader::AminoAcidSequences aass;
     fr.read(aass);
 
-    libaas::Size nAas = 0;
+    libaas::Size nrs = 0;
     libaas::Size nMods = 0;
     libaas::Size nLabs = 0;
     for (tools::FastaReader::AminoAcidSequences::const_iterator it =
             aass.begin(); it != aass.end(); ++it) {
-        nAas += it->size();
+        nrs += it->size();
         for (libaas::AminoAcidSequence::const_iterator ait = it->begin();
                 ait != it->end(); ++ait) {
             if (ait->isModified()) {
@@ -66,7 +75,7 @@ int main(int argc, const char* argv[])
     }
 
     std::cout << "Number of sequences: " << aass.size() << std::endl;
-    std::cout << "Number of amino acids: " << nAas << std::endl;
+    std::cout << "Number of residues: " << nrs << std::endl;
     std::cout << "Number of modifications: " << nMods << std::endl;
     std::cout << "Number of labels: " << nLabs << std::endl;
 
