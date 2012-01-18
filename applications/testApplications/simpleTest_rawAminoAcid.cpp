@@ -1,5 +1,7 @@
 #include <libaas/RawAminoAcid.hpp>
 
+#include <stdlib.h>
+
 using namespace libaas::aminoAcids;
 
 int main(int argc, const char* argv[])

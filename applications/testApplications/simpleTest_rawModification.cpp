@@ -1,5 +1,7 @@
 #include <libaas/RawModification.hpp>
 
+#include <stdlib.h>
+
 using namespace libaas::modifications;
 
 int main(int argc, const char* argv[])
