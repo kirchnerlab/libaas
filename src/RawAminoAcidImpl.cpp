@@ -11,6 +11,7 @@
 #include <libaas/Error.hpp>
 
 #include <algorithm>
+#include <sstream>
 
 namespace libaas {
 namespace aminoAcids {
@@ -82,8 +83,11 @@ Size findIdOfAminoAcidKey(const RawAminoAcidImpl::RawAminoAcidImplKeyType& key)
             return i;
         }
     }
-    libaas_logic_error(
-        "RawAminoAcidImpl::findIdOfAminoAcidKey(): Cannot find given key in standard list of amino acids.");
+    std::ostringstream os;
+    os << "RawAminoAcidImpl::findIdOfAminoAcidKey(): Cannot find given key '";
+    os << key;
+    os << "' in standard list of amino acids.";
+    libaas_logic_error(os.str());
 }
 
 Size findIdOfAminoAcidThreeLetter(const libaas::String& tlc)
@@ -103,8 +107,12 @@ Size findIdOfAminoAcidThreeLetter(const libaas::String& tlc)
             return i;
         }
     }
-    libaas_logic_error(
-        "RawAminoAcidImpl::findIdOfAminoAcidThreeLetter(): Cannot find given three letter code in standard list of amino acids.");
+    std::ostringstream os;
+    os
+            << "RawAminoAcidImpl::findIdOfAminoAcidThreeLetter(): Cannot find given three letter code '";
+    os << tlc;
+    os << "' in standard list of amino acids.";
+    libaas_logic_error(os.str());
 }
 
 Size findIdOfAminoAcid(const libaas::String& name)
@@ -124,8 +132,11 @@ Size findIdOfAminoAcid(const libaas::String& name)
             return i;
         }
     }
-    libaas_logic_error(
-        "RawAminoAcidImpl::findIdOfAminoAcid(): Cannot find given name in standard list of amino acids.");
+    std::ostringstream os;
+    os << "RawAminoAcidImpl::findIdOfAminoAcid(): Cannot find given name '";
+    os << name;
+    os << "' in standard list of amino acids.";
+    libaas_logic_error(os.str());
 }
 
 RawAminoAcidImpl::RawAminoAcidImplKeyType RawAminoAcidImpl::getKeyForAminoAcidString(
@@ -166,8 +177,12 @@ RawAminoAcidImpl::RawAminoAcidImplKeyType RawAminoAcidImpl::getKeyForAminoAcidSt
                                     return stoi_chars[findIdOfAminoAcid(
                                         aminoAcid)];
                                 }
-    libaas_logic_error(
-        "RawAminoAcidImpl::getKeyForAminoAcidString(): Cannot find amino acid.");
+    std::ostringstream os;
+    os
+            << "RawAminoAcidImpl::getKeyForAminoAcidString(): Cannot find amino acid '";
+    os << aminoAcid;
+    os << "' in standard list of amino acids.";
+    libaas_logic_error(os.str());
 }
 
 RawAminoAcidImpl::RawAminoAcidImpl(
