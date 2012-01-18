@@ -1,8 +1,9 @@
 /*
  * FastaReader.cpp
  *
- *  Created on: 18.01.2012
- *      Author: mwilhelm
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2010,2011,2012 Marc Kirchner
+ *
  */
 
 #include <libaas/tools/FastaReader.hpp>
@@ -15,10 +16,10 @@ namespace tools {
 
 FastaReader::FastaReader(const libaas::String& filename,
     const Digester& digester,
-    libaas::AminoAcidSequence::ModificationList& fixedModifications) :
+    const libaas::AminoAcidSequence::ModificationList& fixedModifications) :
         filename_(filename), digester_(digester)
 {
-    typedef libaas::AminoAcidSequence::ModificationList::iterator VSSI;
+    typedef libaas::AminoAcidSequence::ModificationList::const_iterator VSSI;
     try {
         // build modifications vectors: fixed mods
         for (VSSI modit = fixedModifications.begin();
@@ -34,15 +35,15 @@ FastaReader::~FastaReader()
 {
 }
 
-void FastaReader::read(AminoAcidSequences& proteinIds) const
+void FastaReader::read(AminoAcidSequences& aminoAcidSequences) const
 {
     DescSeq ds;
     // read the fasta file
     parse(ds);
     // digest the protein sequences and apply modifications
-    digest(ds, proteinIds);
+    digest(ds, aminoAcidSequences);
     // apply modifications
-    modify(proteinIds);
+    modify(aminoAcidSequences);
 }
 
 void FastaReader::parse(DescSeq& ds) const
@@ -121,24 +122,25 @@ void FastaReader::parse(DescSeq& ds) const
     }
 }
 
-void FastaReader::digest(DescSeq& ds, AminoAcidSequences& proteinIds) const
+void FastaReader::digest(const DescSeq& ds,
+    AminoAcidSequences& aminoAcidSequences) const
 {
     typedef Digester::AminoAcidSequences VAAS;
     VAAS peptides;
-    for (DescSeq::iterator i = ds.begin(); i != ds.end(); ++i) {
+    for (DescSeq::const_iterator i = ds.begin(); i != ds.end(); ++i) {
         peptides.clear();
         digester_(i->second, peptides);
         for (VAAS::const_iterator pi = peptides.begin(); pi != peptides.end();
                 ++pi) {
-            proteinIds.push_back(*pi);
+            aminoAcidSequences.push_back(*pi);
         }
     }
 }
 
-void FastaReader::modify(AminoAcidSequences& proteinIds) const
+void FastaReader::modify(AminoAcidSequences& aminoAcidSequences) const
 {
-    for (AminoAcidSequences::iterator it = proteinIds.begin();
-            it != proteinIds.end(); ++it) {
+    for (AminoAcidSequences::iterator it = aminoAcidSequences.begin();
+            it != aminoAcidSequences.end(); ++it) {
         it->applyFixedModifications(fixedModifications_);
     }
 }

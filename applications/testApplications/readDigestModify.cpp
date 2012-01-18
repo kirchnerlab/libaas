@@ -17,6 +17,10 @@ int main(int argc, const char* argv[])
     if (argc == 3) {
         fastaFile = argv[1];
         modFile = argv[2];
+    } else {
+        std::cerr << "Usage: readDigestModify <fasta> <modifications>"
+                << std::endl;
+        return 1;
     }
 
     std::cout << "Fasta file: " << fastaFile << std::endl;
@@ -64,7 +68,7 @@ int main(int argc, const char* argv[])
     std::cout << "Number of sequences: " << aass.size() << std::endl;
     std::cout << "Number of amino acids: " << nAas << std::endl;
     std::cout << "Number of modifications: " << nMods << std::endl;
-    std::cout << "Number of labeles: " << nLabs << std::endl;
+    std::cout << "Number of labels: " << nLabs << std::endl;
 
     return 0;
 }

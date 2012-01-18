@@ -1,8 +1,10 @@
 /*
- * Digester.cpp
+ * Digester.hpp
  *
- *  Created on: 18.01.2012
- *      Author: mwilhelm
+ * Copyright (c) 2011,2012 Mathias Wilhelm
+ * Copyright (c) 2009,2010,2011,2012 Marc Kirchner
+ * Copyright (c) 2010 Nathan Huesken
+ *
  */
 
 #include <libaas/tools/Digester.hpp>
