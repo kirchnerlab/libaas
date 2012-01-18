@@ -52,6 +52,40 @@ public:
      */
     typedef std::vector<modifications::Modification> ModificationList;
 
+    /** Strict weak odering for amino acid sequences.
+     *
+     * An amino acid sequence is considered "smaller" than another sequence if
+     * its string representation (disregarding any modifications) compares as
+     * lexicographically smaller (implemented via operator< between
+     * std::strings, i.e. std::less<std::string>).
+     */
+    struct LessThanSequenceUnmodified : std::binary_function<bool,
+            AminoAcidSequence, AminoAcidSequence>
+    {
+        bool operator()(const AminoAcidSequence& lhs,
+            const AminoAcidSequence& rhs) const
+        {
+            return lhs.toUnmodifiedSequenceString()
+                    < rhs.toUnmodifiedSequenceString();
+        }
+    };
+
+    /** Equality comparison for amino acid sequences.
+     *
+     * Two amino acid sequences are considered equal if their unmodified string
+     * representeations conincide.
+     */
+    struct EqualToSequenceUnmodified : std::binary_function<bool,
+            AminoAcidSequence, AminoAcidSequence>
+    {
+        bool operator()(const AminoAcidSequence& lhs,
+            const AminoAcidSequence& rhs) const
+        {
+            return lhs.toUnmodifiedSequenceString()
+                    == rhs.toUnmodifiedSequenceString();
+        }
+    };
+
     /**Default constructor of the amino acid sequence.
      *
      * The amino acid sequence string may contain the appropriate N- and C-

@@ -14,10 +14,13 @@ SET(SRCS
 	Stoichiometry.cpp
 	StoichiometryConfig.cpp
 	StoichiometryConfigImpl.cpp
+	tools/Digester.cpp
+	tools/FastaReader.cpp
 )
 
 ADD_LIBRARY(aas ${SRCS})
 TARGET_LINK_LIBRARIES(aas
+	${Boost_REGEX_LIBRARY}
 	${CMAKE_THREAD_LIBS_INIT}
 )
 
