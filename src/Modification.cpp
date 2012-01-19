@@ -212,6 +212,7 @@ Modification& Modification::operator=(const Modification& rhs)
         modification_ = rhs.getModification();
         stoichiometryConfig_ = rhs.getStoichiometryConfig();
         customSpecificities_ = rhs.getCustomSpecificities();
+        stoichiometry_ = rhs.stoichiometry_;
     }
     return *this;
 }
