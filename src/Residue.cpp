@@ -9,23 +9,64 @@
 #include <libaas/Residue.hpp>
 #include <libaas/Error.hpp>
 
+#include <boost/make_shared.hpp>
+
+#include <stdio.h>
 #include <sstream>
 
 namespace libaas {
+
+Residue::ModificationPtr Residue::EMPTY_MOD;
 
 Residue::Residue(
     const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
     const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey,
     const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& labelKey) :
-        aminoacid_(aminoAcidKey), modification_(modificationKey), isotopicLabel_(
-            labelKey)
+        aminoacid_(aminoAcidKey), modification_(
+            boost::make_shared<modifications::Modification>()), isotopicLabel_(
+            boost::make_shared<modifications::Modification>())
 {
+    if (!EMPTY_MOD.get()) {
+        EMPTY_MOD = ModificationPtr(new modifications::Modification(""));
+    }
+    if (modificationKey != "") {
+        modification_ = ModificationPtr(
+            new modifications::Modification(modificationKey));
+    } else {
+        modification_ = EMPTY_MOD;
+    }
+    if (labelKey != "") {
+        isotopicLabel_ = ModificationPtr(
+            new modifications::Modification(labelKey));
+    } else {
+        isotopicLabel_ = EMPTY_MOD;
+    }
 }
 
 Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
     const libaas::modifications::Modification& mod,
     const libaas::modifications::Modification& label) :
-        aminoacid_(aminoAcid), modification_(mod), isotopicLabel_(label)
+        aminoacid_(aminoAcid), modification_(
+            boost::make_shared<modifications::Modification>()), isotopicLabel_(
+            boost::make_shared<modifications::Modification>())
+{
+    if (!EMPTY_MOD.get()) {
+        EMPTY_MOD = ModificationPtr(new modifications::Modification(""));
+    }
+    if (mod.getModificationId() != "") {
+        modification_ = ModificationPtr(new modifications::Modification(mod));
+    } else {
+        modification_ = EMPTY_MOD;
+    }
+    if (label.getModificationId() != "") {
+        isotopicLabel_ = ModificationPtr(
+            new modifications::Modification(label));
+    } else {
+        isotopicLabel_ = EMPTY_MOD;
+    }
+}
+
+Residue::~Residue()
 {
 }
 
@@ -43,44 +84,44 @@ void Residue::changeType(const aminoAcids::AminoAcid& aminoAcid)
 Bool Residue::hasModification(
     const modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey) const
 {
-    return modification_.getModificationId() == modificationKey;
+    return modification_->getModificationId() == modificationKey;
 }
 
 Bool Residue::hasModification(
     const modifications::Modification& modification) const
 {
-    return modification_ == modification;
+    return *modification_ == modification;
 }
 
 Bool Residue::isModified() const
 {
-    return modification_.getModificationId() != "";
+    return modification_->getModificationId() != "";
 }
 
 Bool Residue::hasLabel(
     const modifications::RawModificationImpl::RawModificationImplKeyType& labelKey) const
 {
-    return isotopicLabel_.getModificationId() == labelKey;
+    return isotopicLabel_->getModificationId() == labelKey;
 }
 
 Bool Residue::hasLabel(const modifications::Modification& label) const
 {
-    return isotopicLabel_ == label;
+    return *isotopicLabel_ == label;
 }
 
 Bool Residue::isLabeled() const
 {
-    return isotopicLabel_.getModificationId() != "";
+    return isotopicLabel_->getModificationId() != "";
 }
 
 void Residue::removeModification()
 {
-    modification_ = modifications::Modification();
+    modification_ = EMPTY_MOD;
 }
 
 void Residue::removeIsotopicLabel()
 {
-    isotopicLabel_ = modifications::Modification();
+    isotopicLabel_ = EMPTY_MOD;
 }
 
 void Residue::applyAminoAcidStoichiometryConfig(
@@ -98,33 +139,45 @@ void Residue::applyAminoAcidStoichiometryConfig(
 void Residue::applyModificationStoichiometryConfig(
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
 {
-    modification_.setStoichiometryConfig(configKey);
+    if (modification_ != NULL) {
+        modification_->setStoichiometryConfig(configKey);
+    }
 }
 
 void Residue::applyModificationStoichiometryConfig(
     const StoichiometryConfig& config)
 {
-    modification_.setStoichiometryConfig(config);
+    if (modification_ != NULL) {
+        modification_->setStoichiometryConfig(config);
+    }
 }
 
 void Residue::applyIsotopicLabelStoichiometryConfig(
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
 {
-    isotopicLabel_.setStoichiometryConfig(configKey);
+    if (isotopicLabel_ != NULL) {
+        isotopicLabel_->setStoichiometryConfig(configKey);
+    }
 }
 
 void Residue::applyIsotopicLabelStoichiometryConfig(
     const StoichiometryConfig& config)
 {
-    isotopicLabel_.setStoichiometryConfig(config);
+    if (isotopicLabel_ != NULL) {
+        isotopicLabel_->setStoichiometryConfig(config);
+    }
 }
 
 Stoichiometry Residue::getStoichiometry() const
 {
     // MAYBE optimize by storing the stoichiometry
     Stoichiometry s = aminoacid_.getStoichiometry();
-    s += modification_.getStoichiometry();
-    s += isotopicLabel_.getStoichiometry();
+    if (modification_ != NULL) {
+        s += modification_->getStoichiometry();
+    }
+    if (isotopicLabel_ != NULL) {
+        s += isotopicLabel_->getStoichiometry();
+    }
     return s;
 }
 
@@ -133,7 +186,7 @@ String Residue::toString() const
     std::ostringstream oss;
     oss << aminoacid_.getSymbol();
     if (isModified()) {
-        oss << "(" << modification_.getModificationId() << ")";
+        oss << "(" << modification_->getModificationId() << ")";
     }
     return oss.str();
 }
@@ -168,19 +221,15 @@ void Residue::setModification(
     const libaas::modifications::Modification& modification)
 {
     if (!modification.isIsotopicLabel()) {
-        modification_ = modification;
+        modification_ = ModificationPtr(
+            new modifications::Modification(modification));
     } else {
         libaas_logic_error(
             "Residue::setModification(): Given modification is an isotopic label. use setIsotopicLabel() instead.");
     }
 }
 
-const libaas::modifications::Modification& Residue::getModification() const
-{
-    return modification_;
-}
-
-libaas::modifications::Modification& Residue::getModification()
+const Residue::ModificationPtr& Residue::getModification() const
 {
     return modification_;
 }
@@ -195,19 +244,15 @@ void Residue::setIsotopicLabel(
     const libaas::modifications::Modification& isotopicLabel)
 {
     if (isotopicLabel.isIsotopicLabel()) {
-        isotopicLabel_ = isotopicLabel;
+        isotopicLabel_ = ModificationPtr(
+            new modifications::Modification(isotopicLabel));
     } else {
         libaas_logic_error(
             "Residue::setIsotopicLabel(): Given isotopic label is a standard modification. Use setModification() instead.");
     }
 }
 
-const libaas::modifications::Modification& Residue::getIsotopicLabel() const
-{
-    return isotopicLabel_;
-}
-
-libaas::modifications::Modification& Residue::getIsotopicLabel()
+const Residue::ModificationPtr& Residue::getIsotopicLabel() const
 {
     return isotopicLabel_;
 }
@@ -224,8 +269,8 @@ Residue& Residue::operator=(const Residue& rhs)
 
 bool Residue::operator==(const Residue& r) const
 {
-    return aminoacid_ == r.aminoacid_ && modification_ == r.modification_
-            && isotopicLabel_ == r.isotopicLabel_;
+    return aminoacid_ == r.aminoacid_ && *modification_ == *r.modification_
+            && *isotopicLabel_ == *r.isotopicLabel_;
 }
 
 bool Residue::operator!=(const Residue& r) const

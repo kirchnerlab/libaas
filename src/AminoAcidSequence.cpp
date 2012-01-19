@@ -388,7 +388,7 @@ String AminoAcidSequence::getModificationString() const
             if (!modoss.str().empty()) {
                 modoss << "; ";
             }
-            modifications::Modification mod = it->getModification();
+            modifications::Modification mod = *(it->getModification().get());
             modoss << mod.getModificationId() << "("
                     << it->getAminoAcid().getSymbol() << ")@" << pos;
         }
