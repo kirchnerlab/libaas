@@ -13,7 +13,7 @@ namespace modifications {
 
 Modification::Modification(const RawModification& modification,
     const StoichiometryConfig& config) :
-        modification_(modification), stoichiometryConfig_(config), stoichiometry_(), customSpecificities_()
+        modification_(modification), stoichiometryConfig_(config), customSpecificities_()
 {
     reinit();
 }
@@ -22,7 +22,7 @@ Modification::Modification(
     const RawModificationImpl::RawModificationImplKeyType& modid,
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
         modification_(RawModification(modid)), stoichiometryConfig_(
-            StoichiometryConfig(configid)), stoichiometry_(), customSpecificities_()
+            StoichiometryConfig(configid)), customSpecificities_()
 {
     reinit();
 }
@@ -68,9 +68,10 @@ const StoichiometryConfig& Modification::getStoichiometryConfig() const
     return stoichiometryConfig_;
 }
 
-const Stoichiometry& Modification::getStoichiometry() const
+Stoichiometry Modification::getStoichiometry() const
 {
-    return stoichiometry_;
+    return modification_.get().getStoichiometry().recalculatesWithConfiguration(
+        stoichiometryConfig_);
 }
 
 void Modification::addCustomSpecificity(const Specificity& specificity)
@@ -182,16 +183,15 @@ void Modification::reinit()
 void Modification::recalculateStoichiometry()
 {
     // MAYBE optimize by not using recalc (apply instead)
-    stoichiometry_ =
-            modification_.get().getStoichiometry().recalculatesWithConfiguration(
-                stoichiometryConfig_);
+//    stoichiometry_ =
+//            modification_.get().getStoichiometry().recalculatesWithConfiguration(
+//                stoichiometryConfig_);
 }
 
 bool Modification::operator==(const Modification& m) const
 {
     return modification_ == m.modification_
             && stoichiometryConfig_ == m.stoichiometryConfig_
-            && stoichiometry_ == m.stoichiometry_
             && customSpecificities_ == m.customSpecificities_;
 }
 
@@ -205,7 +205,6 @@ Modification& Modification::operator=(const Modification& rhs)
     if (this != &rhs) {
         modification_ = rhs.getModification();
         stoichiometryConfig_ = rhs.getStoichiometryConfig();
-        stoichiometry_ = rhs.getStoichiometry();
         customSpecificities_ = rhs.getCustomSpecificities();
     }
     return *this;

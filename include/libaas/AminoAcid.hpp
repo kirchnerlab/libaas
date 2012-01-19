@@ -115,7 +115,7 @@ private:
 
     RawAminoAcid rawAminoAcid_;
     StoichiometryConfig stoichiometryConfig_;
-    Stoichiometry stoichiometry_;
+//    Stoichiometry stoichiometry_;
 
 };
 
