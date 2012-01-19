@@ -74,6 +74,8 @@ public:
      */
     void setStoichiometry(const Stoichiometry& stoichiometry);
 
+    libaas::Stoichiometry::StoichiometryPtr getStoichiometryPtr() const;
+
     /**Returns the stoichiometry of the amino acid.
      * @returns stoichiometry of the amino acid.
      */
@@ -175,7 +177,7 @@ private:
     libaas::String fullName_;
     /** Stoichiometry of the amino acid.
      */
-    libaas::Stoichiometry stoichiometry_;
+    libaas::Stoichiometry::StoichiometryPtr stoichiometry_;
 
 };
 // class RawAminoAcidImpl

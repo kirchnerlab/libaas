@@ -15,6 +15,8 @@
 #include <libaas/Element.hpp>
 #include <libaas/Types.hpp>
 
+#include <boost/shared_ptr.hpp>
+
 #include <map>
 #include <vector>
 #include <iostream>
@@ -29,6 +31,8 @@ class Stoichiometry
 {
 
 public:
+
+    typedef boost::shared_ptr<Stoichiometry> StoichiometryPtr;
 
     /** Convenience typedef of the data type.
      */

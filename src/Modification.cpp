@@ -68,10 +68,9 @@ const StoichiometryConfig& Modification::getStoichiometryConfig() const
     return stoichiometryConfig_;
 }
 
-Stoichiometry Modification::getStoichiometry() const
+const Stoichiometry& Modification::getStoichiometry() const
 {
-    return modification_.get().getStoichiometry().recalculatesWithConfiguration(
-        stoichiometryConfig_);
+    return *stoichiometry_;
 }
 
 void Modification::addCustomSpecificity(const Specificity& specificity)
@@ -183,9 +182,16 @@ void Modification::reinit()
 void Modification::recalculateStoichiometry()
 {
     // MAYBE optimize by not using recalc (apply instead)
-//    stoichiometry_ =
-//            modification_.get().getStoichiometry().recalculatesWithConfiguration(
-//                stoichiometryConfig_);
+    if (stoichiometryConfig_.get_key()
+            == StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG) {
+        stoichiometry_ = modification_.get().getStoichiometryPtr();
+    } else {
+        Stoichiometry s =
+                modification_.get().getStoichiometry().recalculatesWithConfiguration(
+                    stoichiometryConfig_);
+        stoichiometry_ = libaas::Stoichiometry::StoichiometryPtr(
+            new Stoichiometry(s));
+    }
 }
 
 bool Modification::operator==(const Modification& m) const

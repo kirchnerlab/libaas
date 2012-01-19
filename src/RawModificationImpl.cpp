@@ -10,6 +10,8 @@
 #include <libaas/StoichiometryConfig.hpp>
 #include <libaas/Error.hpp>
 
+#include <boost/make_shared.hpp>
+
 namespace libaas {
 namespace modifications {
 
@@ -4783,7 +4785,8 @@ const libaas::Char * altNames[] =
           "Applied Biosystems mTRAQ(TM) reagent" };
 
 RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
-        id_(id), name_(""), fullName_(""), altNames_(), stoichiometry_(), specificities_(), verified_(
+        id_(id), name_(""), fullName_(""), altNames_(), stoichiometry_(
+            boost::make_shared<libaas::Stoichiometry>()), specificities_(), verified_(
             true)
 {
     if (!id.empty()) {
@@ -4850,9 +4853,11 @@ RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
         verified_ = verified[modIndex];
 
         // initialize stoichiometry of modification
+        stoichiometry_ = libaas::Stoichiometry::StoichiometryPtr(
+            new Stoichiometry());
         for (libaas::Size i = indexDeltas[modIndex];
                 i < indexDeltas[modIndex + 1]; ++i) {
-            stoichiometry_.set(
+            stoichiometry_->set(
                 Element(defaultConfig.get().getKeyForSymbol(deltaSymbols[i])),
                 deltaNumbers[i]);
         }
@@ -4862,7 +4867,9 @@ RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
 RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id,
     const libaas::String& name, const libaas::String& fullName,
     const libaas::Bool& verified) :
-        id_(id), name_(name), fullName_(fullName), verified_(verified)
+        id_(id), name_(name), fullName_(fullName), altNames_(), stoichiometry_(
+            boost::make_shared<libaas::Stoichiometry>()), specificities_(), verified_(
+            verified)
 {
 }
 
@@ -4903,12 +4910,18 @@ const std::vector<String>& RawModificationImpl::getAltNames() const
 
 void RawModificationImpl::setStoichiometry(const Stoichiometry& stoichiometry)
 {
-    stoichiometry_ = stoichiometry;
+    stoichiometry_ = libaas::Stoichiometry::StoichiometryPtr(
+        new Stoichiometry(stoichiometry));
+}
+
+libaas::Stoichiometry::StoichiometryPtr RawModificationImpl::getStoichiometryPtr() const
+{
+    return stoichiometry_;
 }
 
 const Stoichiometry& RawModificationImpl::getStoichiometry() const
 {
-    return stoichiometry_;
+    return *stoichiometry_;
 }
 
 void RawModificationImpl::addSpecificity(const Specificity& specificity)
@@ -4956,7 +4969,8 @@ Bool RawModificationImpl::isApplicable(
 bool RawModificationImpl::operator==(const RawModificationImpl& m) const
 {
     return id_ == m.id_ && name_ == m.name_ && fullName_ == m.fullName_
-            && altNames_ == m.altNames_ && stoichiometry_ == m.stoichiometry_
+            && altNames_ == m.altNames_
+            && *stoichiometry_ == *(m.stoichiometry_)
             && specificities_ == m.specificities_ && verified_ == m.verified_;
 }
 

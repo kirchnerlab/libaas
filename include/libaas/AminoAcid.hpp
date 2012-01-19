@@ -59,7 +59,7 @@ public:
      */
     libaas::Bool isCTerm() const;
 
-    Stoichiometry getStoichiometry() const;
+    const Stoichiometry& getStoichiometry() const;
 
     /**Sets the stoichiometry configuration.
      * Note: This will trigger the recalculation of the stoichiometry using the
@@ -115,7 +115,7 @@ private:
 
     RawAminoAcid rawAminoAcid_;
     StoichiometryConfig stoichiometryConfig_;
-//    Stoichiometry stoichiometry_;
+    libaas::Stoichiometry::StoichiometryPtr stoichiometry_;
 
 };
 

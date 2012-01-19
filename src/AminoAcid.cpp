@@ -8,20 +8,24 @@
 
 #include <libaas/AminoAcid.hpp>
 
+#include <boost/make_shared.hpp>
+
 namespace libaas {
 namespace aminoAcids {
 
 AminoAcid::AminoAcid(
     const RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
-        rawAminoAcid_(aminoAcidKey), stoichiometryConfig_(configid)
+        rawAminoAcid_(aminoAcidKey), stoichiometryConfig_(configid), stoichiometry_(
+            boost::make_shared<libaas::Stoichiometry>())
 {
     recalculateStoichiometry();
 }
 
 AminoAcid::AminoAcid(const RawAminoAcid& aminoAcid,
     const StoichiometryConfig& config) :
-        rawAminoAcid_(aminoAcid), stoichiometryConfig_(config)
+        rawAminoAcid_(aminoAcid), stoichiometryConfig_(config), stoichiometry_(
+            boost::make_shared<libaas::Stoichiometry>())
 {
     recalculateStoichiometry();
 }
@@ -61,10 +65,9 @@ libaas::Bool AminoAcid::isCTerm() const
     return rawAminoAcid_.get().isCTerm();
 }
 
-Stoichiometry AminoAcid::getStoichiometry() const
+const Stoichiometry& AminoAcid::getStoichiometry() const
 {
-    return rawAminoAcid_.get().getStoichiometry().recalculatesWithConfiguration(
-        stoichiometryConfig_);
+    return *stoichiometry_;
 }
 
 void AminoAcid::setStoichiometryConfig(const StoichiometryConfig& config)
@@ -93,9 +96,16 @@ const StoichiometryConfig& AminoAcid::getStoichiometryConfig() const
 void AminoAcid::recalculateStoichiometry()
 {
 //    // MAYBE optimize by using applyStoichiometryConfig
-//    stoichiometry_ =
-//            rawAminoAcid_.get().getStoichiometry().recalculatesWithConfiguration(
-//                stoichiometryConfig_);
+    if (stoichiometryConfig_.get_key()
+            == StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG) {
+        stoichiometry_ = rawAminoAcid_.get().getStoichiometryPtr();
+    } else {
+        Stoichiometry s =
+                rawAminoAcid_.get().getStoichiometry().recalculatesWithConfiguration(
+                    stoichiometryConfig_);
+        stoichiometry_ = libaas::Stoichiometry::StoichiometryPtr(
+            new Stoichiometry(s));
+    }
 }
 
 AminoAcid& AminoAcid::operator=(const AminoAcid& a)
@@ -103,7 +113,7 @@ AminoAcid& AminoAcid::operator=(const AminoAcid& a)
     if (this != &a) {
         rawAminoAcid_ = a.rawAminoAcid_;
         stoichiometryConfig_ = a.stoichiometryConfig_;
-//        stoichiometry_ = a.stoichiometry_;
+        stoichiometry_ = a.stoichiometry_;
     }
     return *this;
 }
@@ -111,8 +121,8 @@ AminoAcid& AminoAcid::operator=(const AminoAcid& a)
 bool AminoAcid::operator==(const AminoAcid& a) const
 {
     return rawAminoAcid_ == a.rawAminoAcid_
-            && stoichiometryConfig_ == a.stoichiometryConfig_;
-//            && stoichiometry_ == a.stoichiometry_;
+            && stoichiometryConfig_ == a.stoichiometryConfig_
+            && *stoichiometry_ == *(a.stoichiometry_);
 }
 
 bool AminoAcid::operator!=(const AminoAcid& a) const

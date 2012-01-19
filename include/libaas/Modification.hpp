@@ -103,7 +103,7 @@ public:
     /**Returns the stoichiometry.
      * @returns The stoichiometry of the modification
      */
-    Stoichiometry getStoichiometry() const;
+    const Stoichiometry& getStoichiometry() const;
 
     /**Adds a custom specificity.
      * @param[in] specificity Specificity
@@ -237,7 +237,7 @@ private:
     /**Stoichiometry of the modification calculated with the present
      * stoichiometry configuration.
      */
-//    libaas::Stoichiometry stoichiometry_;
+    libaas::Stoichiometry::StoichiometryPtr stoichiometry_;
     /**Custom specificities of the modification.
      */
     std::vector<Specificity> customSpecificities_;

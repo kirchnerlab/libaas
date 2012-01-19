@@ -10,6 +10,8 @@
 #include <libaas/Element.hpp>
 #include <libaas/Error.hpp>
 
+#include <boost/make_shared.hpp>
+
 #include <algorithm>
 #include <sstream>
 
@@ -187,7 +189,8 @@ RawAminoAcidImpl::RawAminoAcidImplKeyType RawAminoAcidImpl::getKeyForAminoAcidSt
 
 RawAminoAcidImpl::RawAminoAcidImpl(
     const RawAminoAcidImpl::RawAminoAcidImplKeyType& id) :
-        id_(id), symbol_(id), threeLetterCode_(""), fullName_(""), stoichiometry_()
+        id_(id), symbol_(id), threeLetterCode_(""), fullName_(""), stoichiometry_(
+            boost::make_shared<libaas::Stoichiometry>())
 {
     if (id != '\0') {
         Size k = findIdOfAminoAcidKey(id);
@@ -195,8 +198,10 @@ RawAminoAcidImpl::RawAminoAcidImpl(
         symbol_ = stoi_chars[k];
         threeLetterCode_ = three_letter[k];
         fullName_ = fullNames[k];
+        stoichiometry_ = libaas::Stoichiometry::StoichiometryPtr(
+            new Stoichiometry());
         for (Size i = 0; i < 5; ++i) {
-            stoichiometry_.set(libaas::elements::Element(stoi_elements[i]),
+            stoichiometry_->set(libaas::elements::Element(stoi_elements[i]),
                 stoi_table[k][i]);
         }
     }
@@ -205,8 +210,10 @@ RawAminoAcidImpl::RawAminoAcidImpl(
 RawAminoAcidImpl::RawAminoAcidImpl(const RawAminoAcidImplKeyType& id,
     const char symbol, const libaas::Stoichiometry& stoichiometry) :
         id_(id), symbol_(symbol), threeLetterCode_(""), fullName_(""), stoichiometry_(
-            stoichiometry)
+            boost::make_shared<libaas::Stoichiometry>())
 {
+    stoichiometry_ = libaas::Stoichiometry::StoichiometryPtr(
+        new Stoichiometry(stoichiometry));
 }
 
 void RawAminoAcidImpl::setSymbol(const Char& symbol)
@@ -221,12 +228,18 @@ Char RawAminoAcidImpl::getSymbol() const
 
 void RawAminoAcidImpl::setStoichiometry(const Stoichiometry& stoichiometry)
 {
-    stoichiometry_ = stoichiometry;
+    stoichiometry_ = libaas::Stoichiometry::StoichiometryPtr(
+        new Stoichiometry(stoichiometry));
+}
+
+libaas::Stoichiometry::StoichiometryPtr RawAminoAcidImpl::getStoichiometryPtr() const
+{
+    return stoichiometry_;
 }
 
 const libaas::Stoichiometry& RawAminoAcidImpl::getStoichiometry() const
 {
-    return stoichiometry_;
+    return *stoichiometry_;
 }
 
 void RawAminoAcidImpl::setThreeLetterCode(const String& threeLetterCode)
@@ -275,7 +288,8 @@ bool RawAminoAcidImpl::operator==(const RawAminoAcidImpl& a) const
 {
     return id_ == a.id_ && symbol_ == a.symbol_
             && threeLetterCode_ == a.threeLetterCode_
-            && fullName_ == a.fullName_ && stoichiometry_ == a.stoichiometry_;
+            && fullName_ == a.fullName_
+            && *stoichiometry_ == *(a.stoichiometry_);
 }
 
 bool RawAminoAcidImpl::operator!=(const RawAminoAcidImpl& a) const
