@@ -22,7 +22,12 @@ int main(int argc, const char* argv[])
         if (argc == 4) {
             fastaFile = argv[1];
             modFile = argv[2];
-            regex = argv[3];
+            libaas::String r = argv[3];
+            if (r == "x") {
+                regex = "";
+            } else {
+                regex = argv[3];
+            }
         } else {
             std::cerr
                     << "Usage: readDigestModify <fasta> <modifications> <regex>"
@@ -34,6 +39,7 @@ int main(int argc, const char* argv[])
 
     std::cout << "Fasta file: " << fastaFile << std::endl;
     std::cout << "Modification file: " << modFile << std::endl;
+    std::cout << "Digester regex: " << regex << std::endl;
 
     tools::Digester d(regex);
 
