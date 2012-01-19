@@ -60,8 +60,10 @@ int main(int argc, const char* argv[])
     libaas::Size nrs = 0;
     libaas::Size nMods = 0;
     libaas::Size nLabs = 0;
+    Stoichiometry sum;
     for (tools::FastaReader::AminoAcidSequences::const_iterator it =
             aass.begin(); it != aass.end(); ++it) {
+        sum += it->getStoichiometry();
         nrs += it->size();
         for (libaas::AminoAcidSequence::const_iterator ait = it->begin();
                 ait != it->end(); ++ait) {
@@ -78,6 +80,7 @@ int main(int argc, const char* argv[])
     std::cout << "Number of residues: " << nrs << std::endl;
     std::cout << "Number of modifications: " << nMods << std::endl;
     std::cout << "Number of labels: " << nLabs << std::endl;
+    std::cout << "Summed stoichiometry: " << sum.toString() << std::endl;
 
     return 0;
 }
