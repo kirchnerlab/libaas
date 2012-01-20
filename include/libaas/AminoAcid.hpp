@@ -18,23 +18,47 @@
 namespace libaas {
 namespace aminoAcids {
 
+/**Representation of an amino acid using libaas::aminoAcids::RawAminoAcid.
+ */
 class AminoAcid
 {
 public:
 
+    /**Constructor.
+     * @param[in] aminoAcidKey The key/id of the raw amino acid
+     * @param[in] configid The stoichiometry config key/id
+     * @throws Throwsn an libaas::errors::LogicError exception in case the given amino
+     * acid key cannot be resolved.
+     */
     AminoAcid(
         const RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey = '\0',
         const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid =
-                StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+
+        StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+
+    /**Constructor.
+     * @param[in] aminoAcid The raw amino acid
+     * @param[in] config The stoichiometry config which is used to calculate the
+     * stoichiometry
+     */
     AminoAcid(
         const RawAminoAcid& aminoAcid,
         const StoichiometryConfig& config = StoichiometryConfig(
             StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
 
+    /**Returns the symbol of the amino acid.
+     * @returns The symbol of the amino acid.
+     */
     Char getSymbol() const;
 
+    /**Returns the key/id of the raw amino acid.
+     * @returns The key/id of the raw amino acid.
+     */
     const RawAminoAcidImpl::RawAminoAcidImplKeyType& getRawAminoAcidKey() const;
 
+    /**Returns the raw amino acid.
+     * @returns The raw amino acid.
+     */
     const RawAminoAcid& getRawAminoAcid() const;
 
     /**Returns the three letter code of the amino acid.
@@ -59,6 +83,15 @@ public:
      */
     libaas::Bool isCTerm() const;
 
+    /**Calculates and returns a copy of the stoichiometry of this amino acid.
+     * The calculation is skipped in case the present stoichiometry configuration is
+     * StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG.
+     * This method calls recalculatesWithConfiguration() on the stoichiometry retrieved
+     * by the raw amino acid.
+     * @returns The stoichiometry calculated with the present stoichiometry configuration
+     * @throws Throws an libaas::errors::RuntimeError in case one or more elements cannot
+     * be resolved by the stochiometry config.
+     */
     Stoichiometry getStoichiometry() const;
 
     /**Sets the stoichiometry configuration.
@@ -108,7 +141,11 @@ public:
 
 private:
 
+    /**The raw amino acid.
+     */
     RawAminoAcid rawAminoAcid_;
+    /**The stoichiometry configuration used to calculate the stoichiometry.
+     */
     StoichiometryConfig stoichiometryConfig_;
 
 };

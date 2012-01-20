@@ -18,16 +18,16 @@
 namespace libaas {
 namespace aminoAcids {
 
-/**@brief ID extractor for amino acids.
+/**@brief ID extractor for raw amino acids.
  *
- * The class AminoAcidIdExtractor is used allow the instantiation of
+ * The class RawAminoAcidIdExtractor is used allow the instantiation of
  * flyweight<RawAminoAcidImpl>(Key) in order to simplify the access.
  */
-struct AminoAcidIdExtractor
+struct RawAminoAcidIdExtractor
 {
-    /**Returns the key of the amino acid.
-     * @param[in] a instance of an amino acid implementation
-     * @returns The key of the amino acid
+    /**Returns the key of the raw amino acid.
+     * @param[in] a instance of an raw amino acid implementation
+     * @returns The key of the raw amino acid
      */
     const RawAminoAcidImpl::RawAminoAcidImplKeyType& operator()(
         const RawAminoAcidImpl& a) const
@@ -40,7 +40,7 @@ struct AminoAcidIdExtractor
  */
 typedef boost::flyweight<
         boost::flyweights::key_value<RawAminoAcidImpl::RawAminoAcidImplKeyType,
-                RawAminoAcidImpl, AminoAcidIdExtractor>
+                RawAminoAcidImpl, RawAminoAcidIdExtractor>
         , boost::flyweights::no_tracking> RawAminoAcid;
 
 /**Convenience function to add a custom raw amino acid to this list of known amino

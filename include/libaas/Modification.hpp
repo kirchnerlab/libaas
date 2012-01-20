@@ -37,8 +37,6 @@ public:
      * modification and stoichiometry configuration.
      * @param[in] modification Modification
      * @param[in] config Stoichiometry configuration
-     * @throws Throws an exception in case one ore more elements cannot be
-     * resolved by the stoichiometry configuration.
      */
     Modification(
         const RawModification& modification,
@@ -49,8 +47,8 @@ public:
      * modification and id of a stoichiometry configuration.
      * @param[in] modid
      * @param[in] configid
-     * @throws Throws an exception in case one ore more elements cannot be
-     * resolved by the stoichiometry configuration.
+     * @throws Throws an libaas::errors::LogicError exception in case the given
+     * modification key cannot be resolved.
      */
     Modification(
         const RawModificationImpl::RawModificationImplKeyType& modid = "",
@@ -66,6 +64,8 @@ public:
     /**Sets the raw modification.
      * Note: This function will reset the custom specificities.
      * @param[in] modid Id of the raw modification
+     * @throws Throws an libaas::errors::LogicError exception in case the modid cannot be
+     * resolved.
      */
     void setModification(
         const RawModificationImpl::RawModificationImplKeyType& modid);
@@ -76,20 +76,12 @@ public:
     const RawModification& getModification() const;
 
     /**Sets the stoichiometry configuration.
-     * Note: This will trigger the recalculation of the stoichiometry using the
-     * given configuration.
      * @param[in] config Stoichiometry configuration
-     * @throws Throws an exception in case one ore more elements cannot be
-     * resolved by the stoichiometry configuration.
      */
     void setStoichiometryConfig(const StoichiometryConfig& config);
 
     /**Sets the stoichiometry configuration.
-     * Note: This will trigger the recalculation of the stoichiometry using the
-     * given configuration.
      * @param[in] configid Id of the stoichiometry configuration
-     * @throws Throws an exception in case one ore more elements cannot be
-     * resolved by the stoichiometry configuration.
      */
     void
     setStoichiometryConfig(
@@ -100,8 +92,14 @@ public:
      */
     const StoichiometryConfig& getStoichiometryConfig() const;
 
-    /**Returns the stoichiometry.
-     * @returns The stoichiometry of the modification
+    /**Calculates and returns a copy of the stoichiometry of this amino acid.
+     * The calculation is skipped in case the present stoichiometry configuration is
+     * StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG.
+     * This method calls recalculatesWithConfiguration() on the stoichiometry retrieved
+     * by the raw amino acid.
+     * @returns The stoichiometry calculated with the present stoichiometry configuration
+     * @throws Throws an libaas::errors::RuntimeError in case one or more elements cannot
+     * be resolved by the stochiometry config.
      */
     Stoichiometry getStoichiometry() const;
 

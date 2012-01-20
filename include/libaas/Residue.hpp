@@ -28,8 +28,6 @@ class Residue
 
 public:
 
-    typedef boost::shared_ptr<modifications::Modification> ModificationPtr;
-
     /** Creates a residue with a modification
      *
      * Note: the constructor does not check whether the modification is
@@ -38,6 +36,8 @@ public:
      * @param[in] aminoAcidKey The key/id of an amino acid
      * @param[in] modificationKey The key/id of the modification
      * @param[in] labelKey The key/id of the label
+     * @throws Throws an libaas::errors::LogicError exception if given modification or label key are no modifications
+     * which can be added as modification or label.
      */
     Residue(
         const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey =
@@ -55,6 +55,8 @@ public:
      * @param[in] aminoAcid The amino acid
      * @param[in] mod The modification
      * @param[in] label The isotopic label
+     * @throws Throws an libaas::errors::LogicError exception if given modification or label key are no modifications
+     * which can be added as modification or label.
      */
     Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
         const libaas::modifications::Modification& mod =
@@ -62,12 +64,10 @@ public:
         const libaas::modifications::Modification& label =
                 modifications::Modification());
 
-    ~Residue();
-
     /**Change type of the amino acid.
      * @param[in] aminoAcidKey The key of the amino acid
      *
-     * TODO the modification stays the same. shall we remove it?
+     * TODO the modifications stays the same. shall we remove it?
      */
     void changeType(
         const aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey);
@@ -75,7 +75,7 @@ public:
     /**Change type of the amino acid.
      * @param[in] aminoAcid The amino acid
      *
-     * TODO the modification stays the same. shall we remove it?
+     * TODO the modifications stays the same. shall we remove it?
      */
     void changeType(const aminoAcids::AminoAcid& aminoAcid);
 
@@ -103,7 +103,7 @@ public:
 
     /**Sets the modification.
      *
-     * Calls setModification(Modification)
+     * Calls libaas::Residue::setModification(Modification)
      *
      * @param[in] modificationKey The key of a modification
      */
@@ -116,6 +116,7 @@ public:
      * to this position.
      *
      * @param[in] modification The modifiaction
+     * @throws Throws an libaas::error::LogicError if the given modification is an isotopic label.
      */
     void setModification(
         const libaas::modifications::Modification& modification);
@@ -127,7 +128,7 @@ public:
 
     /**Sets the isotopic label.
      *
-     * calls setIsotopicLabel(Modification)
+     * calls libaas::Residue::setIsotopicLabel(Modification)
      *
      * @param[in] isotopicLabelKey The key/id of the isotopic label.
      */
@@ -140,6 +141,8 @@ public:
      * to this position.
      *
      * @param[in] isotopicLabel The isotopic label
+     * @throws Throws an libaas::errors::LogicError exception if the given isotopicLabel
+     * is a standard modification.
      */
     void setIsotopicLabel(
         const libaas::modifications::Modification& isotopicLabel);
@@ -239,7 +242,7 @@ public:
 
     /**Returns the stoichiometry of the residue.
      * Note: This method actually calculates the stoichiometry by summing up the
-     * stoichiometry of the amino acid and of the modification.
+     * stoichiometry of the amino acid, the modification and the isotopic label.
      *
      * @returns Stoichiometry of the amino acid plus its modification
      */
@@ -272,9 +275,16 @@ public:
      */
     bool operator!=(const Residue& r) const;
 
-    static ModificationPtr EMPTY_MOD;
-
 private:
+
+    /**Convenience typedef.
+     */
+    typedef boost::shared_ptr<modifications::Modification> ModificationPtr;
+
+    /**Private reference to an empty modification, used to keep memory consumption
+     * minimal in case of an unmodified and unlabeled residue.
+     */
+    static ModificationPtr EMPTY_MOD;
 
     /** The amino acid.
      */

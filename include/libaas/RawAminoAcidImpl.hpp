@@ -41,8 +41,8 @@ public:
      * information necessary to create and fill the internal variables.
      *
      * @param[in] id Key/Id of the amino acid.
-     * @throws Throws an exception in case the id is not in the list of standart
-     * amino acids.
+     * @throws Throws an libaas::errors::LogicError exception in case the id is not in
+     * the list of standard amino acids.
      */
     RawAminoAcidImpl(const RawAminoAcidImplKeyType& id = '\0');
 

@@ -37,13 +37,14 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
             testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceApplyModifications));
         add(
             testCase(&AminoAcidSequenceTestSuite::testAminoAcidSequenceAminoAcidStoichiometry));
+        add(testCase(&AminoAcidSequenceTestSuite::testCollection));
     }
 
     void testAminoAcidSequence()
     {
         String aass = "AACCCQ";
-        String mods = "Phospho(C)@3; Oxidation(C)@5";
-        String aassm = "AAC(Phospho)CC(Oxidation)Q";
+        String mods = "Phospho(C)@3; ICAT-G(C)@4; Oxidation(C)@5; ICAT-G(C)@5";
+        String aassm = "AAC(Phospho)C(ICAT-G)C(Oxidation; ICAT-G)Q";
 
         AminoAcidSequence aas(aass);
         shouldEqual(aas.toString(), aass);
@@ -51,14 +52,22 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         shouldEqual(aas.toUnmodifiedSequenceString(), aass);
 
         aas.applyModificationAtPosition("Phospho", 3);
+        aas.applyModificationAtPosition("ICAT-G", 4);
+        aas.applyModificationAtPosition("ICAT-G", 5);
         aas.applyModificationAtPosition("Oxidation", 5);
 
         shouldEqual(aas.toString(), aassm);
         shouldEqual(aas.toString(true), "0" + aassm + "1");
         shouldEqual(aas.getModificationString(), mods);
 
+        shouldEqual(aas[3].isLabeled(), false);
         shouldEqual(aas[3].isModified(), true);
         shouldEqual(aas[3].hasModification("Phospho"), true);
+        shouldEqual(aas[4].isModified(), false);
+        shouldEqual(aas[4].isLabeled(), true);
+        shouldEqual(aas[4].hasLabel("ICAT-G"), true);
+        shouldEqual(aas[5].isLabeled(), true);
+        shouldEqual(aas[5].hasLabel("ICAT-G"), true);
         shouldEqual(aas[5].isModified(), true);
         shouldEqual(aas[5].hasModification("Oxidation"), true);
 
@@ -509,6 +518,23 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
 
         shouldEqual(aas, aas1);
         shouldEqual(aas, aas2);
+    }
+
+    void testCollection() {
+        std::vector<libaas::String> slv;
+        Collection<libaas::String> sl;
+        shouldEqual(slv.get_allocator() == sl.get_allocator(), true);
+        shouldEqual(sl.size(), 0u);
+        sl.push_back("ASD");
+        shouldEqual(sl.size(), 1u);
+        shouldEqual(sl[0], "ASD");
+        sl.push_back("SDF");
+        sl.pop_back();
+        shouldEqual(sl.size(), 1u);
+        shouldEqual(sl[0], "ASD");
+        const Collection<libaas::String> sl_c = sl;
+        shouldEqual(sl_c.size(), 1u);
+        shouldEqual(sl_c[0], "ASD");
     }
 
 };

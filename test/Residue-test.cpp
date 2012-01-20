@@ -31,6 +31,7 @@ struct ResidueTestSuite : vigra::test_suite
             vigra::test_suite("Residue")
     {
         add(testCase(&ResidueTestSuite::testResidue));
+        add(testCase(&ResidueTestSuite::testResidueShared));
         add(testCase(&ResidueTestSuite::testResidueStoichiometry));
     }
 
@@ -111,6 +112,31 @@ struct ResidueTestSuite : vigra::test_suite
 
         shouldEqual(r != r1, true);
         shouldEqual(r == r1, false);
+    }
+
+    void testResidueShared() {
+        Residue t('A', "Oxidation", "ICAT-G");
+        shouldEqual(t.getAminoAcid(), AminoAcid('A'));
+        shouldEqual(t.isModified(), true);
+        shouldEqual(t.isLabeled(), true);
+
+        Residue t_c(AminoAcid('A'), Modification("Phospho"), Modification("TMT"));
+        t_c = t;
+
+        StoichiometryConfigImpl::StoichiometryConfigImplKeyType k = "different";
+        StoichiometryConfigImpl sci(k);
+        addStoichiometryConfig(sci);
+
+        t_c.applyIsotopicLabelStoichiometryConfig(k);
+        t_c.applyModificationStoichiometryConfig(k);
+
+        shouldEqual(t.getModification().getStoichiometryConfig().get_key(), StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        shouldEqual(t.getIsotopicLabel().getStoichiometryConfig().get_key(), StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+
+        shouldEqual(t_c.getModification().getStoichiometryConfig().get_key(), k);
+        shouldEqual(t_c.getIsotopicLabel().getStoichiometryConfig().get_key(), k);
+
+        shouldEqual(t.getStoichiometry(), t_c.getStoichiometry());
     }
 
     void testResidueStoichiometry()
