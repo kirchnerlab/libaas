@@ -13,6 +13,8 @@
 #include <libaas/Modification.hpp>
 #include <libaas/Types.hpp>
 
+#include <boost/shared_ptr.hpp>
+
 #include <iostream>
 
 namespace libaas {
@@ -25,6 +27,8 @@ class Residue
 {
 
 public:
+
+    typedef boost::shared_ptr<modifications::Modification> ModificationPtr;
 
     /** Creates a residue with a modification
      *
@@ -57,6 +61,8 @@ public:
                 modifications::Modification(),
         const libaas::modifications::Modification& label =
                 modifications::Modification());
+
+    ~Residue();
 
     /**Change type of the amino acid.
      * @param[in] aminoAcidKey The key of the amino acid
@@ -117,12 +123,7 @@ public:
     /**Returns the modification of this residue
      * @returns The modification
      */
-    const libaas::modifications::Modification& getModification() const;
-
-    /**Returns the modifiable modificaiton of this residue.
-     * @returns A reference to the modification
-     */
-    libaas::modifications::Modification& getModification();
+    const modifications::Modification& getModification() const;
 
     /**Sets the isotopic label.
      *
@@ -146,12 +147,7 @@ public:
     /**Returns the isotopic label of this residue
      * @returns The isotopic label
      */
-    const libaas::modifications::Modification& getIsotopicLabel() const;
-
-    /**Returns the modifiable isotopic label of this residue.
-     * @returns A reference to the isotopic label
-     */
-    libaas::modifications::Modification& getIsotopicLabel();
+    const modifications::Modification& getIsotopicLabel() const;
 
     /**Checks whether the modification id is equal to the given key.
      *
@@ -276,6 +272,8 @@ public:
      */
     bool operator!=(const Residue& r) const;
 
+    static ModificationPtr EMPTY_MOD;
+
 private:
 
     /** The amino acid.
@@ -283,10 +281,10 @@ private:
     libaas::aminoAcids::AminoAcid aminoacid_;
     /** The modification of the amino acid.
      */
-    libaas::modifications::Modification modification_;
+    ModificationPtr modification_;
     /** The isotopic label of the amino acid.
      */
-    libaas::modifications::Modification isotopicLabel_;
+    ModificationPtr isotopicLabel_;
 
 };
 // class Residue

@@ -31,7 +31,8 @@ struct DigesterTestSuite : vigra::test_suite
         add(testCase(&DigesterTestSuite::testDigester));
     }
 
-    void testDigester() {
+    void testDigester()
+    {
         failTest("not implemented yet");
     }
 

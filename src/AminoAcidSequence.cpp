@@ -388,8 +388,14 @@ String AminoAcidSequence::getModificationString() const
             if (!modoss.str().empty()) {
                 modoss << "; ";
             }
-            modifications::Modification mod = it->getModification();
-            modoss << mod.getModificationId() << "("
+            modoss << it->getModification().getModificationId() << "("
+                    << it->getAminoAcid().getSymbol() << ")@" << pos;
+        }
+        if (it->isLabeled()) {
+            if (!modoss.str().empty()) {
+                modoss << "; ";
+            }
+            modoss << it->getIsotopicLabel().getModificationId() << "("
                     << it->getAminoAcid().getSymbol() << ")@" << pos;
         }
     }

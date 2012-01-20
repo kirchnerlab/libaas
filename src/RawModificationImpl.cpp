@@ -4862,7 +4862,8 @@ RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
 RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id,
     const libaas::String& name, const libaas::String& fullName,
     const libaas::Bool& verified) :
-        id_(id), name_(name), fullName_(fullName), verified_(verified)
+        id_(id), name_(name), fullName_(fullName), altNames_(), stoichiometry_(), specificities_(), verified_(
+            verified)
 {
 }
 

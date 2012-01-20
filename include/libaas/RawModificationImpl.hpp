@@ -181,7 +181,7 @@ private:
     std::vector<String> altNames_;
     /** Stoichiometry of the raw modification
      */
-    Stoichiometry stoichiometry_;
+    libaas::Stoichiometry stoichiometry_;
     /** List of specificities for the raw modification.
      */
     std::vector<Specificity> specificities_;

@@ -108,14 +108,8 @@ public:
 
 private:
 
-    /**Recalculates the stoichiometry of the modification using the present
-     * stoichiometry configuration.
-     */
-    void recalculateStoichiometry();
-
     RawAminoAcid rawAminoAcid_;
     StoichiometryConfig stoichiometryConfig_;
-    Stoichiometry stoichiometry_;
 
 };
 

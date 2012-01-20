@@ -66,7 +66,8 @@ private:
      * @param[in] ds List of header information (first) and the sequence (second)
      * @param[out] aminoAcidSequences List of resulting amino acid sequences
      */
-    void digest(const DescSeq& ds, AminoAcidSequences& aminoAcidSequences) const;
+    void digest(const DescSeq& ds,
+        AminoAcidSequences& aminoAcidSequences) const;
 
     /**Applies fixed modifcations to all amino acid sequences.
      *
