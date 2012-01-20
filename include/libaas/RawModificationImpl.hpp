@@ -35,7 +35,8 @@ public:
 
     /**Default constructor to instantiate a standard modification.
      * @param[in] id Key/Id of the modification
-     * @throws Throws an exception if the given id is not in the list of standard modifications.
+     * @throws Throws an libaas::errors::LogicError exception if the given id is not in
+     * the list of standard modifications.
      */
     RawModificationImpl(const RawModificationImplKeyType& id);
 

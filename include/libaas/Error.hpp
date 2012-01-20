@@ -49,7 +49,7 @@ public:
     /**Returns the reason/description of the exception
      * @returns Reason/description of the exception.
      */
-    virtual const char* what() const throw ()
+    virtual const char* what() const throw()
     {
         return what_.c_str();
     }

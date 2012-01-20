@@ -30,14 +30,12 @@ Residue::Residue(
         EMPTY_MOD = ModificationPtr(new modifications::Modification(""));
     }
     if (modificationKey != "") {
-        modification_ = ModificationPtr(
-            new modifications::Modification(modificationKey));
+        setModification(modificationKey);
     } else {
         modification_ = EMPTY_MOD;
     }
     if (labelKey != "") {
-        isotopicLabel_ = ModificationPtr(
-            new modifications::Modification(labelKey));
+        setIsotopicLabel(labelKey);
     } else {
         isotopicLabel_ = EMPTY_MOD;
     }
@@ -54,20 +52,15 @@ Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
         EMPTY_MOD = ModificationPtr(new modifications::Modification(""));
     }
     if (mod.getModificationId() != "") {
-        modification_ = ModificationPtr(new modifications::Modification(mod));
+        setModification(mod);
     } else {
         modification_ = EMPTY_MOD;
     }
     if (label.getModificationId() != "") {
-        isotopicLabel_ = ModificationPtr(
-            new modifications::Modification(label));
+        setIsotopicLabel(label);
     } else {
         isotopicLabel_ = EMPTY_MOD;
     }
-}
-
-Residue::~Residue()
-{
 }
 
 void Residue::changeType(
@@ -174,7 +167,6 @@ void Residue::applyIsotopicLabelStoichiometryConfig(
 
 Stoichiometry Residue::getStoichiometry() const
 {
-    // MAYBE optimize by storing the stoichiometry
     Stoichiometry s = aminoacid_.getStoichiometry();
     s += modification_->getStoichiometry();
     s += isotopicLabel_->getStoichiometry();
@@ -238,8 +230,12 @@ void Residue::setModification(
         modification_ = ModificationPtr(
             new modifications::Modification(modification));
     } else {
-        libaas_logic_error(
-            "Residue::setModification(): Given modification is an isotopic label. use setIsotopicLabel() instead.");
+        std::ostringstream oss;
+        oss << "Residue::setModification(): Given modification '";
+        oss << modification.getModificationId();
+        oss
+                << "' is an isotopic label since modification.isIsotopicLabel() returned true. Use setIsotopicLabel() instead.";
+        libaas_logic_error(oss.str());
     }
 }
 
@@ -261,8 +257,12 @@ void Residue::setIsotopicLabel(
         isotopicLabel_ = ModificationPtr(
             new modifications::Modification(isotopicLabel));
     } else {
-        libaas_logic_error(
-            "Residue::setIsotopicLabel(): Given isotopic label is a standard modification. Use setModification() instead.");
+        std::ostringstream oss;
+        oss << "Residue::setIsotopicLabel(): Given isotopic label '";
+        oss << isotopicLabel.getModificationId();
+        oss
+                << "' is a standard modification since isotopicLabel.isIsotopicLabel() returned false. Use setModification() instead.";
+        libaas_logic_error(oss.str());
     }
 }
 

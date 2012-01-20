@@ -100,6 +100,10 @@ struct ModificationTestSuite : vigra::test_suite
             StoichiometryConfig(StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
 
         shouldEqual(test != deamidated, true);
+
+        modifications::Modification tmp("Deamidated");
+        tmp = test;
+        shouldEqual(tmp, test);
     }
 
     // testing specificities of a modification (not rawmodification!)

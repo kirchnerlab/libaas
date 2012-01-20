@@ -10,6 +10,8 @@
 #include <libaas/StoichiometryConfig.hpp>
 #include <libaas/Error.hpp>
 
+#include <sstream>
+
 namespace libaas {
 namespace modifications {
 
@@ -4798,8 +4800,12 @@ RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
             }
         }
         if (modIndex == nModifications) {
-            libaas_logic_error(
-                "RawModificationImpl::RawModificationImpl(): Cannot find raw modification.");
+            std::ostringstream oss;
+            oss
+                    << "RawModificationImpl::RawModificationImpl(): Cannot find raw modification '";
+            oss << id;
+            oss << "'.";
+            libaas_logic_error(oss.str());
         }
 
         // iterate over specificities and add neutral and pep neutral losses
