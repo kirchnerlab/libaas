@@ -13,43 +13,38 @@ namespace modifications {
 
 Modification::Modification(const RawModification& modification,
     const StoichiometryConfig& config) :
-        modification_(modification), stoichiometryConfig_(config), customSpecificities_()
+        rawModification_(modification), stoichiometryConfig_(config), customSpecificities_()
 {
-    reinit();
 }
 
 Modification::Modification(
     const RawModificationImpl::RawModificationImplKeyType& modid,
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
-        modification_(RawModification(modid)), stoichiometryConfig_(
+        rawModification_(RawModification(modid)), stoichiometryConfig_(
             StoichiometryConfig(configid)), customSpecificities_()
 {
-    reinit();
 }
 
 void Modification::setModification(const RawModification& modification)
 {
-    modification_ = modification;
-    reinit();
+    rawModification_ = modification;
 }
 
 void Modification::setModification(
     const RawModificationImpl::RawModificationImplKeyType& modid)
 {
-    modification_ = RawModification(modid);
-    reinit();
+    rawModification_ = RawModification(modid);
 }
 
 const RawModification& Modification::getModification() const
 {
-    return modification_;
+    return rawModification_;
 }
 
 void Modification::setStoichiometryConfig(const StoichiometryConfig& config)
 {
     if (&config != &stoichiometryConfig_) {
         stoichiometryConfig_ = config;
-        recalculateStoichiometry();
     }
 }
 
@@ -59,7 +54,6 @@ void Modification::setStoichiometryConfig(
     StoichiometryConfig config(configid);
     if (&config != &stoichiometryConfig_) {
         stoichiometryConfig_ = config;
-        recalculateStoichiometry();
     }
 }
 
@@ -68,9 +62,14 @@ const StoichiometryConfig& Modification::getStoichiometryConfig() const
     return stoichiometryConfig_;
 }
 
-const Stoichiometry& Modification::getStoichiometry() const
+Stoichiometry Modification::getStoichiometry() const
 {
-    return *stoichiometry_;
+    if (stoichiometryConfig_.get_key()
+            == StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG) {
+        return rawModification_.get().getStoichiometry();
+    }
+    return rawModification_.get().getStoichiometry().recalculatesWithConfiguration(
+        stoichiometryConfig_);
 }
 
 void Modification::addCustomSpecificity(const Specificity& specificity)
@@ -87,7 +86,7 @@ void Modification::setCustomSpecificities(
 const std::vector<Specificity>& Modification::getSpecificities() const
 {
     if (customSpecificities_.empty()) {
-        return modification_.get().getSpecificities();
+        return rawModification_.get().getSpecificities();
     }
     return customSpecificities_;
 }
@@ -104,32 +103,32 @@ void Modification::clearCustomSpecificities()
 
 const RawModificationImpl::RawModificationImplKeyType& Modification::getModificationId() const
 {
-    return modification_.get().getId();
+    return rawModification_.get().getId();
 }
 
 const String& Modification::getName() const
 {
-    return modification_.get().getName();
+    return rawModification_.get().getName();
 }
 
 const String& Modification::getFullName() const
 {
-    return modification_.get().getFullName();
+    return rawModification_.get().getFullName();
 }
 
 const std::vector<String>& Modification::getAltNames() const
 {
-    return modification_.get().getAltNames();
+    return rawModification_.get().getAltNames();
 }
 
 const Stoichiometry& Modification::getRawStoichiometry() const
 {
-    return modification_.get().getStoichiometry();
+    return rawModification_.get().getStoichiometry();
 }
 
 const std::vector<Specificity>& Modification::getRawSpecificities() const
 {
-    return modification_.get().getSpecificities();
+    return rawModification_.get().getSpecificities();
 }
 
 Bool Modification::isIsotopicLabel() const
@@ -147,7 +146,7 @@ Bool Modification::isIsotopicLabel() const
 
 Bool Modification::isVerified() const
 {
-    return modification_.get().isVerified();
+    return rawModification_.get().isVerified();
 }
 
 Bool Modification::isApplicable(const aminoAcids::AminoAcid& prev,
@@ -158,7 +157,7 @@ Bool Modification::isApplicable(const aminoAcids::AminoAcid& prev,
     // currently it is forwarded to the instance which is able to decide this
     if (customSpecificities_.empty()) {
         // custom specificities are empty, so check against raw modification
-        return modification_.get().isApplicable(prev, current, next);
+        return rawModification_.get().isApplicable(prev, current, next);
     } else {
         // custom specificites are not empty, so check against those
         typedef std::vector<Specificity>::const_iterator IT;
@@ -173,30 +172,9 @@ Bool Modification::isApplicable(const aminoAcids::AminoAcid& prev,
     }
 }
 
-void Modification::reinit()
-{
-    customSpecificities_.clear();
-    recalculateStoichiometry();
-}
-
-void Modification::recalculateStoichiometry()
-{
-    // MAYBE optimize by not using recalc (apply instead)
-    if (stoichiometryConfig_.get_key()
-            == StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG) {
-        stoichiometry_ = modification_.get().getStoichiometryPtr();
-    } else {
-        Stoichiometry s =
-                modification_.get().getStoichiometry().recalculatesWithConfiguration(
-                    stoichiometryConfig_);
-        stoichiometry_ = libaas::Stoichiometry::StoichiometryPtr(
-            new Stoichiometry(s));
-    }
-}
-
 bool Modification::operator==(const Modification& m) const
 {
-    return modification_ == m.modification_
+    return rawModification_ == m.rawModification_
             && stoichiometryConfig_ == m.stoichiometryConfig_
             && customSpecificities_ == m.customSpecificities_;
 }
@@ -209,10 +187,9 @@ bool Modification::operator!=(const Modification& m) const
 Modification& Modification::operator=(const Modification& rhs)
 {
     if (this != &rhs) {
-        modification_ = rhs.getModification();
+        rawModification_ = rhs.getModification();
         stoichiometryConfig_ = rhs.getStoichiometryConfig();
         customSpecificities_ = rhs.getCustomSpecificities();
-        stoichiometry_ = rhs.stoichiometry_;
     }
     return *this;
 }

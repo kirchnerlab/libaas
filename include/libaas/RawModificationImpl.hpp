@@ -95,8 +95,6 @@ public:
      */
     void setStoichiometry(const Stoichiometry& stoichiometry);
 
-    libaas::Stoichiometry::StoichiometryPtr getStoichiometryPtr() const;
-
     /**Returns the stoichiometry of the modification.
      *
      * In case this is a standard modification, the stoichiometry is calculated
@@ -183,7 +181,7 @@ private:
     std::vector<String> altNames_;
     /** Stoichiometry of the raw modification
      */
-    libaas::Stoichiometry::StoichiometryPtr stoichiometry_;
+    libaas::Stoichiometry stoichiometry_;
     /** List of specificities for the raw modification.
      */
     std::vector<Specificity> specificities_;

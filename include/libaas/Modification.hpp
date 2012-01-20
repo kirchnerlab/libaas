@@ -103,7 +103,7 @@ public:
     /**Returns the stoichiometry.
      * @returns The stoichiometry of the modification
      */
-    const Stoichiometry& getStoichiometry() const;
+    Stoichiometry getStoichiometry() const;
 
     /**Adds a custom specificity.
      * @param[in] specificity Specificity
@@ -215,29 +215,14 @@ public:
 
 private:
 
-    /**Re-initializes the modification.
-     *
-     * A call of this function will reset the custom specificities and invokes
-     * the recalculation of the stoichiometry using the present stoichiometry
-     * configuration.
-     */
-    void reinit();
-
-    /**Recalculates the stoichiometry of the modification using the present
-     * stoichiometry configuration.
-     */
-    void recalculateStoichiometry();
-
     /**Object of the raw modification.
      */
-    RawModification modification_;
+    RawModification rawModification_;
+
     /**Stoichiometry configuration used to calculate the stoichiometry.
      */
     StoichiometryConfig stoichiometryConfig_;
-    /**Stoichiometry of the modification calculated with the present
-     * stoichiometry configuration.
-     */
-    libaas::Stoichiometry::StoichiometryPtr stoichiometry_;
+
     /**Custom specificities of the modification.
      */
     std::vector<Specificity> customSpecificities_;

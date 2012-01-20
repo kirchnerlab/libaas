@@ -123,7 +123,7 @@ public:
     /**Returns the modification of this residue
      * @returns The modification
      */
-    const ModificationPtr& getModification() const;
+    const modifications::Modification& getModification() const;
 
     /**Sets the isotopic label.
      *
@@ -147,12 +147,7 @@ public:
     /**Returns the isotopic label of this residue
      * @returns The isotopic label
      */
-    const ModificationPtr& getIsotopicLabel() const;
-
-    /**Returns the modifiable isotopic label of this residue.
-     * @returns A reference to the isotopic label
-     */
-//    libaas::modifications::Modification& getIsotopicLabel();
+    const modifications::Modification& getIsotopicLabel() const;
 
     /**Checks whether the modification id is equal to the given key.
      *

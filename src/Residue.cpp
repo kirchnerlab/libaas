@@ -139,15 +139,17 @@ void Residue::applyAminoAcidStoichiometryConfig(
 void Residue::applyModificationStoichiometryConfig(
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
 {
-    if (modification_ != NULL) {
-        modification_->setStoichiometryConfig(configKey);
-    }
+    applyModificationStoichiometryConfig(StoichiometryConfig(configKey));
 }
 
 void Residue::applyModificationStoichiometryConfig(
     const StoichiometryConfig& config)
 {
-    if (modification_ != NULL) {
+    if (isModified()) {
+        if (modification_.use_count() > 1) {
+            modification_ = ModificationPtr(
+                new modifications::Modification(*modification_));
+        }
         modification_->setStoichiometryConfig(config);
     }
 }
@@ -155,15 +157,17 @@ void Residue::applyModificationStoichiometryConfig(
 void Residue::applyIsotopicLabelStoichiometryConfig(
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
 {
-    if (isotopicLabel_ != NULL) {
-        isotopicLabel_->setStoichiometryConfig(configKey);
-    }
+    applyIsotopicLabelStoichiometryConfig(StoichiometryConfig(configKey));
 }
 
 void Residue::applyIsotopicLabelStoichiometryConfig(
     const StoichiometryConfig& config)
 {
-    if (isotopicLabel_ != NULL) {
+    if (isLabeled()) {
+        if (isotopicLabel_.use_count() > 1) {
+            isotopicLabel_ = ModificationPtr(
+                new modifications::Modification(*isotopicLabel_));
+        }
         isotopicLabel_->setStoichiometryConfig(config);
     }
 }
@@ -172,12 +176,8 @@ Stoichiometry Residue::getStoichiometry() const
 {
     // MAYBE optimize by storing the stoichiometry
     Stoichiometry s = aminoacid_.getStoichiometry();
-    if (modification_ != NULL) {
-        s += modification_->getStoichiometry();
-    }
-    if (isotopicLabel_ != NULL) {
-        s += isotopicLabel_->getStoichiometry();
-    }
+    s += modification_->getStoichiometry();
+    s += isotopicLabel_->getStoichiometry();
     return s;
 }
 
@@ -185,9 +185,23 @@ String Residue::toString() const
 {
     std::ostringstream oss;
     oss << aminoacid_.getSymbol();
-    if (isModified()) {
-        oss << "(" << modification_->getModificationId() << ")";
+    libaas::Bool labeled = isLabeled(), modified = isModified();
+    if (labeled || modified) {
+        oss << "(";
     }
+    if (isModified()) {
+        oss << modification_->getModificationId();
+    }
+    if (isLabeled()) {
+        if (modified) {
+            oss << "; ";
+        }
+        oss << isotopicLabel_->getModificationId();
+    }
+    if (labeled || modified) {
+        oss << ")";
+    }
+
     return oss.str();
 }
 
@@ -229,9 +243,9 @@ void Residue::setModification(
     }
 }
 
-const Residue::ModificationPtr& Residue::getModification() const
+const modifications::Modification& Residue::getModification() const
 {
-    return modification_;
+    return *modification_;
 }
 
 void Residue::setIsotopicLabel(
@@ -252,9 +266,9 @@ void Residue::setIsotopicLabel(
     }
 }
 
-const Residue::ModificationPtr& Residue::getIsotopicLabel() const
+const modifications::Modification& Residue::getIsotopicLabel() const
 {
-    return isotopicLabel_;
+    return *isotopicLabel_;
 }
 
 Residue& Residue::operator=(const Residue& rhs)

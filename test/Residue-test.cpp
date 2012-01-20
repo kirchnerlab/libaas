@@ -65,7 +65,7 @@ struct ResidueTestSuite : vigra::test_suite
         }shouldEqual(thrown, true);
 
         r.setModification(m);
-        shouldEqual(*(r.getModification()), m);
+        shouldEqual(r.getModification(), m);
         shouldEqual(r.isModified(), true);
         shouldEqual(r.hasModification(m), true);
         shouldEqual(r.hasModification(Modification("Oxidation")), false);
@@ -78,20 +78,20 @@ struct ResidueTestSuite : vigra::test_suite
         }shouldEqual(thrown, true);
 
         r.setIsotopicLabel(l);
-        shouldEqual(*(r.getIsotopicLabel()), l);
+        shouldEqual(r.getIsotopicLabel(), l);
         shouldEqual(r.isLabeled(), true);
         shouldEqual(r.hasLabel(l), true);
         shouldEqual(r.hasLabel(l.getModificationId()), true);
         shouldEqual(r.hasLabel(Modification("Oxidation")), false);
 
         r.setIsotopicLabel(l.getModificationId());
-        shouldEqual(*(r.getIsotopicLabel()), l);
+        shouldEqual(r.getIsotopicLabel(), l);
         shouldEqual(r.isLabeled(), true);
         shouldEqual(r.hasLabel(l), true);
         shouldEqual(r.hasLabel(Modification("Oxidation")), false);
 
         r.removeIsotopicLabel();
-        shouldEqual(*(r.getIsotopicLabel()), modifications::Modification(""));
+        shouldEqual(r.getIsotopicLabel(), modifications::Modification(""));
         shouldEqual(r.isLabeled(), false);
         shouldEqual(r.hasLabel(l), false);
 
