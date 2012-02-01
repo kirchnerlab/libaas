@@ -6,18 +6,18 @@
  *
  */
 
-#include <libaas/Modification.hpp>
-#include <libaas/Element.hpp>
-#include <libaas/StoichiometryConfig.hpp>
-#include <libaas/RawAminoAcid.hpp>
+#include <aas/Modification.hpp>
+#include <aas/Element.hpp>
+#include <aas/StoichiometryConfig.hpp>
+#include <aas/RawAminoAcid.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas;
-using namespace libaas::modifications;
-using namespace libaas::aminoAcids;
+using namespace aas;
+using namespace aas::modifications;
+using namespace aas::aminoAcids;
 
 /** Short description.
  * Long description.
@@ -55,9 +55,9 @@ struct ModificationTestSuite : vigra::test_suite
         shouldEqual(altNames[0], "phenyllactyl from N-term Phe");
         shouldEqual(altNames[1], "Citrullination");
 
-        libaas::elements::Element H(1);
-        libaas::elements::Element N(7);
-        libaas::elements::Element O(8);
+        aas::elements::Element H(1);
+        aas::elements::Element N(7);
+        aas::elements::Element O(8);
         Stoichiometry s = deamidated.getStoichiometry(), expected_s;
         expected_s.set(H, -1);
         expected_s.set(N, -1);
@@ -147,35 +147,35 @@ struct ModificationTestSuite : vigra::test_suite
     void testStoichiometryModification()
     {
         // setting up elements
-        libaas::elements::Element H(1);
-        libaas::elements::Element C(6);
-        libaas::elements::Element N(7);
-        libaas::elements::Element O(8);
-        libaas::elements::Element S(16);
+        aas::elements::Element H(1);
+        aas::elements::Element C(6);
+        aas::elements::Element N(7);
+        aas::elements::Element O(8);
+        aas::elements::Element S(16);
 
         // creating default modification
-        libaas::String k1 = "Acetyl";
+        aas::String k1 = "Acetyl";
         Modification m1(k1);
         shouldEqual(
             m1.getStoichiometryConfig(),
-            libaas::StoichiometryConfig(libaas::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
-        libaas::Stoichiometry st1;
+            aas::StoichiometryConfig(aas::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
+        aas::Stoichiometry st1;
         st1.set(H, 2);
         st1.set(C, 2);
         st1.set(O, 1);
         shouldEqual(m1.getStoichiometry(), st1);
 
         // creating custom stoichiometry config
-        std::vector<libaas::elements::Isotope> is;
-        is.push_back(libaas::elements::Isotope(99.99, 1.11111111));
-        libaas::Size freeID = libaas::elements::ElementImpl::getNextId();
-        libaas::elements::addElement(freeID, "H", 1, is);
+        std::vector<aas::elements::Isotope> is;
+        is.push_back(aas::elements::Isotope(99.99, 1.11111111));
+        aas::Size freeID = aas::elements::ElementImpl::getNextId();
+        aas::elements::addElement(freeID, "H", 1, is);
 
-        libaas::StoichiometryConfigImpl sc("Experiment 1");
+        aas::StoichiometryConfigImpl sc("Experiment 1");
         // inserting element "automatically" by fw<ElementImpl>
-        sc.insertElement(libaas::elements::Element(freeID));
+        sc.insertElement(aas::elements::Element(freeID));
         // free function to add stoichiometry config
-        libaas::addStoichiometryConfig(sc);
+        aas::addStoichiometryConfig(sc);
 
         // creating default modification
         Modification m2(k1);
@@ -183,17 +183,17 @@ struct ModificationTestSuite : vigra::test_suite
         // changing stoichiometry config
         m2.setStoichiometryConfig("Experiment 1");
         shouldEqual(m2.getStoichiometryConfig(), sc);
-        libaas::Stoichiometry st2;
-        st2.set(libaas::elements::Element(freeID), 2);
+        aas::Stoichiometry st2;
+        st2.set(aas::elements::Element(freeID), 2);
         st2.set(C, 2);
         st2.set(O, 1);
         shouldEqual(m2.getStoichiometry(), st2);
 
         // creating custom modification
-        libaas::String k2 = "Amidated";
+        aas::String k2 = "Amidated";
         Modification m3(k2, "Experiment 1");
-        libaas::Stoichiometry st3;
-        st3.set(libaas::elements::Element(freeID), 1);
+        aas::Stoichiometry st3;
+        st3.set(aas::elements::Element(freeID), 1);
         st3.set(N, 1);
         st3.set(O, -1);
         shouldEqual(m3.getStoichiometry(), st3);

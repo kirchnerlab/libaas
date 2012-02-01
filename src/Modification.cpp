@@ -6,9 +6,9 @@
  *
  */
 
-#include <libaas/Modification.hpp>
+#include <aas/Modification.hpp>
 
-namespace libaas {
+namespace aas {
 namespace modifications {
 
 Modification::Modification(const RawModification& modification,
@@ -202,4 +202,4 @@ std::ostream& operator<<(std::ostream& os, const Modification& o)
 }
 
 } // namespace modifications
-} // namespace libaas
+} // namespace aas

@@ -6,15 +6,15 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACIDIMPL_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACIDIMPL_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_RAWAMINOACIDIMPL_HPP__
+#define __LIBAAS_INCLUDE_AAS_RAWAMINOACIDIMPL_HPP__
 
-#include <libaas/Stoichiometry.hpp>
-#include <libaas/Types.hpp>
+#include <aas/Stoichiometry.hpp>
+#include <aas/Types.hpp>
 
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 namespace aminoAcids {
 
 /**Representation of an amino acid.
@@ -41,7 +41,7 @@ public:
      * information necessary to create and fill the internal variables.
      *
      * @param[in] id Key/Id of the amino acid.
-     * @throws Throws an libaas::errors::LogicError exception in case the id is not in
+     * @throws Throws an aas::errors::LogicError exception in case the id is not in
      * the list of standard amino acids.
      */
     RawAminoAcidImpl(const RawAminoAcidImplKeyType& id = '\0');
@@ -52,7 +52,7 @@ public:
      * @param[in] stoichiometry Stoichiometry of the amino acid
      */
     RawAminoAcidImpl(const RawAminoAcidImplKeyType& id, const char symbol,
-        const libaas::Stoichiometry& stoichiometry);
+        const aas::Stoichiometry& stoichiometry);
 
     /**Returns the key of the amino acid.
      * @returns Key of the amino acid.
@@ -77,7 +77,7 @@ public:
     /**Returns the stoichiometry of the amino acid.
      * @returns stoichiometry of the amino acid.
      */
-    const libaas::Stoichiometry& getStoichiometry() const;
+    const aas::Stoichiometry& getStoichiometry() const;
 
     /**Sets the three letter code for the amino acid.
      * @param[in] threeLetterCode The three letter code of the amino acid
@@ -157,7 +157,7 @@ public:
      * list of standard amino acids.
      */
     static RawAminoAcidImplKeyType getKeyForAminoAcidString(
-        const libaas::String& aminoAcid);
+        const aas::String& aminoAcid);
 
 private:
 
@@ -169,13 +169,13 @@ private:
     Char symbol_;
     /** Three letter code of the amino acid.
      */
-    libaas::String threeLetterCode_;
+    aas::String threeLetterCode_;
     /** Full name of the amino acid.
      */
-    libaas::String fullName_;
+    aas::String fullName_;
     /** Stoichiometry of the amino acid.
      */
-    libaas::Stoichiometry stoichiometry_;
+    aas::Stoichiometry stoichiometry_;
 
 };
 // class RawAminoAcidImpl
@@ -188,6 +188,6 @@ inline const RawAminoAcidImpl::RawAminoAcidImplKeyType& RawAminoAcidImpl::getId(
 }
 
 } // namespace aminoAcids
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACIDIMPL_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_RAWAMINOACIDIMPL_HPP__ */

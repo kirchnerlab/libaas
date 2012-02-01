@@ -6,16 +6,16 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIGIMPL_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIGIMPL_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIGIMPL_HPP__
+#define __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIGIMPL_HPP__
 
-#include <libaas/Element.hpp>
-#include <libaas/Types.hpp>
+#include <aas/Element.hpp>
+#include <aas/Types.hpp>
 
 #include <map>
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 
 /** Representation of a stoichiometry configuration.
  *
@@ -162,6 +162,6 @@ private:
 
 std::ostream& operator<<(std::ostream&, const StoichiometryConfigImpl&);
 
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIGIMPL_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIGIMPL_HPP__ */

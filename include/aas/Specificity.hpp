@@ -7,16 +7,16 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_SPECIFICITY_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_SPECIFICITY_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_SPECIFICITY_HPP__
+#define __LIBAAS_INCLUDE_AAS_SPECIFICITY_HPP__
 
-#include <libaas/RawAminoAcid.hpp>
-#include <libaas/Types.hpp>
+#include <aas/RawAminoAcid.hpp>
+#include <aas/Types.hpp>
 
 #include <vector>
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 namespace modifications {
 
 /** Representation of the specificity.
@@ -59,7 +59,7 @@ public:
      * @param[in] position Position of the specificity
      * @param[in] classification Classification of the specificity
      */
-    Specificity(const libaas::aminoAcids::RawAminoAcid& site,
+    Specificity(const aas::aminoAcids::RawAminoAcid& site,
         const Position position, const Classification classification);
 
     /**Convenience constructor.
@@ -70,18 +70,18 @@ public:
      * @throws Throws an exception if one of the given strings cannot be parsed
      * correctly.
      */
-    Specificity(const libaas::String& site, const libaas::String& position,
-        const libaas::String& classification);
+    Specificity(const aas::String& site, const aas::String& position,
+        const aas::String& classification);
 
     /**Sets the site.
      * @param[in] aminoAcid
      */
-    void setSite(const libaas::aminoAcids::RawAminoAcid& aminoAcid);
+    void setSite(const aas::aminoAcids::RawAminoAcid& aminoAcid);
 
     /**Returns the site.
      * @returns
      */
-    const libaas::aminoAcids::RawAminoAcid& getSite() const;
+    const aas::aminoAcids::RawAminoAcid& getSite() const;
 
     /**Sets the classification of the specificity.
      * @param[in] classification Classification
@@ -161,9 +161,9 @@ public:
      * @returns true if the modification is applicable to the current amino acid,
      * false otherwise
      */
-    Bool isApplicable(const libaas::aminoAcids::RawAminoAcid& prev,
-        const libaas::aminoAcids::RawAminoAcid& current,
-        const libaas::aminoAcids::RawAminoAcid& next) const;
+    Bool isApplicable(const aas::aminoAcids::RawAminoAcid& prev,
+        const aas::aminoAcids::RawAminoAcid& current,
+        const aas::aminoAcids::RawAminoAcid& next) const;
 
     /**Sets a copy of the argument as the new content for the specificity object.
      * The previous content is dropped.
@@ -193,7 +193,7 @@ public:
      * match any of the classification enumeration.
      */
     static Classification parseClassificationString(
-        const libaas::String& classification);
+        const aas::String& classification);
 
     /**Converts the given string to lower case and tries to find the matching
      * position.
@@ -202,13 +202,13 @@ public:
      * @throws Throws an exception if the given position string does not match
      * any of the position enumerations.
      */
-    static Position parsePositionString(const libaas::String& position);
+    static Position parsePositionString(const aas::String& position);
 
 private:
 
     /** Site at which an event can happen.
      */
-    libaas::aminoAcids::RawAminoAcid site_;
+    aas::aminoAcids::RawAminoAcid site_;
     /** Position of the site.
      */
     Position position_;
@@ -232,6 +232,6 @@ std::ostream& operator<<(std::ostream&, const Specificity&);
 std::ostream& operator<<(std::ostream&, const std::vector<Specificity>&);
 
 } // namespace modifications
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_SPECIFICITY_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_SPECIFICITY_HPP__ */

@@ -6,18 +6,18 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_RESIDUE_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_RESIDUE_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_RESIDUE_HPP__
+#define __LIBAAS_INCLUDE_AAS_RESIDUE_HPP__
 
-#include <libaas/AminoAcid.hpp>
-#include <libaas/Modification.hpp>
-#include <libaas/Types.hpp>
+#include <aas/AminoAcid.hpp>
+#include <aas/Modification.hpp>
+#include <aas/Types.hpp>
 
 #include <boost/shared_ptr.hpp>
 
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 
 /**Representation of a residue.
  *
@@ -36,15 +36,15 @@ public:
      * @param[in] aminoAcidKey The key/id of an amino acid
      * @param[in] modificationKey The key/id of the modification
      * @param[in] labelKey The key/id of the label
-     * @throws Throws an libaas::errors::LogicError exception if given modification or label key are no modifications
+     * @throws Throws an aas::errors::LogicError exception if given modification or label key are no modifications
      * which can be added as modification or label.
      */
     Residue(
-        const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey =
+        const aas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey =
                 '\0',
-        const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey =
+        const aas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey =
                 "",
-        const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& labelKey =
+        const aas::modifications::RawModificationImpl::RawModificationImplKeyType& labelKey =
                 "");
 
     /**Creates a residue with a modification.
@@ -55,13 +55,13 @@ public:
      * @param[in] aminoAcid The amino acid
      * @param[in] mod The modification
      * @param[in] label The isotopic label
-     * @throws Throws an libaas::errors::LogicError exception if given modification or label key are no modifications
+     * @throws Throws an aas::errors::LogicError exception if given modification or label key are no modifications
      * which can be added as modification or label.
      */
-    Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
-        const libaas::modifications::Modification& mod =
+    Residue(const aas::aminoAcids::AminoAcid& aminoAcid,
+        const aas::modifications::Modification& mod =
                 modifications::Modification(),
-        const libaas::modifications::Modification& label =
+        const aas::modifications::Modification& label =
                 modifications::Modification());
 
     /**Change type of the amino acid.
@@ -82,33 +82,33 @@ public:
     /**Returns the amino acid
      * @returns The amino acid
      */
-    const libaas::aminoAcids::AminoAcid& getAminoAcid() const;
+    const aas::aminoAcids::AminoAcid& getAminoAcid() const;
 
     /**Returns a modifiable reference to the amino acid of this residue.
      * @return A reference to the amino acid.
      */
-    libaas::aminoAcids::AminoAcid& getAminoAcid();
+    aas::aminoAcids::AminoAcid& getAminoAcid();
 
     /**Checks whether the amino acid is N-terminal.
      * @returns True if the amino acid is AminoAcidImpl::PEPTIDE_N_TERM or
      * AminoAcidImpl::PROTEIN_N_TERM.
      */
-    libaas::Bool isNTerm() const;
+    aas::Bool isNTerm() const;
 
     /**Checks whether the amino acid is C-terminal.
      * @returns True if the amino acid is AminoAcidImpl::PEPTIDE_C_TERM or
      * AminoAcidImpl::PEPTIDE_C_TERM.
      */
-    libaas::Bool isCTerm() const;
+    aas::Bool isCTerm() const;
 
     /**Sets the modification.
      *
-     * Calls libaas::Residue::setModification(Modification)
+     * Calls aas::Residue::setModification(Modification)
      *
      * @param[in] modificationKey The key of a modification
      */
     void setModification(
-        const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey);
+        const aas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey);
 
     /**Sets the modification.
      *
@@ -116,10 +116,9 @@ public:
      * to this position.
      *
      * @param[in] modification The modifiaction
-     * @throws Throws an libaas::error::LogicError if the given modification is an isotopic label.
+     * @throws Throws an aas::error::LogicError if the given modification is an isotopic label.
      */
-    void setModification(
-        const libaas::modifications::Modification& modification);
+    void setModification(const aas::modifications::Modification& modification);
 
     /**Returns the modification of this residue
      * @returns The modification
@@ -128,12 +127,12 @@ public:
 
     /**Sets the isotopic label.
      *
-     * calls libaas::Residue::setIsotopicLabel(Modification)
+     * calls aas::Residue::setIsotopicLabel(Modification)
      *
      * @param[in] isotopicLabelKey The key/id of the isotopic label.
      */
     void setIsotopicLabel(
-        const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& isotopicLabelKey);
+        const aas::modifications::RawModificationImpl::RawModificationImplKeyType& isotopicLabelKey);
 
     /**Sets the isotopic label.
      *
@@ -141,11 +140,11 @@ public:
      * to this position.
      *
      * @param[in] isotopicLabel The isotopic label
-     * @throws Throws an libaas::errors::LogicError exception if the given isotopicLabel
+     * @throws Throws an aas::errors::LogicError exception if the given isotopicLabel
      * is a standard modification.
      */
     void setIsotopicLabel(
-        const libaas::modifications::Modification& isotopicLabel);
+        const aas::modifications::Modification& isotopicLabel);
 
     /**Returns the isotopic label of this residue
      * @returns The isotopic label
@@ -288,7 +287,7 @@ private:
 
     /** The amino acid.
      */
-    libaas::aminoAcids::AminoAcid aminoacid_;
+    aas::aminoAcids::AminoAcid aminoacid_;
     /** The modification of the amino acid.
      */
     ModificationPtr modification_;
@@ -301,6 +300,6 @@ private:
 
 std::ostream& operator<<(std::ostream&, const Residue&);
 
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_RESIDUE_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_RESIDUE_HPP__ */

@@ -6,10 +6,10 @@
  *
  */
 
-#include <libaas/StoichiometryConfigImpl.hpp>
-#include <libaas/Error.hpp>
+#include <aas/StoichiometryConfigImpl.hpp>
+#include <aas/Error.hpp>
 
-namespace libaas {
+namespace aas {
 
 StoichiometryConfigImpl::StoichiometryConfigImplKeyType StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG =
         "DEFAULT_STOICHIOMETRY_CONFIG";
@@ -19,9 +19,8 @@ StoichiometryConfigImpl::StoichiometryConfigImpl(
         id_(id)
 {
     if (id == DEFAULT_ELEMENT_CONFIG) {
-        std::map<elements::ElementImpl::ElementImplSymbolType,
-                elements::ElementImpl::ElementImplKeyType> map =
-                elements::ElementImpl::getDefaultMapping();
+        std::map < elements::ElementImpl::ElementImplSymbolType, elements::ElementImpl::ElementImplKeyType
+                > map = elements::ElementImpl::getDefaultMapping();
         typedef std::map<elements::ElementImpl::ElementImplSymbolType,
                 elements::ElementImpl::ElementImplKeyType>::const_iterator IT;
         for (IT it = map.begin(); it != map.end(); ++it) {
@@ -75,7 +74,7 @@ const elements::ElementImpl::ElementImplKeyType& StoichiometryConfigImpl::getKey
     if (tmp != end()) {
         return tmp->second;
     } else {
-        libaas_logic_error(
+        aas_logic_error(
             "StoichiometryConfigImpl::getKeyForSymbol(): Cannot find symbol in stoichiometry config.");
     }
 }
@@ -133,4 +132,4 @@ std::ostream& operator<<(std::ostream& os, const StoichiometryConfigImpl& o)
     return os;
 }
 
-} // namespace libaas
+} // namespace aas

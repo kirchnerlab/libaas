@@ -6,12 +6,12 @@
  *
  */
 
-#ifndef FLYWEIGHTREPLACEMENT_HPP_
-#define FLYWEIGHTREPLACEMENT_HPP_
+#ifndef __LIBAAS_INCLUDE_AAS_FLYWEIGHTREPLACEMENT_HPP__
+#define __LIBAAS_INCLUDE_AAS_FLYWEIGHTREPLACEMENT_HPP__
 
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 
 template<typename T, typename Tk>
 class FlyWeightReplacement
@@ -66,4 +66,4 @@ std::ostream& operator<<(std::ostream& os,
 
 }
 
-#endif /* FLYWEIGHTREPLACEMENT_HPP_ */
+#endif /* __LIBAAS_INCLUDE_AAS_FLYWEIGHTREPLACEMENT_HPP__ */

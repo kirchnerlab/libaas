@@ -6,18 +6,18 @@
  *
  */
 
-#include <libaas/RawModification.hpp>
-#include <libaas/RawAminoAcid.hpp>
-#include <libaas/Error.hpp>
+#include <aas/RawModification.hpp>
+#include <aas/RawAminoAcid.hpp>
+#include <aas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 #include <vector>
 
-using namespace libaas;
-using namespace libaas::modifications;
-using namespace libaas::aminoAcids;
+using namespace aas;
+using namespace aas::modifications;
+using namespace aas::aminoAcids;
 
 /** Short description.
  * Long description.
@@ -59,9 +59,9 @@ struct RawModificationTestSuite : vigra::test_suite
         shouldEqual(altNames[0], "phenyllactyl from N-term Phe");
         shouldEqual(altNames[1], "Citrullination");
 
-        libaas::elements::Element H(1);
-        libaas::elements::Element N(7);
-        libaas::elements::Element O(8);
+        aas::elements::Element H(1);
+        aas::elements::Element N(7);
+        aas::elements::Element O(8);
         Stoichiometry s = deamidated.getStoichiometry(), expected_s;
         expected_s.set(H, -1);
         expected_s.set(N, -1);
@@ -199,9 +199,9 @@ struct RawModificationTestSuite : vigra::test_suite
     void testAddRawModification()
     {
         // setting up test data
-        libaas::elements::Element H(1);
-        libaas::elements::Element C(6);
-        libaas::elements::Element O(8);
+        aas::elements::Element H(1);
+        aas::elements::Element C(6);
+        aas::elements::Element O(8);
 
         // create raw modification
         RawModificationImpl::RawModificationImplKeyType k = "customID";
@@ -245,7 +245,7 @@ struct RawModificationTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             RawModification test("unkown");
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         };
 

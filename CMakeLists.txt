@@ -36,8 +36,8 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wconversion -Wall" )
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX0X_FLAGS}" )
 
 CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/libaas/config.hpp.cmake 
-    ${LIBAAS_BINARY_DIR}/include/libaas/config.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/aas/config.hpp.cmake 
+    ${LIBAAS_BINARY_DIR}/include/aas/config.hpp
 )
 
 # testing and memtests
@@ -131,20 +131,20 @@ SET(CMAKE_INSTALL_PREFIX
 )
 ENDIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 # headers
-INSTALL(DIRECTORY ${LIBAAS_SOURCE_DIR}/include/libaas
+INSTALL(DIRECTORY ${LIBAAS_SOURCE_DIR}/include/aas
     DESTINATION include
     COMPONENT headers
     REGEX "/.git$" EXCLUDE
     PATTERN "config.hpp.cmake" EXCLUDE)
 
 # config.h
-INSTALL(FILES ${LIBAAS_BINARY_DIR}/include/libaas/config.hpp
-    DESTINATION include/libaas
+INSTALL(FILES ${LIBAAS_BINARY_DIR}/include/aas/config.hpp
+    DESTINATION include/aas
     COMPONENT headers)
 
 # documentation
 INSTALL(DIRECTORY ${LIBAAS_BINARY_DIR}/doc
-    DESTINATION share/libaas
+    DESTINATION share/aas
     COMPONENT documentation
     PATTERN "Doxyfile" EXCLUDE)
 

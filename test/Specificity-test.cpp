@@ -6,15 +6,15 @@
  *
  */
 
-#include <libaas/Specificity.hpp>
-#include <libaas/Error.hpp>
+#include <aas/Specificity.hpp>
+#include <aas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 #include <algorithm>
 
-using namespace libaas::modifications;
+using namespace aas::modifications;
 
 /** Short description.
  * Long description.
@@ -38,10 +38,10 @@ struct SpecificityTestSuite : vigra::test_suite
     void testSpecificity()
     {
 
-        libaas::aminoAcids::RawAminoAcid aa('A');
+        aas::aminoAcids::RawAminoAcid aa('A');
         Specificity::Position pos = Specificity::ANYWHERE;
         Specificity::Classification clas = Specificity::ARTEFACT;
-        libaas::String comment = "Comment a";
+        aas::String comment = "Comment a";
         Specificity spec(aa, pos, clas);
         spec.setComment(comment);
 
@@ -50,7 +50,7 @@ struct SpecificityTestSuite : vigra::test_suite
         shouldEqual(spec.getPosition(), pos);
         shouldEqual(spec.getComment(), comment);
 
-        libaas::aminoAcids::RawAminoAcid aan('C');
+        aas::aminoAcids::RawAminoAcid aan('C');
         Specificity::Position posn = Specificity::ANY_C_TERM;
         Specificity::Classification clasn = Specificity::POST_TRANSLATIONAL;
         spec.setSite(aan);
@@ -60,37 +60,37 @@ struct SpecificityTestSuite : vigra::test_suite
         shouldEqual(spec.getPosition(), posn);
         shouldEqual(spec.getClassification(), clasn);
 
-        libaas::elements::Element H(1);
-        libaas::elements::Element C(6);
-        libaas::elements::Element N(7);
-        libaas::elements::Element O(8);
-        libaas::elements::Element S(16);
+        aas::elements::Element H(1);
+        aas::elements::Element C(6);
+        aas::elements::Element N(7);
+        aas::elements::Element O(8);
+        aas::elements::Element S(16);
 
-        libaas::Stoichiometry st1;
+        aas::Stoichiometry st1;
         st1.set(H, 1);
         st1.set(C, 2);
         st1.set(N, 3);
 
-        libaas::Stoichiometry st2;
+        aas::Stoichiometry st2;
         st2.set(H, 1);
         st2.set(O, 2);
         st2.set(N, 3);
 
-        libaas::Stoichiometry st3;
+        aas::Stoichiometry st3;
         st3.set(H, 1);
         st3.set(C, 2);
         st3.set(S, 3);
 
-        libaas::Stoichiometry st4;
+        aas::Stoichiometry st4;
         st4.set(H, 1);
         st4.set(O, 2);
         st4.set(S, 3);
 
-        std::vector<libaas::Stoichiometry> emptyLoss;
-        std::vector<libaas::Stoichiometry> neutralLoss;
+        std::vector<aas::Stoichiometry> emptyLoss;
+        std::vector<aas::Stoichiometry> neutralLoss;
         neutralLoss.push_back(st1);
         neutralLoss.push_back(st2);
-        std::vector<libaas::Stoichiometry> pepNeutralLoss;
+        std::vector<aas::Stoichiometry> pepNeutralLoss;
         pepNeutralLoss.push_back(st3);
         pepNeutralLoss.push_back(st4);
 
@@ -131,10 +131,10 @@ struct SpecificityTestSuite : vigra::test_suite
     void testStaticParser()
     {
         // both should fail in case of an invalid position/classification
-        libaas::Bool thrown = false;
+        aas::Bool thrown = false;
         try {
             Specificity::parsePositionString("ASD");
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }
 
@@ -143,27 +143,27 @@ struct SpecificityTestSuite : vigra::test_suite
         thrown = false;
         try {
             Specificity::parseClassificationString("ASD");
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }
 
         shouldEqual(thrown, true);
 
         // testing all currently known positions + correct enum value
-        libaas::String positions[] = { "Any N-term", "Any C-term",
-                                       "Protein N-term", "Protein C-term",
-                                       "Anywhere" };
+        aas::String positions[] = { "Any N-term", "Any C-term",
+                                    "Protein N-term", "Protein C-term",
+                                    "Anywhere" };
 
         thrown = false;
         try {
-            for (libaas::Size i = 0; i < 5; ++i) {
+            for (aas::Size i = 0; i < 5; ++i) {
                 shouldEqual(
-                    (libaas::Size) Specificity::parsePositionString(positions[i]),
+                    (aas::Size) Specificity::parsePositionString(positions[i]),
                     i);
                 std::transform(positions[i].begin(), positions[i].end(),
                     positions[i].begin(), ::toupper);
                 shouldEqual(
-                    (libaas::Size) Specificity::parsePositionString(positions[i]),
+                    (aas::Size) Specificity::parsePositionString(positions[i]),
                     i);
             }
         } catch (std::out_of_range& e) {
@@ -173,29 +173,29 @@ struct SpecificityTestSuite : vigra::test_suite
         shouldEqual(thrown, false);
 
         // testing all currently known classifications + correct enum value
-        libaas::String classifications[] = { "-", "Post-translational",
-                                             "Co-translational",
-                                             "Pre-translational",
-                                             "Chemical derivative", "Artefact",
-                                             "N-linked glycosylation",
-                                             "O-linked glycosylation",
-                                             "Other glycosylation",
-                                             "Synth. pep. protect. gp.",
-                                             "Isotopic label",
-                                             "Non-standard residue",
-                                             "Multiple", "Other" };
+        aas::String classifications[] = { "-", "Post-translational",
+                                          "Co-translational",
+                                          "Pre-translational",
+                                          "Chemical derivative", "Artefact",
+                                          "N-linked glycosylation",
+                                          "O-linked glycosylation",
+                                          "Other glycosylation",
+                                          "Synth. pep. protect. gp.",
+                                          "Isotopic label",
+                                          "Non-standard residue", "Multiple",
+                                          "Other" };
 
         thrown = false;
         try {
-            for (libaas::Size i = 0; i < 13; ++i) {
+            for (aas::Size i = 0; i < 13; ++i) {
                 shouldEqual(
-                    (libaas::Size) Specificity::parseClassificationString(classifications[i]),
+                    (aas::Size) Specificity::parseClassificationString(classifications[i]),
                     i);
                 std::transform(classifications[i].begin(),
                     classifications[i].end(), classifications[i].begin(),
                     ::toupper);
                 shouldEqual(
-                    (libaas::Size) Specificity::parseClassificationString(classifications[i]),
+                    (aas::Size) Specificity::parseClassificationString(classifications[i]),
                     i);
             }
         } catch (std::out_of_range& e) {
@@ -207,17 +207,17 @@ struct SpecificityTestSuite : vigra::test_suite
 
     void testSpecificityApplicable()
     {
-        libaas::aminoAcids::RawAminoAcid prev1('C');
-        libaas::aminoAcids::RawAminoAcid prev2(
-            libaas::aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
-        libaas::aminoAcids::RawAminoAcid prev3(
-            libaas::aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM);
-        libaas::aminoAcids::RawAminoAcid current('C');
-        libaas::aminoAcids::RawAminoAcid next1('C');
-        libaas::aminoAcids::RawAminoAcid next2(
-            libaas::aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
-        libaas::aminoAcids::RawAminoAcid next3(
-            libaas::aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM);
+        aas::aminoAcids::RawAminoAcid prev1('C');
+        aas::aminoAcids::RawAminoAcid prev2(
+            aas::aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
+        aas::aminoAcids::RawAminoAcid prev3(
+            aas::aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM);
+        aas::aminoAcids::RawAminoAcid current('C');
+        aas::aminoAcids::RawAminoAcid next1('C');
+        aas::aminoAcids::RawAminoAcid next2(
+            aas::aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
+        aas::aminoAcids::RawAminoAcid next3(
+            aas::aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM);
         Specificity spec(current, Specificity::ANY_N_TERM,
             Specificity::ARTEFACT);
 

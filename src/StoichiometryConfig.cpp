@@ -6,9 +6,9 @@
  *
  */
 
-#include <libaas/StoichiometryConfig.hpp>
+#include <aas/StoichiometryConfig.hpp>
 
-namespace libaas {
+namespace aas {
 
 bool operator<(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs)
 {
@@ -30,7 +30,7 @@ bool operator>=(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs)
     return lhs.get_key() >= rhs.get_key();
 }
 
-libaas::Bool addStoichiometryConfig(
+aas::Bool addStoichiometryConfig(
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& id,
     const StoichiometryConfigImpl::DataType& map)
 {
@@ -43,10 +43,10 @@ libaas::Bool addStoichiometryConfig(
     return addStoichiometryConfig(ec);
 }
 
-libaas::Bool addStoichiometryConfig(
+aas::Bool addStoichiometryConfig(
     const StoichiometryConfigImpl& stoichiometryConfig)
 {
     return StoichiometryConfig(stoichiometryConfig) == stoichiometryConfig;
 }
 
-} // namespace libaas
+} // namespace aas

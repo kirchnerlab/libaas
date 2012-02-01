@@ -6,15 +6,15 @@
  *
  */
 
-#include <libaas/Stoichiometry.hpp>
-#include <libaas/Element.hpp>
-#include <libaas/Error.hpp>
+#include <aas/Stoichiometry.hpp>
+#include <aas/Element.hpp>
+#include <aas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas;
+using namespace aas;
 
 /** Short description.
  * Long description.
@@ -80,8 +80,8 @@ struct StoichiometryTestSuite : vigra::test_suite
         // testing iterator
         // ?
 
-        libaas::String expectedFormula = "H(-1)C(2)";
-        libaas::String formula = tmp.toString();
+        aas::String expectedFormula = "H(-1)C(2)";
+        aas::String formula = tmp.toString();
         shouldEqual(expectedFormula, formula);
 
         // testing clear
@@ -93,16 +93,16 @@ struct StoichiometryTestSuite : vigra::test_suite
         shouldEqual(tmp.get(S), 0);
 
         Stoichiometry tmp1;
-        elements::ElementImpl elem(libaas::elements::ElementImpl::getNextId(),
+        elements::ElementImpl elem(aas::elements::ElementImpl::getNextId(),
             "Zz", 1002);
-        libaas::elements::addElement(elem);
+        aas::elements::addElement(elem);
         tmp1.set(elements::Element(elem.getId()), 5);
-        libaas::Bool thrown = false;
+        aas::Bool thrown = false;
         try {
             tmp1.applyStoichiometryConfiguration(
                 StoichiometryConfig(
                     StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
-        } catch (libaas::errors::RuntimeError& e) {
+        } catch (aas::errors::RuntimeError& e) {
             thrown = true;
         }
         shouldEqual(thrown, true);

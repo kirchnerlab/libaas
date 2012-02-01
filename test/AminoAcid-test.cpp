@@ -6,14 +6,14 @@
  *
  */
 
-#include <libaas/AminoAcid.hpp>
+#include <aas/AminoAcid.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas;
-using namespace libaas::aminoAcids;
+using namespace aas;
+using namespace aas::aminoAcids;
 
 /** Short description.
  * Long description.
@@ -51,11 +51,11 @@ struct AminoAcidTestSuite : vigra::test_suite
     void testStoichiometryAminoAcid()
     {
         // setting up elements
-        libaas::elements::Element H(1);
-        libaas::elements::Element C(6);
-        libaas::elements::Element N(7);
-        libaas::elements::Element O(8);
-        libaas::elements::Element S(16);
+        aas::elements::Element H(1);
+        aas::elements::Element C(6);
+        aas::elements::Element N(7);
+        aas::elements::Element O(8);
+        aas::elements::Element S(16);
 
         AminoAcid aa('C');
 
@@ -71,21 +71,21 @@ struct AminoAcidTestSuite : vigra::test_suite
         shouldEqual(aa.getStoichiometry(), expected_s);
 
         // creating custom stoichiometry config
-        std::vector<libaas::elements::Isotope> is;
-        is.push_back(libaas::elements::Isotope(99.99, 1.11111111));
-        libaas::Size freeID = libaas::elements::ElementImpl::getNextId();
-        libaas::elements::addElement(freeID, "H", 1, is);
+        std::vector<aas::elements::Isotope> is;
+        is.push_back(aas::elements::Isotope(99.99, 1.11111111));
+        aas::Size freeID = aas::elements::ElementImpl::getNextId();
+        aas::elements::addElement(freeID, "H", 1, is);
 
         StoichiometryConfigImpl::StoichiometryConfigImplKeyType sc_key =
                 "Experiment 1";
-        libaas::StoichiometryConfigImpl sc(sc_key);
+        aas::StoichiometryConfigImpl sc(sc_key);
         // inserting element "automatically" by fw<ElementImpl>
-        sc.insertElement(libaas::elements::Element(freeID));
+        sc.insertElement(aas::elements::Element(freeID));
         // free function to add stoichiometry config
-        libaas::addStoichiometryConfig(sc);
+        aas::addStoichiometryConfig(sc);
 
         Stoichiometry expected_cs;
-        expected_cs.set(libaas::elements::Element(freeID), 5);
+        expected_cs.set(aas::elements::Element(freeID), 5);
         expected_cs.set(C, 3);
         expected_cs.set(N, 1);
         expected_cs.set(O, 1);

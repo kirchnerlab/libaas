@@ -6,9 +6,9 @@
  *
  */
 
-#include <libaas/Element.hpp>
+#include <aas/Element.hpp>
 
-namespace libaas {
+namespace aas {
 namespace elements {
 
 bool operator<(const Element& lhs, const Element& rhs)
@@ -32,7 +32,7 @@ bool operator>=(const Element& lhs, const Element& rhs)
 }
 
 Bool addElement(const ElementImpl::ElementImplKeyType& id,
-    const libaas::String& symbol, const libaas::Size& atomicNumber,
+    const aas::String& symbol, const aas::Size& atomicNumber,
     const std::vector<Isotope>& isotopes)
 {
     return addElement(ElementImpl(id, symbol, atomicNumber, isotopes));
@@ -45,4 +45,4 @@ Bool addElement(const ElementImpl& element)
 }
 
 } // namespace elements
-} // namespace libaas
+} // namespace aas

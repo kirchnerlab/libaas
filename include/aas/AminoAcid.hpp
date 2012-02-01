@@ -6,19 +6,19 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_AMINOACID_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_AMINOACID_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_AMINOACID_HPP__
+#define __LIBAAS_INCLUDE_AAS_AMINOACID_HPP__
 
-#include <libaas/RawAminoAcid.hpp>
-#include <libaas/StoichiometryConfig.hpp>
-#include <libaas/Stoichiometry.hpp>
+#include <aas/RawAminoAcid.hpp>
+#include <aas/StoichiometryConfig.hpp>
+#include <aas/Stoichiometry.hpp>
 
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 namespace aminoAcids {
 
-/**Representation of an amino acid using libaas::aminoAcids::RawAminoAcid.
+/**Representation of an amino acid using aas::aminoAcids::RawAminoAcid.
  */
 class AminoAcid
 {
@@ -27,7 +27,7 @@ public:
     /**Constructor.
      * @param[in] aminoAcidKey The key/id of the raw amino acid
      * @param[in] configid The stoichiometry config key/id
-     * @throws Throwsn an libaas::errors::LogicError exception in case the given amino
+     * @throws Throwsn an aas::errors::LogicError exception in case the given amino
      * acid key cannot be resolved.
      */
     AminoAcid(
@@ -75,13 +75,13 @@ public:
      * @returns True if the amino acid is AminoAcidImpl::PEPTIDE_N_TERM or
      * AminoAcidImpl::PROTEIN_N_TERM.
      */
-    libaas::Bool isNTerm() const;
+    aas::Bool isNTerm() const;
 
     /**Checks whether the amino acid is C-terminal.
      * @returns True if the amino acid is AminoAcidImpl::PEPTIDE_C_TERM or
      * AminoAcidImpl::PEPTIDE_C_TERM.
      */
-    libaas::Bool isCTerm() const;
+    aas::Bool isCTerm() const;
 
     /**Calculates and returns a copy of the stoichiometry of this amino acid.
      * The calculation is skipped in case the present stoichiometry configuration is
@@ -89,7 +89,7 @@ public:
      * This method calls recalculatesWithConfiguration() on the stoichiometry retrieved
      * by the raw amino acid.
      * @returns The stoichiometry calculated with the present stoichiometry configuration
-     * @throws Throws an libaas::errors::RuntimeError in case one or more elements cannot
+     * @throws Throws an aas::errors::RuntimeError in case one or more elements cannot
      * be resolved by the stochiometry config.
      */
     Stoichiometry getStoichiometry() const;
@@ -153,6 +153,6 @@ private:
 std::ostream& operator<<(std::ostream& os, const AminoAcid& a);
 
 } // namespace aminoAcids
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_AMINOACID_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_AMINOACID_HPP__ */

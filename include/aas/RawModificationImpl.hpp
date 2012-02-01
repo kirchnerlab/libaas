@@ -6,18 +6,18 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATIONIMPL_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATIONIMPL_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_RAWMODIFICATIONIMPL_HPP__
+#define __LIBAAS_INCLUDE_AAS_RAWMODIFICATIONIMPL_HPP__
 
-#include <libaas/Stoichiometry.hpp>
-#include <libaas/Specificity.hpp>
-#include <libaas/Types.hpp>
-#include <libaas/AminoAcid.hpp>
+#include <aas/Stoichiometry.hpp>
+#include <aas/Specificity.hpp>
+#include <aas/Types.hpp>
+#include <aas/AminoAcid.hpp>
 
 #include <vector>
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 namespace modifications {
 
 /** Representation of a modification.
@@ -35,7 +35,7 @@ public:
 
     /**Default constructor to instantiate a standard modification.
      * @param[in] id Key/Id of the modification
-     * @throws Throws an libaas::errors::LogicError exception if the given id is not in
+     * @throws Throws an aas::errors::LogicError exception if the given id is not in
      * the list of standard modifications.
      */
     RawModificationImpl(const RawModificationImplKeyType& id);
@@ -48,8 +48,8 @@ public:
      */
     RawModificationImpl(
         const RawModificationImpl::RawModificationImplKeyType& id,
-        const libaas::String& name, const libaas::String& fullName,
-        const libaas::Bool& verified);
+        const aas::String& name, const aas::String& fullName,
+        const aas::Bool& verified);
 
     /**Retruns the id of the modification.
      * @returns Id of the modification
@@ -182,7 +182,7 @@ private:
     std::vector<String> altNames_;
     /** Stoichiometry of the raw modification
      */
-    libaas::Stoichiometry stoichiometry_;
+    aas::Stoichiometry stoichiometry_;
     /** List of specificities for the raw modification.
      */
     std::vector<Specificity> specificities_;
@@ -202,6 +202,6 @@ inline const RawModificationImpl::RawModificationImplKeyType& RawModificationImp
 }
 
 } // namespace modifications
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATIONIMPL_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_RAWMODIFICATIONIMPL_HPP__ */

@@ -6,9 +6,9 @@
  *
  */
 
-#include <libaas/RawAminoAcid.hpp>
+#include <aas/RawAminoAcid.hpp>
 
-namespace libaas {
+namespace aas {
 namespace aminoAcids {
 
 bool operator<(const RawAminoAcid& lhs, const RawAminoAcid& rhs)
@@ -33,7 +33,7 @@ bool operator>=(const RawAminoAcid& lhs, const RawAminoAcid& rhs)
 
 Bool addRawAminoAcid(const RawAminoAcidImpl::RawAminoAcidImplKeyType& id,
     const Char symbol, const String& threeLetterCode, const String& fullName,
-    const libaas::Stoichiometry& stoichiometry)
+    const aas::Stoichiometry& stoichiometry)
 {
     RawAminoAcidImpl aa(id, symbol, stoichiometry);
     aa.setThreeLetterCode(threeLetterCode);
@@ -51,5 +51,5 @@ Bool addRawAminoAcid(const RawAminoAcidImpl& aminoAcid)
 }
 
 } // namespace aminoAcids
-} // namespace libaas
+} // namespace aas
 

@@ -6,16 +6,16 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACID_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACID_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_RAWAMINOACID_HPP__
+#define __LIBAAS_INCLUDE_AAS_RAWAMINOACID_HPP__
 
-#include <libaas/RawAminoAcidImpl.hpp>
-#include <libaas/FlyWeightReplacement.hpp>
+#include <aas/RawAminoAcidImpl.hpp>
+#include <aas/FlyWeightReplacement.hpp>
 
-namespace libaas {
+namespace aas {
 namespace aminoAcids {
 
-typedef libaas::FlyWeightReplacement<RawAminoAcidImpl,
+typedef aas::FlyWeightReplacement<RawAminoAcidImpl,
         RawAminoAcidImpl::RawAminoAcidImplKeyType> RawAminoAcid;
 
 /**Convenience function to add a custom raw amino acid to this list of known amino
@@ -30,7 +30,7 @@ typedef libaas::FlyWeightReplacement<RawAminoAcidImpl,
  */
 Bool addRawAminoAcid(const RawAminoAcidImpl::RawAminoAcidImplKeyType& id,
     const Char symbol, const String& threeLetterCode, const String& fullName,
-    const libaas::Stoichiometry& stoichiometry);
+    const aas::Stoichiometry& stoichiometry);
 
 /**Convenience function to add a custom raw amino acid to the list of known amino
  * acids.
@@ -49,6 +49,6 @@ bool operator>(const RawAminoAcid& lhs, const RawAminoAcid& rhs);
 bool operator>=(const RawAminoAcid& lhs, const RawAminoAcid& rhs);
 
 } // namespace aminoAcids
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_RAWAMINOACID_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_RAWAMINOACID_HPP__ */

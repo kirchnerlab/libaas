@@ -6,14 +6,14 @@
  *
  */
 
-#include <libaas/tools/Digester.hpp>
+#include <aas/tools/Digester.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas;
-using namespace libaas::tools;
+using namespace aas;
+using namespace aas::tools;
 
 /** Short description.
  * Long description.

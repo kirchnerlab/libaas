@@ -6,15 +6,15 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_ISOTOPE_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_ISOTOPE_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_ISOTOPE_HPP__
+#define __LIBAAS_INCLUDE_AAS_ISOTOPE_HPP__
 
-#include <libaas/Types.hpp>
+#include <aas/Types.hpp>
 
 #include <vector>
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 namespace elements {
 
 /**Representation of an isotope.
@@ -85,6 +85,6 @@ std::ostream& operator<<(std::ostream&, const Isotope&);
 std::ostream& operator<<(std::ostream&, const std::vector<Isotope>&);
 
 } // namespace elements
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_ISOTOPE_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_ISOTOPE_HPP__ */

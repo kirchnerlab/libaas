@@ -6,70 +6,69 @@
  *
  */
 
-#include <libaas/RawAminoAcidImpl.hpp>
-#include <libaas/Element.hpp>
-#include <libaas/Error.hpp>
+#include <aas/RawAminoAcidImpl.hpp>
+#include <aas/Element.hpp>
+#include <aas/Error.hpp>
 
 #include <algorithm>
 #include <sstream>
 
-namespace libaas {
+namespace aas {
 namespace aminoAcids {
 
-const libaas::Size nEntries_aminoAcids = 24;
+const aas::Size nEntries_aminoAcids = 24;
 
-const libaas::Double stoi_table[][5] = { { 5, 3, 1, 1, 0 }, /*0=A*/
-                                         { 5, 3, 1, 1, 1 }, /*1=C*/
-                                         { 5, 4, 1, 3, 0 }, /*2=D*/
-                                         { 7, 5, 1, 3, 0 }, /*3=E*/
-                                         { 9, 9, 1, 1, 0 }, /*4=F*/
-                                         { 3, 2, 1, 1, 0 }, /*5=G*/
-                                         { 7, 6, 3, 1, 0 }, /*6=H*/
-                                         { 11, 6, 1, 1, 0 }, /*7=I*/
-                                         { 12, 6, 2, 1, 0 }, /*8=K*/
-                                         { 11, 6, 1, 1, 0 }, /*9=L*/
-                                         { 9, 5, 1, 1, 1 }, /*10=M*/
-                                         { 6, 4, 2, 2, 0 }, /*11=N*/
-                                         { 7, 5, 1, 1, 0 }, /*12=P*/
-                                         { 8, 5, 2, 2, 0 }, /*13=Q*/
-                                         { 12, 6, 4, 1, 0 }, /*14=R*/
-                                         { 5, 3, 1, 2, 0 }, /*15=S*/
-                                         { 7, 4, 1, 2, 0 }, /*16=T*/
-                                         { 9, 5, 1, 1, 0 }, /*17=V*/
-                                         { 10, 11, 2, 1, 0 }, /*18=W*/
-                                         { 9, 9, 1, 2, 0 }, /*19=Y*/
-                                         { 1, 0, 0, 0, 0 }, /*20, N-terminal*/
-                                         { 1, 0, 0, 1, 0 }, /*21, C-terminal*/
-                                         { 1, 0, 0, 0, 0 }, /*22, Protein N-terminal*/
-                                         { 1, 0, 0, 1, 0 } /*23, Protein C-terminal*/
+const aas::Double stoi_table[][5] = { { 5, 3, 1, 1, 0 }, /*0=A*/
+                                      { 5, 3, 1, 1, 1 }, /*1=C*/
+                                      { 5, 4, 1, 3, 0 }, /*2=D*/
+                                      { 7, 5, 1, 3, 0 }, /*3=E*/
+                                      { 9, 9, 1, 1, 0 }, /*4=F*/
+                                      { 3, 2, 1, 1, 0 }, /*5=G*/
+                                      { 7, 6, 3, 1, 0 }, /*6=H*/
+                                      { 11, 6, 1, 1, 0 }, /*7=I*/
+                                      { 12, 6, 2, 1, 0 }, /*8=K*/
+                                      { 11, 6, 1, 1, 0 }, /*9=L*/
+                                      { 9, 5, 1, 1, 1 }, /*10=M*/
+                                      { 6, 4, 2, 2, 0 }, /*11=N*/
+                                      { 7, 5, 1, 1, 0 }, /*12=P*/
+                                      { 8, 5, 2, 2, 0 }, /*13=Q*/
+                                      { 12, 6, 4, 1, 0 }, /*14=R*/
+                                      { 5, 3, 1, 2, 0 }, /*15=S*/
+                                      { 7, 4, 1, 2, 0 }, /*16=T*/
+                                      { 9, 5, 1, 1, 0 }, /*17=V*/
+                                      { 10, 11, 2, 1, 0 }, /*18=W*/
+                                      { 9, 9, 1, 2, 0 }, /*19=Y*/
+                                      { 1, 0, 0, 0, 0 }, /*20, N-terminal*/
+                                      { 1, 0, 0, 1, 0 }, /*21, C-terminal*/
+                                      { 1, 0, 0, 0, 0 }, /*22, Protein N-terminal*/
+                                      { 1, 0, 0, 1, 0 } /*23, Protein C-terminal*/
 };
 
-const libaas::elements::ElementImpl::ElementImplKeyType stoi_elements[] =
-        { 1, 6, 7, 8, 16 };
+const aas::elements::ElementImpl::ElementImplKeyType stoi_elements[] = { 1, 6,
+                                                                         7, 8,
+                                                                         16 };
 
-const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-                                    'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S',
-                                    'T', 'V', 'W', 'Y',
-                                    RawAminoAcidImpl::PEPTIDE_N_TERM,
-                                    RawAminoAcidImpl::PEPTIDE_C_TERM,
-                                    RawAminoAcidImpl::PROTEIN_N_TERM,
-                                    RawAminoAcidImpl::PROTEIN_C_TERM };
+const aas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K',
+                                 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V',
+                                 'W', 'Y', RawAminoAcidImpl::PEPTIDE_N_TERM,
+                                 RawAminoAcidImpl::PEPTIDE_C_TERM,
+                                 RawAminoAcidImpl::PROTEIN_N_TERM,
+                                 RawAminoAcidImpl::PROTEIN_C_TERM };
 
-const libaas::String three_letter[] = { "Ala", "Cys", "Asp", "Glu", "Phe",
-                                        "Gly", "His", "Ile", "Lys", "Leu",
-                                        "Met", "Asn", "Pro", "Gln", "Arg",
-                                        "Ser", "Thr", "Val", "Trp", "Tyr",
-                                        "PeN", "PeC", "PrN", "PrC" };
+const aas::String three_letter[] = { "Ala", "Cys", "Asp", "Glu", "Phe", "Gly",
+                                     "His", "Ile", "Lys", "Leu", "Met", "Asn",
+                                     "Pro", "Gln", "Arg", "Ser", "Thr", "Val",
+                                     "Trp", "Tyr", "PeN", "PeC", "PrN", "PrC" };
 
-const libaas::String fullNames[] = { "Alanine", "Cysteine", "Aspartic acid",
-                                     "Glutamic acid", "Phenylalanine",
-                                     "Glycine", "Histidine", "Isoleucine",
-                                     "Lysine", "Leucine", "Methionine",
-                                     "Asparagine", "Proline", "Glutamine",
-                                     "Arginine", "Serine", "Threonine",
-                                     "Valine", "Tryptophan", "Tyrosine",
-                                     "Peptide N-term", "Peptide C-term",
-                                     "Protein N-term", "Protein C-term" };
+const aas::String fullNames[] = { "Alanine", "Cysteine", "Aspartic acid",
+                                  "Glutamic acid", "Phenylalanine", "Glycine",
+                                  "Histidine", "Isoleucine", "Lysine",
+                                  "Leucine", "Methionine", "Asparagine",
+                                  "Proline", "Glutamine", "Arginine", "Serine",
+                                  "Threonine", "Valine", "Tryptophan",
+                                  "Tyrosine", "Peptide N-term",
+                                  "Peptide C-term", "Protein N-term",
+                                  "Protein C-term" };
 
 const Char RawAminoAcidImpl::PEPTIDE_N_TERM = '0';
 const Char RawAminoAcidImpl::PEPTIDE_C_TERM = '1';
@@ -87,10 +86,10 @@ Size findIdOfAminoAcidKey(const RawAminoAcidImpl::RawAminoAcidImplKeyType& key)
     os << "RawAminoAcidImpl::findIdOfAminoAcidKey(): Cannot find given key '";
     os << key;
     os << "' in standard list of amino acids.";
-    libaas_logic_error(os.str());
+    aas_logic_error(os.str());
 }
 
-Size findIdOfAminoAcidThreeLetter(const libaas::String& tlc)
+Size findIdOfAminoAcidThreeLetter(const aas::String& tlc)
 {
     for (Size i = 0; i < nEntries_aminoAcids; ++i) {
         if (three_letter[i] == tlc) {
@@ -112,10 +111,10 @@ Size findIdOfAminoAcidThreeLetter(const libaas::String& tlc)
             << "RawAminoAcidImpl::findIdOfAminoAcidThreeLetter(): Cannot find given three letter code '";
     os << tlc;
     os << "' in standard list of amino acids.";
-    libaas_logic_error(os.str());
+    aas_logic_error(os.str());
 }
 
-Size findIdOfAminoAcid(const libaas::String& name)
+Size findIdOfAminoAcid(const aas::String& name)
 {
     for (Size i = 0; i < nEntries_aminoAcids; ++i) {
         if (fullNames[i] == name) {
@@ -136,11 +135,11 @@ Size findIdOfAminoAcid(const libaas::String& name)
     os << "RawAminoAcidImpl::findIdOfAminoAcid(): Cannot find given name '";
     os << name;
     os << "' in standard list of amino acids.";
-    libaas_logic_error(os.str());
+    aas_logic_error(os.str());
 }
 
 RawAminoAcidImpl::RawAminoAcidImplKeyType RawAminoAcidImpl::getKeyForAminoAcidString(
-    const libaas::String& aminoAcid)
+    const aas::String& aminoAcid)
 {
     String aminoAcid_tmp = aminoAcid;
     std::transform(aminoAcid_tmp.begin(), aminoAcid_tmp.end(),
@@ -182,7 +181,7 @@ RawAminoAcidImpl::RawAminoAcidImplKeyType RawAminoAcidImpl::getKeyForAminoAcidSt
             << "RawAminoAcidImpl::getKeyForAminoAcidString(): Cannot find amino acid '";
     os << aminoAcid;
     os << "' in standard list of amino acids.";
-    libaas_logic_error(os.str());
+    aas_logic_error(os.str());
 }
 
 RawAminoAcidImpl::RawAminoAcidImpl(
@@ -196,14 +195,14 @@ RawAminoAcidImpl::RawAminoAcidImpl(
         threeLetterCode_ = three_letter[k];
         fullName_ = fullNames[k];
         for (Size i = 0; i < 5; ++i) {
-            stoichiometry_.set(libaas::elements::Element(stoi_elements[i]),
+            stoichiometry_.set(aas::elements::Element(stoi_elements[i]),
                 stoi_table[k][i]);
         }
     }
 }
 
 RawAminoAcidImpl::RawAminoAcidImpl(const RawAminoAcidImplKeyType& id,
-    const char symbol, const libaas::Stoichiometry& stoichiometry) :
+    const char symbol, const aas::Stoichiometry& stoichiometry) :
         id_(id), symbol_(symbol), threeLetterCode_(""), fullName_(""), stoichiometry_(
             stoichiometry)
 {
@@ -224,7 +223,7 @@ void RawAminoAcidImpl::setStoichiometry(const Stoichiometry& stoichiometry)
     stoichiometry_ = stoichiometry;
 }
 
-const libaas::Stoichiometry& RawAminoAcidImpl::getStoichiometry() const
+const aas::Stoichiometry& RawAminoAcidImpl::getStoichiometry() const
 {
     return stoichiometry_;
 }
@@ -291,4 +290,4 @@ std::ostream& operator<<(std::ostream& os, const RawAminoAcidImpl& o)
 }
 
 } // namespace aminoAcids
-} // namespace libaas
+} // namespace aas

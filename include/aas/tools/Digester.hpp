@@ -10,14 +10,14 @@
 #ifndef DIGESTER_HPP_
 #define DIGESTER_HPP_
 
-#include <libaas/AminoAcidSequence.hpp>
-#include <libaas/Types.hpp>
+#include <aas/AminoAcidSequence.hpp>
+#include <aas/Types.hpp>
 
 #include <boost/regex.hpp>
 
 #include <vector>
 
-namespace libaas {
+namespace aas {
 namespace tools {
 
 /**General digests class.
@@ -32,7 +32,7 @@ public:
 
     /**Convenience typedef of a list of amino acid sequences.
      */
-    typedef std::vector<libaas::AminoAcidSequence> AminoAcidSequences;
+    typedef std::vector<aas::AminoAcidSequence> AminoAcidSequences;
 
     /** List of enzymes for which the regular expression is stored in R.
      */
@@ -57,7 +57,7 @@ public:
      *  @param[in] re Regular expression identifying the positions of cleavages.
      */
 
-    Digester(const libaas::String& re);
+    Digester(const aas::String& re);
 
     /** Constructor taking a list of exceptions.
      *  The the same limitations applying to the regular expression apply
@@ -66,7 +66,7 @@ public:
      *  @param[in] re Regular expression identifying the positions of cleavages.
      *  @param[in] exceptions Regular expression identifying exceptions for cleavages.
      */
-    Digester(const libaas::String& re, const libaas::String& exceptions);
+    Digester(const aas::String& re, const aas::String& exceptions);
 
     /** Constructor building a pre-defined enzym.
      *  Build a digester after the rules of a hardcoded enzym.
@@ -83,15 +83,14 @@ public:
      *            be included in the result.
      * @return possible fragments are stored in \a frags.
      */
-    void operator()(const libaas::AminoAcidSequence& seq,
-        AminoAcidSequences& frags,
-        libaas::UnsignedInt missedCleavages = 0) const;
+    void operator()(const aas::AminoAcidSequence& seq,
+        AminoAcidSequences& frags, aas::UnsignedInt missedCleavages = 0) const;
 
 private:
 
     /**Set of regular expressions for the build in digesters.
      */
-    static libaas::String R_[];
+    static aas::String R_[];
 
     /**Regular expression of the digester.
      */
@@ -104,10 +103,10 @@ private:
 
     /**Indicates, if the exceptions should be used.
      */
-    libaas::Bool exceptions_enabled_;
+    aas::Bool exceptions_enabled_;
 };
 
 } // namespace tools
-} // namespace libaas
+} // namespace aas
 
 #endif /* DIGESTER_HPP_ */

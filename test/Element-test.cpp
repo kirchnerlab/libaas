@@ -6,15 +6,15 @@
  *
  */
 
-#include <libaas/Element.hpp>
-#include <libaas/Error.hpp>
+#include <aas/Element.hpp>
+#include <aas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 #include <vector>
 
-using namespace libaas::elements;
+using namespace aas::elements;
 
 /** Short description.
  * Long description.
@@ -107,7 +107,7 @@ struct ElementTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             ElementImpl::getDefaultKeyForElementSymbol("asd");
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }
         shouldEqual(thrown, true);
@@ -149,12 +149,12 @@ struct ElementTestSuite : vigra::test_suite
     {
         // setting up test data
         ElementImpl::ElementImplKeyType k1 = 1;
-        libaas::String symbol = "HH";
-        libaas::String symbol2 = "HHH";
-        libaas::Size atomicNumber = 1;
+        aas::String symbol = "HH";
+        aas::String symbol2 = "HHH";
+        aas::Size atomicNumber = 1;
         std::vector<Isotope> is;
-        libaas::Double mass = 12.23;
-        libaas::Double frequency = 24.45;
+        aas::Double mass = 12.23;
+        aas::Double frequency = 24.45;
         Isotope isotope(mass, frequency);
         is.push_back(isotope);
 
@@ -183,13 +183,13 @@ struct ElementTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             Element test(2000);
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         // create an arbitrary element
         ElementImpl::ElementImplKeyType k1 = 2000;
-        libaas::String name = "Ge";
+        aas::String name = "Ge";
         ElementImpl t(k1, name, 2000);
         t.addIsotope(100, 0.99);
         t.addIsotope(101, 0.01);
@@ -214,7 +214,7 @@ struct ElementTestSuite : vigra::test_suite
     {
         // create different Element Mo(42)
         ElementImpl::ElementImplKeyType k1 = 42;
-        libaas::String symbol = "Dp";
+        aas::String symbol = "Dp";
         ElementImpl t(k1, symbol, 2000);
         // store it arbitrary element in flyweight table
         Element tr(t);
@@ -246,24 +246,23 @@ struct ElementTestSuite : vigra::test_suite
 
     void testCreateElement()
     {
-        libaas::String symbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O",
-                                     "F", "Ne", "Na", "Mg", "Al", "Si", "P",
-                                     "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti",
-                                     "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu",
-                                     "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr",
-                                     "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc",
-                                     "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn",
-                                     "Sb", "Te", "I", "Xe", "Cs", "Ba", "La",
-                                     "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd",
-                                     "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu",
-                                     "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt",
-                                     "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At",
-                                     "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U",
-                                     "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es",
-                                     "Fm", "Md", "No", "Lr", "2H", "13C",
-                                     "15N", "18O" };
-        libaas::Size n = 107;
-        for (libaas::Size i = 0; i < n; ++i) {
+        aas::String symbols[] = { "H", "He", "Li", "Be", "B", "C", "N", "O",
+                                  "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S",
+                                  "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr",
+                                  "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga",
+                                  "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr",
+                                  "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh",
+                                  "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te",
+                                  "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr",
+                                  "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy",
+                                  "Ho", "Er", "Tm", "Yb", "Lu", "Hf", "Ta",
+                                  "W", "Re", "Os", "Ir", "Pt", "Au", "Hg",
+                                  "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr",
+                                  "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu",
+                                  "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md",
+                                  "No", "Lr", "2H", "13C", "15N", "18O" };
+        aas::Size n = 107;
+        for (aas::Size i = 0; i < n; ++i) {
             ElementImpl::ElementImplKeyType k =
                     ElementImpl::getDefaultKeyForElementSymbol(symbols[i]);
             Element e(k);

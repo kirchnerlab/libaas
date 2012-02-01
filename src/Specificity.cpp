@@ -8,37 +8,37 @@
  *
  */
 
-#include <libaas/Specificity.hpp>
-#include <libaas/Error.hpp>
+#include <aas/Specificity.hpp>
+#include <aas/Error.hpp>
 
 #include <algorithm>
 
-namespace libaas {
+namespace aas {
 namespace modifications {
 
-Specificity::Specificity(const libaas::aminoAcids::RawAminoAcid& site,
+Specificity::Specificity(const aas::aminoAcids::RawAminoAcid& site,
     const Position position, const Classification classification) :
         site_(site), position_(position), classification_(classification), neutralLosses_(), pepNeutralLosses_(), comment_(
             "")
 {
 }
 
-Specificity::Specificity(const libaas::String& site,
-    const libaas::String& position, const libaas::String& classification) :
+Specificity::Specificity(const aas::String& site, const aas::String& position,
+    const aas::String& classification) :
         neutralLosses_(), pepNeutralLosses_(), comment_("")
 {
-    site_ = libaas::aminoAcids::RawAminoAcid(
-        libaas::aminoAcids::RawAminoAcidImpl::getKeyForAminoAcidString(site));
+    site_ = aas::aminoAcids::RawAminoAcid(
+        aas::aminoAcids::RawAminoAcidImpl::getKeyForAminoAcidString(site));
     position_ = Specificity::parsePositionString(position);
     classification_ = Specificity::parseClassificationString(classification);
 }
 
-void Specificity::setSite(const libaas::aminoAcids::RawAminoAcid& aminoAcid)
+void Specificity::setSite(const aas::aminoAcids::RawAminoAcid& aminoAcid)
 {
     site_ = aminoAcid;
 }
 
-const libaas::aminoAcids::RawAminoAcid& Specificity::getSite() const
+const aas::aminoAcids::RawAminoAcid& Specificity::getSite() const
 {
     return site_;
 }
@@ -114,9 +114,9 @@ const String& Specificity::getComment() const
     return comment_;
 }
 
-Bool Specificity::isApplicable(const libaas::aminoAcids::RawAminoAcid& prev,
-    const libaas::aminoAcids::RawAminoAcid& current,
-    const libaas::aminoAcids::RawAminoAcid& next) const
+Bool Specificity::isApplicable(const aas::aminoAcids::RawAminoAcid& prev,
+    const aas::aminoAcids::RawAminoAcid& current,
+    const aas::aminoAcids::RawAminoAcid& next) const
 {
 
     if (site_.get_key() != current.get_key()) {
@@ -187,7 +187,7 @@ Specificity& Specificity::operator=(const Specificity& rhs)
 }
 
 Specificity::Classification Specificity::parseClassificationString(
-    const libaas::String& classification)
+    const aas::String& classification)
 {
     String classification_tmp = classification;
     std::transform(classification_tmp.begin(), classification_tmp.end(),
@@ -247,12 +247,12 @@ Specificity::Classification Specificity::parseClassificationString(
                                                                     == "aa substitution") {
                                                                 return Specificity::AA_SUBSTITUTION;
                                                             }
-    libaas_logic_error(
+    aas_logic_error(
         "Specificity::parseClassificationString(): Given classification string does not represent a known classification.");
 }
 
 Specificity::Position Specificity::parsePositionString(
-    const libaas::String& position)
+    const aas::String& position)
 {
     String position_tmp = position;
     std::transform(position_tmp.begin(), position_tmp.end(),
@@ -272,7 +272,7 @@ Specificity::Position Specificity::parsePositionString(
                     if (position_tmp == "anywhere") {
                         return Specificity::ANYWHERE;
                     }
-    libaas_logic_error(
+    aas_logic_error(
         "Specificity::parsePositionString(): Given position string does not represent a known position.");
 }
 
@@ -295,4 +295,4 @@ std::ostream& operator<<(std::ostream& os, const std::vector<Specificity>& s)
 }
 
 } // namespace modifications
-} // namespace libaas
+} // namespace aas

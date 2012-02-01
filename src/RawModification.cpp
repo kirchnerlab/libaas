@@ -6,17 +6,16 @@
  *
  */
 
-#include <libaas/RawModification.hpp>
+#include <aas/RawModification.hpp>
 
-namespace libaas {
+namespace aas {
 namespace modifications {
 
-libaas::Bool addRawModification(
+aas::Bool addRawModification(
     const RawModificationImpl::RawModificationImplKeyType& id,
-    const libaas::String& name, const libaas::String& fullName,
+    const aas::String& name, const aas::String& fullName,
     const std::vector<String>& altNames, const Stoichiometry& stoichiometry,
-    const std::vector<Specificity>& specificities,
-    const libaas::Bool& verified)
+    const std::vector<Specificity>& specificities, const aas::Bool& verified)
 {
     RawModificationImpl rm(id, name, fullName, verified);
     rm.setAltNames(altNames);
@@ -25,7 +24,7 @@ libaas::Bool addRawModification(
     return addRawModification(rm);
 }
 
-libaas::Bool addRawModification(const RawModificationImpl& rawModification)
+aas::Bool addRawModification(const RawModificationImpl& rawModification)
 {
     return RawModification(rawModification) == rawModification;
 }
@@ -51,4 +50,4 @@ bool operator>=(const RawModification& lhs, const RawModification& rhs)
 }
 
 } // namespace modifications
-} // namespace libaas
+} // namespace aas

@@ -6,16 +6,16 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATION_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATION_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_RAWMODIFICATION_HPP__
+#define __LIBAAS_INCLUDE_AAS_RAWMODIFICATION_HPP__
 
-#include <libaas/RawModificationImpl.hpp>
-#include <libaas/FlyWeightReplacement.hpp>
+#include <aas/RawModificationImpl.hpp>
+#include <aas/FlyWeightReplacement.hpp>
 
-namespace libaas {
+namespace aas {
 namespace modifications {
 
-typedef libaas::FlyWeightReplacement<RawModificationImpl, RawModificationImpl::RawModificationImplKeyType> RawModification;
+typedef aas::FlyWeightReplacement<RawModificationImpl, RawModificationImpl::RawModificationImplKeyType> RawModification;
 
 /**Convenience function to add a custom raw modification to the list of known
  * raw modifications.
@@ -28,12 +28,11 @@ typedef libaas::FlyWeightReplacement<RawModificationImpl, RawModificationImpl::R
  * @param[in] verified Raw modification is verified
  * @returns True if the given raw modification is added correctly, false otherwise.
  */
-libaas::Bool addRawModification(
+aas::Bool addRawModification(
     const RawModificationImpl::RawModificationImplKeyType& id,
-    const libaas::String& name, const libaas::String& fullname,
+    const aas::String& name, const aas::String& fullname,
     const std::vector<String>& altNames, const Stoichiometry& stoichiometry,
-    const std::vector<Specificity>& specificities,
-    const libaas::Bool& verified);
+    const std::vector<Specificity>& specificities, const aas::Bool& verified);
 
 /**Convenience function to add a custom raw modification to the list of known
  * raw modifications.
@@ -44,7 +43,7 @@ libaas::Bool addRawModification(
  * @param[in] rawModification Instance of a RawModificationImpl
  * @returns True if the given raw modification is added correctly, false otherwise.
  */
-libaas::Bool addRawModification(const RawModificationImpl& rawModification);
+aas::Bool addRawModification(const RawModificationImpl& rawModification);
 
 bool operator<(const RawModification& lhs, const RawModification& rhs);
 bool operator<=(const RawModification& lhs, const RawModification& rhs);
@@ -52,6 +51,6 @@ bool operator>(const RawModification& lhs, const RawModification& rhs);
 bool operator>=(const RawModification& lhs, const RawModification& rhs);
 
 } // namespace modifications
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_RAWMODIFICATION_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_RAWMODIFICATION_HPP__ */
