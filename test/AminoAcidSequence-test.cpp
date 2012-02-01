@@ -14,6 +14,7 @@
 #include <iostream>
 
 using namespace aas;
+using namespace aas::stoichiometries;
 
 /** Short description.
  * Long description.

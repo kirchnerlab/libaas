@@ -6,8 +6,8 @@
  *
  */
 
-#include <aas/ElementImpl.hpp>
-#include <aas/Error.hpp>
+#include "aas/ElementImpl.hpp"
+#include "aas/Error.hpp"
 
 namespace aas {
 namespace elements {

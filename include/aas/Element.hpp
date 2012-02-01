@@ -15,7 +15,7 @@
 namespace aas {
 namespace elements {
 
-typedef FlyWeightReplacement<ElementImpl, ElementImpl::ElementImplKeyType> Element;
+typedef aas::FlyWeightReplacement<ElementImpl, ElementImpl::ElementImplKeyType> Element;
 
 /**Convenience function to add a custom element to this list of known elements.
  * This methods calls addElement(ElementImpl)

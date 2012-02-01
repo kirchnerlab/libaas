@@ -9,7 +9,7 @@
 #ifndef __LIBAAS_INCLUDE_AAS_ISOTOPE_HPP__
 #define __LIBAAS_INCLUDE_AAS_ISOTOPE_HPP__
 
-#include <aas/Types.hpp>
+#include "aas/Types.hpp"
 
 #include <vector>
 #include <iostream>

@@ -9,9 +9,9 @@
 #ifndef __LIBAAS_INCLUDE_AAS_AMINOACID_HPP__
 #define __LIBAAS_INCLUDE_AAS_AMINOACID_HPP__
 
-#include <aas/RawAminoAcid.hpp>
-#include <aas/StoichiometryConfig.hpp>
-#include <aas/Stoichiometry.hpp>
+#include "aas/RawAminoAcid.hpp"
+#include "aas/StoichiometryConfig.hpp"
+#include "aas/Stoichiometry.hpp"
 
 #include <iostream>
 
@@ -32,9 +32,8 @@ public:
      */
     AminoAcid(
         const RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey = '\0',
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid =
-
-        StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid =
+                aas::stoichiometries::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
 
     /**Constructor.
      * @param[in] aminoAcid The raw amino acid
@@ -43,8 +42,9 @@ public:
      */
     AminoAcid(
         const RawAminoAcid& aminoAcid,
-        const StoichiometryConfig& config = StoichiometryConfig(
-            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
+        const aas::stoichiometries::StoichiometryConfig& config =
+                aas::stoichiometries::StoichiometryConfig(
+                    aas::stoichiometries::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
 
     /**Returns the symbol of the amino acid.
      * @returns The symbol of the amino acid.
@@ -92,7 +92,7 @@ public:
      * @throws Throws an aas::errors::RuntimeError in case one or more elements cannot
      * be resolved by the stochiometry config.
      */
-    Stoichiometry getStoichiometry() const;
+    aas::stoichiometries::Stoichiometry getStoichiometry() const;
 
     /**Sets the stoichiometry configuration.
      * Note: This will trigger the recalculation of the stoichiometry using the
@@ -101,7 +101,8 @@ public:
      * @throws Throws an exception in case one ore more elements cannot be
      * resolved by the stoichiometry configuration.
      */
-    void setStoichiometryConfig(const StoichiometryConfig& config);
+    void setStoichiometryConfig(
+        const aas::stoichiometries::StoichiometryConfig& config);
 
     /**Sets the stoichiometry configuration.
      * Note: This will trigger the recalculation of the stoichiometry using the
@@ -112,12 +113,12 @@ public:
      */
     void
     setStoichiometryConfig(
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid);
 
     /**Returns the stoichiometry configuration.
      * @returns Stoichiometry configuration
      */
-    const StoichiometryConfig& getStoichiometryConfig() const;
+    const aas::stoichiometries::StoichiometryConfig& getStoichiometryConfig() const;
 
     /**Sets a copy of the argument as the new content for the amino acid object.
      * The previous content is dropped.
@@ -146,7 +147,7 @@ private:
     RawAminoAcid rawAminoAcid_;
     /**The stoichiometry configuration used to calculate the stoichiometry.
      */
-    StoichiometryConfig stoichiometryConfig_;
+    aas::stoichiometries::StoichiometryConfig stoichiometryConfig_;
 
 };
 

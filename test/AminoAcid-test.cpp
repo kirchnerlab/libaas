@@ -14,6 +14,7 @@
 
 using namespace aas;
 using namespace aas::aminoAcids;
+using namespace aas::stoichiometries;
 
 /** Short description.
  * Long description.
@@ -78,11 +79,11 @@ struct AminoAcidTestSuite : vigra::test_suite
 
         StoichiometryConfigImpl::StoichiometryConfigImplKeyType sc_key =
                 "Experiment 1";
-        aas::StoichiometryConfigImpl sc(sc_key);
+        StoichiometryConfigImpl sc(sc_key);
         // inserting element "automatically" by fw<ElementImpl>
         sc.insertElement(aas::elements::Element(freeID));
         // free function to add stoichiometry config
-        aas::addStoichiometryConfig(sc);
+        addStoichiometryConfig(sc);
 
         Stoichiometry expected_cs;
         expected_cs.set(aas::elements::Element(freeID), 5);

@@ -6,20 +6,20 @@
  *
  */
 
-#include <aas/AminoAcid.hpp>
+#include "aas/AminoAcid.hpp"
 
 namespace aas {
 namespace aminoAcids {
 
 AminoAcid::AminoAcid(
     const RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
         rawAminoAcid_(aminoAcidKey), stoichiometryConfig_(configid)
 {
 }
 
 AminoAcid::AminoAcid(const RawAminoAcid& aminoAcid,
-    const StoichiometryConfig& config) :
+    const aas::stoichiometries::StoichiometryConfig& config) :
         rawAminoAcid_(aminoAcid), stoichiometryConfig_(config)
 {
 }
@@ -59,17 +59,18 @@ aas::Bool AminoAcid::isCTerm() const
     return rawAminoAcid_.get().isCTerm();
 }
 
-Stoichiometry AminoAcid::getStoichiometry() const
+aas::stoichiometries::Stoichiometry AminoAcid::getStoichiometry() const
 {
     if (stoichiometryConfig_.get_key()
-            == StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG) {
+            == aas::stoichiometries::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG) {
         return rawAminoAcid_.get().getStoichiometry();
     }
     return rawAminoAcid_.get().getStoichiometry().recalculatesWithConfiguration(
         stoichiometryConfig_);
 }
 
-void AminoAcid::setStoichiometryConfig(const StoichiometryConfig& config)
+void AminoAcid::setStoichiometryConfig(
+    const aas::stoichiometries::StoichiometryConfig& config)
 {
     if (&config != &stoichiometryConfig_) {
         stoichiometryConfig_ = config;
@@ -77,15 +78,15 @@ void AminoAcid::setStoichiometryConfig(const StoichiometryConfig& config)
 }
 
 void AminoAcid::setStoichiometryConfig(
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid)
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid)
 {
-    StoichiometryConfig config(configid);
+    aas::stoichiometries::StoichiometryConfig config(configid);
     if (&config != &stoichiometryConfig_) {
         stoichiometryConfig_ = config;
     }
 }
 
-const StoichiometryConfig& AminoAcid::getStoichiometryConfig() const
+const aas::stoichiometries::StoichiometryConfig& AminoAcid::getStoichiometryConfig() const
 {
     return stoichiometryConfig_;
 }

@@ -17,6 +17,8 @@
 #include <algorithm>
 
 using namespace aas::aminoAcids;
+using namespace aas::stoichiometries;
+
 /** Short description.
  * Long description.
  */
@@ -54,7 +56,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         aas::Char symbol = 'T';
         aas::String three = "Cys";
         aas::String full = "Cysteine";
-        aas::Stoichiometry ts;
+        Stoichiometry ts;
         ts.set(H, 6);
         ts.set(C, 2);
         ts.set(O, 1);
@@ -89,7 +91,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         RawAminoAcidImpl::RawAminoAcidImplKeyType k1 = 'A';
         RawAminoAcidImpl aa(k1);
 
-        aas::Stoichiometry s;
+        Stoichiometry s;
         s.set(H, 5);
         s.set(C, 3);
         s.set(N, 1);
@@ -105,7 +107,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
 
         aa.setSymbol('a');
         shouldEqual(aa.getSymbol(), 'a');
-        aas::Stoichiometry ns;
+        Stoichiometry ns;
         aa.setStoichiometry(ns);
         shouldEqual(aa.getStoichiometry(), ns);
 
@@ -195,7 +197,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         aas::Char symbol2 = 't';
         aas::String three = "Zet";
         aas::String full = "Zetet";
-        aas::Stoichiometry ts;
+        Stoichiometry ts;
         ts.set(H, 6);
         ts.set(C, 2);
         ts.set(O, 1);
@@ -230,7 +232,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         // create an arbitrary amino acid
         RawAminoAcidImpl::RawAminoAcidImplKeyType k1 = 'z';
         aas::Char name = 'z';
-        aas::Stoichiometry ts;
+        Stoichiometry ts;
         RawAminoAcidImpl t(k1, name, ts);
         // add amino acid to the flyweight table
         RawAminoAcid tr(t);
@@ -258,7 +260,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         // create different amino acid T
         RawAminoAcidImpl::RawAminoAcidImplKeyType k1 = 'S';
         aas::Char symbol = 'Q';
-        aas::Stoichiometry ts;
+        Stoichiometry ts;
         RawAminoAcidImpl t(k1, symbol, ts);
         // store it in flyweight table
         RawAminoAcid tr(t);
@@ -276,7 +278,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         RawAminoAcidImpl::RawAminoAcidImplKeyType k1 = 'A';
         RawAminoAcid tr_1(k1);
 
-        RawAminoAcidImpl t(k1, 'T', aas::Stoichiometry());
+        RawAminoAcidImpl t(k1, 'T', Stoichiometry());
         // flyweight checks the id of the amino acid t and recognizes it, since it
         // was retrieved(initialized) earlier
         // as a consequence, the flyweight factory returns the known object

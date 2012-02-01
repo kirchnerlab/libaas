@@ -31,7 +31,7 @@ typedef aas::FlyWeightReplacement<RawModificationImpl, RawModificationImpl::RawM
 aas::Bool addRawModification(
     const RawModificationImpl::RawModificationImplKeyType& id,
     const aas::String& name, const aas::String& fullname,
-    const std::vector<String>& altNames, const Stoichiometry& stoichiometry,
+    const std::vector<String>& altNames, const aas::stoichiometries::Stoichiometry& stoichiometry,
     const std::vector<Specificity>& specificities, const aas::Bool& verified);
 
 /**Convenience function to add a custom raw modification to the list of known

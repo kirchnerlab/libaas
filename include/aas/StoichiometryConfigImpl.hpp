@@ -9,13 +9,14 @@
 #ifndef __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIGIMPL_HPP__
 #define __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIGIMPL_HPP__
 
-#include <aas/Element.hpp>
-#include <aas/Types.hpp>
+#include "aas/Element.hpp"
+#include "aas/Types.hpp"
 
 #include <map>
 #include <iostream>
 
 namespace aas {
+namespace stoichiometries {
 
 /** Representation of a stoichiometry configuration.
  *
@@ -162,6 +163,7 @@ private:
 
 std::ostream& operator<<(std::ostream&, const StoichiometryConfigImpl&);
 
+} // namespace stoichiometries
 } // namespace aas
 
 #endif /* __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIGIMPL_HPP__ */

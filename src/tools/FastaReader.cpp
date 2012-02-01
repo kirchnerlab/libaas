@@ -6,8 +6,8 @@
  *
  */
 
-#include <aas/tools/FastaReader.hpp>
-#include <aas/Error.hpp>
+#include "aas/tools/FastaReader.hpp"
+#include "aas/Error.hpp"
 
 #include <fstream>
 

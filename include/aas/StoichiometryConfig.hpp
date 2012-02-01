@@ -14,6 +14,7 @@
 #include <aas/Types.hpp>
 
 namespace aas {
+namespace stoichiometries {
 
 typedef aas::FlyWeightReplacement<StoichiometryConfigImpl, StoichiometryConfigImpl::StoichiometryConfigImplKeyType> StoichiometryConfig;
 
@@ -48,6 +49,7 @@ bool operator>(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
 bool operator>=(const StoichiometryConfig& lhs,
     const StoichiometryConfig& rhs);
 
+} // namespace stoichiometries
 } // namespace aas
 
 #endif /* __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIG_HPP__ */

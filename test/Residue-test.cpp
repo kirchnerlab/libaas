@@ -16,6 +16,7 @@
 using namespace aas;
 using namespace aas::aminoAcids;
 using namespace aas::modifications;
+using namespace aas::stoichiometries;
 
 /** Short description.
  * Long description.

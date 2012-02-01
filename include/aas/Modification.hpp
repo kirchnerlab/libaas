@@ -9,11 +9,11 @@
 #ifndef __LIBAAS_INCLUDE_AAS_MODIFICATION_HPP__
 #define __LIBAAS_INCLUDE_AAS_MODIFICATION_HPP__
 
-#include <aas/RawModification.hpp>
-#include <aas/AminoAcid.hpp>
-#include <aas/Specificity.hpp>
-#include <aas/Stoichiometry.hpp>
-#include <aas/StoichiometryConfig.hpp>
+#include "aas/RawModification.hpp"
+#include "aas/AminoAcid.hpp"
+#include "aas/Specificity.hpp"
+#include "aas/Stoichiometry.hpp"
+#include "aas/StoichiometryConfig.hpp"
 
 #include <iostream>
 #include <vector>
@@ -40,8 +40,8 @@ public:
      */
     Modification(
         const RawModification& modification,
-        const StoichiometryConfig& config = StoichiometryConfig(
-            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
+        const aas::stoichiometries::StoichiometryConfig& config = aas::stoichiometries::StoichiometryConfig(
+            aas::stoichiometries::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
 
     /**Constructor to create a new modification using the given id of a raw
      * modification and id of a stoichiometry configuration.
@@ -52,8 +52,8 @@ public:
      */
     Modification(
         const RawModificationImpl::RawModificationImplKeyType& modid = "",
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid =
-                StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid =
+                aas::stoichiometries::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
 
     /**Sets the raw modification.
      * Note: This function will reset the custom specificities.
@@ -78,19 +78,19 @@ public:
     /**Sets the stoichiometry configuration.
      * @param[in] config Stoichiometry configuration
      */
-    void setStoichiometryConfig(const StoichiometryConfig& config);
+    void setStoichiometryConfig(const aas::stoichiometries::StoichiometryConfig& config);
 
     /**Sets the stoichiometry configuration.
      * @param[in] configid Id of the stoichiometry configuration
      */
     void
     setStoichiometryConfig(
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid);
 
     /**Returns the stoichiometry configuration.
      * @returns Stoichiometry configuration
      */
-    const StoichiometryConfig& getStoichiometryConfig() const;
+    const aas::stoichiometries::StoichiometryConfig& getStoichiometryConfig() const;
 
     /**Calculates and returns a copy of the stoichiometry of this amino acid.
      * The calculation is skipped in case the present stoichiometry configuration is
@@ -101,7 +101,7 @@ public:
      * @throws Throws an aas::errors::RuntimeError in case one or more elements cannot
      * be resolved by the stochiometry config.
      */
-    Stoichiometry getStoichiometry() const;
+    aas::stoichiometries::Stoichiometry getStoichiometry() const;
 
     /**Adds a custom specificity.
      * @param[in] specificity Specificity
@@ -155,7 +155,7 @@ public:
     /**Returns the stoichiometry of the raw modification.
      * @returns Stoichiometry of the raw modification
      */
-    const Stoichiometry& getRawStoichiometry() const;
+    const aas::stoichiometries::Stoichiometry& getRawStoichiometry() const;
 
     /**Returns the specificities of the raw modification.
      * @returns Specificities of the raw modification
@@ -219,7 +219,7 @@ private:
 
     /**Stoichiometry configuration used to calculate the stoichiometry.
      */
-    StoichiometryConfig stoichiometryConfig_;
+    aas::stoichiometries::StoichiometryConfig stoichiometryConfig_;
 
     /**Custom specificities of the modification.
      */

@@ -6,7 +6,7 @@
  *
  */
 
-#include <aas/RawModification.hpp>
+#include "aas/RawModification.hpp"
 
 namespace aas {
 namespace modifications {
@@ -14,7 +14,7 @@ namespace modifications {
 aas::Bool addRawModification(
     const RawModificationImpl::RawModificationImplKeyType& id,
     const aas::String& name, const aas::String& fullName,
-    const std::vector<String>& altNames, const Stoichiometry& stoichiometry,
+    const std::vector<String>& altNames, const aas::stoichiometries::Stoichiometry& stoichiometry,
     const std::vector<Specificity>& specificities, const aas::Bool& verified)
 {
     RawModificationImpl rm(id, name, fullName, verified);

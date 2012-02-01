@@ -10,8 +10,8 @@
 #ifndef __LIBAAS_INCLUDE_AAS_SPECIFICITY_HPP__
 #define __LIBAAS_INCLUDE_AAS_SPECIFICITY_HPP__
 
-#include <aas/RawAminoAcid.hpp>
-#include <aas/Types.hpp>
+#include "aas/RawAminoAcid.hpp"
+#include "aas/Types.hpp"
 
 #include <vector>
 #include <iostream>
@@ -106,17 +106,17 @@ public:
     /**Adds a neutral loss.
      * @param[in] stoichiometry Stoichiometry of the neutral loss
      */
-    void addNeutralLoss(const Stoichiometry& stoichiometry);
+    void addNeutralLoss(const aas::stoichiometries::Stoichiometry& stoichiometry);
 
     /**Sets the list of neutral losses.
      * @param[in] stoichiometry List of stoichiometries
      */
-    void setNeutralLosses(const std::vector<Stoichiometry>& stoichiometry);
+    void setNeutralLosses(const std::vector<aas::stoichiometries::Stoichiometry>& stoichiometry);
 
     /**Returns the list of neutral losses.
      * @returns List of neutral losses
      */
-    const std::vector<Stoichiometry>& getNeutralLosses() const;
+    const std::vector<aas::stoichiometries::Stoichiometry>& getNeutralLosses() const;
 
     /**Clears the list of neutral losses.
      */
@@ -125,18 +125,18 @@ public:
     /**Adds a peptide neutral loss
      * @param[in] stoichiometry Stoichiometry of the peptide neutral loss
      */
-    void addPepNeutralLoss(const Stoichiometry& stoichiometry);
+    void addPepNeutralLoss(const aas::stoichiometries::Stoichiometry& stoichiometry);
 
     /**Sets the list of peptide neutral losses
      * @param[in] stoichiometries List of stoichiometries
      */
     void setPepNeutralLosses(
-        const std::vector<Stoichiometry>& stoichiometries);
+        const std::vector<aas::stoichiometries::Stoichiometry>& stoichiometries);
 
     /**Returns all peptide neutral losses.
      * @returns List of stoichiometries
      */
-    const std::vector<Stoichiometry>& getPepNeutralLosses() const;
+    const std::vector<aas::stoichiometries::Stoichiometry>& getPepNeutralLosses() const;
 
     /**Clears the list of peptide neutral losses.
      */
@@ -217,10 +217,10 @@ private:
     Classification classification_;
     /** List of possible neutral losses.
      */
-    std::vector<Stoichiometry> neutralLosses_;
+    std::vector<aas::stoichiometries::Stoichiometry> neutralLosses_;
     /** List of possible peptide neutral losses.
      */
-    std::vector<Stoichiometry> pepNeutralLosses_;
+    std::vector<aas::stoichiometries::Stoichiometry> pepNeutralLosses_;
     /** A comment.
      */
     String comment_;
