@@ -17,7 +17,7 @@
 namespace aas {
 
 AminoAcidSequence::AminoAcidSequence(const aas::String& aminoAcidSequence,
-    const StoichiometryConfig& aminoAcidConfig)
+    const aas::stoichiometries::StoichiometryConfig& aminoAcidConfig)
 {
     // TODO do we really want an empty aas in case the string is empty?
     if (!aminoAcidSequence.empty()) {
@@ -108,7 +108,7 @@ void AminoAcidSequence::makePeptideCTerm()
     if (size() == 0 || !c_.back().isCTerm()) {
         // TODO shall we append a peptide c-term in this case?
         aas_fail("Unable to change amino acid sequence C-term"
-            "to peptide C-term, because there is no C-term.");
+        "to peptide C-term, because there is no C-term.");
     }
     if (c_.back().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM) {
@@ -123,7 +123,7 @@ void AminoAcidSequence::makePeptideNTerm()
     if (size() == 0 || !c_.front().isNTerm()) {
         // TODO shall we prepend a peptide N-term in this case?
         aas_fail("Unable to change amino acid sequence N-term"
-            "to protein N-term, because there is no N-term.");
+        "to protein N-term, because there is no N-term.");
     }
     if (c_.front().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM) {
@@ -138,7 +138,7 @@ void AminoAcidSequence::makeProteinCTerm()
     if (size() == 0 || !c_.back().isCTerm()) {
         // TODO shall we append a protein c-term in this case?
         aas_fail("Unable to change amino acid sequence C-term"
-            "to protein C-term, because there is no C-term.");
+        "to protein C-term, because there is no C-term.");
     }
     if (c_.back().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM) {
@@ -153,7 +153,7 @@ void AminoAcidSequence::makeProteinNTerm()
     if (size() == 0 || !c_.front().isNTerm()) {
         // TODO shall we prepend a protein n-term in this case?
         aas_fail("Unable to change amino acid sequence N-term"
-            "to protein N-term, because there is no N-term.");
+        "to protein N-term, because there is no N-term.");
     }
     if (c_.front().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM) {
@@ -308,13 +308,13 @@ void AminoAcidSequence::applyModificationAtPosition(
 }
 
 void AminoAcidSequence::applyAminoAcidStoichiometryConfig(
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& aminoAcidConfigKey)
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& aminoAcidConfigKey)
 {
-    applyAminoAcidStoichiometryConfig(StoichiometryConfig(aminoAcidConfigKey));
+    applyAminoAcidStoichiometryConfig(aas::stoichiometries::StoichiometryConfig(aminoAcidConfigKey));
 }
 
 void AminoAcidSequence::applyAminoAcidStoichiometryConfig(
-    const StoichiometryConfig& aminoAcidConfig)
+    const aas::stoichiometries::StoichiometryConfig& aminoAcidConfig)
 {
     for (iterator it = begin(); it != end(); ++it) {
         it->applyAminoAcidStoichiometryConfig(aminoAcidConfig);
@@ -322,14 +322,14 @@ void AminoAcidSequence::applyAminoAcidStoichiometryConfig(
 }
 
 void AminoAcidSequence::applyModificationStoichiometryConfig(
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& modificationConfigKey)
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& modificationConfigKey)
 {
     applyModificationStoichiometryConfig(
-        StoichiometryConfig(modificationConfigKey));
+        aas::stoichiometries::StoichiometryConfig(modificationConfigKey));
 }
 
 void AminoAcidSequence::applyModificationStoichiometryConfig(
-    const StoichiometryConfig& modificationConfig)
+    const aas::stoichiometries::StoichiometryConfig& modificationConfig)
 {
     for (iterator it = begin(); it != end(); ++it) {
         it->applyModificationStoichiometryConfig(modificationConfig);
@@ -337,23 +337,23 @@ void AminoAcidSequence::applyModificationStoichiometryConfig(
 }
 
 void AminoAcidSequence::applyIsotopicLabelStoichiometryConfig(
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& labelConfigKey)
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& labelConfigKey)
 {
-    applyIsotopicLabelStoichiometryConfig(StoichiometryConfig(labelConfigKey));
+    applyIsotopicLabelStoichiometryConfig(aas::stoichiometries::StoichiometryConfig(labelConfigKey));
 }
 
 void AminoAcidSequence::applyIsotopicLabelStoichiometryConfig(
-    const StoichiometryConfig& labelConfig)
+    const aas::stoichiometries::StoichiometryConfig& labelConfig)
 {
     for (iterator it = begin(); it != end(); ++it) {
         it->applyIsotopicLabelStoichiometryConfig(labelConfig);
     }
 }
 
-Stoichiometry AminoAcidSequence::getStoichiometry() const
+aas::stoichiometries::Stoichiometry AminoAcidSequence::getStoichiometry() const
 {
     // MAYBE optimize by storing the stoichiometry
-    Stoichiometry ret;
+    aas::stoichiometries::Stoichiometry ret;
     for (const_iterator iter = begin(); iter != end(); ++iter) {
         ret += iter->getStoichiometry();
     }

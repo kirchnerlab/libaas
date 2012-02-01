@@ -10,6 +10,7 @@
 #include "aas/Error.hpp"
 
 namespace aas {
+namespace stoichiometries {
 
 StoichiometryConfigImpl::StoichiometryConfigImplKeyType StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG =
         "DEFAULT_STOICHIOMETRY_CONFIG";
@@ -132,4 +133,5 @@ std::ostream& operator<<(std::ostream& os, const StoichiometryConfigImpl& o)
     return os;
 }
 
+} // namespace stoichiometries
 } // namespace aas

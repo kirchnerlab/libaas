@@ -33,7 +33,7 @@ bool operator>=(const RawAminoAcid& lhs, const RawAminoAcid& rhs)
 
 Bool addRawAminoAcid(const RawAminoAcidImpl::RawAminoAcidImplKeyType& id,
     const Char symbol, const String& threeLetterCode, const String& fullName,
-    const aas::Stoichiometry& stoichiometry)
+    const aas::stoichiometries::Stoichiometry& stoichiometry)
 {
     RawAminoAcidImpl aa(id, symbol, stoichiometry);
     aa.setThreeLetterCode(threeLetterCode);

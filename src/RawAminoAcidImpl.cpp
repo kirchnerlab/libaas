@@ -202,7 +202,7 @@ RawAminoAcidImpl::RawAminoAcidImpl(
 }
 
 RawAminoAcidImpl::RawAminoAcidImpl(const RawAminoAcidImplKeyType& id,
-    const char symbol, const aas::Stoichiometry& stoichiometry) :
+    const char symbol, const aas::stoichiometries::Stoichiometry& stoichiometry) :
         id_(id), symbol_(symbol), threeLetterCode_(""), fullName_(""), stoichiometry_(
             stoichiometry)
 {
@@ -218,12 +218,12 @@ Char RawAminoAcidImpl::getSymbol() const
     return symbol_;
 }
 
-void RawAminoAcidImpl::setStoichiometry(const Stoichiometry& stoichiometry)
+void RawAminoAcidImpl::setStoichiometry(const aas::stoichiometries::Stoichiometry& stoichiometry)
 {
     stoichiometry_ = stoichiometry;
 }
 
-const aas::Stoichiometry& RawAminoAcidImpl::getStoichiometry() const
+const aas::stoichiometries::Stoichiometry& RawAminoAcidImpl::getStoichiometry() const
 {
     return stoichiometry_;
 }

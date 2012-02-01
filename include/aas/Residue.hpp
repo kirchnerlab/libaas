@@ -208,36 +208,36 @@ public:
      * @param[in] configKey Stoichiometry configuration key
      */
     void applyAminoAcidStoichiometryConfig(
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
 
     /**Sets the stoichiometry configuration of the amino acid.
      * @param[in] config Stoichiometry configuration
      */
-    void applyAminoAcidStoichiometryConfig(const StoichiometryConfig& config);
+    void applyAminoAcidStoichiometryConfig(const aas::stoichiometries::StoichiometryConfig& config);
 
     /**Sets the stoichiometry configuration key of the modification.
      * @param[in] configKey Stoichiometry configuration key
      */
     void applyModificationStoichiometryConfig(
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
 
     /**Sets the stoichiometry configuration of the modification.
      * @param[in] config Stoichiometry configuration
      */
     void applyModificationStoichiometryConfig(
-        const StoichiometryConfig& config);
+        const aas::stoichiometries::StoichiometryConfig& config);
 
     /**Sets the stoichiometry configuration key of the isotopic label.
      * @param[in] configKey Stoichiometry configuration key
      */
     void applyIsotopicLabelStoichiometryConfig(
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey);
 
     /**Sets the stoichiometry configuration of the isotopic label.
      * @param[in] config Stoichiometry configuration
      */
     void applyIsotopicLabelStoichiometryConfig(
-        const StoichiometryConfig& config);
+        const aas::stoichiometries::StoichiometryConfig& config);
 
     /**Returns the stoichiometry of the residue.
      * Note: This method actually calculates the stoichiometry by summing up the
@@ -245,7 +245,7 @@ public:
      *
      * @returns Stoichiometry of the amino acid plus its modification
      */
-    Stoichiometry getStoichiometry() const;
+    aas::stoichiometries::Stoichiometry getStoichiometry() const;
 
     /**Returns a human readable string containing the symbol of the amino acid
      * the, if present, its modification in parenthesis, i.e. C(Oxidation)

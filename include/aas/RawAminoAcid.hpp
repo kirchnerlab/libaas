@@ -55,7 +55,7 @@ typedef boost::flyweight<
  */
 Bool addRawAminoAcid(const RawAminoAcidImpl::RawAminoAcidImplKeyType& id,
     const Char symbol, const String& threeLetterCode, const String& fullName,
-    const aas::Stoichiometry& stoichiometry);
+    const aas::stoichiometries::Stoichiometry& stoichiometry);
 
 /**Convenience function to add a custom raw amino acid to the list of known amino
  * acids.

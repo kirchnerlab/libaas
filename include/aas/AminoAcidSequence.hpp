@@ -120,8 +120,8 @@ public:
      */
     AminoAcidSequence(
         const aas::String& aminoAcidSequence,
-        const StoichiometryConfig& aminoAcidConfig = StoichiometryConfig(
-            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
+        const aas::stoichiometries::StoichiometryConfig& aminoAcidConfig = aas::stoichiometries::StoichiometryConfig(
+            aas::stoichiometries::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
 
     /**Construct an amino acid sequence from another sequence.
      * The constructor automatically adds a peptide N- and peptide C-term
@@ -311,7 +311,7 @@ public:
      * amino acids
      */
     void applyAminoAcidStoichiometryConfig(
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& aminoAcidConfigKey);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& aminoAcidConfigKey);
 
     /**Sets the default amino acid stoichiometry configuration.
      * This method will also apply the configuration to all present amino acids.
@@ -319,7 +319,7 @@ public:
      * amino acids
      */
     void applyAminoAcidStoichiometryConfig(
-        const StoichiometryConfig& aminoAcidConfig);
+        const aas::stoichiometries::StoichiometryConfig& aminoAcidConfig);
 
     /**Sets the default stoichiometry configuration for all modifications within
      * this amino acid sequence.
@@ -327,7 +327,7 @@ public:
      * modifications
      */
     void applyModificationStoichiometryConfig(
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& modificationConfigKey);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& modificationConfigKey);
 
     /**Sets the default stoichiometry configuration for all modifications within
      * this amino acid sequence.
@@ -335,7 +335,7 @@ public:
      * modifications
      */
     void applyModificationStoichiometryConfig(
-        const StoichiometryConfig& modificationConfig);
+        const aas::stoichiometries::StoichiometryConfig& modificationConfig);
 
     /**Sets the default stoichiometry configuration for all isotopic labels within
      * this amino acid sequence.
@@ -343,7 +343,7 @@ public:
      * isotopic labels
      */
     void applyIsotopicLabelStoichiometryConfig(
-        const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& labelConfigKey);
+        const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& labelConfigKey);
 
     /**Sets the default stoichiometry configuration for all modifications within
      * this amino acid sequence.
@@ -351,7 +351,7 @@ public:
      * isotopic labels
      */
     void applyIsotopicLabelStoichiometryConfig(
-        const StoichiometryConfig& labelConfig);
+        const aas::stoichiometries::StoichiometryConfig& labelConfig);
 
     /**Returns the stoichiometry of the amino acid.
      *
@@ -359,7 +359,7 @@ public:
      *
      * @returns Stoichiometry of the amino acid sequence.
      */
-    Stoichiometry getStoichiometry() const;
+    aas::stoichiometries::Stoichiometry getStoichiometry() const;
 
     /**Returns a string representing the amino acid sequence without the
      * modifications. Each amino acid is represented by its symbol, whereas the
@@ -389,10 +389,6 @@ public:
      * positions.
      */
     String getModificationString() const;
-
-//    bool operator==(const AminoAcidSequence& s) const;
-//    bool operator!=(const AminoAcidSequence& s) const;
-//    AminoAcidSequence& operator=(const AminoAcidSequence& rhs);
 
 private:
 

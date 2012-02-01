@@ -16,6 +16,7 @@
 #include <iostream>
 
 namespace aas {
+namespace stoichiometries {
 
 /** Representation of a stoichiometry configuration.
  *
@@ -162,6 +163,7 @@ private:
 
 std::ostream& operator<<(std::ostream&, const StoichiometryConfigImpl&);
 
+} // namespace stoichiometries
 } // namespace aas
 
 #endif /* __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIGIMPL_HPP__ */

@@ -94,7 +94,7 @@ public:
     /**Sets the stoichiometry of the modification
      * @param[in] stoichiometry Stoichiometry
      */
-    void setStoichiometry(const Stoichiometry& stoichiometry);
+    void setStoichiometry(const aas::stoichiometries::Stoichiometry& stoichiometry);
 
     /**Returns the stoichiometry of the modification.
      *
@@ -103,7 +103,7 @@ public:
      *
      * @returns The stoichiometry of the modification
      */
-    const Stoichiometry& getStoichiometry() const;
+    const aas::stoichiometries::Stoichiometry& getStoichiometry() const;
 
     /**Adds a specificity to the modification.
      * @param[in] specificity Specificity
@@ -182,7 +182,7 @@ private:
     std::vector<String> altNames_;
     /** Stoichiometry of the raw modification
      */
-    aas::Stoichiometry stoichiometry_;
+    aas::stoichiometries::Stoichiometry stoichiometry_;
     /** List of specificities for the raw modification.
      */
     std::vector<Specificity> specificities_;

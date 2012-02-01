@@ -52,7 +52,7 @@ public:
      * @param[in] stoichiometry Stoichiometry of the amino acid
      */
     RawAminoAcidImpl(const RawAminoAcidImplKeyType& id, const char symbol,
-        const aas::Stoichiometry& stoichiometry);
+        const aas::stoichiometries::Stoichiometry& stoichiometry);
 
     /**Returns the key of the amino acid.
      * @returns Key of the amino acid.
@@ -72,12 +72,12 @@ public:
     /**Sets the stoichiometry of the amino acid.
      * @param[in] stoichiometry Stoichiometry of the amino acid
      */
-    void setStoichiometry(const Stoichiometry& stoichiometry);
+    void setStoichiometry(const aas::stoichiometries::Stoichiometry& stoichiometry);
 
     /**Returns the stoichiometry of the amino acid.
      * @returns stoichiometry of the amino acid.
      */
-    const aas::Stoichiometry& getStoichiometry() const;
+    const aas::stoichiometries::Stoichiometry& getStoichiometry() const;
 
     /**Sets the three letter code for the amino acid.
      * @param[in] threeLetterCode The three letter code of the amino acid
@@ -175,7 +175,7 @@ private:
     aas::String fullName_;
     /** Stoichiometry of the amino acid.
      */
-    aas::Stoichiometry stoichiometry_;
+    aas::stoichiometries::Stoichiometry stoichiometry_;
 
 };
 // class RawAminoAcidImpl

@@ -20,6 +20,7 @@
 #include <iostream>
 
 namespace aas {
+namespace stoichiometries {
 
 /**Representation of a stoichiometry.
  *
@@ -202,9 +203,9 @@ private:
 };
 // class Stoichiometry
 
-std::ostream& operator<<(std::ostream& o, const aas::Stoichiometry& s);
+std::ostream& operator<<(std::ostream& o, const aas::stoichiometries::Stoichiometry& s);
 std::ostream& operator<<(std::ostream& o,
-    const std::vector<aas::Stoichiometry>& s);
+    const std::vector<aas::stoichiometries::Stoichiometry>& s);
 
 inline void Stoichiometry::setAnnotationId(const Int& id)
 {
@@ -216,6 +217,7 @@ inline Int Stoichiometry::getAnnotationId(void) const
     return annotationId_;
 }
 
+} // namespace stoichiometries
 } // namespace aas
 
 #endif /* __LIBAAS_INCLUDE_AAS_STOICHIOMETRY_HPP__ */

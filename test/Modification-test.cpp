@@ -18,6 +18,7 @@
 using namespace aas;
 using namespace aas::modifications;
 using namespace aas::aminoAcids;
+using namespace aas::stoichiometries;
 
 /** Short description.
  * Long description.
@@ -158,8 +159,8 @@ struct ModificationTestSuite : vigra::test_suite
         Modification m1(k1);
         shouldEqual(
             m1.getStoichiometryConfig(),
-            aas::StoichiometryConfig(aas::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
-        aas::Stoichiometry st1;
+            StoichiometryConfig(StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
+        Stoichiometry st1;
         st1.set(H, 2);
         st1.set(C, 2);
         st1.set(O, 1);
@@ -171,11 +172,11 @@ struct ModificationTestSuite : vigra::test_suite
         aas::Size freeID = aas::elements::ElementImpl::getNextId();
         aas::elements::addElement(freeID, "H", 1, is);
 
-        aas::StoichiometryConfigImpl sc("Experiment 1");
+        StoichiometryConfigImpl sc("Experiment 1");
         // inserting element "automatically" by fw<ElementImpl>
         sc.insertElement(aas::elements::Element(freeID));
         // free function to add stoichiometry config
-        aas::addStoichiometryConfig(sc);
+        addStoichiometryConfig(sc);
 
         // creating default modification
         Modification m2(k1);
@@ -183,7 +184,7 @@ struct ModificationTestSuite : vigra::test_suite
         // changing stoichiometry config
         m2.setStoichiometryConfig("Experiment 1");
         shouldEqual(m2.getStoichiometryConfig(), sc);
-        aas::Stoichiometry st2;
+        Stoichiometry st2;
         st2.set(aas::elements::Element(freeID), 2);
         st2.set(C, 2);
         st2.set(O, 1);
@@ -192,7 +193,7 @@ struct ModificationTestSuite : vigra::test_suite
         // creating custom modification
         aas::String k2 = "Amidated";
         Modification m3(k2, "Experiment 1");
-        aas::Stoichiometry st3;
+        Stoichiometry st3;
         st3.set(aas::elements::Element(freeID), 1);
         st3.set(N, 1);
         st3.set(O, -1);

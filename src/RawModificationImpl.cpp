@@ -4667,8 +4667,8 @@ RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
             true)
 {
     if (!id.empty()) {
-        StoichiometryConfig defaultConfig(
-            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        aas::stoichiometries::StoichiometryConfig defaultConfig(
+            aas::stoichiometries::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
         typedef aas::elements::Element Element;
         // find index in mod list
         aas::Size modIndex = 0;
@@ -4694,7 +4694,7 @@ RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
             // adding neutral losses
             for (aas::Size j = indexSpecNeutralLoss[i];
                     j < indexSpecNeutralLoss[i + 1]; ++j) {
-                Stoichiometry stoichio;
+                aas::stoichiometries::Stoichiometry stoichio;
                 for (aas::Size k = indexSpecNeutralLossDeltas[j];
                         k < indexSpecNeutralLossDeltas[j + 1]; ++k) {
                     stoichio.set(
@@ -4708,7 +4708,7 @@ RawModificationImpl::RawModificationImpl(const RawModificationImplKeyType& id) :
             // adding pep neutral losses
             for (aas::Size j = indexSpecPepNeutralLoss[i];
                     j < indexSpecPepNeutralLoss[i + 1]; ++j) {
-                Stoichiometry stoichio;
+                aas::stoichiometries::Stoichiometry stoichio;
                 for (aas::Size k = indexSpecPepNeutralLossDeltas[j];
                         k < indexSpecPepNeutralLossDeltas[j + 1]; ++k) {
                     stoichio.set(
@@ -4786,12 +4786,12 @@ const std::vector<String>& RawModificationImpl::getAltNames() const
     return altNames_;
 }
 
-void RawModificationImpl::setStoichiometry(const Stoichiometry& stoichiometry)
+void RawModificationImpl::setStoichiometry(const aas::stoichiometries::Stoichiometry& stoichiometry)
 {
     stoichiometry_ = stoichiometry;
 }
 
-const Stoichiometry& RawModificationImpl::getStoichiometry() const
+const aas::stoichiometries::Stoichiometry& RawModificationImpl::getStoichiometry() const
 {
     return stoichiometry_;
 }

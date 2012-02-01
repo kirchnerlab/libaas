@@ -62,18 +62,18 @@ const Specificity::Position& Specificity::getPosition() const
     return position_;
 }
 
-void Specificity::addNeutralLoss(const Stoichiometry& stoichiometry)
+void Specificity::addNeutralLoss(const aas::stoichiometries::Stoichiometry& stoichiometry)
 {
     neutralLosses_.push_back(stoichiometry);
 }
 
 void Specificity::setNeutralLosses(
-    const std::vector<Stoichiometry>& stoichiometries)
+    const std::vector<aas::stoichiometries::Stoichiometry>& stoichiometries)
 {
     neutralLosses_ = stoichiometries;
 }
 
-const std::vector<Stoichiometry>& Specificity::getNeutralLosses() const
+const std::vector<aas::stoichiometries::Stoichiometry>& Specificity::getNeutralLosses() const
 {
     return neutralLosses_;
 }
@@ -83,18 +83,18 @@ void Specificity::clearNeutralLosses()
     neutralLosses_.clear();
 }
 
-void Specificity::addPepNeutralLoss(const Stoichiometry& stoichiometry)
+void Specificity::addPepNeutralLoss(const aas::stoichiometries::Stoichiometry& stoichiometry)
 {
     pepNeutralLosses_.push_back(stoichiometry);
 }
 
 void Specificity::setPepNeutralLosses(
-    const std::vector<Stoichiometry>& stoichiometries)
+    const std::vector<aas::stoichiometries::Stoichiometry>& stoichiometries)
 {
     pepNeutralLosses_ = stoichiometries;
 }
 
-const std::vector<Stoichiometry>& Specificity::getPepNeutralLosses() const
+const std::vector<aas::stoichiometries::Stoichiometry>& Specificity::getPepNeutralLosses() const
 {
     return pepNeutralLosses_;
 }

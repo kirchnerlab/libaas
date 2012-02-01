@@ -118,25 +118,25 @@ void Residue::removeIsotopicLabel()
 }
 
 void Residue::applyAminoAcidStoichiometryConfig(
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
 {
     aminoacid_.setStoichiometryConfig(configKey);
 }
 
 void Residue::applyAminoAcidStoichiometryConfig(
-    const StoichiometryConfig& config)
+    const aas::stoichiometries::StoichiometryConfig& config)
 {
     aminoacid_.setStoichiometryConfig(config);
 }
 
 void Residue::applyModificationStoichiometryConfig(
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
 {
-    applyModificationStoichiometryConfig(StoichiometryConfig(configKey));
+    applyModificationStoichiometryConfig(aas::stoichiometries::StoichiometryConfig(configKey));
 }
 
 void Residue::applyModificationStoichiometryConfig(
-    const StoichiometryConfig& config)
+    const aas::stoichiometries::StoichiometryConfig& config)
 {
     if (isModified()) {
         if (modification_.use_count() > 1) {
@@ -148,13 +148,13 @@ void Residue::applyModificationStoichiometryConfig(
 }
 
 void Residue::applyIsotopicLabelStoichiometryConfig(
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configKey)
 {
-    applyIsotopicLabelStoichiometryConfig(StoichiometryConfig(configKey));
+    applyIsotopicLabelStoichiometryConfig(aas::stoichiometries::StoichiometryConfig(configKey));
 }
 
 void Residue::applyIsotopicLabelStoichiometryConfig(
-    const StoichiometryConfig& config)
+    const aas::stoichiometries::StoichiometryConfig& config)
 {
     if (isLabeled()) {
         if (isotopicLabel_.use_count() > 1) {
@@ -165,9 +165,9 @@ void Residue::applyIsotopicLabelStoichiometryConfig(
     }
 }
 
-Stoichiometry Residue::getStoichiometry() const
+aas::stoichiometries::Stoichiometry Residue::getStoichiometry() const
 {
-    Stoichiometry s = aminoacid_.getStoichiometry();
+    aas::stoichiometries::Stoichiometry s = aminoacid_.getStoichiometry();
     s += modification_->getStoichiometry();
     s += isotopicLabel_->getStoichiometry();
     return s;

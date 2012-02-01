@@ -17,6 +17,7 @@
 #include <boost/flyweight/no_tracking.hpp>
 
 namespace aas {
+namespace stoichiometries {
 
 /**@brief ID extractor for stoichiometry configurations.
  *
@@ -75,6 +76,7 @@ bool operator>(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
 bool operator>=(const StoichiometryConfig& lhs,
     const StoichiometryConfig& rhs);
 
+} // namespace stoichiometries
 } // namespace aas
 
 #endif /* __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIG_HPP__ */

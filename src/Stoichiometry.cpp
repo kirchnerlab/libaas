@@ -15,6 +15,7 @@
 #include <sstream>
 
 namespace aas {
+namespace stoichiometries {
 
 Stoichiometry::Stoichiometry() :
         annotationId_(0), counts_()
@@ -219,7 +220,7 @@ Stoichiometry Stoichiometry::operator-(const Stoichiometry& s)
     return stoi;
 }
 
-std::ostream& operator<<(std::ostream& o, const aas::Stoichiometry& s)
+std::ostream& operator<<(std::ostream& o, const Stoichiometry& s)
 {
     for (Stoichiometry::const_iterator it = s.begin(); it != s.end(); ++it) {
         o << "(" << it->first << ")" << it->second << " ";
@@ -229,7 +230,7 @@ std::ostream& operator<<(std::ostream& o, const aas::Stoichiometry& s)
 }
 
 std::ostream& operator<<(std::ostream& o,
-    const std::vector<aas::Stoichiometry>& s)
+    const std::vector<Stoichiometry>& s)
 {
     for (std::vector<Stoichiometry>::const_iterator it = s.begin();
             it != s.end(); ++it) {
@@ -238,4 +239,5 @@ std::ostream& operator<<(std::ostream& o,
     return o;
 }
 
+} // namespace stoichiometries
 } // namespace aas

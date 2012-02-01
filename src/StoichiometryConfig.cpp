@@ -9,6 +9,7 @@
 #include "aas/StoichiometryConfig.hpp"
 
 namespace aas {
+namespace stoichiometries {
 
 bool operator<(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs)
 {
@@ -49,4 +50,5 @@ aas::Bool addStoichiometryConfig(
     return StoichiometryConfig(stoichiometryConfig) == stoichiometryConfig;
 }
 
+} // namespace stoichiometries
 } // namespace aas

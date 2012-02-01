@@ -12,16 +12,16 @@ namespace aas {
 namespace modifications {
 
 Modification::Modification(const RawModification& modification,
-    const StoichiometryConfig& config) :
+    const aas::stoichiometries::StoichiometryConfig& config) :
         rawModification_(modification), stoichiometryConfig_(config), customSpecificities_()
 {
 }
 
 Modification::Modification(
     const RawModificationImpl::RawModificationImplKeyType& modid,
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid) :
         rawModification_(RawModification(modid)), stoichiometryConfig_(
-            StoichiometryConfig(configid)), customSpecificities_()
+            aas::stoichiometries::StoichiometryConfig(configid)), customSpecificities_()
 {
 }
 
@@ -41,7 +41,8 @@ const RawModification& Modification::getModification() const
     return rawModification_;
 }
 
-void Modification::setStoichiometryConfig(const StoichiometryConfig& config)
+void Modification::setStoichiometryConfig(
+    const aas::stoichiometries::StoichiometryConfig& config)
 {
     if (&config != &stoichiometryConfig_) {
         stoichiometryConfig_ = config;
@@ -49,23 +50,23 @@ void Modification::setStoichiometryConfig(const StoichiometryConfig& config)
 }
 
 void Modification::setStoichiometryConfig(
-    const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid)
+    const aas::stoichiometries::StoichiometryConfigImpl::StoichiometryConfigImplKeyType& configid)
 {
-    StoichiometryConfig config(configid);
+    aas::stoichiometries::StoichiometryConfig config(configid);
     if (&config != &stoichiometryConfig_) {
         stoichiometryConfig_ = config;
     }
 }
 
-const StoichiometryConfig& Modification::getStoichiometryConfig() const
+const aas::stoichiometries::StoichiometryConfig& Modification::getStoichiometryConfig() const
 {
     return stoichiometryConfig_;
 }
 
-Stoichiometry Modification::getStoichiometry() const
+aas::stoichiometries::Stoichiometry Modification::getStoichiometry() const
 {
     if (stoichiometryConfig_.get_key()
-            == StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG) {
+            == aas::stoichiometries::StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG) {
         return rawModification_.get().getStoichiometry();
     }
     return rawModification_.get().getStoichiometry().recalculatesWithConfiguration(
@@ -121,7 +122,7 @@ const std::vector<String>& Modification::getAltNames() const
     return rawModification_.get().getAltNames();
 }
 
-const Stoichiometry& Modification::getRawStoichiometry() const
+const aas::stoichiometries::Stoichiometry& Modification::getRawStoichiometry() const
 {
     return rawModification_.get().getStoichiometry();
 }

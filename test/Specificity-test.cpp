@@ -15,6 +15,7 @@
 #include <algorithm>
 
 using namespace aas::modifications;
+using namespace aas::stoichiometries;
 
 /** Short description.
  * Long description.
@@ -66,31 +67,31 @@ struct SpecificityTestSuite : vigra::test_suite
         aas::elements::Element O(8);
         aas::elements::Element S(16);
 
-        aas::Stoichiometry st1;
+        Stoichiometry st1;
         st1.set(H, 1);
         st1.set(C, 2);
         st1.set(N, 3);
 
-        aas::Stoichiometry st2;
+        Stoichiometry st2;
         st2.set(H, 1);
         st2.set(O, 2);
         st2.set(N, 3);
 
-        aas::Stoichiometry st3;
+        Stoichiometry st3;
         st3.set(H, 1);
         st3.set(C, 2);
         st3.set(S, 3);
 
-        aas::Stoichiometry st4;
+        Stoichiometry st4;
         st4.set(H, 1);
         st4.set(O, 2);
         st4.set(S, 3);
 
-        std::vector<aas::Stoichiometry> emptyLoss;
-        std::vector<aas::Stoichiometry> neutralLoss;
+        std::vector<Stoichiometry> emptyLoss;
+        std::vector<Stoichiometry> neutralLoss;
         neutralLoss.push_back(st1);
         neutralLoss.push_back(st2);
-        std::vector<aas::Stoichiometry> pepNeutralLoss;
+        std::vector<Stoichiometry> pepNeutralLoss;
         pepNeutralLoss.push_back(st3);
         pepNeutralLoss.push_back(st4);
 
