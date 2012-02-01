@@ -6,27 +6,26 @@
  *
  */
 
-#include <libaas/tools/FastaReader.hpp>
-#include <libaas/Error.hpp>
+#include <aas/tools/FastaReader.hpp>
+#include <aas/Error.hpp>
 
 #include <fstream>
 
-namespace libaas {
+namespace aas {
 namespace tools {
 
-FastaReader::FastaReader(const libaas::String& filename,
-    const Digester& digester,
-    const libaas::AminoAcidSequence::ModificationList& fixedModifications) :
+FastaReader::FastaReader(const aas::String& filename, const Digester& digester,
+    const aas::AminoAcidSequence::ModificationList& fixedModifications) :
         filename_(filename), digester_(digester)
 {
-    typedef libaas::AminoAcidSequence::ModificationList::const_iterator VSSI;
+    typedef aas::AminoAcidSequence::ModificationList::const_iterator VSSI;
     try {
         // build modifications vectors: fixed mods
         for (VSSI modit = fixedModifications.begin();
                 modit != fixedModifications.end(); ++modit) {
             fixedModifications_.push_back(*modit);
         }
-    } catch (libaas::errors::RuntimeError& e) {
+    } catch (aas::errors::RuntimeError& e) {
         throw;
     }
 }
@@ -57,12 +56,11 @@ void FastaReader::parse(DescSeq& ds) const
     // open file
     std::ifstream ifs(filename_.c_str());
     if (!ifs) {
-        throw libaas::errors::RuntimeError(
-            "Cound not open " + filename_ + ".");
+        throw aas::errors::RuntimeError("Cound not open " + filename_ + ".");
     }
-    libaas::String desc, seq;
+    aas::String desc, seq;
     while (!ifs.eof()) {
-        libaas::String line;
+        aas::String line;
         std::getline(ifs, line);
         if (line.empty()) {
             // ignore whitespace
@@ -91,7 +89,7 @@ void FastaReader::parse(DescSeq& ds) const
             switch (state) {
                 case STATE_START:
                     // format error -- entries need to start with a description
-                    throw libaas::errors::RuntimeError(
+                    throw aas::errors::RuntimeError(
                         "Syntax error in FASTA file.");
                     break;
                 case STATE_DESC:
@@ -110,7 +108,7 @@ void FastaReader::parse(DescSeq& ds) const
     // or STATE_SEQ. Everything else is an error.
     switch (state) {
         case STATE_DESC:
-            throw libaas::errors::RuntimeError("Syntax error in FASTA file.");
+            throw aas::errors::RuntimeError("Syntax error in FASTA file.");
             break;
         case STATE_SEQ:
             // push the remaining sequence
@@ -146,4 +144,4 @@ void FastaReader::modify(AminoAcidSequences& aminoAcidSequences) const
 }
 
 } // namespace tools
-} // namespace libaas
+} // namespace aas

@@ -9,13 +9,13 @@
 #ifndef FASTAREADER_HPP_
 #define FASTAREADER_HPP_
 
-#include <libaas/AminoAcidSequence.hpp>
-#include <libaas/tools/Digester.hpp>
-#include <libaas/Types.hpp>
+#include <aas/AminoAcidSequence.hpp>
+#include <aas/tools/Digester.hpp>
+#include <aas/Types.hpp>
 
 #include <boost/regex.hpp>
 
-namespace libaas {
+namespace aas {
 namespace tools {
 
 /**General fasta-file reader.
@@ -35,10 +35,10 @@ public:
      * @param[in] digester Digester used to digest the sequences
      * @param[in] fixedModifications Fixed modifications which are applied after the digester
      */
-    FastaReader(const libaas::String& filename, const Digester& digester =
+    FastaReader(const aas::String& filename, const Digester& digester =
             Digester(""),
-        const libaas::AminoAcidSequence::ModificationList& fixedModifications =
-                libaas::AminoAcidSequence::ModificationList());
+        const aas::AminoAcidSequence::ModificationList& fixedModifications =
+                aas::AminoAcidSequence::ModificationList());
 
     /**Destructor.
      */
@@ -53,7 +53,7 @@ private:
 
     /**Convenience typedef for a fasta entry list.
      */
-    typedef std::vector<std::pair<libaas::String, libaas::String> > DescSeq;
+    typedef std::vector<std::pair<aas::String, aas::String> > DescSeq;
 
     /**Parses the fasta file.
      *
@@ -77,7 +77,7 @@ private:
 
     /**Fasta file name.
      */
-    libaas::String filename_;
+    aas::String filename_;
 
     /**Digester which is used to digest the amino acid sequences.
      */
@@ -85,10 +85,10 @@ private:
 
     /**List of modifications which are applied as fixed modifications.
      */
-    libaas::AminoAcidSequence::ModificationList fixedModifications_;
+    aas::AminoAcidSequence::ModificationList fixedModifications_;
 };
 
 } // namespace tools
-} // namespace libaas
+} // namespace aas
 
 #endif /* FASTAREADER_HPP_ */

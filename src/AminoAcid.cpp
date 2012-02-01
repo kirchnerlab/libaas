@@ -6,9 +6,9 @@
  *
  */
 
-#include <libaas/AminoAcid.hpp>
+#include <aas/AminoAcid.hpp>
 
-namespace libaas {
+namespace aas {
 namespace aminoAcids {
 
 AminoAcid::AminoAcid(
@@ -49,12 +49,12 @@ const String& AminoAcid::getFullName() const
     return rawAminoAcid_.get().getFullName();
 }
 
-libaas::Bool AminoAcid::isNTerm() const
+aas::Bool AminoAcid::isNTerm() const
 {
     return rawAminoAcid_.get().isNTerm();
 }
 
-libaas::Bool AminoAcid::isCTerm() const
+aas::Bool AminoAcid::isCTerm() const
 {
     return rawAminoAcid_.get().isCTerm();
 }
@@ -118,4 +118,4 @@ std::ostream& operator<<(std::ostream& os, const AminoAcid& a)
 }
 
 } // namespace aminoAcids
-} // namespace libaas
+} // namespace aas

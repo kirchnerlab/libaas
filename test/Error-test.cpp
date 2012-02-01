@@ -6,13 +6,13 @@
  *
  */
 
-#include <libaas/Error.hpp>
+#include <aas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas::errors;
+using namespace aas::errors;
 
 /** Short description.
  * Long description.
@@ -35,37 +35,37 @@ struct ErrorTestSuite : vigra::test_suite
     {
         {
             Exception e1("test");
-            libaas::String e1msg = e1.what();
+            aas::String e1msg = e1.what();
             shouldEqual(e1msg, "test");
 
-            libaas::String msg = "other test";
+            aas::String msg = "other test";
             Exception e2(msg);
             shouldEqual(e2.what(), msg);
         }
         {
             LogicError e1("test");
-            libaas::String e1msg = e1.what();
+            aas::String e1msg = e1.what();
             shouldEqual(e1msg, "test");
 
-            libaas::String msg = "other test";
+            aas::String msg = "other test";
             LogicError e2(msg);
             shouldEqual(e2.what(), msg);
         }
         {
             RuntimeError e1("test");
-            libaas::String e1msg = e1.what();
+            aas::String e1msg = e1.what();
             shouldEqual(e1msg, "test");
 
-            libaas::String msg = "other test";
+            aas::String msg = "other test";
             RuntimeError e2(msg);
             shouldEqual(e2.what(), msg);
         }
         {
             OutOfRange e1("test");
-            libaas::String e1msg = e1.what();
+            aas::String e1msg = e1.what();
             shouldEqual(e1msg, "test");
 
-            libaas::String msg = "other test";
+            aas::String msg = "other test";
             OutOfRange e2(msg);
             shouldEqual(e2.what(), msg);
         }
@@ -73,10 +73,10 @@ struct ErrorTestSuite : vigra::test_suite
 
     void testErrorDefines()
     {
-        libaas::String msg = "error";
-        libaas::Bool thrown = false;
+        aas::String msg = "error";
+        aas::Bool thrown = false;
         try {
-            libaas_logic_error_cond(false, msg.c_str());
+            aas_logic_error_cond(false, msg.c_str());
         } catch (LogicError& e) {
             shouldEqual(e.what(), msg);
             thrown = true;
@@ -84,7 +84,7 @@ struct ErrorTestSuite : vigra::test_suite
 
         thrown = false;
         try {
-            libaas_logic_error_cond(true, msg.c_str());
+            aas_logic_error_cond(true, msg.c_str());
         } catch (LogicError& e) {
             shouldEqual(e.what(), msg);
             thrown = true;
@@ -92,7 +92,7 @@ struct ErrorTestSuite : vigra::test_suite
 
         thrown = false;
         try {
-            libaas_logic_error(msg.c_str());
+            aas_logic_error(msg.c_str());
         } catch (LogicError& e) {
             shouldEqual(e.what(), msg);
             thrown = true;
@@ -100,7 +100,7 @@ struct ErrorTestSuite : vigra::test_suite
 
         thrown = false;
         try {
-            libaas_outofrange_cond(false, msg.c_str());
+            aas_outofrange_cond(false, msg.c_str());
         } catch (OutOfRange& e) {
             shouldEqual(e.what(), msg);
             thrown = true;
@@ -108,7 +108,7 @@ struct ErrorTestSuite : vigra::test_suite
 
         thrown = false;
         try {
-            libaas_outofrange_cond(true, msg.c_str());
+            aas_outofrange_cond(true, msg.c_str());
         } catch (OutOfRange& e) {
             shouldEqual(e.what(), msg);
             thrown = true;
@@ -116,7 +116,7 @@ struct ErrorTestSuite : vigra::test_suite
 
         thrown = false;
         try {
-            libaas_outofrange(msg.c_str());
+            aas_outofrange(msg.c_str());
         } catch (OutOfRange& e) {
             shouldEqual(e.what(), msg);
             thrown = true;
@@ -124,7 +124,7 @@ struct ErrorTestSuite : vigra::test_suite
 
         thrown = false;
         try {
-            libaas_fail(msg.c_str());
+            aas_fail(msg.c_str());
         } catch (RuntimeError& e) {
             shouldEqual(e.what(), msg);
             thrown = true;

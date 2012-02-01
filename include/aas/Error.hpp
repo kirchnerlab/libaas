@@ -7,19 +7,19 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_ERROR_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_ERROR_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_ERROR_HPP__
+#define __LIBAAS_INCLUDE_AAS_ERROR_HPP__
 
-#include <libaas/Types.hpp>
+#include <aas/Types.hpp>
 
 #include <exception>
 #include <string>
 #include <cassert>
 
-namespace libaas {
+namespace aas {
 namespace errors {
 
-/**Base class for all libaas exceptions.
+/**Base class for all aas exceptions.
  */
 class Exception : public std::exception
 {
@@ -27,7 +27,7 @@ public:
     /**Default constructor.
      * @param[in] message The reason/description of the exception
      */
-    Exception(const libaas::Char* message)
+    Exception(const aas::Char* message)
     {
         what_ = message;
     }
@@ -35,7 +35,7 @@ public:
     /**Default constructor.
      * @param[in] message The reason/description of the exception
      */
-    Exception(const libaas::String& message)
+    Exception(const aas::String& message)
     {
         what_ = message;
     }
@@ -49,7 +49,7 @@ public:
     /**Returns the reason/description of the exception
      * @returns Reason/description of the exception.
      */
-    virtual const char* what() const throw()
+    virtual const char* what() const throw ()
     {
         return what_.c_str();
     }
@@ -58,14 +58,14 @@ protected:
 
     /** Exception message.
      */
-    libaas::String what_;
+    aas::String what_;
 
 };
 // class Exception
 
 /**A LogicError is used for invalid external input or code bugs.
  */
-class LogicError : public libaas::errors::Exception
+class LogicError : public aas::errors::Exception
 {
 public:
     /**Default constructor.
@@ -79,7 +79,7 @@ public:
     /**Default constructor.
      * @param[in] message The reason/description of the exception
      */
-    explicit LogicError(const libaas::String& message) :
+    explicit LogicError(const aas::String& message) :
             Exception(message)
     {
     }
@@ -95,7 +95,7 @@ public:
 
 /**Runtime errors are caused by not acquirable system resources or unexpected failures.
  */
-class RuntimeError : public libaas::errors::Exception
+class RuntimeError : public aas::errors::Exception
 {
 public:
     /**Default constructor.
@@ -109,7 +109,7 @@ public:
     /**Default constructor.
      * @param[in] message The reason/description of the exception
      */
-    explicit RuntimeError(const libaas::String& message) :
+    explicit RuntimeError(const aas::String& message) :
             Exception(message)
     {
     }
@@ -139,7 +139,7 @@ public:
     /**Default constructor.
      * @param[in] message The reason/description of the exception
      */
-    explicit OutOfRange(const libaas::String& message) :
+    explicit OutOfRange(const aas::String& message) :
             LogicError(message)
     {
     }
@@ -158,10 +158,10 @@ public:
  * @param[in] message Message
  * @throws Throws a LogicError in case the predicate is not true
  */
-inline void throw_logic_error(libaas::Bool predicate, const char* message)
+inline void throw_logic_error(aas::Bool predicate, const char* message)
 {
     if (!predicate) {
-        throw libaas::errors::LogicError(message);
+        throw aas::errors::LogicError(message);
     }
 }
 
@@ -170,32 +170,32 @@ inline void throw_logic_error(libaas::Bool predicate, const char* message)
  * @param[in] message
  * @throws Throws an OutOfRange exception in case the predicate is not true.
  */
-inline void throw_outofrange_error(libaas::Bool predicate, const char* message)
+inline void throw_outofrange_error(aas::Bool predicate, const char* message)
 {
     if (!predicate) {
-        throw libaas::errors::OutOfRange(message);
+        throw aas::errors::OutOfRange(message);
     }
 }
 
 /**Convenience definition to easily throw a LogicError.
  */
-#define libaas_logic_error_cond(PREDICATE, MESSAGE) libaas::errors::throw_logic_error(PREDICATE, MESSAGE)
+#define aas_logic_error_cond(PREDICATE, MESSAGE) aas::errors::throw_logic_error(PREDICATE, MESSAGE)
 /**Convenience definition to easily throw a LogicError.
  */
-#define libaas_logic_error(MESSAGE) throw libaas::errors::LogicError(MESSAGE)
+#define aas_logic_error(MESSAGE) throw aas::errors::LogicError(MESSAGE)
 
 /**Convenience definition to easily throw an OutOfRange.
  */
-#define libaas_outofrange_cond(PREDICATE, MESSAGE) libaas::errors::throw_outofrange_error(PREDICATE, MESSAGE)
+#define aas_outofrange_cond(PREDICATE, MESSAGE) aas::errors::throw_outofrange_error(PREDICATE, MESSAGE)
 /**Convenience definition to easily throw an OutOfRange.
  */
-#define libaas_outofrange(MESSAGE) throw libaas::errors::OutOfRange(MESSAGE)
+#define aas_outofrange(MESSAGE) throw aas::errors::OutOfRange(MESSAGE)
 
 /**Convenience definition to easily throw a RunTimeError.
  */
-#define libaas_fail(MESSAGE) throw libaas::errors::RuntimeError (MESSAGE)
+#define aas_fail(MESSAGE) throw aas::errors::RuntimeError (MESSAGE)
 
 } // namespace errors
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_ERROR_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_ERROR_HPP__ */

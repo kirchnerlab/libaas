@@ -6,19 +6,19 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_MODIFICATION_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_MODIFICATION_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_MODIFICATION_HPP__
+#define __LIBAAS_INCLUDE_AAS_MODIFICATION_HPP__
 
-#include <libaas/RawModification.hpp>
-#include <libaas/AminoAcid.hpp>
-#include <libaas/Specificity.hpp>
-#include <libaas/Stoichiometry.hpp>
-#include <libaas/StoichiometryConfig.hpp>
+#include <aas/RawModification.hpp>
+#include <aas/AminoAcid.hpp>
+#include <aas/Specificity.hpp>
+#include <aas/Stoichiometry.hpp>
+#include <aas/StoichiometryConfig.hpp>
 
 #include <iostream>
 #include <vector>
 
-namespace libaas {
+namespace aas {
 
 namespace modifications {
 
@@ -47,7 +47,7 @@ public:
      * modification and id of a stoichiometry configuration.
      * @param[in] modid
      * @param[in] configid
-     * @throws Throws an libaas::errors::LogicError exception in case the given
+     * @throws Throws an aas::errors::LogicError exception in case the given
      * modification key cannot be resolved.
      */
     Modification(
@@ -64,7 +64,7 @@ public:
     /**Sets the raw modification.
      * Note: This function will reset the custom specificities.
      * @param[in] modid Id of the raw modification
-     * @throws Throws an libaas::errors::LogicError exception in case the modid cannot be
+     * @throws Throws an aas::errors::LogicError exception in case the modid cannot be
      * resolved.
      */
     void setModification(
@@ -98,7 +98,7 @@ public:
      * This method calls recalculatesWithConfiguration() on the stoichiometry retrieved
      * by the raw amino acid.
      * @returns The stoichiometry calculated with the present stoichiometry configuration
-     * @throws Throws an libaas::errors::RuntimeError in case one or more elements cannot
+     * @throws Throws an aas::errors::RuntimeError in case one or more elements cannot
      * be resolved by the stochiometry config.
      */
     Stoichiometry getStoichiometry() const;
@@ -165,7 +165,7 @@ public:
     /**Checks whether this modification is used as an isotopic label.
      *
      * @returns true if one of the specificities returned by getSpecificities
-     * is a "libaas::modifications::Specificity::ISOTOPIC_LABEL", false otherwise
+     * is a "aas::modifications::Specificity::ISOTOPIC_LABEL", false otherwise
      */
     Bool isIsotopicLabel() const;
 
@@ -231,6 +231,6 @@ private:
 std::ostream& operator<<(std::ostream&, const Modification&);
 
 } // namespace modifications
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_MODIFICATION_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_MODIFICATION_HPP__ */

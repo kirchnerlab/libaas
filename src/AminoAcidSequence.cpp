@@ -9,14 +9,14 @@
  *
  */
 
-#include <libaas/AminoAcidSequence.hpp>
-#include <libaas/Error.hpp>
+#include <aas/AminoAcidSequence.hpp>
+#include <aas/Error.hpp>
 
 #include <sstream>
 
-namespace libaas {
+namespace aas {
 
-AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
+AminoAcidSequence::AminoAcidSequence(const aas::String& aminoAcidSequence,
     const StoichiometryConfig& aminoAcidConfig)
 {
     // TODO do we really want an empty aas in case the string is empty?
@@ -26,7 +26,7 @@ AminoAcidSequence::AminoAcidSequence(const libaas::String& aminoAcidSequence,
             c_.push_back(aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
         }
 
-        typedef libaas::String::const_iterator IT;
+        typedef aas::String::const_iterator IT;
         IT end = aminoAcidSequence.end();
         Residue r;
         for (IT it = aminoAcidSequence.begin(); it != end; ++it) {
@@ -107,8 +107,8 @@ void AminoAcidSequence::makePeptideCTerm()
 {
     if (size() == 0 || !c_.back().isCTerm()) {
         // TODO shall we append a peptide c-term in this case?
-        libaas_fail("Unable to change amino acid sequence C-term"
-        "to peptide C-term, because there is no C-term.");
+        aas_fail("Unable to change amino acid sequence C-term"
+            "to peptide C-term, because there is no C-term.");
     }
     if (c_.back().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM) {
@@ -122,8 +122,8 @@ void AminoAcidSequence::makePeptideNTerm()
 {
     if (size() == 0 || !c_.front().isNTerm()) {
         // TODO shall we prepend a peptide N-term in this case?
-        libaas_fail("Unable to change amino acid sequence N-term"
-        "to protein N-term, because there is no N-term.");
+        aas_fail("Unable to change amino acid sequence N-term"
+            "to protein N-term, because there is no N-term.");
     }
     if (c_.front().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM) {
@@ -137,8 +137,8 @@ void AminoAcidSequence::makeProteinCTerm()
 {
     if (size() == 0 || !c_.back().isCTerm()) {
         // TODO shall we append a protein c-term in this case?
-        libaas_fail("Unable to change amino acid sequence C-term"
-        "to protein C-term, because there is no C-term.");
+        aas_fail("Unable to change amino acid sequence C-term"
+            "to protein C-term, because there is no C-term.");
     }
     if (c_.back().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM) {
@@ -152,8 +152,8 @@ void AminoAcidSequence::makeProteinNTerm()
 {
     if (size() == 0 || !c_.front().isNTerm()) {
         // TODO shall we prepend a protein n-term in this case?
-        libaas_fail("Unable to change amino acid sequence N-term"
-        "to protein N-term, because there is no N-term.");
+        aas_fail("Unable to change amino acid sequence N-term"
+            "to protein N-term, because there is no N-term.");
     }
     if (c_.front().getAminoAcid().getRawAminoAcidKey()
             == aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM) {
@@ -255,7 +255,7 @@ void AminoAcidSequence::applyFixedModifications(const ModificationList& mods)
         for (Size pos = 1; pos < end; ++pos) {
             try {
                 applyModificationAtPosition(mod, pos);
-            } catch (libaas::errors::Exception& e) {
+            } catch (aas::errors::Exception& e) {
                 // nothing to do here
             }
         }
@@ -266,16 +266,16 @@ void AminoAcidSequence::applyModificationAtPosition(
     const modifications::Modification& mod, const Size& pos)
 {
     // TODO we implicitly set a label or modification if the modification "thinks" it is a label. shall we use the return code of the getSpecificities instead?
-    libaas_logic_error_cond(
+    aas_logic_error_cond(
         pos < c_.size() && pos > 0,
         "AminoAcidSequence::applyModificationAtPosition(): Trying to apply modification at position out of bound.");
 
     if (mod.isIsotopicLabel() && c_[pos].isLabeled()) {
-        libaas_fail(
+        aas_fail(
             "AminoAcidSequence::applyModificationAtPosition(): Trying to apply label modification at position which is already labeled.");
     }
     if (!mod.isIsotopicLabel() && c_[pos].isModified()) {
-        libaas_fail(
+        aas_fail(
             "AminoAcidSequence::applyModificationAtPosition(): Trying to apply modification at position which is already modified.");
     }
 
@@ -295,7 +295,7 @@ void AminoAcidSequence::applyModificationAtPosition(
     Residue current = operator[](pos);
     // check if mod is applicable to this position
     if (!mod.isApplicable(prev, current.getAminoAcid(), next)) {
-        libaas_fail(
+        aas_fail(
             "AminoAcidSequence::applyModificationAtPosition(): Cannot apply mod to this position.");
     }
 
@@ -412,4 +412,4 @@ std::ostream& operator<<(std::ostream& os, const AminoAcidSequence& o)
     return os;
 }
 
-} // namespace libaas
+} // namespace aas

@@ -5,12 +5,12 @@
  * Copyright (c) 2011 Marc Kirchner
  *
  */
-#ifndef __LIBAAS_INCLUDE_LIBAAS_TYPES_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_TYPES_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_TYPES_HPP__
+#define __LIBAAS_INCLUDE_AAS_TYPES_HPP__
 
 #include <string>
 
-namespace libaas {
+namespace aas {
 
 typedef int Int;
 typedef float Float;
@@ -21,6 +21,6 @@ typedef bool Bool;
 typedef char Char;
 typedef std::string String;
 
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_TYPES_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_TYPES_HPP__ */

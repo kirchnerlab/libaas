@@ -6,11 +6,11 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_LIBIPACA_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_LIBIPACA_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_LIBIPACA_HPP__
+#define __LIBAAS_INCLUDE_AAS_LIBIPACA_HPP__
 
-#include "libaas/Stoichiometry.hpp"
-#include "libaas/Element.hpp"
+#include "aas/Stoichiometry.hpp"
+#include "aas/Element.hpp"
 
 #include <ipaca/Spectrum.hpp>
 #include <ipaca/Stoichiometry.hpp>
@@ -19,11 +19,11 @@
 
 #include <vector>
 
-namespace libaas {
+namespace aas {
 namespace adapter {
 
 typedef ipaca::detail::Spectrum LibaasSpectrum;
-typedef libaas::Stoichiometry LibaasStoichiometry;
+typedef aas::Stoichiometry LibaasStoichiometry;
 
 struct SpectrumConverter
 {
@@ -35,12 +35,12 @@ struct SpectrumConverter
 
 struct ElementConverter
 {
-    void operator()(const libaas::elements::Element& lhs,
+    void operator()(const aas::elements::Element& lhs,
         ipaca::detail::Element& rhs)
     {
         rhs.count = 0.0;
         rhs.isotopes.clear();
-        typedef std::vector<libaas::elements::Isotope> AASIsotopeList;
+        typedef std::vector<aas::elements::Isotope> AASIsotopeList;
         const AASIsotopeList& eis = lhs.get().getIsotopes();
         // TODO make sure isotopes are added sorted by mass!
         for (AASIsotopeList::const_iterator it = eis.begin(); it != eis.end();
@@ -59,7 +59,7 @@ struct StoichiometryConverter
         ipaca::detail::Stoichiometry& rhs)
     {
         typedef LibaasStoichiometry::const_iterator SIT;
-        typedef std::vector<libaas::elements::Isotope>::const_iterator IIT;
+        typedef std::vector<aas::elements::Isotope>::const_iterator IIT;
         ElementConverter ec;
         for (SIT it = lhs.begin(); it != lhs.end(); ++it) {
             ipaca::detail::Element e;
@@ -71,39 +71,37 @@ struct StoichiometryConverter
 };
 
 } // namespace adapter
-} // namespace libaas
+} // namespace aas
 
 namespace ipaca {
 
 template<>
-struct Traits<libaas::adapter::LibaasStoichiometry,
-        libaas::adapter::LibaasSpectrum>
+struct Traits<aas::adapter::LibaasStoichiometry, aas::adapter::LibaasSpectrum>
 {
-    typedef libaas::adapter::SpectrumConverter spectrum_converter;
-    typedef libaas::adapter::StoichiometryConverter stoichiometry_converter;
+    typedef aas::adapter::SpectrumConverter spectrum_converter;
+    typedef aas::adapter::StoichiometryConverter stoichiometry_converter;
     static ipaca::detail::Element getHydrogens(const ipaca::Size n);
     static ipaca::Bool isHydrogen(const ipaca::detail::Element&);
     static ipaca::Double getElectronMass();
 };
 
-ipaca::detail::Element Traits<
-        libaas::adapter::LibaasStoichiometry, libaas::adapter::LibaasSpectrum>::getHydrogens(
-    const ipaca::Size n)
+ipaca::detail::Element Traits<aas::adapter::LibaasStoichiometry,
+        aas::adapter::LibaasSpectrum>::getHydrogens(const ipaca::Size n)
 {
     ipaca::detail::Element h;
-    libaas::adapter::ElementConverter ec;
-    ec(libaas::elements::Element(1), h);
+    aas::adapter::ElementConverter ec;
+    ec(aas::elements::Element(1), h);
     h.count = static_cast<Double>(n);
     return h;
 }
 
-ipaca::Bool Traits<libaas::adapter::LibaasStoichiometry,
-        libaas::adapter::LibaasSpectrum>::isHydrogen(
+ipaca::Bool Traits<aas::adapter::LibaasStoichiometry,
+        aas::adapter::LibaasSpectrum>::isHydrogen(
     const ipaca::detail::Element& e)
 {
     ipaca::detail::Element h;
-    libaas::adapter::ElementConverter ec;
-    ec(libaas::elements::Element(1), h);
+    aas::adapter::ElementConverter ec;
+    ec(aas::elements::Element(1), h);
     typedef std::vector<ipaca::detail::Isotope>::const_iterator IT;
     for (IT et = e.isotopes.begin(), ht = h.isotopes.begin();
             et != e.isotopes.end() && ht != h.isotopes.end(); ++et, ++ht) {
@@ -114,12 +112,12 @@ ipaca::Bool Traits<libaas::adapter::LibaasStoichiometry,
     return true;
 }
 
-ipaca::Double Traits<libaas::adapter::LibaasStoichiometry,
-        libaas::adapter::LibaasSpectrum>::getElectronMass()
+ipaca::Double Traits<aas::adapter::LibaasStoichiometry,
+        aas::adapter::LibaasSpectrum>::getElectronMass()
 {
     return ipaca::detail::getElectronMass();
 }
 
 } // namespace ipaca
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_LIBIPACA_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_LIBIPACA_HPP__ */

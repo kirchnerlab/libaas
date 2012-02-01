@@ -6,22 +6,22 @@
  *
  */
 
-#include <libaas/Residue.hpp>
-#include <libaas/Error.hpp>
+#include <aas/Residue.hpp>
+#include <aas/Error.hpp>
 
 #include <boost/make_shared.hpp>
 
 #include <stdio.h>
 #include <sstream>
 
-namespace libaas {
+namespace aas {
 
 Residue::ModificationPtr Residue::EMPTY_MOD;
 
 Residue::Residue(
-    const libaas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
-    const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey,
-    const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& labelKey) :
+    const aas::aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey,
+    const aas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey,
+    const aas::modifications::RawModificationImpl::RawModificationImplKeyType& labelKey) :
         aminoacid_(aminoAcidKey), modification_(
             boost::make_shared<modifications::Modification>()), isotopicLabel_(
             boost::make_shared<modifications::Modification>())
@@ -41,9 +41,9 @@ Residue::Residue(
     }
 }
 
-Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
-    const libaas::modifications::Modification& mod,
-    const libaas::modifications::Modification& label) :
+Residue::Residue(const aas::aminoAcids::AminoAcid& aminoAcid,
+    const aas::modifications::Modification& mod,
+    const aas::modifications::Modification& label) :
         aminoacid_(aminoAcid), modification_(
             boost::make_shared<modifications::Modification>()), isotopicLabel_(
             boost::make_shared<modifications::Modification>())
@@ -66,7 +66,7 @@ Residue::Residue(const libaas::aminoAcids::AminoAcid& aminoAcid,
 void Residue::changeType(
     const aminoAcids::RawAminoAcidImpl::RawAminoAcidImplKeyType& aminoAcidKey)
 {
-    aminoacid_ = libaas::aminoAcids::AminoAcid(aminoAcidKey);
+    aminoacid_ = aas::aminoAcids::AminoAcid(aminoAcidKey);
 }
 
 void Residue::changeType(const aminoAcids::AminoAcid& aminoAcid)
@@ -177,7 +177,7 @@ String Residue::toString() const
 {
     std::ostringstream oss;
     oss << aminoacid_.getSymbol();
-    libaas::Bool labeled = isLabeled(), modified = isModified();
+    aas::Bool labeled = isLabeled(), modified = isModified();
     if (labeled || modified) {
         oss << "(";
     }
@@ -197,34 +197,34 @@ String Residue::toString() const
     return oss.str();
 }
 
-libaas::Bool Residue::isNTerm() const
+aas::Bool Residue::isNTerm() const
 {
     return aminoacid_.isNTerm();
 }
 
-libaas::Bool Residue::isCTerm() const
+aas::Bool Residue::isCTerm() const
 {
     return aminoacid_.isCTerm();
 }
 
-const libaas::aminoAcids::AminoAcid& Residue::getAminoAcid() const
+const aas::aminoAcids::AminoAcid& Residue::getAminoAcid() const
 {
     return aminoacid_;
 }
 
-libaas::aminoAcids::AminoAcid& Residue::getAminoAcid()
+aas::aminoAcids::AminoAcid& Residue::getAminoAcid()
 {
     return aminoacid_;
 }
 
 void Residue::setModification(
-    const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey)
+    const aas::modifications::RawModificationImpl::RawModificationImplKeyType& modificationKey)
 {
     setModification(modifications::Modification(modificationKey));
 }
 
 void Residue::setModification(
-    const libaas::modifications::Modification& modification)
+    const aas::modifications::Modification& modification)
 {
     if (!modification.isIsotopicLabel()) {
         modification_ = ModificationPtr(
@@ -235,7 +235,7 @@ void Residue::setModification(
         oss << modification.getModificationId();
         oss
                 << "' is an isotopic label since modification.isIsotopicLabel() returned true. Use setIsotopicLabel() instead.";
-        libaas_logic_error(oss.str());
+        aas_logic_error(oss.str());
     }
 }
 
@@ -245,13 +245,13 @@ const modifications::Modification& Residue::getModification() const
 }
 
 void Residue::setIsotopicLabel(
-    const libaas::modifications::RawModificationImpl::RawModificationImplKeyType& isotopicLabelKey)
+    const aas::modifications::RawModificationImpl::RawModificationImplKeyType& isotopicLabelKey)
 {
     setIsotopicLabel(modifications::Modification(isotopicLabelKey));
 }
 
 void Residue::setIsotopicLabel(
-    const libaas::modifications::Modification& isotopicLabel)
+    const aas::modifications::Modification& isotopicLabel)
 {
     if (isotopicLabel.isIsotopicLabel()) {
         isotopicLabel_ = ModificationPtr(
@@ -262,7 +262,7 @@ void Residue::setIsotopicLabel(
         oss << isotopicLabel.getModificationId();
         oss
                 << "' is a standard modification since isotopicLabel.isIsotopicLabel() returned false. Use setModification() instead.";
-        libaas_logic_error(oss.str());
+        aas_logic_error(oss.str());
     }
 }
 
@@ -299,4 +299,4 @@ std::ostream& operator<<(std::ostream& os, const Residue& o)
     return os;
 }
 
-} // namespace libaas
+} // namespace aas

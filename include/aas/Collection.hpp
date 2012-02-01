@@ -14,7 +14,7 @@
 // for friend declaration further down
 struct CollectionTestSuite;
 
-namespace libaas {
+namespace aas {
 
 /**
  * @brief Base class wrapper around std::vector.

@@ -6,17 +6,17 @@
  *
  */
 
-#include <libaas/RawAminoAcid.hpp>
-#include <libaas/Stoichiometry.hpp>
-#include <libaas/Element.hpp>
-#include <libaas/Error.hpp>
+#include <aas/RawAminoAcid.hpp>
+#include <aas/Stoichiometry.hpp>
+#include <aas/Element.hpp>
+#include <aas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 #include <algorithm>
 
-using namespace libaas::aminoAcids;
+using namespace aas::aminoAcids;
 /** Short description.
  * Long description.
  */
@@ -45,16 +45,16 @@ struct RawAminoAcidTestSuite : vigra::test_suite
 
     void testRawAminoAcid()
     {
-        libaas::elements::Element H(1);
-        libaas::elements::Element C(6);
-        libaas::elements::Element N(7);
-        libaas::elements::Element O(8);
+        aas::elements::Element H(1);
+        aas::elements::Element C(6);
+        aas::elements::Element N(7);
+        aas::elements::Element O(8);
 
         RawAminoAcidImpl::RawAminoAcidImplKeyType k = 'C';
-        libaas::Char symbol = 'T';
-        libaas::String three = "Cys";
-        libaas::String full = "Cysteine";
-        libaas::Stoichiometry ts;
+        aas::Char symbol = 'T';
+        aas::String three = "Cys";
+        aas::String full = "Cysteine";
+        aas::Stoichiometry ts;
         ts.set(H, 6);
         ts.set(C, 2);
         ts.set(O, 1);
@@ -89,7 +89,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         RawAminoAcidImpl::RawAminoAcidImplKeyType k1 = 'A';
         RawAminoAcidImpl aa(k1);
 
-        libaas::Stoichiometry s;
+        aas::Stoichiometry s;
         s.set(H, 5);
         s.set(C, 3);
         s.set(N, 1);
@@ -105,7 +105,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
 
         aa.setSymbol('a');
         shouldEqual(aa.getSymbol(), 'a');
-        libaas::Stoichiometry ns;
+        aas::Stoichiometry ns;
         aa.setStoichiometry(ns);
         shouldEqual(aa.getStoichiometry(), ns);
 
@@ -120,10 +120,9 @@ struct RawAminoAcidTestSuite : vigra::test_suite
 
     void testStaticParser()
     {
-        libaas::String toparse[] = { "A", "a", "Ala", "ALA", "Alanine",
-                                     "ALAninE", "N-term", "Peptide N-Term",
-                                     "Protein n-term", "ProTEin C-TERM",
-                                     "peptide C-TERM" };
+        aas::String toparse[] = { "A", "a", "Ala", "ALA", "Alanine", "ALAninE",
+                                  "N-term", "Peptide N-Term", "Protein n-term",
+                                  "ProTEin C-TERM", "peptide C-TERM" };
         RawAminoAcidImpl::RawAminoAcidImplKeyType expectedRawAminoAcid[] = {
                 'A', 'A', 'A', 'A', 'A', 'A', RawAminoAcidImpl::PEPTIDE_N_TERM,
                 RawAminoAcidImpl::PEPTIDE_N_TERM,
@@ -140,14 +139,14 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             RawAminoAcidImpl::getKeyForAminoAcidString("unknown");
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         thrown = false;
         try {
             RawAminoAcidImpl::getKeyForAminoAcidString("ttt");
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }
         shouldEqual(thrown, true);
@@ -187,16 +186,16 @@ struct RawAminoAcidTestSuite : vigra::test_suite
     void testAddRawAminoAcid()
     {
         // setting up test data
-        libaas::elements::Element H(1);
-        libaas::elements::Element C(6);
-        libaas::elements::Element O(8);
+        aas::elements::Element H(1);
+        aas::elements::Element C(6);
+        aas::elements::Element O(8);
 
         RawAminoAcidImpl::RawAminoAcidImplKeyType k = 'Z';
-        libaas::Char symbol = 'e';
-        libaas::Char symbol2 = 't';
-        libaas::String three = "Zet";
-        libaas::String full = "Zetet";
-        libaas::Stoichiometry ts;
+        aas::Char symbol = 'e';
+        aas::Char symbol2 = 't';
+        aas::String three = "Zet";
+        aas::String full = "Zetet";
+        aas::Stoichiometry ts;
         ts.set(H, 6);
         ts.set(C, 2);
         ts.set(O, 1);
@@ -224,14 +223,14 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             RawAminoAcid test('z');
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         // create an arbitrary amino acid
         RawAminoAcidImpl::RawAminoAcidImplKeyType k1 = 'z';
-        libaas::Char name = 'z';
-        libaas::Stoichiometry ts;
+        aas::Char name = 'z';
+        aas::Stoichiometry ts;
         RawAminoAcidImpl t(k1, name, ts);
         // add amino acid to the flyweight table
         RawAminoAcid tr(t);
@@ -258,8 +257,8 @@ struct RawAminoAcidTestSuite : vigra::test_suite
     {
         // create different amino acid T
         RawAminoAcidImpl::RawAminoAcidImplKeyType k1 = 'S';
-        libaas::Char symbol = 'Q';
-        libaas::Stoichiometry ts;
+        aas::Char symbol = 'Q';
+        aas::Stoichiometry ts;
         RawAminoAcidImpl t(k1, symbol, ts);
         // store it in flyweight table
         RawAminoAcid tr(t);
@@ -277,7 +276,7 @@ struct RawAminoAcidTestSuite : vigra::test_suite
         RawAminoAcidImpl::RawAminoAcidImplKeyType k1 = 'A';
         RawAminoAcid tr_1(k1);
 
-        RawAminoAcidImpl t(k1, 'T', libaas::Stoichiometry());
+        RawAminoAcidImpl t(k1, 'T', aas::Stoichiometry());
         // flyweight checks the id of the amino acid t and recognizes it, since it
         // was retrieved(initialized) earlier
         // as a consequence, the flyweight factory returns the known object
@@ -289,15 +288,15 @@ struct RawAminoAcidTestSuite : vigra::test_suite
 
     void testCreateAminoAcid()
     {
-        const libaas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H',
-                                            'I', 'K', 'L', 'M', 'N', 'P', 'Q',
-                                            'R', 'S', 'T', 'V', 'W', 'Y',
-                                            RawAminoAcidImpl::PEPTIDE_N_TERM,
-                                            RawAminoAcidImpl::PEPTIDE_C_TERM,
-                                            RawAminoAcidImpl::PROTEIN_N_TERM,
-                                            RawAminoAcidImpl::PROTEIN_C_TERM };
-        libaas::Size n = 24;
-        for (libaas::Size i = 0; i < n; ++i) {
+        const aas::Char stoi_chars[] = { 'A', 'C', 'D', 'E', 'F', 'G', 'H',
+                                         'I', 'K', 'L', 'M', 'N', 'P', 'Q',
+                                         'R', 'S', 'T', 'V', 'W', 'Y',
+                                         RawAminoAcidImpl::PEPTIDE_N_TERM,
+                                         RawAminoAcidImpl::PEPTIDE_C_TERM,
+                                         RawAminoAcidImpl::PROTEIN_N_TERM,
+                                         RawAminoAcidImpl::PROTEIN_C_TERM };
+        aas::Size n = 24;
+        for (aas::Size i = 0; i < n; ++i) {
             RawAminoAcid a(stoi_chars[i]);
             shouldEqual(a.get_key(), stoi_chars[i]);
         }

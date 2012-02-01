@@ -8,18 +8,18 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRY_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRY_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_STOICHIOMETRY_HPP__
+#define __LIBAAS_INCLUDE_AAS_STOICHIOMETRY_HPP__
 
-#include <libaas/StoichiometryConfig.hpp>
-#include <libaas/Element.hpp>
-#include <libaas/Types.hpp>
+#include <aas/StoichiometryConfig.hpp>
+#include <aas/Element.hpp>
+#include <aas/Types.hpp>
 
 #include <map>
 #include <vector>
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 
 /**Representation of a stoichiometry.
  *
@@ -32,7 +32,7 @@ public:
 
     /** Convenience typedef of the data type.
      */
-    typedef std::map<libaas::elements::Element, Double> DataType;
+    typedef std::map<aas::elements::Element, Double> DataType;
     /** Convenience typedef of the data type const_iterator.
      */
     typedef DataType::const_iterator const_iterator;
@@ -96,21 +96,21 @@ public:
      * @param[in] element The element
      * @param[in] count The count of the element
      */
-    void set(const libaas::elements::Element& element, const Double& count);
+    void set(const aas::elements::Element& element, const Double& count);
 
     /**Adds a certain amount of to an element.
      * In case the result is 0 the element is delted from the stoichiometry.
      * @param[in] element The element
      * @param[in] count The count of the element
      */
-    void add(const libaas::elements::Element& element, const Double& count);
+    void add(const aas::elements::Element& element, const Double& count);
 
     /**Returns the count of the element with the specified elementId.
      * @param[in] element Element id
      * @returns 0.0 if the elementId is not present in the stoichiometry, the
      * count otherwise
      */
-    Double get(const libaas::elements::Element& element) const;
+    Double get(const aas::elements::Element& element) const;
 
     /**Checks whether all entries in the stoichiometry are non negative.
      * @returns True if all elements in the stoichiometry are non negative,
@@ -195,16 +195,16 @@ private:
     /** Annotation id.
      */
     Int annotationId_;
-    /** Internal mapping of libaas::elements::Element to the amount.
+    /** Internal mapping of aas::elements::Element to the amount.
      */
     DataType counts_;
 
 };
 // class Stoichiometry
 
-std::ostream& operator<<(std::ostream& o, const libaas::Stoichiometry& s);
+std::ostream& operator<<(std::ostream& o, const aas::Stoichiometry& s);
 std::ostream& operator<<(std::ostream& o,
-    const std::vector<libaas::Stoichiometry>& s);
+    const std::vector<aas::Stoichiometry>& s);
 
 inline void Stoichiometry::setAnnotationId(const Int& id)
 {
@@ -216,6 +216,6 @@ inline Int Stoichiometry::getAnnotationId(void) const
     return annotationId_;
 }
 
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRY_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_STOICHIOMETRY_HPP__ */

@@ -9,12 +9,12 @@
  *
  */
 
-#include <libaas/Stoichiometry.hpp>
-#include <libaas/Error.hpp>
+#include <aas/Stoichiometry.hpp>
+#include <aas/Error.hpp>
 
 #include <sstream>
 
-namespace libaas {
+namespace aas {
 
 Stoichiometry::Stoichiometry() :
         annotationId_(0), counts_()
@@ -57,7 +57,7 @@ Size Stoichiometry::size() const
     return counts_.size();
 }
 
-Double Stoichiometry::get(const libaas::elements::Element& element) const
+Double Stoichiometry::get(const aas::elements::Element& element) const
 {
     const_iterator elem = counts_.find(element);
     if (elem == counts_.end()) {
@@ -67,7 +67,7 @@ Double Stoichiometry::get(const libaas::elements::Element& element) const
     }
 }
 
-void Stoichiometry::set(const libaas::elements::Element& element,
+void Stoichiometry::set(const aas::elements::Element& element,
     const Double& count)
 {
     if (count == 0.0) {
@@ -77,7 +77,7 @@ void Stoichiometry::set(const libaas::elements::Element& element,
     }
 }
 
-void Stoichiometry::add(const libaas::elements::Element& element,
+void Stoichiometry::add(const aas::elements::Element& element,
     const Double& count)
 {
     Double& c = counts_[element];
@@ -128,14 +128,14 @@ void Stoichiometry::applyStoichiometryConfiguration(
         const String& symbol = it->first.get().getSymbol();
         try {
             elementId = config.get().getKeyForSymbol(symbol);
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             // cannot find symbol in custom map
             // searching symbol in default map
             try {
                 elementId = defaultConfig.get().getKeyForSymbol(symbol);
-            } catch (libaas::errors::LogicError& e) {
+            } catch (aas::errors::LogicError& e) {
                 // cannot find symbol in default map
-                libaas_fail(
+                aas_fail(
                     "Stoichiometry::applyStoichiometryConfiguration(): Cannot find element symbol.");
             }
         }
@@ -146,12 +146,12 @@ void Stoichiometry::applyStoichiometryConfiguration(
         //			elements::Element e = it->first;
         //			++it;
         //			counts_.erase(e);
-        //			set(libaas::elements::Element(elementId), count);
+        //			set(aas::elements::Element(elementId), count);
         //		} else {
         //			++it;
         //		}
         if (elementId != it->first.get_key()) {
-            ret.set(libaas::elements::Element(elementId), it->second);
+            ret.set(aas::elements::Element(elementId), it->second);
             ret.set(it->first, -it->second);
         }
     }
@@ -219,7 +219,7 @@ Stoichiometry Stoichiometry::operator-(const Stoichiometry& s)
     return stoi;
 }
 
-std::ostream& operator<<(std::ostream& o, const libaas::Stoichiometry& s)
+std::ostream& operator<<(std::ostream& o, const aas::Stoichiometry& s)
 {
     for (Stoichiometry::const_iterator it = s.begin(); it != s.end(); ++it) {
         o << "(" << it->first << ")" << it->second << " ";
@@ -229,7 +229,7 @@ std::ostream& operator<<(std::ostream& o, const libaas::Stoichiometry& s)
 }
 
 std::ostream& operator<<(std::ostream& o,
-    const std::vector<libaas::Stoichiometry>& s)
+    const std::vector<aas::Stoichiometry>& s)
 {
     for (std::vector<Stoichiometry>::const_iterator it = s.begin();
             it != s.end(); ++it) {
@@ -238,4 +238,4 @@ std::ostream& operator<<(std::ostream& o,
     return o;
 }
 
-} // namespace libaas
+} // namespace aas

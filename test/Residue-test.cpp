@@ -6,16 +6,16 @@
  *
  */
 
-#include <libaas/Residue.hpp>
-#include <libaas/Error.hpp>
+#include <aas/Residue.hpp>
+#include <aas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas;
-using namespace libaas::aminoAcids;
-using namespace libaas::modifications;
+using namespace aas;
+using namespace aas::aminoAcids;
+using namespace aas::modifications;
 
 /** Short description.
  * Long description.
@@ -58,10 +58,10 @@ struct ResidueTestSuite : vigra::test_suite
         r.changeType(aa_k);
         shouldEqual(r.getAminoAcid(), aa);
 
-        libaas::Bool thrown = false;
+        aas::Bool thrown = false;
         try {
             r.setModification(l);
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
@@ -74,7 +74,7 @@ struct ResidueTestSuite : vigra::test_suite
         thrown = false;
         try {
             r.setIsotopicLabel(m);
-        } catch (libaas::errors::LogicError& e) {
+        } catch (aas::errors::LogicError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
@@ -114,13 +114,15 @@ struct ResidueTestSuite : vigra::test_suite
         shouldEqual(r == r1, false);
     }
 
-    void testResidueShared() {
+    void testResidueShared()
+    {
         Residue t('A', "Oxidation", "ICAT-G");
         shouldEqual(t.getAminoAcid(), AminoAcid('A'));
         shouldEqual(t.isModified(), true);
         shouldEqual(t.isLabeled(), true);
 
-        Residue t_c(AminoAcid('A'), Modification("Phospho"), Modification("TMT"));
+        Residue t_c(AminoAcid('A'), Modification("Phospho"),
+            Modification("TMT"));
         t_c = t;
 
         StoichiometryConfigImpl::StoichiometryConfigImplKeyType k = "different";
@@ -130,11 +132,15 @@ struct ResidueTestSuite : vigra::test_suite
         t_c.applyIsotopicLabelStoichiometryConfig(k);
         t_c.applyModificationStoichiometryConfig(k);
 
-        shouldEqual(t.getModification().getStoichiometryConfig().get_key(), StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
-        shouldEqual(t.getIsotopicLabel().getStoichiometryConfig().get_key(), StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        shouldEqual(t.getModification().getStoichiometryConfig().get_key(),
+            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
+        shouldEqual(t.getIsotopicLabel().getStoichiometryConfig().get_key(),
+            StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG);
 
-        shouldEqual(t_c.getModification().getStoichiometryConfig().get_key(), k);
-        shouldEqual(t_c.getIsotopicLabel().getStoichiometryConfig().get_key(), k);
+        shouldEqual(t_c.getModification().getStoichiometryConfig().get_key(),
+            k);
+        shouldEqual(t_c.getIsotopicLabel().getStoichiometryConfig().get_key(),
+            k);
 
         shouldEqual(t.getStoichiometry(), t_c.getStoichiometry());
     }

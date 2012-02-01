@@ -7,15 +7,15 @@
  *
  */
 
-#include <libaas/tools/Digester.hpp>
-#include <libaas/Error.hpp>
+#include <aas/tools/Digester.hpp>
+#include <aas/Error.hpp>
 
 #include <iterator>
 #include <set>
 
-using namespace libaas::tools;
+using namespace aas::tools;
 
-libaas::String Digester::R_[] = { "(C)([^P])", // ARG_C_PROTEINASE
+aas::String Digester::R_[] = { "(C)([^P])", // ARG_C_PROTEINASE
         "(.)(B|D)", // ASP_N_ENDOPETIDASE
         "(F|L|W|Y)([^P])", // CHYMOTRYPSIN
         "(K)([^P])", // LYSC
@@ -23,12 +23,12 @@ libaas::String Digester::R_[] = { "(C)([^P])", // ARG_C_PROTEINASE
         "(R|K)([^P])" // TRYPSIN
         };
 
-Digester::Digester(const libaas::String& re) :
+Digester::Digester(const aas::String& re) :
         regular_expression_(re), exceptions_(""), exceptions_enabled_(false)
 {
 }
 
-Digester::Digester(const libaas::String& re, const libaas::String& exceptions) :
+Digester::Digester(const aas::String& re, const aas::String& exceptions) :
         regular_expression_(re), exceptions_(exceptions), exceptions_enabled_(
             true)
 {
@@ -39,8 +39,8 @@ Digester::Digester(const EnzymEnum enzym) :
 {
 }
 
-void Digester::operator()(const libaas::AminoAcidSequence& seq,
-    AminoAcidSequences& frags, libaas::UnsignedInt missedCleavages) const
+void Digester::operator()(const aas::AminoAcidSequence& seq,
+    AminoAcidSequences& frags, aas::UnsignedInt missedCleavages) const
 {
     if (regular_expression_.size() == 0) {
         frags.push_back(seq);
@@ -48,13 +48,13 @@ void Digester::operator()(const libaas::AminoAcidSequence& seq,
     }
     using namespace boost;
 
-    libaas::String str = seq.toUnmodifiedSequenceString();
-    libaas::String::const_iterator start = str.begin();
-    libaas::String::const_iterator end = str.end();
+    aas::String str = seq.toUnmodifiedSequenceString();
+    aas::String::const_iterator start = str.begin();
+    aas::String::const_iterator end = str.end();
     smatch m;
 
     // Build exception list
-    std::set<libaas::String::const_iterator> cleavage_exceptions;
+    std::set < aas::String::const_iterator > cleavage_exceptions;
     if (exceptions_enabled_) {
         while (start != str.end() && regex_search(start, end, m, exceptions_)) {
             // Find the matched submatch
@@ -68,7 +68,7 @@ void Digester::operator()(const libaas::AminoAcidSequence& seq,
             }
             // is this an allowed match?
             if (end == str.end()) {
-                libaas_fail(
+                aas_fail(
                     "Digester with invalid regular expression for exceptions found.");
             }
             // Add to unallowed
@@ -83,7 +83,7 @@ void Digester::operator()(const libaas::AminoAcidSequence& seq,
     end = str.end();
     AminoAcidSequence::const_iterator aa_start = seq.begin();
     AminoAcidSequence::const_iterator aa_end = seq.begin();
-    libaas::String::const_iterator copy_start = str.begin();
+    aas::String::const_iterator copy_start = str.begin();
 
     while ((start != str.end())
             && regex_search(start, end, m, regular_expression_)) {
@@ -97,7 +97,7 @@ void Digester::operator()(const libaas::AminoAcidSequence& seq,
         }
         //Is this an allowed mathc?
         if (end == str.end()) {
-            libaas_fail("Digester with invalid regular expression found.");
+            aas_fail("Digester with invalid regular expression found.");
         }
         // Check if this is allowed
         if (cleavage_exceptions.count(end)) {
@@ -108,11 +108,11 @@ void Digester::operator()(const libaas::AminoAcidSequence& seq,
         }
         // Translate the string iterators
         aa_start = seq.begin()
-                + std::distance((libaas::String::const_iterator) str.begin(),
+                + std::distance((aas::String::const_iterator) str.begin(),
                     copy_start) + 1;
         aa_end = seq.begin()
-                + std::distance((libaas::String::const_iterator) str.begin(),
-                    end) + 1;
+                + std::distance((aas::String::const_iterator) str.begin(), end)
+                + 1;
         // If end is just before the C-term, set it to the C-term
         if (aa_end + 1 == seq.end()) {
             aa_end = seq.end();
@@ -136,7 +136,7 @@ void Digester::operator()(const libaas::AminoAcidSequence& seq,
 
     // Deal with missed cleavages
     if (missedCleavages > 0) {
-        std::vector<AminoAcidSequence> missedCleavageSequences;
+        std::vector < AminoAcidSequence > missedCleavageSequences;
         for (std::vector<AminoAcidSequence>::iterator it = frags.begin();
                 it != frags.end(); ++it) {
             for (unsigned int i = 1; i <= missedCleavages; ++i) {

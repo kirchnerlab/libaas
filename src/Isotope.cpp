@@ -6,9 +6,9 @@
  *
  */
 
-#include <libaas/Isotope.hpp>
+#include <aas/Isotope.hpp>
 
-namespace libaas {
+namespace aas {
 namespace elements {
 
 Isotope::Isotope(const Double& mass, const Double& frequency) :
@@ -51,4 +51,4 @@ std::ostream& operator<<(std::ostream& os, const std::vector<Isotope>& o)
 }
 
 } // namespace elements
-} // namespace libaas
+} // namespace aas

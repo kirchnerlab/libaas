@@ -6,18 +6,18 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_ELEMENTIMPL_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_ELEMENTIMPL_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_ELEMENTIMPL_HPP__
+#define __LIBAAS_INCLUDE_AAS_ELEMENTIMPL_HPP__
 
-#include <libaas/Isotope.hpp>
-#include <libaas/Types.hpp>
+#include <aas/Isotope.hpp>
+#include <aas/Types.hpp>
 
 #include <string>
 #include <vector>
 #include <map>
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 namespace elements {
 
 /**Representation of an element.
@@ -129,7 +129,7 @@ public:
     /**Returns the number of standard elements.
      * @returns The number of standard elements.
      */
-    static libaas::Size getNumberOfStandardElements();
+    static aas::Size getNumberOfStandardElements();
 
     /**Returns a free key/id which is available to use for a custom element.
      * @returns Free key/id
@@ -188,6 +188,6 @@ inline const ElementImpl::ElementImplKeyType& ElementImpl::getId() const
 }
 
 } // namespace elements
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_ELEMENTIMPL_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_ELEMENTIMPL_HPP__ */

@@ -6,16 +6,16 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_ELEMENT_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_ELEMENT_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_ELEMENT_HPP__
+#define __LIBAAS_INCLUDE_AAS_ELEMENT_HPP__
 
-#include <libaas/ElementImpl.hpp>
+#include <aas/ElementImpl.hpp>
 
 #include <boost/flyweight.hpp>
 #include <boost/flyweight/key_value.hpp>
 #include <boost/flyweight/no_tracking.hpp>
 
-namespace libaas {
+namespace aas {
 namespace elements {
 
 /**The class ElementIdExtractor is used allow the instantiation of
@@ -51,7 +51,7 @@ typedef boost::flyweight<
  * @returns True if the given element is added correctly, false otherwise.
  */
 Bool addElement(const ElementImpl::ElementImplKeyType& id,
-    const libaas::String& symbol, const libaas::Size& atomicNumber,
+    const aas::String& symbol, const aas::Size& atomicNumber,
     const std::vector<Isotope>& isotopes);
 
 /**Convenience function to add a custom element to the list of known elements.
@@ -71,6 +71,6 @@ bool operator>(const Element& lhs, const Element& rhs);
 bool operator>=(const Element& lhs, const Element& rhs);
 
 } // namespace elements
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_ELEMENT_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_ELEMENT_HPP__ */

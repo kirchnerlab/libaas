@@ -6,17 +6,17 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIG_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIG_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIG_HPP__
+#define __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIG_HPP__
 
-#include <libaas/StoichiometryConfigImpl.hpp>
-#include <libaas/Types.hpp>
+#include <aas/StoichiometryConfigImpl.hpp>
+#include <aas/Types.hpp>
 
 #include <boost/flyweight.hpp>
 #include <boost/flyweight/key_value.hpp>
 #include <boost/flyweight/no_tracking.hpp>
 
-namespace libaas {
+namespace aas {
 
 /**@brief ID extractor for stoichiometry configurations.
  *
@@ -52,7 +52,7 @@ typedef boost::flyweight<
  * @param[in] map Mapping of an element symbol to an element id
  * @returns True if the given amino acid is added correctly, false otherwise.
  */
-libaas::Bool
+aas::Bool
 addStoichiometryConfig(
     const StoichiometryConfigImpl::StoichiometryConfigImplKeyType& id,
     const StoichiometryConfigImpl::DataType& map);
@@ -65,7 +65,7 @@ addStoichiometryConfig(
  * @param[in] stoichiometryConfig Stoichiometry configuration
  * @returns True if the given amino acid is added correctly, false otherwise.
  */
-libaas::Bool addStoichiometryConfig(
+aas::Bool addStoichiometryConfig(
     const StoichiometryConfigImpl& stoichiometryConfig);
 
 bool operator<(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
@@ -75,6 +75,6 @@ bool operator>(const StoichiometryConfig& lhs, const StoichiometryConfig& rhs);
 bool operator>=(const StoichiometryConfig& lhs,
     const StoichiometryConfig& rhs);
 
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_STOICHIOMETRYCONFIG_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIG_HPP__ */

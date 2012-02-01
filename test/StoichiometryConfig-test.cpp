@@ -6,13 +6,13 @@
  *
  */
 
-#include <libaas/StoichiometryConfig.hpp>
+#include <aas/StoichiometryConfig.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas;
+using namespace aas;
 
 /** Short description.
  * Long description.

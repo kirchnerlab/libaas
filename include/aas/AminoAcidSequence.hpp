@@ -9,17 +9,17 @@
  *
  */
 
-#ifndef __LIBAAS_INCLUDE_LIBAAS_AMINOACIDSEQUENCE_HPP__
-#define __LIBAAS_INCLUDE_LIBAAS_AMINOACIDSEQUENCE_HPP__
+#ifndef __LIBAAS_INCLUDE_AAS_AMINOACIDSEQUENCE_HPP__
+#define __LIBAAS_INCLUDE_AAS_AMINOACIDSEQUENCE_HPP__
 
-#include <libaas/Residue.hpp>
-#include <libaas/StoichiometryConfig.hpp>
-#include <libaas/Collection.hpp>
-#include <libaas/Types.hpp>
+#include <aas/Residue.hpp>
+#include <aas/StoichiometryConfig.hpp>
+#include <aas/Collection.hpp>
+#include <aas/Types.hpp>
 
 #include <iostream>
 
-namespace libaas {
+namespace aas {
 
 /** AminoAcidSequence
  * A sequence of amino acids, convenient for peptide representation.
@@ -36,14 +36,14 @@ namespace libaas {
  *
  *
  * TODO look at all functions altering the sequence, such as append etc. There might be some specific "mistakes"
- * TODO I have to check all "apply modification" functions, since the "mechanics" changed from asap to libaas
+ * TODO I have to check all "apply modification" functions, since the "mechanics" changed from asap to aas
  *
  * Questions:
  *  A amino acid sequence should consists of only one amino acid stoichiometry config?
  *   If so: store default and use it every time a residue is added?
  *  A amino acid sequence has more than one mod stoichiometry config?
  */
-class AminoAcidSequence : public libaas::Collection<libaas::Residue>
+class AminoAcidSequence : public aas::Collection<aas::Residue>
 {
 
 public:
@@ -119,7 +119,7 @@ public:
      * applicable at the specified position
      */
     AminoAcidSequence(
-        const libaas::String& aminoAcidSequence,
+        const aas::String& aminoAcidSequence,
         const StoichiometryConfig& aminoAcidConfig = StoichiometryConfig(
             StoichiometryConfigImpl::DEFAULT_ELEMENT_CONFIG));
 
@@ -414,6 +414,6 @@ inline void AminoAcidSequence::applyModificationAtPosition(
     applyModificationAtPosition(modifications::Modification(mod), pos);
 }
 
-} // namespace libaas
+} // namespace aas
 
-#endif /* __LIBAAS_INCLUDE_LIBAAS_AMINOACIDSEQUENCE_HPP__ */
+#endif /* __LIBAAS_INCLUDE_AAS_AMINOACIDSEQUENCE_HPP__ */

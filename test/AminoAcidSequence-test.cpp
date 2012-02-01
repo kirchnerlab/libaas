@@ -6,14 +6,14 @@
  *
  */
 
-#include <libaas/AminoAcidSequence.hpp>
-#include <libaas/Error.hpp>
+#include <aas/AminoAcidSequence.hpp>
+#include <aas/Error.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas;
+using namespace aas;
 
 /** Short description.
  * Long description.
@@ -124,7 +124,7 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
     void testAminoAcidSequenceCollection()
     {
         // TODO we might want to implement those functions similar to push_back in aminoacidsequence, since these does not make sure that the peptide sequence consists of an n- and c-term
-        libaas::String seq = "0ACGT1";
+        aas::String seq = "0ACGT1";
         AminoAcidSequence aas(seq);
 
         aas.assign(3, Residue('C'));
@@ -144,7 +144,7 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         shouldEqual(aas.toString(true), "A");
 
         AminoAcidSequence aas1(seq);
-        libaas::Size i = seq.size() - 1;
+        aas::Size i = seq.size() - 1;
         for (AminoAcidSequence::reverse_iterator it = aas1.rbegin();
                 it != aas1.rend(); ++it) {
             shouldEqual(it->getAminoAcid().getSymbol(), seq[i--]);
@@ -180,28 +180,28 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             ass.makePeptideCTerm();
-        } catch (libaas::errors::RuntimeError& e) {
+        } catch (aas::errors::RuntimeError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         thrown = false;
         try {
             ass.makePeptideNTerm();
-        } catch (libaas::errors::RuntimeError& e) {
+        } catch (aas::errors::RuntimeError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         thrown = false;
         try {
             ass.makeProteinCTerm();
-        } catch (libaas::errors::RuntimeError& e) {
+        } catch (aas::errors::RuntimeError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
         thrown = false;
         try {
             ass.makeProteinNTerm();
-        } catch (libaas::errors::RuntimeError& e) {
+        } catch (aas::errors::RuntimeError& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
@@ -418,10 +418,10 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
 
         shouldEqual(ass.getStoichiometry(), expectedS);
 
-        libaas::Bool thrown = false;
+        aas::Bool thrown = false;
         try {
             ass.applyModificationAtPosition("Acetyl:2H(3)", 4);
-        } catch (libaas::errors::RuntimeError& e) {
+        } catch (aas::errors::RuntimeError& e) {
             thrown = true;
         }
         shouldEqual(thrown, true);
@@ -444,7 +444,7 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         bool thrown = false;
         try {
             aas.applyModificationAtPosition(mod, 1);
-        } catch (libaas::errors::Exception& e) {
+        } catch (aas::errors::Exception& e) {
             thrown = true;
         }shouldEqual(thrown, true);
 
@@ -520,9 +520,10 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         shouldEqual(aas, aas2);
     }
 
-    void testCollection() {
-        std::vector<libaas::String> slv;
-        Collection<libaas::String> sl;
+    void testCollection()
+    {
+        std::vector<aas::String> slv;
+        Collection<aas::String> sl;
         shouldEqual(slv.get_allocator() == sl.get_allocator(), true);
         shouldEqual(sl.size(), 0u);
         sl.push_back("ASD");
@@ -532,7 +533,7 @@ struct AminoAcidSequenceTestSuite : vigra::test_suite
         sl.pop_back();
         shouldEqual(sl.size(), 1u);
         shouldEqual(sl[0], "ASD");
-        const Collection<libaas::String> sl_c = sl;
+        const Collection<aas::String> sl_c = sl;
         shouldEqual(sl_c.size(), 1u);
         shouldEqual(sl_c[0], "ASD");
     }

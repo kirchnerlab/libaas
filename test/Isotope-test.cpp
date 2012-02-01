@@ -6,13 +6,13 @@
  *
  */
 
-#include <libaas/Isotope.hpp>
+#include <aas/Isotope.hpp>
 
 #include "vigra/unittest.hxx"
 
 #include <iostream>
 
-using namespace libaas::elements;
+using namespace aas::elements;
 
 /** Short description.
  * Long description.
