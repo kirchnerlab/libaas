@@ -9,7 +9,7 @@
 #ifndef __LIBAAS_INCLUDE_AAS_RAWAMINOACID_HPP__
 #define __LIBAAS_INCLUDE_AAS_RAWAMINOACID_HPP__
 
-#include <aas/RawAminoAcidImpl.hpp>
+#include "aas/RawAminoAcidImpl.hpp"
 
 #include <boost/flyweight.hpp>
 #include <boost/flyweight/key_value.hpp>

@@ -10,8 +10,8 @@
 #ifndef __LIBAAS_INCLUDE_AAS_SPECIFICITY_HPP__
 #define __LIBAAS_INCLUDE_AAS_SPECIFICITY_HPP__
 
-#include <aas/RawAminoAcid.hpp>
-#include <aas/Types.hpp>
+#include "aas/RawAminoAcid.hpp"
+#include "aas/Types.hpp"
 
 #include <vector>
 #include <iostream>

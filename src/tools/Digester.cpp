@@ -7,8 +7,8 @@
  *
  */
 
-#include <aas/tools/Digester.hpp>
-#include <aas/Error.hpp>
+#include "aas/tools/Digester.hpp"
+#include "aas/Error.hpp"
 
 #include <iterator>
 #include <set>

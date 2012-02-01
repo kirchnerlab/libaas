@@ -9,8 +9,8 @@
  *
  */
 
-#include <aas/Stoichiometry.hpp>
-#include <aas/Error.hpp>
+#include "aas/Stoichiometry.hpp"
+#include "aas/Error.hpp"
 
 #include <sstream>
 

@@ -6,9 +6,9 @@
  *
  */
 
-#include <aas/RawAminoAcidImpl.hpp>
-#include <aas/Element.hpp>
-#include <aas/Error.hpp>
+#include "aas/RawAminoAcidImpl.hpp"
+#include "aas/Element.hpp"
+#include "aas/Error.hpp"
 
 #include <algorithm>
 #include <sstream>

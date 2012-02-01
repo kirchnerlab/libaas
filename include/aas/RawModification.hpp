@@ -9,7 +9,7 @@
 #ifndef __LIBAAS_INCLUDE_AAS_RAWMODIFICATION_HPP__
 #define __LIBAAS_INCLUDE_AAS_RAWMODIFICATION_HPP__
 
-#include <aas/RawModificationImpl.hpp>
+#include "aas/RawModificationImpl.hpp"
 
 #include <boost/flyweight.hpp>
 #include <boost/flyweight/key_value.hpp>

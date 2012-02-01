@@ -6,7 +6,7 @@
  *
  */
 
-#include <aas/RawAminoAcid.hpp>
+#include "aas/RawAminoAcid.hpp"
 
 namespace aas {
 namespace aminoAcids {

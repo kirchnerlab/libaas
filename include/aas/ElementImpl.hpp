@@ -9,8 +9,8 @@
 #ifndef __LIBAAS_INCLUDE_AAS_ELEMENTIMPL_HPP__
 #define __LIBAAS_INCLUDE_AAS_ELEMENTIMPL_HPP__
 
-#include <aas/Isotope.hpp>
-#include <aas/Types.hpp>
+#include "aas/Isotope.hpp"
+#include "aas/Types.hpp"
 
 #include <string>
 #include <vector>

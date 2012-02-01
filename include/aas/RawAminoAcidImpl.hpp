@@ -9,8 +9,8 @@
 #ifndef __LIBAAS_INCLUDE_AAS_RAWAMINOACIDIMPL_HPP__
 #define __LIBAAS_INCLUDE_AAS_RAWAMINOACIDIMPL_HPP__
 
-#include <aas/Stoichiometry.hpp>
-#include <aas/Types.hpp>
+#include "aas/Stoichiometry.hpp"
+#include "aas/Types.hpp"
 
 #include <iostream>
 

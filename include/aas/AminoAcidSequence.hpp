@@ -12,10 +12,10 @@
 #ifndef __LIBAAS_INCLUDE_AAS_AMINOACIDSEQUENCE_HPP__
 #define __LIBAAS_INCLUDE_AAS_AMINOACIDSEQUENCE_HPP__
 
-#include <aas/Residue.hpp>
-#include <aas/StoichiometryConfig.hpp>
-#include <aas/Collection.hpp>
-#include <aas/Types.hpp>
+#include "aas/Residue.hpp"
+#include "aas/StoichiometryConfig.hpp"
+#include "aas/Collection.hpp"
+#include "aas/Types.hpp"
 
 #include <iostream>
 

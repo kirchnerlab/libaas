@@ -8,8 +8,8 @@
  *
  */
 
-#include <aas/Specificity.hpp>
-#include <aas/Error.hpp>
+#include "aas/Specificity.hpp"
+#include "aas/Error.hpp"
 
 #include <algorithm>
 

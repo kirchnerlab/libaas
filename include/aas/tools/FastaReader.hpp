@@ -9,9 +9,9 @@
 #ifndef FASTAREADER_HPP_
 #define FASTAREADER_HPP_
 
-#include <aas/AminoAcidSequence.hpp>
-#include <aas/tools/Digester.hpp>
-#include <aas/Types.hpp>
+#include "aas/AminoAcidSequence.hpp"
+#include "aas/tools/Digester.hpp"
+#include "aas/Types.hpp"
 
 #include <boost/regex.hpp>
 

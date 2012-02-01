@@ -9,9 +9,9 @@
 #ifndef __LIBAAS_INCLUDE_AAS_AMINOACID_HPP__
 #define __LIBAAS_INCLUDE_AAS_AMINOACID_HPP__
 
-#include <aas/RawAminoAcid.hpp>
-#include <aas/StoichiometryConfig.hpp>
-#include <aas/Stoichiometry.hpp>
+#include "aas/RawAminoAcid.hpp"
+#include "aas/StoichiometryConfig.hpp"
+#include "aas/Stoichiometry.hpp"
 
 #include <iostream>
 

@@ -6,8 +6,8 @@
  *
  */
 
-#include <aas/StoichiometryConfigImpl.hpp>
-#include <aas/Error.hpp>
+#include "aas/StoichiometryConfigImpl.hpp"
+#include "aas/Error.hpp"
 
 namespace aas {
 

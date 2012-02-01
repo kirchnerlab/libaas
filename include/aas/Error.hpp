@@ -10,7 +10,7 @@
 #ifndef __LIBAAS_INCLUDE_AAS_ERROR_HPP__
 #define __LIBAAS_INCLUDE_AAS_ERROR_HPP__
 
-#include <aas/Types.hpp>
+#include "aas/Types.hpp"
 
 #include <exception>
 #include <string>

@@ -9,7 +9,7 @@
 #ifndef __LIBAAS_INCLUDE_AAS_ELEMENT_HPP__
 #define __LIBAAS_INCLUDE_AAS_ELEMENT_HPP__
 
-#include <aas/ElementImpl.hpp>
+#include "aas/ElementImpl.hpp"
 
 #include <boost/flyweight.hpp>
 #include <boost/flyweight/key_value.hpp>

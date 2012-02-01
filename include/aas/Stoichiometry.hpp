@@ -11,9 +11,9 @@
 #ifndef __LIBAAS_INCLUDE_AAS_STOICHIOMETRY_HPP__
 #define __LIBAAS_INCLUDE_AAS_STOICHIOMETRY_HPP__
 
-#include <aas/StoichiometryConfig.hpp>
-#include <aas/Element.hpp>
-#include <aas/Types.hpp>
+#include "aas/StoichiometryConfig.hpp"
+#include "aas/Element.hpp"
+#include "aas/Types.hpp"
 
 #include <map>
 #include <vector>

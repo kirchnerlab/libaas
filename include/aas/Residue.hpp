@@ -9,9 +9,9 @@
 #ifndef __LIBAAS_INCLUDE_AAS_RESIDUE_HPP__
 #define __LIBAAS_INCLUDE_AAS_RESIDUE_HPP__
 
-#include <aas/AminoAcid.hpp>
-#include <aas/Modification.hpp>
-#include <aas/Types.hpp>
+#include "aas/AminoAcid.hpp"
+#include "aas/Modification.hpp"
+#include "aas/Types.hpp"
 
 #include <boost/shared_ptr.hpp>
 

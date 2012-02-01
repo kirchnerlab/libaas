@@ -9,11 +9,11 @@
 #ifndef __LIBAAS_INCLUDE_AAS_MODIFICATION_HPP__
 #define __LIBAAS_INCLUDE_AAS_MODIFICATION_HPP__
 
-#include <aas/RawModification.hpp>
-#include <aas/AminoAcid.hpp>
-#include <aas/Specificity.hpp>
-#include <aas/Stoichiometry.hpp>
-#include <aas/StoichiometryConfig.hpp>
+#include "aas/RawModification.hpp"
+#include "aas/AminoAcid.hpp"
+#include "aas/Specificity.hpp"
+#include "aas/Stoichiometry.hpp"
+#include "aas/StoichiometryConfig.hpp"
 
 #include <iostream>
 #include <vector>

@@ -6,7 +6,7 @@
  *
  */
 
-#include <aas/Element.hpp>
+#include "aas/Element.hpp"
 
 namespace aas {
 namespace elements {

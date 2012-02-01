@@ -6,9 +6,9 @@
  *
  */
 
-#include <aas/RawModificationImpl.hpp>
-#include <aas/StoichiometryConfig.hpp>
-#include <aas/Error.hpp>
+#include "aas/RawModificationImpl.hpp"
+#include "aas/StoichiometryConfig.hpp"
+#include "aas/Error.hpp"
 
 #include <sstream>
 

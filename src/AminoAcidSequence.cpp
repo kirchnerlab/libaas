@@ -9,8 +9,8 @@
  *
  */
 
-#include <aas/AminoAcidSequence.hpp>
-#include <aas/Error.hpp>
+#include "aas/AminoAcidSequence.hpp"
+#include "aas/Error.hpp"
 
 #include <sstream>
 

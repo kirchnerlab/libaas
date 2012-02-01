@@ -6,7 +6,7 @@
  *
  */
 
-#include <aas/RawModification.hpp>
+#include "aas/RawModification.hpp"
 
 namespace aas {
 namespace modifications {

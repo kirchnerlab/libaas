@@ -9,8 +9,8 @@
 #ifndef __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIG_HPP__
 #define __LIBAAS_INCLUDE_AAS_STOICHIOMETRYCONFIG_HPP__
 
-#include <aas/StoichiometryConfigImpl.hpp>
-#include <aas/Types.hpp>
+#include "aas/StoichiometryConfigImpl.hpp"
+#include "aas/Types.hpp"
 
 #include <boost/flyweight.hpp>
 #include <boost/flyweight/key_value.hpp>

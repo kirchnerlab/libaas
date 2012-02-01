@@ -6,7 +6,7 @@
  *
  */
 
-#include <aas/Isotope.hpp>
+#include "aas/Isotope.hpp"
 
 namespace aas {
 namespace elements {

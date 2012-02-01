@@ -6,7 +6,7 @@
  *
  */
 
-#include <aas/StoichiometryConfig.hpp>
+#include "aas/StoichiometryConfig.hpp"
 
 namespace aas {
 

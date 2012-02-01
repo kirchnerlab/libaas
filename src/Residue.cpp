@@ -6,8 +6,8 @@
  *
  */
 
-#include <aas/Residue.hpp>
-#include <aas/Error.hpp>
+#include "aas/Residue.hpp"
+#include "aas/Error.hpp"
 
 #include <boost/make_shared.hpp>
 

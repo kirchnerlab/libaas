@@ -10,8 +10,8 @@
 #ifndef DIGESTER_HPP_
 #define DIGESTER_HPP_
 
-#include <aas/AminoAcidSequence.hpp>
-#include <aas/Types.hpp>
+#include "aas/AminoAcidSequence.hpp"
+#include "aas/Types.hpp"
 
 #include <boost/regex.hpp>
 
