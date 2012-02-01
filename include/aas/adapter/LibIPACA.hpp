@@ -23,7 +23,7 @@ namespace aas {
 namespace adapter {
 
 typedef ipaca::detail::Spectrum LibaasSpectrum;
-typedef aas::Stoichiometry LibaasStoichiometry;
+typedef aas::stoichiometries::Stoichiometry LibaasStoichiometry;
 
 struct SpectrumConverter
 {
