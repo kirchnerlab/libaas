@@ -62,7 +62,8 @@ const Specificity::Position& Specificity::getPosition() const
     return position_;
 }
 
-void Specificity::addNeutralLoss(const aas::stoichiometries::Stoichiometry& stoichiometry)
+void Specificity::addNeutralLoss(
+    const aas::stoichiometries::Stoichiometry& stoichiometry)
 {
     neutralLosses_.push_back(stoichiometry);
 }
@@ -83,7 +84,8 @@ void Specificity::clearNeutralLosses()
     neutralLosses_.clear();
 }
 
-void Specificity::addPepNeutralLoss(const aas::stoichiometries::Stoichiometry& stoichiometry)
+void Specificity::addPepNeutralLoss(
+    const aas::stoichiometries::Stoichiometry& stoichiometry)
 {
     pepNeutralLosses_.push_back(stoichiometry);
 }
@@ -118,42 +120,51 @@ Bool Specificity::isApplicable(const aas::aminoAcids::RawAminoAcid& prev,
     const aas::aminoAcids::RawAminoAcid& current,
     const aas::aminoAcids::RawAminoAcid& next) const
 {
-
-    if (site_.get_key() != current.get_key()) {
-        // not the correct site
-        return false;
-    }
-
+    Bool matchingSites = site_.get_key() == current.get_key();
+    // MAYBE optimize by evaluating the boolean statements?
     switch (position_) {
         case ANY_N_TERM:
-            if (!current.get().isNTerm()
-                    && prev.get_key()
-                            != aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM) {
-                return false;
-            }
-            break;
-        case PROTEIN_N_TERM:
-            if (!current.get().isNTerm()
-                    && prev.get_key()
-                            != aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM) {
+            // either site match current and prev is n-term or site is n-term and current is n-term
+            if (!((matchingSites && prev.get().isNTerm())
+                    || (site_.get().isNTerm() && current.get().isNTerm()))) {
                 return false;
             }
             break;
         case ANY_C_TERM:
-            if (!current.get().isCTerm()
-                    && next.get_key()
-                            != aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM) {
+            // either site match current and next is c-term or site is c-term and current is c-term
+            if (!((matchingSites && next.get().isCTerm())
+                    || (site_.get().isCTerm() && current.get().isCTerm()))) {
+                return false;
+            }
+            break;
+        case PROTEIN_N_TERM:
+            // either site match current and prev is prot n-term or site and current is prot n-term
+            if (!((matchingSites
+                    && prev.get_key()
+                            == aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM)
+                    || (site_.get_key()
+                            == aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM
+                            && current.get_key()
+                                    == aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM))) {
                 return false;
             }
             break;
         case PROTEIN_C_TERM:
-            if (!current.get().isCTerm()
+            // either site match current and next is prot c-term or site and current is prot c-term
+            if (!((matchingSites
                     && next.get_key()
-                            != aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM) {
+                            == aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM)
+                    || (site_.get_key()
+                            == aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM
+                            && current.get_key()
+                                    == aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM))) {
                 return false;
             }
             break;
         case ANYWHERE:
+            if (!matchingSites) {
+                return false;
+            }
             break;
     }
 

@@ -208,38 +208,258 @@ struct SpecificityTestSuite : vigra::test_suite
 
     void testSpecificityApplicable()
     {
-        aas::aminoAcids::RawAminoAcid prev1('C');
-        aas::aminoAcids::RawAminoAcid prev2(
+        // testing all possible variations of specificities applied to all possible variations of amino acids
+        aas::aminoAcids::RawAminoAcid c('C');
+        aas::aminoAcids::RawAminoAcid a('A');
+        aas::aminoAcids::RawAminoAcid e('\0');
+        aas::aminoAcids::RawAminoAcid pep_n(
             aas::aminoAcids::RawAminoAcidImpl::PEPTIDE_N_TERM);
-        aas::aminoAcids::RawAminoAcid prev3(
+        aas::aminoAcids::RawAminoAcid prot_n(
             aas::aminoAcids::RawAminoAcidImpl::PROTEIN_N_TERM);
-        aas::aminoAcids::RawAminoAcid current('C');
-        aas::aminoAcids::RawAminoAcid next1('C');
-        aas::aminoAcids::RawAminoAcid next2(
+        aas::aminoAcids::RawAminoAcid pep_c(
             aas::aminoAcids::RawAminoAcidImpl::PEPTIDE_C_TERM);
-        aas::aminoAcids::RawAminoAcid next3(
+        aas::aminoAcids::RawAminoAcid prot_c(
             aas::aminoAcids::RawAminoAcidImpl::PROTEIN_C_TERM);
-        Specificity spec(current, Specificity::ANY_N_TERM,
+
+        Specificity spec_c_any(c, Specificity::ANYWHERE,
             Specificity::ARTEFACT);
 
-        shouldEqual(spec.isApplicable(prev1, current, next1), false);
-        shouldEqual(spec.isApplicable(prev2, current, next2), true);
-        shouldEqual(spec.isApplicable(prev3, current, next3), false);
+        Specificity spec_c_any_n(c, Specificity::ANY_N_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_c_prot_n(c, Specificity::PROTEIN_N_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_pepnterm_any_n(pep_n, Specificity::ANY_N_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_pepnterm_prot_n(pep_n, Specificity::PROTEIN_N_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_pepcterm_any_n(pep_c, Specificity::ANY_N_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_pepcterm_prot_n(pep_c, Specificity::PROTEIN_N_TERM,
+            Specificity::ARTEFACT);
 
-        spec.setPosition(Specificity::ANY_C_TERM);
-        shouldEqual(spec.isApplicable(prev1, current, next1), false);
-        shouldEqual(spec.isApplicable(prev2, current, next2), true);
-        shouldEqual(spec.isApplicable(prev3, current, next3), false);
+        Specificity spec_c_any_c(c, Specificity::ANY_C_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_c_prot_c(c, Specificity::PROTEIN_C_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_pepcterm_any_c(pep_c, Specificity::ANY_C_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_pepcterm_prot_c(pep_c, Specificity::PROTEIN_C_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_pepnterm_any_c(pep_n, Specificity::ANY_C_TERM,
+            Specificity::ARTEFACT);
+        Specificity spec_pepnterm_prot_c(pep_n, Specificity::PROTEIN_C_TERM,
+            Specificity::ARTEFACT);
 
-        spec.setPosition(Specificity::PROTEIN_N_TERM);
-        shouldEqual(spec.isApplicable(prev1, current, next1), false);
-        shouldEqual(spec.isApplicable(prev2, current, next2), false);
-        shouldEqual(spec.isApplicable(prev3, current, next3), true);
+        shouldEqual(spec_c_any.isApplicable(c, a, c), false);
+        shouldEqual(spec_c_any.isApplicable(c, c, c), true);
+        shouldEqual(spec_c_any.isApplicable(pep_n, c, pep_c), true);
+        shouldEqual(spec_c_any.isApplicable(pep_n, c, c), true);
+        shouldEqual(spec_c_any.isApplicable(c, c, pep_c), true);
+        shouldEqual(spec_c_any.isApplicable(prot_n, c, prot_c), true);
+        shouldEqual(spec_c_any.isApplicable(prot_n, c, c), true);
+        shouldEqual(spec_c_any.isApplicable(c, c, prot_c), true);
+        shouldEqual(spec_c_any.isApplicable(prot_n, c, pep_c), true);
+        shouldEqual(spec_c_any.isApplicable(pep_n, c, prot_c), true);
+        shouldEqual(spec_c_any.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_c_any.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_c_any.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_c_any.isApplicable(e, pep_n, c), false);
 
-        spec.setPosition(Specificity::PROTEIN_C_TERM);
-        shouldEqual(spec.isApplicable(prev1, current, next1), false);
-        shouldEqual(spec.isApplicable(prev2, current, next2), false);
-        shouldEqual(spec.isApplicable(prev3, current, next3), true);
+        shouldEqual(spec_c_any_n.isApplicable(c, a, c), false);
+        shouldEqual(spec_c_any_n.isApplicable(c, c, c), false);
+        shouldEqual(spec_c_any_n.isApplicable(pep_n, c, pep_c), true);
+        shouldEqual(spec_c_any_n.isApplicable(pep_n, c, c), true);
+        shouldEqual(spec_c_any_n.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_c_any_n.isApplicable(prot_n, c, prot_c), true);
+        shouldEqual(spec_c_any_n.isApplicable(prot_n, c, c), true);
+        shouldEqual(spec_c_any_n.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_c_any_n.isApplicable(prot_n, c, pep_c), true);
+        shouldEqual(spec_c_any_n.isApplicable(pep_n, c, prot_c), true);
+        shouldEqual(spec_c_any_n.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_c_any_n.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_c_any_n.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_c_any_n.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_c_prot_n.isApplicable(c, a, c), false);
+        shouldEqual(spec_c_prot_n.isApplicable(c, c, c), false);
+        shouldEqual(spec_c_prot_n.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_c_prot_n.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_c_prot_n.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_c_prot_n.isApplicable(prot_n, c, prot_c), true);
+        shouldEqual(spec_c_prot_n.isApplicable(prot_n, c, c), true);
+        shouldEqual(spec_c_prot_n.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_c_prot_n.isApplicable(prot_n, c, pep_c), true);
+        shouldEqual(spec_c_prot_n.isApplicable(pep_n, c, prot_c), false);
+        shouldEqual(spec_c_prot_n.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_c_prot_n.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_c_prot_n.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_c_prot_n.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_pepnterm_any_n.isApplicable(c, a, c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(c, c, c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(prot_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(prot_n, c, pep_c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(pep_n, c, prot_c), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(e, prot_n, c), true);
+        shouldEqual(spec_pepnterm_any_n.isApplicable(e, pep_n, c), true);
+
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(c, a, c), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(c, c, c), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(prot_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(prot_n, c, pep_c),
+            false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(pep_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_pepnterm_prot_n.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_pepcterm_any_n.isApplicable(c, a, c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(c, c, c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(prot_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(prot_n, c, pep_c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(pep_n, c, prot_c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_pepcterm_any_n.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(c, a, c), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(c, c, c), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(prot_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(prot_n, c, pep_c),
+            false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(pep_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_pepcterm_prot_n.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_c_any_c.isApplicable(c, a, c), false);
+        shouldEqual(spec_c_any_c.isApplicable(c, c, c), false);
+        shouldEqual(spec_c_any_c.isApplicable(pep_n, c, pep_c), true);
+        shouldEqual(spec_c_any_c.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_c_any_c.isApplicable(c, c, pep_c), true);
+        shouldEqual(spec_c_any_c.isApplicable(prot_n, c, prot_c), true);
+        shouldEqual(spec_c_any_c.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_c_any_c.isApplicable(c, c, prot_c), true);
+        shouldEqual(spec_c_any_c.isApplicable(prot_n, c, pep_c), true);
+        shouldEqual(spec_c_any_c.isApplicable(pep_n, c, prot_c), true);
+        shouldEqual(spec_c_any_c.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_c_any_c.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_c_any_c.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_c_any_c.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_c_prot_c.isApplicable(c, a, c), false);
+        shouldEqual(spec_c_prot_c.isApplicable(c, c, c), false);
+        shouldEqual(spec_c_prot_c.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_c_prot_c.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_c_prot_c.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_c_prot_c.isApplicable(prot_n, c, prot_c), true);
+        shouldEqual(spec_c_prot_c.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_c_prot_c.isApplicable(c, c, prot_c), true);
+        shouldEqual(spec_c_prot_c.isApplicable(prot_n, c, pep_c), false);
+        shouldEqual(spec_c_prot_c.isApplicable(pep_n, c, prot_c), true);
+        shouldEqual(spec_c_prot_c.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_c_prot_c.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_c_prot_c.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_c_prot_c.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_pepcterm_any_c.isApplicable(c, a, c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(c, c, c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(prot_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(prot_n, c, pep_c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(pep_n, c, prot_c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(c, prot_c, e), true);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(c, pep_c, e), true);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_pepcterm_any_c.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(c, a, c), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(c, c, c), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(prot_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(prot_n, c, pep_c),
+            false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(pep_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_pepcterm_prot_c.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_pepnterm_any_c.isApplicable(c, a, c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(c, c, c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(prot_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(prot_n, c, pep_c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(pep_n, c, prot_c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_pepnterm_any_c.isApplicable(e, pep_n, c), false);
+
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(c, a, c), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(c, c, c), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(pep_n, c, pep_c), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(pep_n, c, c), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(c, c, pep_c), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(prot_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(prot_n, c, c), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(c, c, prot_c), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(prot_n, c, pep_c),
+            false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(pep_n, c, prot_c),
+            false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(c, prot_c, e), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(c, pep_c, e), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(e, prot_n, c), false);
+        shouldEqual(spec_pepnterm_prot_c.isApplicable(e, pep_n, c), false);
     }
 
 };
