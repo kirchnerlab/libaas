@@ -1,6 +1,6 @@
-#include <libaas/tools/FastaReader.hpp>
-#include <libaas/tools/Digester.hpp>
-#include <libaas/Error.hpp>
+#include <aas/tools/FastaReader.hpp>
+#include <aas/tools/Digester.hpp>
+#include <aas/Error.hpp>
 
 #include <boost/regex.hpp>
 
@@ -8,13 +8,13 @@
 #include <fstream>
 #include <iostream>
 
-using namespace libaas;
+using namespace aas;
 
 int main(int argc, const char* argv[])
 {
-    libaas::String fastaFile;
-    libaas::String modFile;
-    libaas::String regex = "(R|K)([^P])";
+    aas::String fastaFile;
+    aas::String modFile;
+    aas::String regex = "(R|K)([^P])";
     if (argc == 3) {
         fastaFile = argv[1];
         modFile = argv[2];
@@ -22,7 +22,7 @@ int main(int argc, const char* argv[])
         if (argc == 4) {
             fastaFile = argv[1];
             modFile = argv[2];
-            libaas::String r = argv[3];
+            aas::String r = argv[3];
             if (r == "x") {
                 regex = "";
             } else {
@@ -46,10 +46,10 @@ int main(int argc, const char* argv[])
     AminoAcidSequence::ModificationList ml;
     std::ifstream ifs(modFile.c_str());
     if (!ifs) {
-        throw libaas::errors::RuntimeError("Cound not open " + modFile + ".");
+        throw aas::errors::RuntimeError("Cound not open " + modFile + ".");
     }
     while (!ifs.eof()) {
-        libaas::String line;
+        aas::String line;
         std::getline(ifs, line);
         if (line.empty()) {
             // ignore whitespace
@@ -63,15 +63,15 @@ int main(int argc, const char* argv[])
     tools::FastaReader::AminoAcidSequences aass;
     fr.read(aass);
 
-    libaas::Size nrs = 0;
-    libaas::Size nMods = 0;
-    libaas::Size nLabs = 0;
-    Stoichiometry sum;
+    aas::Size nrs = 0;
+    aas::Size nMods = 0;
+    aas::Size nLabs = 0;
+    stoichiometries::Stoichiometry sum;
     for (tools::FastaReader::AminoAcidSequences::const_iterator it =
             aass.begin(); it != aass.end(); ++it) {
         sum += it->getStoichiometry();
         nrs += it->size();
-        for (libaas::AminoAcidSequence::const_iterator ait = it->begin();
+        for (aas::AminoAcidSequence::const_iterator ait = it->begin();
                 ait != it->end(); ++ait) {
             if (ait->isModified()) {
                 ++nMods;

@@ -1,14 +1,14 @@
-#include <libaas/RawModification.hpp>
+#include <aas/RawModification.hpp>
 
 #include <stdlib.h>
 
-using namespace libaas::modifications;
+using namespace aas::modifications;
 
 int main(int argc, const char* argv[])
 {
 
-    libaas::Size n = 100000;
-    libaas::String mod = "Acetyl";
+    aas::Size n = 100000;
+    aas::String mod = "Acetyl";
     if (argc == 2) {
         mod = argv[1];
     } else

@@ -7,12 +7,19 @@ LINK_DIRECTORIES(
 )
 
 SET(SRC_READDIGESTMODIFY readDigestModify.cpp)
+SET(SRC_MONOISOTOPICMASS calcMonoisotopicMass.cpp)
 SET(SRC_SIMPLETEST_RAWMODIFICATION simpleTest_rawModification.cpp)
 SET(SRC_SIMPLETEST_RAWAMINOACID simpleTest_rawAminoAcid.cpp)
 
 ADD_EXECUTABLE(readDigestModify ${SRC_READDIGESTMODIFY})
 TARGET_LINK_LIBRARIES(
 	readDigestModify
+	aas
+)
+
+ADD_EXECUTABLE(calcMonoisotopicMass ${SRC_MONOISOTOPICMASS})
+TARGET_LINK_LIBRARIES(
+	calcMonoisotopicMass
 	aas
 )
 
